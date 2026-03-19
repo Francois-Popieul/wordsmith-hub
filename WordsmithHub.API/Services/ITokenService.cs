@@ -1,4 +1,4 @@
-﻿using WordsmithHub.Infrastructure;
+﻿using WordsmithHub.Infrastructure.IdentityDatabase;
 
 namespace WordsmithHub.API.Services;
 

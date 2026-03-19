@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace WordsmithHub.Infrastructure;
+namespace WordsmithHub.Infrastructure.IdentityDatabase;
 
 public class AppUser : IdentityUser
 {

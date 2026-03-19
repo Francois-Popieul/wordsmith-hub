@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using WordsmithHub.Infrastructure;
+using WordsmithHub.Infrastructure.IdentityDatabase;
 
 namespace WordsmithHub.API.Features;
 

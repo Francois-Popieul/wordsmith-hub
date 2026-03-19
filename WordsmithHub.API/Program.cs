@@ -10,15 +10,17 @@ using NJsonSchema.Generation;
 using FluentValidation;
 using WordsmithHub.API.Features;
 using WordsmithHub.API.Services;
-using WordsmithHub.Infrastructure;
 using WordsmithHub.Infrastructure.IdentityDatabase;
+using WordsmithHub.Infrastructure.MainDatabase;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// DbContext
+// DbContexts
 builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseNpgsql(configuration.GetConnectionString("IdentityConnection")));
+    options.UseNpgsql(configuration.GetConnectionString("IdentityDbConnection")));
+builder.Services.AddDbContext<MainDbContext>(options =>
+    options.UseNpgsql(configuration.GetConnectionString("MainDbConnection")));
 
 // Identity
 builder.Services.AddIdentityCore<AppUser>(options =>
@@ -28,6 +30,7 @@ builder.Services.AddIdentityCore<AppUser>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
+    options.User.RequireUniqueEmail = true;
     //options.SignIn.RequireConfirmedEmail = true;
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
