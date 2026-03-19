@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>e77b95ab-ecf7-486f-8e4b-4fe64a167a10</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FastEndpoints" Version="8.0.1" />
+        <PackageReference Include="FastEndpoints.Swagger" Version="8.0.1" />
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.4"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WordsmithHub.Domain\WordsmithHub.Domain.csproj" />
+      <ProjectReference Include="..\WordsmithHub.Infrastructure\WordsmithHub.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

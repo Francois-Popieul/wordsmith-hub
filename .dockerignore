@@ -1,0 +1,41 @@
+﻿# .NET build artifacts
+**/bin/
+**/obj/
+
+# IDE files
+.idea/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Docker files
+compose.yaml
+docker-compose*.yml
+docker-compose*.yaml
+Dockerfile*
+.dockerignore
+
+# Documentation
+*.md
+LICENSE
+
+# Tests
+**/TestResults/
+**/*.Tests/
+**/*.IntegrationTests/
+
+# Misc
+*.log
+*.tmp

@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.API", "WordsmithHub.API\WordsmithHub.API.csproj", "{1087C516-F50B-4707-93F0-4CC33CC30C88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.Infrastructure", "WordsmithHub.Infrastructure\WordsmithHub.Infrastructure.csproj", "{86E08986-1CC7-4729-9929-1546DC0BE63C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.Domain", "WordsmithHub.Domain\WordsmithHub.Domain.csproj", "{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1087C516-F50B-4707-93F0-4CC33CC30C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1087C516-F50B-4707-93F0-4CC33CC30C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1087C516-F50B-4707-93F0-4CC33CC30C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1087C516-F50B-4707-93F0-4CC33CC30C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E08986-1CC7-4729-9929-1546DC0BE63C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E08986-1CC7-4729-9929-1546DC0BE63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E08986-1CC7-4729-9929-1546DC0BE63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E08986-1CC7-4729-9929-1546DC0BE63C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
