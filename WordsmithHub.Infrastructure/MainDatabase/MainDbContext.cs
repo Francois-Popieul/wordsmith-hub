@@ -9,7 +9,12 @@ public class MainDbContext(DbContextOptions options) : DbContext(options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(MainDbContext).Assembly,
+            type => type.Namespace != null &&
+                    type.Namespace.StartsWith(
+                        "WordsmithHub.Infrastructure.MainDatabase.Configurations",
+                        StringComparison.Ordinal));
         modelBuilder.HasAnnotation("Relational:MigrationHistoryTable", "__MainDbHistory");
     }
 }

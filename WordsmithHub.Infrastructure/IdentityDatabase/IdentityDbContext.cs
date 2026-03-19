@@ -11,7 +11,12 @@ public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : Id
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentityDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(IdentityDbContext).Assembly,
+            type => type.Namespace != null &&
+                    type.Namespace.StartsWith(
+                        "WordsmithHub.Infrastructure.IdentityDatabase.Configurations",
+                        StringComparison.Ordinal));
         modelBuilder.HasAnnotation("Relational:MigrationHistoryTable", "__IdentityDbHistory");
     }
 };

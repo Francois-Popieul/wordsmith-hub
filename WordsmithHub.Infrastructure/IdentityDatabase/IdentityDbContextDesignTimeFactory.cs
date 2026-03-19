@@ -13,7 +13,7 @@ public class IdentityDbContextDesignTimeFactory : IDesignTimeDbContextFactory<Id
             .AddUserSecrets<IdentityDbContextDesignTimeFactory>()
             .Build();
 
-        var connectionString = configuration["IdentityDbConnection"];
+        var connectionString = configuration.GetConnectionString("IdentityDbConnection");
         Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
 
         var options = new DbContextOptionsBuilder<IdentityDbContext>()

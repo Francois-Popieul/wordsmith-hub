@@ -13,7 +13,7 @@ public class MainDbContextDesignTimeFactory : IDesignTimeDbContextFactory<MainDb
             .AddUserSecrets<MainDbContextDesignTimeFactory>()
             .Build();
 
-        var connectionString = configuration["MainDbConnection"];
+        var connectionString = configuration.GetConnectionString("MainDbConnection");
         Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
 
         var options = new DbContextOptionsBuilder<MainDbContext>()

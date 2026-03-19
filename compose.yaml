@@ -45,17 +45,17 @@
     ports:
       - ${ADMINER_PORT}
     depends_on:
-      db:
+      maindb:
         condition: service_healthy
       identitydb:
         condition: service_healthy
     networks:
       - backend  
   
-  volumes:
-    db_data:
-    identity_data:
+volumes:
+  db_data:
+  identity_data:
       
-  networks:
-    backend:
-      driver: bridge
+networks:
+  backend:
+    driver: bridge
