@@ -30,22 +30,22 @@ public class RegisterUserEndpoint(RegisterUserHandler handler) : Endpoint<Regist
         Description(x => x.WithTags("authentication"));
         AllowAnonymous();
     }
-    
+
     public override async Task HandleAsync(RegisterUserRequest request, CancellationToken cancellationToken)
     {
-        
+
         var command = new RegisterUserCommand(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password
         );
-        
+
         var result = await handler.HandleAsync(command);
-        
+
         if (!result.Succeeded)
             throw new Exception("Failed to register user");
-        
+
         await Send.OkAsync(new RegisterUserResponse("Registration successful. Please check your email to confirm your account."), cancellationToken);
     }
 }

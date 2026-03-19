@@ -4,7 +4,7 @@ using WordsmithHub.Infrastructure.IdentityDatabase;
 
 namespace WordsmithHub.API.Features;
 
-public record RegisterUserCommand (
+public record RegisterUserCommand(
     string FirstName,
     string LastName,
     string Email,
@@ -28,7 +28,7 @@ public class RegisterUserHandler(
     public async Task<IdentityResult> HandleAsync(RegisterUserCommand command)
     {
         await validator.ValidateAndThrowAsync(command);
-        
+
         var user = new AppUser
         {
             FirstName = command.FirstName,
