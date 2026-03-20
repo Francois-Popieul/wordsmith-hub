@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
 using FluentValidation;
-using WordsmithHub.API.Features;
+using WordsmithHub.API.Features.Authentication;
 using WordsmithHub.API.Services;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
@@ -87,6 +87,8 @@ builder.Services.AddCors(options =>
 // API services
 builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserCommandValidator>();
+builder.Services.AddScoped<LoginUserHandler>();
+builder.Services.AddScoped<IValidator<LoginUserCommand>, LoginUserCommandValidator>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 if (!builder.Environment.IsEnvironment("IntegrationTest"))
