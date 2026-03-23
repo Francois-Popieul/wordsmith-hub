@@ -10,7 +10,7 @@ namespace WordsmithHub.API.Services;
 public class TokenService(
     UserManager<AppUser> userManager,
     IConfiguration configuration
-    ) : ITokenService
+) : ITokenService
 {
     public async Task<string> CreateAccessTokenAsync(AppUser user)
     {
@@ -43,4 +43,3 @@ public class TokenService(
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
-

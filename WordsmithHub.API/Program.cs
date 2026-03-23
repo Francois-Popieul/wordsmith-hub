@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
-using FluentValidation;
 using WordsmithHub.API.Features.Authentication;
+using WordsmithHub.API.Features.User.Get;
 using WordsmithHub.API.Services;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
@@ -24,18 +24,18 @@ builder.Services.AddDbContext<MainDbContext>(options =>
 
 // Identity
 builder.Services.AddIdentityCore<AppUser>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 8;
-    options.User.RequireUniqueEmail = true;
-    //options.SignIn.RequireConfirmedEmail = true;
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.AllowedForNewUsers = true;
-})
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequiredLength = 8;
+        options.User.RequireUniqueEmail = true;
+        //options.SignIn.RequireConfirmedEmail = true;
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.AllowedForNewUsers = true;
+    })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddSignInManager<SignInManager<AppUser>>()
@@ -86,11 +86,11 @@ builder.Services.AddCors(options =>
 
 // API services
 builder.Services.AddScoped<RegisterUserHandler>();
-builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserCommandValidator>();
 builder.Services.AddScoped<LoginUserHandler>();
-builder.Services.AddScoped<IValidator<LoginUserCommand>, LoginUserCommandValidator>();
+builder.Services.AddScoped<GetUserHandler>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+// FastEndpoints
 if (!builder.Environment.IsEnvironment("IntegrationTest"))
 {
     builder.Services.AddFastEndpoints()

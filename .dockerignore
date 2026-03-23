@@ -22,6 +22,7 @@
 
 # Docker files
 compose.yaml
+compose.*.yaml
 docker-compose*.yml
 docker-compose*.yaml
 Dockerfile*

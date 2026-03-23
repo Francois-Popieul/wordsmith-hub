@@ -19,4 +19,4 @@ public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : Id
                         StringComparison.Ordinal));
         modelBuilder.HasAnnotation("Relational:MigrationHistoryTable", "__IdentityDbHistory");
     }
-};
+}

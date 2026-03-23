@@ -1,4 +1,6 @@
 ﻿using FastEndpoints;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.BearerToken;
 
 namespace WordsmithHub.API.Features.Authentication;
 
@@ -6,15 +8,24 @@ public record LoginUserRequest(
     string Email,
     string Password);
 
-public class LoginUserEndpoint(LoginUserHandler handler) : Endpoint<LoginUserRequest, string>
+public class LoginUserRequestValidator : Validator<LoginUserRequest>
+{
+    public LoginUserRequestValidator()
+    {
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
+        RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
+    }
+}
+
+public class LoginUserEndpoint(
+    LoginUserHandler handler,
+    IConfiguration configuration) : Endpoint<LoginUserRequest, AccessTokenResponse>
 {
     public override void Configure()
     {
         Post("/auth/login");
         Description(x => x.WithTags("authentication")
-        .Produces<string>(StatusCodes.Status200OK)
-        .Produces<string>(StatusCodes.Status401Unauthorized)
-        .Produces<string>(StatusCodes.Status500InternalServerError));
+            .Produces(StatusCodes.Status401Unauthorized));
         AllowAnonymous();
     }
 
@@ -29,10 +40,19 @@ public class LoginUserEndpoint(LoginUserHandler handler) : Endpoint<LoginUserReq
 
         if (!result.Succeeded)
         {
-            await Send.StringAsync(result.Error!, StatusCodes.Status401Unauthorized, "", cancellationToken);
+            await Send.UnauthorizedAsync(cancellationToken);
             return;
         }
 
-        await Send.OkAsync(result.Token!, cancellationToken);
+        var jwtSection = configuration.GetSection("Jwt");
+
+        var response = new AccessTokenResponse()
+        {
+            AccessToken = result.Token!,
+            RefreshToken = "refresh",
+            ExpiresIn = jwtSection.GetValue<int>("AccessTokenMinutes") * 60,
+        };
+
+        await Send.OkAsync(response, cancellationToken);
     }
 }
