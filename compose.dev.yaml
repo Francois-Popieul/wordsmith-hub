@@ -1,6 +1,7 @@
 ﻿services:
   api:
     build: .
+    restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
@@ -25,7 +26,7 @@
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${POSTGRES_APP_DB}"
     ports:
-      - ${POSTGRES_APP_DB_PORT}
+      - ${POSTGRES_APP_DB_PORT}:5432
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
@@ -45,7 +46,7 @@
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${POSTGRES_IDENTITY_DB}"
     ports:
-      - ${POSTGRES_IDENTITY_DB_PORT}
+      - ${POSTGRES_IDENTITY_DB_PORT}:5432
     volumes:
       - identity_data:/var/lib/postgresql/data
     healthcheck:
