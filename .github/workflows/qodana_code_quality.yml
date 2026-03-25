@@ -15,8 +15,11 @@ jobs:
       contents: write
       pull-requests: write
       checks: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }} # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0 # a full history is required for pull request analysis
@@ -34,7 +37,7 @@ jobs:
         with:
           pr-mode: false
           use-caches: false
-          args: --image,jetbrains/qodana-cdnet:latest
+          args: --image jetbrains/qodana-cdnet:latest
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_825887637 }}
           QODANA_ENDPOINT: "https://qodana.cloud"

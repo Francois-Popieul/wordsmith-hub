@@ -14,7 +14,7 @@ public class IdentityDbContextDesignTimeFactory : IDesignTimeDbContextFactory<Id
             .Build();
 
         var connectionString = configuration.GetConnectionString("IdentityDbConnection");
-        Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
+        Guard.Against.NullOrWhiteSpace(connectionString);
 
         var options = new DbContextOptionsBuilder<IdentityDbContext>()
             .UseNpgsql(connectionString);

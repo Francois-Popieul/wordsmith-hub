@@ -14,7 +14,7 @@ public class MainDbContextDesignTimeFactory : IDesignTimeDbContextFactory<MainDb
             .Build();
 
         var connectionString = configuration.GetConnectionString("MainDbConnection");
-        Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
+        Guard.Against.NullOrWhiteSpace(connectionString);
 
         var options = new DbContextOptionsBuilder<MainDbContext>()
             .UseNpgsql(connectionString);
