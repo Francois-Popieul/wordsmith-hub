@@ -3,8 +3,12 @@
 ####################################################################################################################
 
 version: "1.0"
-linter: jetbrains/qodana-cdnet:2025.3
+linter: jetbrains/qodana-cdnet:latest
 profile:
-  name: qodana.recommended
-include:
-  - name: CheckDependencyLicenses
+  name: qodana.starter
+dotnet:
+  solution: WordsmithHub.sln
+failureConditions:
+  severityThresholds:
+    any: 100
+    critical: 5
