@@ -111,6 +111,16 @@ if (!builder.Environment.IsEnvironment("IntegrationTest"))
 
 var app = builder.Build();
 
+if (!app.Environment.IsEnvironment("IntegrationTest"))
+{
+    using var scope = app.Services.CreateScope();
+    var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+    var mainDb = scope.ServiceProvider.GetRequiredService<MainDbContext>();
+
+    identityDb.Database.Migrate();
+    mainDb.Database.Migrate();
+}
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
