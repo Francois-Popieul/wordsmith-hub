@@ -16,6 +16,8 @@
       Jwt__Issuer: "${JWT_ISSUER}"
       Jwt__Audience: "${JWT_AUDIENCE}"
       Jwt__AccessTokenMinutes: "${JWT_ACCESSTOKENMINUTES}"
+    networks:
+      - backend
 
   maindb:
     image: postgres:18-alpine
