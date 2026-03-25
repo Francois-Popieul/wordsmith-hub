@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace WordsmithHub.API.Features.Authentication;
 
-public abstract record RegisterUserRequest(string FirstName, string LastName, string Email, string Password);
+public record RegisterUserRequest(string FirstName, string LastName, string Email, string Password);
 
 public class RegisterUserRequestValidator : Validator<RegisterUserRequest>
 {

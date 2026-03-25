@@ -8,8 +8,8 @@
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__MainDb: "Server=maindb;Database=${POSTGRES_APP_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
-      ConnectionStrings__IdentityDb: "Server=identitydb;Database=${POSTGRES_IDENTITY_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__MainDbConnection: "Server=maindb;Database=${POSTGRES_APP_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__IdentityDbConnection: "Server=identitydb;Database=${POSTGRES_IDENTITY_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
       Jwt__Key: "${JWT_KEY}"
       Jwt__Issuer: "${JWT_ISSUER}"
       Jwt__Audience: "${JWT_AUDIENCE}"
