@@ -35,6 +35,7 @@ jobs:
       - name: "Qodana Scan"
         uses: JetBrains/qodana-action@v2025.3
         with:
+          upload-result: true
           pr-mode: false
           use-caches: false
           args: --image jetbrains/qodana-cdnet:latest
