@@ -23,7 +23,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WordsmithHub.Domain.Client", b =>
+            modelBuilder.Entity("WordsmithHub.Domain.DirectClient", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -51,9 +51,12 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("DirectClients", (string)null);
                 });
 #pragma warning restore 612, 618
         }

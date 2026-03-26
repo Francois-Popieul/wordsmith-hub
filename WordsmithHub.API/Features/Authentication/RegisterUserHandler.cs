@@ -21,9 +21,14 @@ public class RegisterUserHandler(UserManager<AppUser> userManager)
 
         var result = await userManager.CreateAsync(user, command.Password);
 
-        return !result.Succeeded
-            ? new RegisterUserResult(result, result.Errors.First().Description)
-            : new RegisterUserResult(IdentityResult.Success,
-                "Inscription réussie. Vérifiez votre messagerie pour confirmer votre compte.");
+        if (!result.Succeeded)
+        {
+            return new RegisterUserResult(result, result.Errors.First().Description);
+        }
+
+        await userManager.AddToRoleAsync(user, "User");
+
+        return new RegisterUserResult(IdentityResult.Success,
+            "Inscription réussie. Vérifiez votre messagerie pour confirmer votre compte.");
     }
 }

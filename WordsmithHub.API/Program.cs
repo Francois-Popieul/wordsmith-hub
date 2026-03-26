@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
 using WordsmithHub.API.Features.Authentication;
+using WordsmithHub.API.Features.DirectClient.Get;
 using WordsmithHub.API.Features.User.Get;
 using WordsmithHub.API.Services;
 using WordsmithHub.Infrastructure.IdentityDatabase;
@@ -18,9 +19,11 @@ var configuration = builder.Configuration;
 
 // DbContexts
 builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseNpgsql(configuration.GetConnectionString("IdentityDbConnection")));
+    options.UseNpgsql(configuration.GetConnectionString("IdentityDbConnection"),
+        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__IdentityDbHistory")));
 builder.Services.AddDbContext<MainDbContext>(options =>
-    options.UseNpgsql(configuration.GetConnectionString("MainDbConnection")));
+    options.UseNpgsql(configuration.GetConnectionString("MainDbConnection"),
+        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory")));
 
 // Identity
 builder.Services.AddIdentityCore<AppUser>(options =>
@@ -62,7 +65,9 @@ builder.Services
             ValidIssuer = jwtSection["Issuer"],
             ValidAudience = jwtSection["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ClockSkew = TimeSpan.FromMinutes(1)
+            ClockSkew = TimeSpan.FromMinutes(1),
+            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+            NameClaimType = "sub"
         };
     });
 
@@ -88,12 +93,14 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<GetUserHandler>();
+builder.Services.AddScoped<GetDirectClientHandler>();
+builder.Services.AddScoped(typeof(Repository<>));
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 // FastEndpoints
 if (!builder.Environment.IsEnvironment("IntegrationTest"))
 {
-    builder.Services.AddFastEndpoints()
+    builder.Services.AddFastEndpoints(options => { options.Assemblies = [typeof(Program).Assembly]; })
         .SwaggerDocument(options =>
         {
             options.DocumentSettings = settings =>
@@ -123,12 +130,9 @@ if (!app.Environment.IsEnvironment("IntegrationTest"))
 
 app.UseHttpsRedirection();
 
-app.UseRouting();
-
 app.UseCors();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 if (!app.Environment.IsEnvironment("IntegrationTest"))

@@ -5,7 +5,7 @@ namespace WordsmithHub.Infrastructure.MainDatabase;
 
 public class MainDbContext(DbContextOptions options) : DbContext(options)
 {
-    public virtual DbSet<Client> Clients { get; set; }
+    public virtual DbSet<DirectClient> DirectClients { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -15,6 +15,5 @@ public class MainDbContext(DbContextOptions options) : DbContext(options)
                     type.Namespace.StartsWith(
                         "WordsmithHub.Infrastructure.MainDatabase.Configurations",
                         StringComparison.Ordinal));
-        modelBuilder.HasAnnotation("Relational:MigrationHistoryTable", "__MainDbHistory");
     }
 }

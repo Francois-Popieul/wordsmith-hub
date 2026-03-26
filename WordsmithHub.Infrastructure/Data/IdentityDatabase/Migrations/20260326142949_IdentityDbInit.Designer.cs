@@ -12,8 +12,8 @@ using WordsmithHub.Infrastructure.IdentityDatabase;
 namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260319151315_InitIdentityDb")]
-    partial class InitIdentityDb
+    [Migration("20260326142949_IdentityDbInit")]
+    partial class IdentityDbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,8 +21,7 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("Relational:MigrationHistoryTable", "__IdentityDbHistory");
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -50,6 +49,22 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "2",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +152,13 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8feb56a9-5b14-4a47-be5f-b56e1c822e1c",
+                            RoleId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -231,6 +253,26 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8feb56a9-5b14-4a47-be5f-b56e1c822e1c",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "76b12994-2ff3-48d7-a22d-04ca77d040b7",
+                            Email = "admin@wordsmithhub.com",
+                            EmailConfirmed = true,
+                            FirstName = "François",
+                            LastName = "Popieul",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@WORDSMITHHUB.COM",
+                            NormalizedUserName = "ADMIN@WORDSMITHHUB.COM",
+                            PasswordHash = "$2a$12$sYInbRCWSrpoZMGr7I0v2eUIGj2NE2kyAmOF5EE62B83tIePYvcdO",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "9707faae-95d6-46a7-8123-0ff0bbdbc75a",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@wordsmithhub.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

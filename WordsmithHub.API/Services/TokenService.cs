@@ -21,7 +21,7 @@ public class TokenService(
         var userClaims = await userManager.GetClaimsAsync(user);
         var roles = await userManager.GetRolesAsync(user);
 
-        var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+        var roleClaims = roles.Select(r => new Claim("role", r));
 
         var claims = new List<Claim>
         {

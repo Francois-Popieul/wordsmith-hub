@@ -7,7 +7,7 @@
 To mount the database volumes using the compose.yaml file with the development environment variables:
 
 ```bash
-docker compose --env-file .env.dev up
+docker compose --env-file .env.dev -f compose.dev.yaml up
 ```
 
 ### Data

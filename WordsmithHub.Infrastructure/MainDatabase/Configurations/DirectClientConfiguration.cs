@@ -4,11 +4,11 @@ using WordsmithHub.Domain;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;
 
-public class ClientConfiguration : IEntityTypeConfiguration<Client>
+public class DirectClientConfiguration : IEntityTypeConfiguration<DirectClient>
 {
-    public void Configure(EntityTypeBuilder<Client> builder)
+    public void Configure(EntityTypeBuilder<DirectClient> builder)
     {
-        builder.ToTable("Clients");
+        builder.ToTable("DirectClients");
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedNever();
         builder.Property(c => c.CompanyName).IsRequired().HasMaxLength(100);
