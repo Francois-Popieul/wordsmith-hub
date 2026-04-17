@@ -4,6 +4,12 @@ using WordsmithHub.Domain.BankAccountAggregate;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 using WordsmithHub.Domain.EndCustomerAggregate;
 using WordsmithHub.Domain.FreelanceAggregate;
+using WordsmithHub.Domain.InvoiceAggregate;
+using WordsmithHub.Domain.LegalStatusAggregate;
+using WordsmithHub.Domain.OrderLineAggregate;
+using WordsmithHub.Domain.ProjectAggregate;
+using WordsmithHub.Domain.RateAggregate;
+using WordsmithHub.Domain.WorkOrderAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase;
 
@@ -14,6 +20,12 @@ public class MainDbContext(DbContextOptions options) : DbContext(options)
     public virtual DbSet<DirectCustomer> DirectCustomers { get; set; }
     public virtual DbSet<EndCustomer> EndCustomers { get; set; }
     public virtual DbSet<Freelance> Freelances { get; set; }
+    public virtual DbSet<Invoice> Invoices { get; set; }
+    public virtual DbSet<LegalStatus> LegalStatuses { get; set; }
+    public virtual DbSet<OrderLine> OrderLines { get; set; }
+    public virtual DbSet<Project> Projects { get; set; }
+    public virtual DbSet<Rate> Rates { get; set; }
+    public virtual DbSet<WorkOrder> WorkOrders { get; set; }
 
     // Static Data
     public virtual DbSet<Country> Countries { get; set; }

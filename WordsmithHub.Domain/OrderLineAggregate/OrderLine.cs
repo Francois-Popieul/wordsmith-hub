@@ -9,6 +9,5 @@ public class OrderLine : BaseEntity
     public required int SourceLanguageId { get; set; }
     public required int TargetLanguageId { get; set; }
     public required int ServiceId { get; set; }
-    public string[]? Filenames { get; set; }
     public string? Notes { get; set; }
 }

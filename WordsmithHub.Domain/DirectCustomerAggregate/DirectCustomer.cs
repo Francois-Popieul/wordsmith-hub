@@ -1,4 +1,6 @@
-﻿namespace WordsmithHub.Domain.DirectCustomerAggregate;
+﻿using WordsmithHub.Domain.ProjectAggregate;
+
+namespace WordsmithHub.Domain.DirectCustomerAggregate;
 
 public class DirectCustomer : BaseEntity
 {
@@ -12,4 +14,5 @@ public class DirectCustomer : BaseEntity
     public required Guid FreelanceId { get; set; }
     public required int CurrencyId { get; set; }
     public required int StatusId { get; set; }
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

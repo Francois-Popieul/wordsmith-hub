@@ -1,6 +1,6 @@
 ﻿namespace WordsmithHub.Domain;
 
-public abstract class Address
+public class Address
 {
     public required string StreetInfo { get; set; }
     public string? AddressComplement { get; set; }

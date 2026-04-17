@@ -1,4 +1,6 @@
-﻿namespace WordsmithHub.Domain.ProjectAggregate;
+﻿using WordsmithHub.Domain.DirectCustomerAggregate;
+
+namespace WordsmithHub.Domain.ProjectAggregate;
 
 public interface IProjectFactory
 {
@@ -7,8 +9,8 @@ public interface IProjectFactory
         string domain,
         string? description,
         Guid freelanceId,
-        Guid directCustomerId,
-        Guid? endCustomerId);
+        Guid? endCustomerId,
+        ICollection<DirectCustomer> directCustomers);
 }
 
 public class ProjectFactory : IProjectFactory
@@ -18,8 +20,8 @@ public class ProjectFactory : IProjectFactory
         string domain,
         string? description,
         Guid freelanceId,
-        Guid directCustomerId,
-        Guid? endCustomerId
+        Guid? endCustomerId,
+        ICollection<DirectCustomer> directCustomers
     )
 
     {
@@ -30,9 +32,9 @@ public class ProjectFactory : IProjectFactory
             Domain = domain,
             Description = description ?? string.Empty,
             FreelanceId = freelanceId,
-            DirectCustomerId = directCustomerId,
             EndCustomerId = endCustomerId ?? null,
             StatusId = 1,
+            DirectCustomers = directCustomers,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };

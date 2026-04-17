@@ -9,6 +9,6 @@ public class WorkOrder : BaseEntity
     public Guid? InvoiceId { get; set; }
     public required DateTime StartDate { get; set; }
     public required DateTime DeliveryDate { get; set; }
-    public string? Notes { get; set; }
+    public string? Description { get; set; }
     public required int StatusId { get; set; }
 }

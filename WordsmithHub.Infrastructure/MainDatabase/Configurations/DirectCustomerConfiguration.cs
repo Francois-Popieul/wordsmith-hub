@@ -17,7 +17,15 @@ public class DirectCustomerConfiguration : IEntityTypeConfiguration<DirectCustom
         builder.Property(c => c.Code).IsRequired().HasMaxLength(5);
         builder.Property(c => c.Phone).HasMaxLength(15);
         builder.Property(c => c.Email).IsRequired().HasMaxLength(255);
-        builder.Property(c => c.Address).IsRequired();
+        builder.OwnsOne(c => c.Address, a =>
+        {
+            a.Property(p => p.StreetInfo).IsRequired().HasMaxLength(255).HasColumnName("Address_StreetInfo");
+            a.Property(p => p.AddressComplement).HasMaxLength(255).HasColumnName("Address_Complement");
+            a.Property(p => p.PostCode).IsRequired().HasMaxLength(10).HasColumnName("Address_PostCode");
+            a.Property(p => p.City).IsRequired().HasMaxLength(100).HasColumnName("Address_City");
+            a.Property(p => p.State).HasMaxLength(50).HasColumnName("Address_State");
+            a.Property(p => p.CountryId).IsRequired().HasColumnName("Address_CountryId");
+        });
         builder.Property(c => c.SiretOrSiren).HasMaxLength(15);
         builder.Property(c => c.PaymentDelay).IsRequired();
         builder.Property(c => c.CreatedAt).IsRequired();
@@ -37,5 +45,11 @@ public class DirectCustomerConfiguration : IEntityTypeConfiguration<DirectCustom
             .WithMany()
             .HasForeignKey(c => c.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
+        builder
+            .HasOne<Country>()
+            .WithMany()
+            .HasForeignKey("Address_CountryId")
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasIndex("Address_CountryId");
     }
 }

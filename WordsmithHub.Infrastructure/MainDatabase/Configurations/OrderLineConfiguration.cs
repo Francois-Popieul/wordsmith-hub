@@ -17,6 +17,7 @@ public class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
         builder.Property(l => l.Quantity).HasColumnType("decimal(10,4)");
         builder.Property(l => l.AppliedUnitPrice).HasColumnType("decimal(10,4)");
         builder.Property(l => l.UsedUnit).IsRequired().HasMaxLength(20);
+        builder.Property(l => l.Notes).HasMaxLength(1000);
         builder.Property(l => l.CreatedAt).IsRequired();
         builder.Property(l => l.UpdatedAt).IsRequired();
         builder
