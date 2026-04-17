@@ -1,7 +1,7 @@
 ﻿using WordsmithHub.API.Features.Users.Model;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 
-namespace WordsmithHub.API.Features.User.Services;
+namespace WordsmithHub.API.Features.Users.Services;
 
 public static class AppUserExtensions
 {

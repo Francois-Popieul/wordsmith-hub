@@ -21,6 +21,8 @@ public class LegalStatusConfiguration : IEntityTypeConfiguration<LegalStatus>
         builder.Property(s => s.TaxDeductionExemption).IsRequired();
         builder.Property(s => s.ValidFrom).IsRequired().HasColumnType("date");
         builder.Property(s => s.ValidTo).HasColumnType("date");
+        builder.Property(s => s.CreatedAt).IsRequired();
+        builder.Property(s => s.UpdatedAt).IsRequired();
         builder
             .HasOne<Freelance>()
             .WithMany()

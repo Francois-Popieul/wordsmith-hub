@@ -18,6 +18,8 @@ public class FreelanceConfiguration : IEntityTypeConfiguration<Freelance>
         builder.Property(f => f.Phone).HasMaxLength(15);
         builder.Property(f => f.Address).IsRequired();
         builder.Property(f => f.AppUserId).IsRequired();
+        builder.Property(f => f.CreatedAt).IsRequired();
+        builder.Property(f => f.UpdatedAt).IsRequired();
         builder
             .HasOne<Status>()
             .WithMany()

@@ -5,7 +5,7 @@ public interface IProjectFactory
     Project CreateProject(
         string name,
         string domain,
-        string description,
+        string? description,
         Guid freelanceId,
         Guid directCustomerId,
         Guid? endCustomerId);
@@ -16,7 +16,7 @@ public class ProjectFactory : IProjectFactory
     public Project CreateProject(
         string name,
         string domain,
-        string description,
+        string? description,
         Guid freelanceId,
         Guid directCustomerId,
         Guid? endCustomerId

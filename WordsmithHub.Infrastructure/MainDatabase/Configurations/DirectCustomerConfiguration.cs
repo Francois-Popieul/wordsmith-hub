@@ -20,6 +20,8 @@ public class DirectCustomerConfiguration : IEntityTypeConfiguration<DirectCustom
         builder.Property(c => c.Address).IsRequired();
         builder.Property(c => c.SiretOrSiren).HasMaxLength(15);
         builder.Property(c => c.PaymentDelay).IsRequired();
+        builder.Property(c => c.CreatedAt).IsRequired();
+        builder.Property(c => c.UpdatedAt).IsRequired();
         builder
             .HasOne<Freelance>()
             .WithMany()

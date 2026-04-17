@@ -13,6 +13,8 @@ public class EndCustomerConfiguration : IEntityTypeConfiguration<EndCustomer>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedNever();
         builder.Property(c => c.Name).IsRequired().HasMaxLength(150);
+        builder.Property(c => c.CreatedAt).IsRequired();
+        builder.Property(c => c.UpdatedAt).IsRequired();
         builder
             .HasOne<Status>()
             .WithMany()
