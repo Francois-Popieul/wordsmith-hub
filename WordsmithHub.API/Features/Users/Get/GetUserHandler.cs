@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WordsmithHub.API.Features.User.Services;
+using WordsmithHub.API.Features.Users.Services;
 using WordsmithHub.API.Features.Users.Model;
 
 namespace WordsmithHub.API.Features.Users.Get;
