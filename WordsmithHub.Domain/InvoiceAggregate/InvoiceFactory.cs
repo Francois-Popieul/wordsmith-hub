@@ -28,7 +28,8 @@ public interface IInvoiceFactory
         string freelanceBankAccountHolder,
         string freelanceIban,
         string freelanceBic,
-        int usedCurrencyId
+        int usedCurrencyId,
+        int statusId
     );
 }
 
@@ -60,15 +61,16 @@ public class InvoiceFactory : IInvoiceFactory
         string freelanceBankAccountHolder,
         string freelanceIban,
         string freelanceBic,
-        int usedCurrencyId
-    )
+        int usedCurrencyId,
+        int statusId)
 
     {
         var invoice = new Invoice
         {
             Id = Guid.NewGuid(),
+            InvoiceNumber = invoiceNumber ?? string.Empty,
             TotalAmount = totalAmount,
-            VatAmount = 0,
+            VatAmount = vatAmount,
             TotalAmountWithVat = totalAmountWithVat,
             WorkOrderId = workOrderId,
             FreelanceId = freelanceId,
@@ -92,7 +94,7 @@ public class InvoiceFactory : IInvoiceFactory
             FreelanceIban = freelanceIban,
             FreelanceBic = freelanceBic,
             UsedCurrencyId = usedCurrencyId,
-            StatusId = 10,
+            StatusId = statusId,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };

@@ -5,12 +5,11 @@ public interface IOrderLineFactory
     OrderLine CreateOrderLine(
         decimal quantity,
         decimal appliedUnitPrice,
+        string usedUnit,
         Guid workOrderId,
         int sourceLanguageId,
         int targetLanguageId,
         int serviceId,
-        int rateId,
-        string[]? filenames,
         string? notes);
 }
 
@@ -19,12 +18,11 @@ public class OrderLineFactory : IOrderLineFactory
     public OrderLine CreateOrderLine(
         decimal quantity,
         decimal appliedUnitPrice,
+        string usedUnit,
         Guid workOrderId,
         int sourceLanguageId,
         int targetLanguageId,
         int serviceId,
-        int rateId,
-        string[]? filenames,
         string? notes)
 
     {
@@ -33,12 +31,11 @@ public class OrderLineFactory : IOrderLineFactory
             Id = Guid.NewGuid(),
             Quantity = quantity,
             AppliedUnitPrice = appliedUnitPrice,
+            UsedUnit = usedUnit,
             WorkOrderId = workOrderId,
             SourceLanguageId = sourceLanguageId,
             TargetLanguageId = targetLanguageId,
             ServiceId = serviceId,
-            RateId = rateId,
-            Filenames = filenames ?? [],
             Notes = notes ?? string.Empty,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow

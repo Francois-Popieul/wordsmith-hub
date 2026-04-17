@@ -11,8 +11,8 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
         builder.ToTable("Statuses");
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).IsRequired().ValueGeneratedNever();
-        builder.Property(s => s.Name).IsRequired().HasMaxLength(20);
-        builder.Property(s => s.Category).IsRequired().HasMaxLength(20);
+        builder.Property(s => s.Name).IsRequired().HasMaxLength(25);
+        builder.Property(s => s.Category).IsRequired().HasMaxLength(25);
         // Seed data
         builder.HasData(
             // General
@@ -22,11 +22,15 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
             new Status { Id = 10, Name = "Brouillon", Category = "Invoice" },
             new Status { Id = 11, Name = "Envoyée", Category = "Invoice" },
             new Status { Id = 12, Name = "Payée", Category = "Invoice" },
+            new Status { Id = 13, Name = "Annulée", Category = "Invoice" },
             // WorkOrder
             new Status { Id = 20, Name = "En attente", Category = "WorkOrder" },
             new Status { Id = 21, Name = "En cours", Category = "WorkOrder" },
             new Status { Id = 22, Name = "Terminée", Category = "WorkOrder" },
-            new Status { Id = 23, Name = "Livrée", Category = "WorkOrder" }
+            new Status { Id = 23, Name = "Livrée", Category = "WorkOrder" },
+            // Project
+            new Status { Id = 30, Name = "En cours", Category = "Project" },
+            new Status { Id = 31, Name = "Terminé", Category = "Project" }
         );
     }
 }

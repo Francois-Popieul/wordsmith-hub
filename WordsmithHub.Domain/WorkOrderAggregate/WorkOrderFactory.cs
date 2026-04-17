@@ -9,7 +9,8 @@ public interface IWorkOrderFactory
         Guid directCustomerId,
         DateTime startDate,
         DateTime deliveryDate,
-        string? notes);
+        string? notes,
+        int statusId);
 }
 
 public class WorkOrderFactory : IWorkOrderFactory
@@ -21,7 +22,8 @@ public class WorkOrderFactory : IWorkOrderFactory
         Guid directCustomerId,
         DateTime startDate,
         DateTime deliveryDate,
-        string? notes)
+        string? notes,
+        int statusId)
 
     {
         var workOrder = new WorkOrder
@@ -33,7 +35,7 @@ public class WorkOrderFactory : IWorkOrderFactory
             DirectCustomerId = directCustomerId,
             StartDate = startDate,
             DeliveryDate = deliveryDate,
-            StatusId = 20,
+            StatusId = statusId,
             Notes = notes ?? string.Empty,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
