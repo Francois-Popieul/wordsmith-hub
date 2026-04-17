@@ -23,7 +23,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WordsmithHub.Domain.DirectClient", b =>
+            modelBuilder.Entity("WordsmithHub.Domain.DirectCustomer", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");

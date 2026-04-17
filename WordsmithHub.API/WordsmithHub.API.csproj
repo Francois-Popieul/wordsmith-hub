@@ -21,10 +21,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\User\Add\"/>
-        <Folder Include="Features\User\Delete\"/>
-        <Folder Include="Features\User\GetAll\"/>
-        <Folder Include="Features\User\Update\"/>
+        <Folder Include="Features\Users\Add\"/>
+        <Folder Include="Features\Users\Delete\"/>
+        <Folder Include="Features\Users\GetAll\"/>
+        <Folder Include="Features\Users\Update\"/>
     </ItemGroup>
 
     <ItemGroup>

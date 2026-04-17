@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
 using WordsmithHub.API.Features.Authentication;
-using WordsmithHub.API.Features.DirectClient.Get;
-using WordsmithHub.API.Features.User.Get;
+using WordsmithHub.API.Features.DirectCustomers.Get;
+using WordsmithHub.API.Features.Users.Get;
 using WordsmithHub.API.Services;
+using WordsmithHub.Domain;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
+using WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -24,6 +26,9 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 builder.Services.AddDbContext<MainDbContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("MainDbConnection"),
         npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory")));
+
+builder.Services.AddRepositories();
+builder.Services.AddDomainAggregates();
 
 // Identity
 builder.Services.AddIdentityCore<AppUser>(options =>
@@ -93,7 +98,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<GetUserHandler>();
-builder.Services.AddScoped<GetDirectClientHandler>();
+builder.Services.AddScoped<GetDirectCustomerHandler>();
 builder.Services.AddScoped(typeof(Repository<>));
 builder.Services.AddScoped<ITokenService, TokenService>();
 

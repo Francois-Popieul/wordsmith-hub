@@ -3,7 +3,11 @@ using WordsmithHub.Infrastructure.IdentityDatabase;
 
 namespace WordsmithHub.API.Features.Authentication;
 
-public record RegisterUserCommand(string FirstName, string LastName, string Email, string Password);
+public record RegisterUserCommand(
+    string? FirstName,
+    string? LastName,
+    string Email,
+    string Password);
 
 public sealed record RegisterUserResult(IdentityResult IdentityResult, string? Message);
 

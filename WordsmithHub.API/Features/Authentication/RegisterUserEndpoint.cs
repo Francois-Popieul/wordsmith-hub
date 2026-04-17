@@ -3,15 +3,19 @@ using FluentValidation;
 
 namespace WordsmithHub.API.Features.Authentication;
 
-public record RegisterUserRequest(string FirstName, string LastName, string Email, string Password);
+public record RegisterUserRequest(
+    string? FirstName,
+    string? LastName,
+    string Email,
+    string Password);
 
 public class RegisterUserRequestValidator : Validator<RegisterUserRequest>
 {
     public RegisterUserRequestValidator()
     {
-        RuleFor(x => x.FirstName).NotEmpty().MaximumLength(50);
-        RuleFor(x => x.LastName).NotEmpty().MaximumLength(50);
-        RuleFor(x => x.Email).NotEmpty().EmailAddress();
+        RuleFor(x => x.FirstName).MaximumLength(50);
+        RuleFor(x => x.LastName).MaximumLength(100);
+        RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
         RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
     }
 }

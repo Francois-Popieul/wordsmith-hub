@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
-using WordsmithHub.Infrastructure.IdentityDatabase;
+using WordsmithHub.API.Features.Users.Model;
 
-namespace WordsmithHub.API.Features.User.Get;
+namespace WordsmithHub.API.Features.Users.Get;
 
-public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<AppUser>
+public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<AppUserDto>
 {
     public override void Configure()
     {
@@ -35,7 +35,7 @@ public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<Ap
 
         var result = await handler.HandleAsync(command);
 
-        if (result == null)
+        if (result is null)
         {
             await Send.NotFoundAsync(cancellationToken);
             return;
