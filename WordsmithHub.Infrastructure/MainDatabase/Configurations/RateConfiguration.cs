@@ -4,7 +4,6 @@ using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 using WordsmithHub.Domain.FreelanceAggregate;
 using WordsmithHub.Domain.RateAggregate;
-using WordsmithHub.Domain.WorkOrderAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;
 
