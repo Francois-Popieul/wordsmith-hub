@@ -21,6 +21,8 @@ Contains the various database migration histories separately to prevent issues w
 
 #### Migrations
 
+First navigate to WordsmithHub.Infrastructure.
+
 To start a new migration:
 
 ```bash

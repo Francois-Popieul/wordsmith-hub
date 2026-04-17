@@ -8,8 +8,8 @@ public interface IRateFactory
         int sourceLanguageId,
         int targetLanguageId,
         int serviceId,
-        int directCustomerId,
-        int freelanceId);
+        Guid directCustomerId,
+        Guid freelanceId);
 }
 
 public class RateFactory : IRateFactory
@@ -20,8 +20,8 @@ public class RateFactory : IRateFactory
         int sourceLanguageId,
         int targetLanguageId,
         int serviceId,
-        int directCustomerId,
-        int freelanceId)
+        Guid directCustomerId,
+        Guid freelanceId)
 
     {
         var rate = new Rate

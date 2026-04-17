@@ -8,6 +8,6 @@ public class Rate : BaseEntity
     public required int TargetLanguageId { get; set; }
     public required int ServiceId { get; set; }
     public required int StatusId { get; set; }
-    public required int DirectCustomerId { get; set; }
-    public required int FreelanceId { get; set; }
+    public required Guid DirectCustomerId { get; set; }
+    public required Guid FreelanceId { get; set; }
 }

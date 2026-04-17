@@ -11,7 +11,7 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.ToTable("Countries");
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).IsRequired().ValueGeneratedNever();
-        builder.Property(c => c.Name).IsRequired().HasMaxLength(20);
+        builder.Property(c => c.Name).IsRequired().HasMaxLength(50);
         builder.Property(c => c.Code).IsRequired().HasMaxLength(3);
         builder.Property(c => c.IsEuropeanUnionMember).IsRequired();
         // Seed data
