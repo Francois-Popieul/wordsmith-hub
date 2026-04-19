@@ -50,7 +50,7 @@ public class LoginUserEndpoint(
         {
             AccessToken = result.Token!,
             RefreshToken = "refresh",
-            ExpiresIn = jwtSection.GetValue<int>("AccessTokenMinutes") * 60,
+            ExpiresIn = jwtSection.GetValue<int>("AccessTokenSeconds"),
         };
 
         await Send.OkAsync(response, cancellationToken);
