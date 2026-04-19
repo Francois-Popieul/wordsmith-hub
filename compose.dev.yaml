@@ -15,13 +15,13 @@
       Jwt__Key: "${JWT_KEY}"
       Jwt__Issuer: "${JWT_ISSUER}"
       Jwt__Audience: "${JWT_AUDIENCE}"
-      Jwt__AccessTokenMinutes: "${JWT_ACCESSTOKENMINUTES}"
+      Jwt__AccessTokenSeconds: "${JWT_ACCESSTOKENSECONDS}"
     networks:
       - backend
 
   maindb:
     image: postgres:18-alpine
-    container_name: wordsmithhubdb
+    container_name: wordsmithhubdb-dev
     restart: always
     environment:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -41,7 +41,7 @@
 
   identitydb:
     image: postgres:18-alpine
-    container_name: identitydb
+    container_name: identitydb-dev
     restart: always
     environment:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"

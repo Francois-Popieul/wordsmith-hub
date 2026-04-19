@@ -8,7 +8,8 @@ public interface IBankAccountFactory
         string bankName,
         string accountHolderName,
         string iban,
-        string bic
+        string bic,
+        bool isDefault
     );
 }
 
@@ -19,7 +20,8 @@ public class BankAccountFactory : IBankAccountFactory
         string bankName,
         string accountHolderName,
         string iban,
-        string bic)
+        string bic,
+        bool isDefault)
     {
         var bankAccount = new BankAccount
         {
@@ -29,6 +31,7 @@ public class BankAccountFactory : IBankAccountFactory
             AccountHolderName = accountHolderName,
             Iban = iban,
             Bic = bic,
+            IsDefault = isDefault,
             FreelanceId = freelanceId,
             StatusId = 1,
             CreatedAt = DateTimeOffset.UtcNow,

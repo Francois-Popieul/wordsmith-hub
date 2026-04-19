@@ -13,7 +13,7 @@
       Jwt__Key: "${JWT_KEY}"
       Jwt__Issuer: "${JWT_ISSUER}"
       Jwt__Audience: "${JWT_AUDIENCE}"
-      Jwt__AccessTokenMinutes: "${JWT_ACCESSTOKENMINUTES}"
+      Jwt__AccessTokenSeconds: "${JWT_ACCESSTOKENSECONDS}"
     networks:
       - backend
 
