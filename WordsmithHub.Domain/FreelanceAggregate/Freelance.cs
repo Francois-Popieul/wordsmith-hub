@@ -9,4 +9,5 @@ public class Freelance : BaseEntity
     public required Address Address { get; set; }
     public required Guid AppUserId { get; set; }
     public required int StatusId { get; set; }
+    public Status? Status { get; set; }
 }

@@ -23,27 +23,27 @@ public class WorkOrderConfiguration : IEntityTypeConfiguration<WorkOrder>
         builder.Property(o => o.CreatedAt).IsRequired();
         builder.Property(o => o.UpdatedAt).IsRequired();
         builder
-            .HasOne<Project>()
+            .HasOne(o => o.Project)
             .WithMany()
             .HasForeignKey(o => o.ProjectId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Freelance>()
+            .HasOne(o => o.Freelance)
             .WithMany()
             .HasForeignKey(o => o.FreelanceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<DirectCustomer>()
+            .HasOne(o => o.DirectCustomer)
             .WithMany()
             .HasForeignKey(o => o.DirectCustomerId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Invoice>()
+            .HasOne(o => o.Invoice)
             .WithMany()
             .HasForeignKey(o => o.InvoiceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Status>()
+            .HasOne(o => o.Status)
             .WithMany()
             .HasForeignKey(o => o.StatusId)
             .OnDelete(DeleteBehavior.Restrict);

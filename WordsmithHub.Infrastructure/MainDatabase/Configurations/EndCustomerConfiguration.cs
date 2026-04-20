@@ -16,7 +16,7 @@ public class EndCustomerConfiguration : IEntityTypeConfiguration<EndCustomer>
         builder.Property(c => c.CreatedAt).IsRequired();
         builder.Property(c => c.UpdatedAt).IsRequired();
         builder
-            .HasOne<Status>()
+            .HasOne(c => c.Status)
             .WithMany()
             .HasForeignKey(c => c.StatusId)
             .OnDelete(DeleteBehavior.Restrict);

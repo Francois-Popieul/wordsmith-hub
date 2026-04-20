@@ -24,12 +24,12 @@ public class LegalStatusConfiguration : IEntityTypeConfiguration<LegalStatus>
         builder.Property(s => s.CreatedAt).IsRequired();
         builder.Property(s => s.UpdatedAt).IsRequired();
         builder
-            .HasOne<Freelance>()
+            .HasOne(s => s.Freelance)
             .WithMany()
             .HasForeignKey(s => s.FreelanceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Status>()
+            .HasOne(s => s.Status)
             .WithMany()
             .HasForeignKey(s => s.StatusId)
             .OnDelete(DeleteBehavior.Restrict);

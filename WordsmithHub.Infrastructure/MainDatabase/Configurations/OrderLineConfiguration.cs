@@ -20,22 +20,22 @@ public class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
         builder.Property(l => l.CreatedAt).IsRequired();
         builder.Property(l => l.UpdatedAt).IsRequired();
         builder
-            .HasOne<WorkOrder>()
+            .HasOne(l => l.WorkOrder)
             .WithMany()
             .HasForeignKey(l => l.WorkOrderId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<TranslationLanguage>()
+            .HasOne(l => l.SourceLanguage)
             .WithMany()
             .HasForeignKey(l => l.SourceLanguageId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<TranslationLanguage>()
+            .HasOne(l => l.TargetLanguage)
             .WithMany()
             .HasForeignKey(l => l.TargetLanguageId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Service>()
+            .HasOne(l => l.Service)
             .WithMany()
             .HasForeignKey(l => l.ServiceId)
             .OnDelete(DeleteBehavior.Restrict);

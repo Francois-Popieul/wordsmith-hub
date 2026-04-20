@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WordsmithHub.Domain;
-using WordsmithHub.Domain.DirectCustomerAggregate;
-using WordsmithHub.Domain.FreelanceAggregate;
 using WordsmithHub.Domain.RateAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;
@@ -19,32 +16,32 @@ public class RateConfiguration : IEntityTypeConfiguration<Rate>
         builder.Property(r => r.CreatedAt).IsRequired();
         builder.Property(r => r.UpdatedAt).IsRequired();
         builder
-            .HasOne<TranslationLanguage>()
+            .HasOne(r => r.SourceLanguage)
             .WithMany()
             .HasForeignKey(r => r.SourceLanguageId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<TranslationLanguage>()
+            .HasOne(r => r.TargetLanguage)
             .WithMany()
             .HasForeignKey(r => r.TargetLanguageId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Service>()
+            .HasOne(r => r.Service)
             .WithMany()
             .HasForeignKey(r => r.ServiceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Status>()
+            .HasOne(r => r.Status)
             .WithMany()
             .HasForeignKey(r => r.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<DirectCustomer>()
+            .HasOne(r => r.DirectCustomer)
             .WithMany()
             .HasForeignKey(r => r.DirectCustomerId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Freelance>()
+            .HasOne(r => r.Freelance)
             .WithMany()
             .HasForeignKey(r => r.FreelanceId)
             .OnDelete(DeleteBehavior.Restrict);

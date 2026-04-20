@@ -1,4 +1,5 @@
-﻿using WordsmithHub.Domain.ProjectAggregate;
+﻿using WordsmithHub.Domain.FreelanceAggregate;
+using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.Domain.DirectCustomerAggregate;
 
@@ -12,7 +13,10 @@ public class DirectCustomer : BaseEntity
     public string? SiretOrSiren { get; set; }
     public required int PaymentDelay { get; set; }
     public required Guid FreelanceId { get; set; }
+    public Freelance? Freelance { get; set; }
     public required int CurrencyId { get; set; }
+    public Currency? Currency { get; set; }
     public required int StatusId { get; set; }
+    public Status? Status { get; set; }
     public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

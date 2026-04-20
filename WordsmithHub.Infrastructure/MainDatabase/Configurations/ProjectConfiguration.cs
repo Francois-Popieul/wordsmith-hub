@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
-using WordsmithHub.Domain.EndCustomerAggregate;
 using WordsmithHub.Domain.FreelanceAggregate;
 using WordsmithHub.Domain.ProjectAggregate;
 
@@ -18,22 +17,22 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(p => p.Name).IsRequired().HasMaxLength(150);
         builder.Property(p => p.Domain).IsRequired().HasMaxLength(100);
         builder.Property(p => p.Description).HasMaxLength(1000);
+        builder.Property(p => p.EndCustomerId).IsRequired(false);
         builder.Property(p => p.CreatedAt).IsRequired();
         builder.Property(p => p.UpdatedAt).IsRequired();
         builder
-            .HasOne<Freelance>()
+            .HasOne(p => p.Freelance)
             .WithMany()
             .HasForeignKey(p => p.FreelanceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<EndCustomer>()
-            .WithMany()
-            .HasForeignKey(p => p.EndCustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
-        builder
-            .HasOne<Status>()
+            .HasOne(p => p.Status)
             .WithMany()
             .HasForeignKey(p => p.StatusId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(p => p.EndCustomer)
+            .WithMany()
+            .HasForeignKey(p => p.EndCustomerId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
             .HasMany(p => p.DirectCustomers)
@@ -54,8 +53,6 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
                 {
                     j.HasKey("DirectCustomerId", "ProjectId");
                     j.ToTable("Manages");
-                    j.Property<Guid>("DirectCustomerId").HasColumnName("DirectCustomerId");
-                    j.Property<Guid>("ProjectId").HasColumnName("ProjectId");
                 });
     }
 }

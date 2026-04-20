@@ -29,7 +29,7 @@ public class FreelanceConfiguration : IEntityTypeConfiguration<Freelance>
         builder.Property(f => f.CreatedAt).IsRequired();
         builder.Property(f => f.UpdatedAt).IsRequired();
         builder
-            .HasOne<Status>()
+            .HasOne(f => f.Status)
             .WithMany()
             .HasForeignKey(f => f.StatusId)
             .OnDelete(DeleteBehavior.Restrict);

@@ -31,17 +31,17 @@ public class DirectCustomerConfiguration : IEntityTypeConfiguration<DirectCustom
         builder.Property(c => c.CreatedAt).IsRequired();
         builder.Property(c => c.UpdatedAt).IsRequired();
         builder
-            .HasOne<Freelance>()
+            .HasOne(c => c.Freelance)
             .WithMany()
             .HasForeignKey(c => c.FreelanceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Currency>()
+            .HasOne(c => c.Currency)
             .WithMany()
             .HasForeignKey(c => c.CurrencyId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Status>()
+            .HasOne(c => c.Status)
             .WithMany()
             .HasForeignKey(c => c.StatusId)
             .OnDelete(DeleteBehavior.Restrict);

@@ -1,4 +1,6 @@
-﻿namespace WordsmithHub.Domain.BankAccountAggregate;
+﻿using WordsmithHub.Domain.FreelanceAggregate;
+
+namespace WordsmithHub.Domain.BankAccountAggregate;
 
 public class BankAccount : BaseEntity
 {
@@ -9,5 +11,7 @@ public class BankAccount : BaseEntity
     public required string Bic { get; set; }
     public required bool IsDefault { get; set; }
     public required Guid FreelanceId { get; set; }
+    public Freelance? Freelance { get; set; }
     public required int StatusId { get; set; }
+    public Status? Status { get; set; }
 }

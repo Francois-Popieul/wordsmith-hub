@@ -1,4 +1,6 @@
-﻿namespace WordsmithHub.Domain.LegalStatusAggregate;
+﻿using WordsmithHub.Domain.FreelanceAggregate;
+
+namespace WordsmithHub.Domain.LegalStatusAggregate;
 
 public class LegalStatus : BaseEntity
 {
@@ -11,5 +13,7 @@ public class LegalStatus : BaseEntity
     public required DateTime ValidFrom { get; set; }
     public DateTime? ValidTo { get; set; }
     public required Guid FreelanceId { get; set; }
+    public Freelance? Freelance { get; set; }
     public required int StatusId { get; set; }
+    public Status? Status { get; set; }
 }

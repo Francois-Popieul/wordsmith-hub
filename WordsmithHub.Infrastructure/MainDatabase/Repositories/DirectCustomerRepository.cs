@@ -3,8 +3,7 @@ using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class DirectCustomerRepository
-    : Repository<DirectCustomer>, IDirectCustomerRepository
+public class DirectCustomerRepository : Repository<DirectCustomer>, IDirectCustomerRepository
 {
     public DirectCustomerRepository(MainDbContext context) : base(context)
     {

@@ -1,10 +1,11 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
+using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Get;
 
 public class GetDirectCustomerEndpoint(GetDirectCustomerHandler handler)
-    : EndpointWithoutRequest<Domain.DirectCustomerAggregate.DirectCustomer>
+    : EndpointWithoutRequest<DirectCustomer>
 {
     public override void Configure()
     {

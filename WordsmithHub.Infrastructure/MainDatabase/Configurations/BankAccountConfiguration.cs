@@ -25,14 +25,14 @@ public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
             .IsUnique()
             .HasFilter("\"IsDefault\" = TRUE");
         builder
-            .HasOne<Freelance>()
+            .HasOne(a => a.Freelance)
             .WithMany()
             .HasForeignKey(a => a.FreelanceId)
             .OnDelete(DeleteBehavior.Restrict);
         builder
-            .HasOne<Status>()
+            .HasOne(a => a.Status)
             .WithMany()
-            .HasForeignKey(c => c.StatusId)
+            .HasForeignKey(a => a.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
