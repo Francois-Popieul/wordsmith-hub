@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
 using WordsmithHub.API.Features.Authentication;
+using WordsmithHub.API.Features.DirectCustomers.Add;
 using WordsmithHub.API.Features.DirectCustomers.Get;
 using WordsmithHub.API.Features.Users.Get;
 using WordsmithHub.API.Services;
@@ -99,6 +100,7 @@ builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<GetUserHandler>();
 builder.Services.AddScoped<GetDirectCustomerHandler>();
+builder.Services.AddScoped<AddDirectCustomerHandler>();
 builder.Services.AddScoped(typeof(Repository<>));
 builder.Services.AddScoped<ITokenService, TokenService>();
 

@@ -12,8 +12,8 @@ using WordsmithHub.Infrastructure.IdentityDatabase;
 namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260326142949_IdentityDbInit")]
-    partial class IdentityDbInit
+    [Migration("20260420073439_InitDatabase")]
+    partial class InitDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -200,14 +200,12 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -267,7 +265,7 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@WORDSMITHHUB.COM",
                             NormalizedUserName = "ADMIN@WORDSMITHHUB.COM",
-                            PasswordHash = "$2a$12$sYInbRCWSrpoZMGr7I0v2eUIGj2NE2kyAmOF5EE62B83tIePYvcdO",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAlbrepvlKVebZAroVmr5FbaT7Vrw7NJ4xlz+tywUvL5PcTuiA2S0Bp2cduePDp9Eg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9707faae-95d6-46a7-8123-0ff0bbdbc75a",
                             TwoFactorEnabled = false,

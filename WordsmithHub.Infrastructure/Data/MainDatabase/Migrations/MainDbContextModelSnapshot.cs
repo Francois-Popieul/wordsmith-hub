@@ -70,6 +70,9 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasMaxLength(34)
                         .HasColumnType("character varying(34)");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -83,9 +86,11 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FreelanceId");
-
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("FreelanceId", "IsDefault")
+                        .IsUnique()
+                        .HasFilter("\"IsDefault\" = TRUE");
 
                     b.ToTable("BankAccounts", (string)null);
                 });
@@ -105,8 +110,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 

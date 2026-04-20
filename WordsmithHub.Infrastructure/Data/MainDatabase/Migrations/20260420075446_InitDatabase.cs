@@ -8,20 +8,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 {
     /// <inheritdoc />
-    public partial class DomainEntitiesAdded : Migration
+    public partial class InitDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "DirectClients");
-
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Code = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false),
                     IsEuropeanUnionMember = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -191,6 +188,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     AccountHolderName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Iban = table.Column<string>(type: "character varying(34)", maxLength: 34, nullable: false),
                     Bic = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
+                    IsDefault = table.Column<bool>(type: "boolean", nullable: false),
                     FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -599,9 +597,11 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BankAccounts_FreelanceId",
+                name: "IX_BankAccounts_FreelanceId_IsDefault",
                 table: "BankAccounts",
-                column: "FreelanceId");
+                columns: new[] { "FreelanceId", "IsDefault" },
+                unique: true,
+                filter: "\"IsDefault\" = TRUE");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BankAccounts_StatusId",
@@ -799,23 +799,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
             migrationBuilder.DropTable(
                 name: "Statuses");
-
-            migrationBuilder.CreateTable(
-                name: "DirectClients",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Address = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    CompanyName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    PaymentDelay = table.Column<int>(type: "integer", nullable: false),
-                    Phone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DirectClients", x => x.Id);
-                });
         }
     }
 }

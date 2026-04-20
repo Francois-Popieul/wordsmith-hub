@@ -50,8 +50,8 @@ public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpo
             return;
         }
 
-        await handler.HandleAsync(request, Route<Guid>("userId"), cancellationToken);
+        var response = await handler.HandleAsync(request, Route<Guid>("userId"), cancellationToken);
 
-        await Send.OkAsync(cancellationToken, cancellationToken);
+        await Send.OkAsync(response, cancellationToken);
     }
 }

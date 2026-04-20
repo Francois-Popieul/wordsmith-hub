@@ -1,6 +1,6 @@
 ﻿namespace WordsmithHub.Domain.BankAccountAggregate;
 
-public interface IBankAccountRepository
+public interface IBankAccountRepository : IRepository<BankAccount>
 {
     Task<bool> ExistsWithIbanAsync(string iban, CancellationToken cancellationToken = default);
 

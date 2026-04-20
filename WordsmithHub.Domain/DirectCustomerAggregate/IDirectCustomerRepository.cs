@@ -1,6 +1,6 @@
 ﻿namespace WordsmithHub.Domain.DirectCustomerAggregate;
 
-public interface IDirectCustomerRepository
+public interface IDirectCustomerRepository : IRepository<DirectCustomer>
 {
     Task<bool> ExistsWithNameAsync(string name, CancellationToken cancellationToken = default);
 

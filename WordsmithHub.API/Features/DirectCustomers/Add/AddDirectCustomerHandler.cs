@@ -1,28 +1,37 @@
-﻿using WordsmithHub.Infrastructure.MainDatabase;
+﻿using Microsoft.EntityFrameworkCore;
+using WordsmithHub.Domain.DirectCustomerAggregate;
+using WordsmithHub.Infrastructure.MainDatabase;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Add;
 
-public class AddDirectCustomerHandler(Repository<Domain.DirectCustomerAggregate.DirectCustomer> repository)
+public class AddDirectCustomerHandler(
+    MainDbContext context,
+    IDirectCustomerRepository repository,
+    IDirectCustomerFactory factory)
 {
-    public async Task HandleAsync(AddDirectCustomerRequest request, Guid userId,
+    public async Task<Guid?> HandleAsync(AddDirectCustomerRequest request, Guid userId,
         CancellationToken cancellationToken)
     {
-        var directCustomer = new Domain.DirectCustomerAggregate.DirectCustomer()
-        {
-            Id = Guid.NewGuid(),
-            FreelanceId = userId,
-            Name = request.Name,
-            Address = request.Address,
-            Phone = request.Phone,
-            Email = request.Email,
-            PaymentDelay = request.PaymentDelay,
-            Code = request.Code,
-            CurrencyId = 0,
-            StatusId = 0,
-            CreatedAt = default,
-            UpdatedAt = default
-        };
+        var freelance = await context.Freelances.SingleOrDefaultAsync(f => f.AppUserId == userId, cancellationToken);
 
-        await repository.AddAsync(directCustomer, cancellationToken);
+        if (freelance == null)
+        {
+            return null;
+        }
+
+        var newDirectCustomer = factory.CreateDirectCustomer(
+            freelance.Id,
+            request.Name,
+            request.Code,
+            request.Phone,
+            request.Email,
+            request.Address,
+            request.SiretOrSiren,
+            request.PaymentDelay,
+            request.CurrencyId);
+
+        await repository.AddAsync(newDirectCustomer, cancellationToken);
+
+        return newDirectCustomer.Id;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace WordsmithHub.Domain.FreelanceAggregate;
 
-public interface IFreelanceRepository
+public interface IFreelanceRepository : IRepository<Freelance>
 {
     Task<Freelance?> GetByAppUserIdAsync(Guid appUserId, CancellationToken cancellationToken = default);
 

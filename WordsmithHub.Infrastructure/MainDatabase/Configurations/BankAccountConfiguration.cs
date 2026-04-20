@@ -23,7 +23,7 @@ public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
         builder.Property(a => a.UpdatedAt).IsRequired();
         builder.HasIndex(a => new { a.FreelanceId, a.IsDefault })
             .IsUnique()
-            .HasFilter("is_default = TRUE");
+            .HasFilter("\"IsDefault\" = TRUE");
         builder
             .HasOne<Freelance>()
             .WithMany()

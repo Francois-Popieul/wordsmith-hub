@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityDbInit : Migration
+    public partial class InitDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,8 +33,8 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -173,7 +173,7 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "8feb56a9-5b14-4a47-be5f-b56e1c822e1c", 0, "76b12994-2ff3-48d7-a22d-04ca77d040b7", "admin@wordsmithhub.com", true, "François", "Popieul", false, null, "ADMIN@WORDSMITHHUB.COM", "ADMIN@WORDSMITHHUB.COM", "$2a$12$sYInbRCWSrpoZMGr7I0v2eUIGj2NE2kyAmOF5EE62B83tIePYvcdO", null, false, "9707faae-95d6-46a7-8123-0ff0bbdbc75a", false, "admin@wordsmithhub.com" });
+                values: new object[] { "8feb56a9-5b14-4a47-be5f-b56e1c822e1c", 0, "76b12994-2ff3-48d7-a22d-04ca77d040b7", "admin@wordsmithhub.com", true, "François", "Popieul", false, null, "ADMIN@WORDSMITHHUB.COM", "ADMIN@WORDSMITHHUB.COM", "AQAAAAIAAYagAAAAEAlbrepvlKVebZAroVmr5FbaT7Vrw7NJ4xlz+tywUvL5PcTuiA2S0Bp2cduePDp9Eg==", null, false, "9707faae-95d6-46a7-8123-0ff0bbdbc75a", false, "admin@wordsmithhub.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
