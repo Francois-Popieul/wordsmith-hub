@@ -2,7 +2,7 @@
 
 namespace WordsmithHub.Domain.LegalStatusAggregate;
 
-public class LegalStatus : BaseEntity
+public class LegalStatus : BaseEntity, IBelongsToFreelance
 {
     public required string Name { get; set; }
     public string? Siret { get; set; }

@@ -1,37 +1,36 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
-using WordsmithHub.Infrastructure.MainDatabase;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Add;
 
 public class AddDirectCustomerHandler(
-    MainDbContext context,
+    IFreelanceAccessService freelanceAccessService,
     IDirectCustomerRepository repository,
     IDirectCustomerFactory factory)
 {
     public async Task<Guid?> HandleAsync(AddDirectCustomerRequest request, Guid userId,
         CancellationToken cancellationToken)
     {
-        var freelance = await context.Freelances.SingleOrDefaultAsync(f => f.AppUserId == userId, cancellationToken);
+        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(userId, cancellationToken);
 
         if (freelance == null)
         {
             return null;
         }
 
-        var newDirectCustomer = factory.CreateDirectCustomer(
+        var directCustomer = factory.CreateDirectCustomer(
             freelance.Id,
             request.Name,
             request.Code,
-            request.Phone,
+            request.Phone ?? string.Empty,
             request.Email,
             request.Address,
             request.SiretOrSiren,
             request.PaymentDelay,
             request.CurrencyId);
 
-        await repository.AddAsync(newDirectCustomer, cancellationToken);
+        await repository.AddAsync(directCustomer, cancellationToken);
 
-        return newDirectCustomer.Id;
+        return directCustomer.Id;
     }
 }

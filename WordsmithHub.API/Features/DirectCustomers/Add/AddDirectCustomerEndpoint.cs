@@ -8,7 +8,7 @@ namespace WordsmithHub.API.Features.DirectCustomers.Add;
 public record AddDirectCustomerRequest(
     string Name,
     string Code,
-    string Phone,
+    string? Phone,
     string Email,
     Address Address,
     string? SiretOrSiren,
@@ -21,7 +21,7 @@ public class AddDirectCustomerRequestValidator : Validator<AddDirectCustomerRequ
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(150);
         RuleFor(x => x.Code).NotEmpty().MaximumLength(5);
-        RuleFor(x => x.Phone).NotEmpty().MaximumLength(15);
+        RuleFor(x => x.Phone).MaximumLength(15);
         RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
         RuleFor(x => x.Address).NotNull();
         RuleFor(x => x.SiretOrSiren).MaximumLength(15);

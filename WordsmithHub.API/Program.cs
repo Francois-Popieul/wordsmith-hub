@@ -11,7 +11,9 @@ using WordsmithHub.API.Features.Authentication;
 using WordsmithHub.API.Features.DirectCustomers.Add;
 using WordsmithHub.API.Features.DirectCustomers.Get;
 using WordsmithHub.API.Features.Users.Get;
-using WordsmithHub.API.Services;
+using WordsmithHub.API.Services.FreelanceAccessService;
+using WordsmithHub.API.Services.ResourceAccessService;
+using WordsmithHub.API.Services.TokenService;
 using WordsmithHub.Domain;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
@@ -28,7 +30,10 @@ builder.Services.AddDbContext<MainDbContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("MainDbConnection"),
         npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory")));
 
+// Infrastructure Repositories
 builder.Services.AddRepositories();
+
+// Domain Aggregates
 builder.Services.AddDomainAggregates();
 
 // Identity
@@ -103,6 +108,8 @@ builder.Services.AddScoped<GetDirectCustomerHandler>();
 builder.Services.AddScoped<AddDirectCustomerHandler>();
 builder.Services.AddScoped(typeof(Repository<>));
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IFreelanceAccessService, FreelanceAccessService>();
+builder.Services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
 
 // FastEndpoints
 if (!builder.Environment.IsEnvironment("IntegrationTest"))

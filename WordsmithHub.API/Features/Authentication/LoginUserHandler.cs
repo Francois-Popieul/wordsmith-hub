@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WordsmithHub.API.Services;
+using WordsmithHub.API.Services.TokenService;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 
 namespace WordsmithHub.API.Features.Authentication;
@@ -16,7 +16,9 @@ public class LoginUserHandler(
     {
         var user = await userManager.FindByEmailAsync(command.Email);
         if (user == null || !await userManager.CheckPasswordAsync(user, command.Password))
+        {
             return new LoginResult(false, null);
+        }
 
         var token = await tokenService.CreateAccessTokenAsync(user);
 

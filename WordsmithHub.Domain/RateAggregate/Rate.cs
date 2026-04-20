@@ -3,7 +3,7 @@ using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.Domain.RateAggregate;
 
-public class Rate : BaseEntity
+public class Rate : BaseEntity, IBelongsToFreelance
 {
     public required decimal UnitPrice { get; set; }
     public required string Unit { get; set; }

@@ -4,7 +4,7 @@ using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.Domain.ProjectAggregate;
 
-public class Project : BaseEntity
+public class Project : BaseEntity, IBelongsToFreelance
 {
     public required string Name { get; set; }
     public required string Domain { get; set; }

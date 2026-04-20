@@ -1,6 +1,6 @@
 ﻿using WordsmithHub.Infrastructure.IdentityDatabase;
 
-namespace WordsmithHub.API.Services;
+namespace WordsmithHub.API.Services.TokenService;
 
 public interface ITokenService
 {

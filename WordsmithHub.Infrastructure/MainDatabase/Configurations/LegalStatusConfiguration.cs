@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WordsmithHub.Domain;
-using WordsmithHub.Domain.FreelanceAggregate;
 using WordsmithHub.Domain.LegalStatusAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;

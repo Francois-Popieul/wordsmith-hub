@@ -5,7 +5,7 @@ using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.Domain.WorkOrderAggregate;
 
-public class WorkOrder : BaseEntity
+public class WorkOrder : BaseEntity, IBelongsToFreelance
 {
     public required string Reference { get; set; }
     public required Guid ProjectId { get; set; }

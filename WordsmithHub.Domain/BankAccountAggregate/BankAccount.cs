@@ -2,7 +2,7 @@
 
 namespace WordsmithHub.Domain.BankAccountAggregate;
 
-public class BankAccount : BaseEntity
+public class BankAccount : BaseEntity, IBelongsToFreelance
 {
     public required string Label { get; set; }
     public required string BankName { get; set; }

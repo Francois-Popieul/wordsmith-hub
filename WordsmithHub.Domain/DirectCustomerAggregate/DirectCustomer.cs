@@ -3,7 +3,7 @@ using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.Domain.DirectCustomerAggregate;
 
-public class DirectCustomer : BaseEntity
+public class DirectCustomer : BaseEntity, IBelongsToFreelance
 {
     public required string Name { get; set; }
     public required string Code { get; set; }

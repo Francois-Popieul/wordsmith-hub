@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WordsmithHub.Domain;
 using WordsmithHub.Domain.EndCustomerAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;

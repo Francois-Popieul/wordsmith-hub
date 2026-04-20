@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
-using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;
 

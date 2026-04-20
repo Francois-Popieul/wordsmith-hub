@@ -26,20 +26,16 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Guid?> AddAsync(T entity, CancellationToken cancellationToken = default)
+    public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         await Context.AddAsync(entity, cancellationToken);
         await Context.SaveChangesAsync(cancellationToken);
-
-        return entity.Id;
     }
 
-    public async Task<Guid?> UpdateAsync(T entity, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         Context.Update(entity);
         await Context.SaveChangesAsync(cancellationToken);
-
-        return entity.Id;
     }
 
     public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)

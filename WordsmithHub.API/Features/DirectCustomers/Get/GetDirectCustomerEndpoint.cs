@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
+using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Get;
@@ -18,30 +19,31 @@ public class GetDirectCustomerEndpoint(GetDirectCustomerHandler handler)
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var tokenUserId = User.FindFirstValue("sub");
+        var appUserId = User.FindFirstValue("sub");
 
-        if (tokenUserId == null)
+        if (appUserId == null)
         {
             await Send.UnauthorizedAsync(cancellationToken);
             return;
         }
 
-        var command = new GetDirectCustomerCommand(DirectCustomerId: Route<Guid>("directClientId"));
+        var directCustomerId = Route<Guid>("directCustomerId");
 
-        var result = await handler.HandleAsync(command, cancellationToken);
+        var result = await handler.HandleAsync(Guid.Parse(appUserId), directCustomerId, cancellationToken);
 
-        if (result == null)
+        switch (result.Type)
         {
-            await Send.NotFoundAsync(cancellationToken);
-            return;
-        }
+            case GetResultType.Forbidden:
+                await Send.ForbiddenAsync(cancellationToken);
+                return;
 
-        if (result.FreelanceId != Guid.Parse(tokenUserId))
-        {
-            await Send.ForbiddenAsync(cancellationToken);
-            return;
-        }
+            case GetResultType.NotFound:
+                await Send.NotFoundAsync(cancellationToken);
+                return;
 
-        await Send.OkAsync(result, cancellationToken);
+            case GetResultType.Success:
+                await Send.OkAsync(result.Entity!, cancellationToken);
+                return;
+        }
     }
 }

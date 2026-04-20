@@ -1,6 +1,6 @@
 ﻿namespace WordsmithHub.Domain.InvoiceAggregate;
 
-public class Invoice : BaseEntity
+public class Invoice : BaseEntity, IBelongsToFreelance
 {
     public string? InvoiceNumber { get; set; }
     public required decimal TotalAmount { get; set; }
