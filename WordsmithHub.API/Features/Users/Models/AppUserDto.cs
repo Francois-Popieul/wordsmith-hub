@@ -1,4 +1,4 @@
-﻿namespace WordsmithHub.API.Features.Users.Model;
+﻿namespace WordsmithHub.API.Features.Users.Models;
 
 public record AppUserDto
 {

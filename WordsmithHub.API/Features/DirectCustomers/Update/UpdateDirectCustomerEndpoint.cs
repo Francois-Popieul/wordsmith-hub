@@ -4,9 +4,9 @@ using FluentValidation;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
-namespace WordsmithHub.API.Features.DirectCustomers.Add;
+namespace WordsmithHub.API.Features.DirectCustomers.Update;
 
-public record AddDirectCustomerRequest(
+public record UpdateDirectCustomerRequest(
     string Name,
     string Code,
     string? Phone,
@@ -16,9 +16,9 @@ public record AddDirectCustomerRequest(
     int PaymentDelay,
     int CurrencyId);
 
-public class AddDirectCustomerRequestValidator : Validator<AddDirectCustomerRequest>
+public class UpdateDirectCustomerRequestValidator : Validator<UpdateDirectCustomerRequest>
 {
-    public AddDirectCustomerRequestValidator()
+    public UpdateDirectCustomerRequestValidator()
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(150);
         RuleFor(x => x.Code).NotEmpty().MaximumLength(5);
@@ -31,17 +31,17 @@ public class AddDirectCustomerRequestValidator : Validator<AddDirectCustomerRequ
     }
 }
 
-public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpoint<AddDirectCustomerRequest>
+public class UpdateDirectCustomerEndpoint(UpdateDirectCustomerHandler handler) : Endpoint<UpdateDirectCustomerRequest>
 {
     public override void Configure()
     {
-        Post("/directcustomer");
+        Put("/directcustomer/{directCustomerId:guid}");
         Roles("user", "admin");
         Description(x => x.WithTags("directcustomer")
             .Produces(StatusCodes.Status403Forbidden));
     }
 
-    public override async Task HandleAsync(AddDirectCustomerRequest request, CancellationToken cancellationToken)
+    public override async Task HandleAsync(UpdateDirectCustomerRequest request, CancellationToken cancellationToken)
     {
         var appUserId = User.FindFirstValue("sub");
 
@@ -51,7 +51,9 @@ public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpo
             return;
         }
 
-        var result = await handler.HandleAsync(request, Route<Guid>("userId"), cancellationToken);
+        var directCustomer = Route<Guid>("directCustomerId");
+
+        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), directCustomer, cancellationToken);
 
         switch (result.Status)
         {

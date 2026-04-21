@@ -12,7 +12,7 @@ using WordsmithHub.Infrastructure.MainDatabase;
 namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20260420075446_InitDatabase")]
+    [Migration("20260421141401_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -25,21 +25,64 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Manages", b =>
+            modelBuilder.Entity("FreelanceServices", b =>
+                {
+                    b.Property<Guid>("FreelanceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FreelanceId", "ServiceId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("FreelanceServices");
+                });
+
+            modelBuilder.Entity("FreelanceSourceLanguages", b =>
+                {
+                    b.Property<Guid>("FreelanceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SourceLanguageId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FreelanceId", "SourceLanguageId");
+
+                    b.HasIndex("SourceLanguageId");
+
+                    b.ToTable("FreelanceSourceLanguages");
+                });
+
+            modelBuilder.Entity("FreelanceTargetLanguages", b =>
+                {
+                    b.Property<Guid>("FreelanceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TargetLanguageId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FreelanceId", "TargetLanguageId");
+
+                    b.HasIndex("TargetLanguageId");
+
+                    b.ToTable("FreelanceTargetLanguages");
+                });
+
+            modelBuilder.Entity("ProjectDirectCustomers", b =>
                 {
                     b.Property<Guid>("DirectCustomerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("DirectCustomerId");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProjectId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("ProjectId");
+                        .HasColumnType("uuid");
 
                     b.HasKey("DirectCustomerId", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Manages", (string)null);
+                    b.ToTable("ProjectDirectCustomers", (string)null);
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.BankAccountAggregate.BankAccount", b =>
@@ -1015,36 +1058,85 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.ToTable("WorkOrders", (string)null);
                 });
 
-            modelBuilder.Entity("Manages", b =>
+            modelBuilder.Entity("FreelanceServices", b =>
+                {
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                        .WithMany()
+                        .HasForeignKey("FreelanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordsmithHub.Domain.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FreelanceSourceLanguages", b =>
+                {
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                        .WithMany()
+                        .HasForeignKey("FreelanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", null)
+                        .WithMany()
+                        .HasForeignKey("SourceLanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FreelanceTargetLanguages", b =>
+                {
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                        .WithMany()
+                        .HasForeignKey("FreelanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", null)
+                        .WithMany()
+                        .HasForeignKey("TargetLanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectDirectCustomers", b =>
                 {
                     b.HasOne("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", null)
                         .WithMany()
                         .HasForeignKey("DirectCustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_Manages_DirectCustomer");
+                        .HasConstraintName("FK_ProjectDirectCustomers_DirectCustomer");
 
                     b.HasOne("WordsmithHub.Domain.ProjectAggregate.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_Manages_Project");
+                        .HasConstraintName("FK_ProjectDirectCustomers_Project");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.BankAccountAggregate.BankAccount", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", "Freelance")
                         .WithMany()
                         .HasForeignKey("FreelanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Freelance");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", b =>
@@ -1054,19 +1146,19 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasForeignKey("Address_CountryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WordsmithHub.Domain.Currency", null)
+                    b.HasOne("WordsmithHub.Domain.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", "Freelance")
                         .WithMany()
                         .HasForeignKey("FreelanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1119,15 +1211,23 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Freelance");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.EndCustomerAggregate.EndCustomer", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.FreelanceAggregate.Freelance", b =>
@@ -1137,7 +1237,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasForeignKey("Address_CountryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1190,139 +1290,181 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.LegalStatusAggregate.LegalStatus", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", "Freelance")
                         .WithMany()
                         .HasForeignKey("FreelanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Freelance");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.OrderLineAggregate.OrderLine", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.Service", null)
+                    b.HasOne("WordsmithHub.Domain.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", null)
+                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", "SourceLanguage")
                         .WithMany()
                         .HasForeignKey("SourceLanguageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", null)
+                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", "TargetLanguage")
                         .WithMany()
                         .HasForeignKey("TargetLanguageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.WorkOrderAggregate.WorkOrder", null)
+                    b.HasOne("WordsmithHub.Domain.WorkOrderAggregate.WorkOrder", "WorkOrder")
                         .WithMany()
                         .HasForeignKey("WorkOrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Service");
+
+                    b.Navigation("SourceLanguage");
+
+                    b.Navigation("TargetLanguage");
+
+                    b.Navigation("WorkOrder");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.ProjectAggregate.Project", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.EndCustomerAggregate.EndCustomer", null)
+                    b.HasOne("WordsmithHub.Domain.EndCustomerAggregate.EndCustomer", "EndCustomer")
                         .WithMany()
                         .HasForeignKey("EndCustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", "Freelance")
                         .WithMany()
                         .HasForeignKey("FreelanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("EndCustomer");
+
+                    b.Navigation("Freelance");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.RateAggregate.Rate", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", null)
+                    b.HasOne("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", "DirectCustomer")
                         .WithMany()
                         .HasForeignKey("DirectCustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", "Freelance")
                         .WithMany()
                         .HasForeignKey("FreelanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Service", null)
+                    b.HasOne("WordsmithHub.Domain.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", null)
+                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", "SourceLanguage")
                         .WithMany()
                         .HasForeignKey("SourceLanguageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", null)
+                    b.HasOne("WordsmithHub.Domain.TranslationLanguage", "TargetLanguage")
                         .WithMany()
                         .HasForeignKey("TargetLanguageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("DirectCustomer");
+
+                    b.Navigation("Freelance");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("SourceLanguage");
+
+                    b.Navigation("Status");
+
+                    b.Navigation("TargetLanguage");
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.WorkOrderAggregate.WorkOrder", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", null)
+                    b.HasOne("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", "DirectCustomer")
                         .WithMany()
                         .HasForeignKey("DirectCustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", null)
+                    b.HasOne("WordsmithHub.Domain.FreelanceAggregate.Freelance", "Freelance")
                         .WithMany()
                         .HasForeignKey("FreelanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.InvoiceAggregate.Invoice", null)
+                    b.HasOne("WordsmithHub.Domain.InvoiceAggregate.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WordsmithHub.Domain.ProjectAggregate.Project", null)
+                    b.HasOne("WordsmithHub.Domain.ProjectAggregate.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WordsmithHub.Domain.Status", null)
+                    b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("DirectCustomer");
+
+                    b.Navigation("Freelance");
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Status");
                 });
 #pragma warning restore 612, 618
         }

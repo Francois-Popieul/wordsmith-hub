@@ -3,14 +3,14 @@ using FastEndpoints;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Models;
 
-namespace WordsmithHub.API.Features.DirectCustomers.Get;
+namespace WordsmithHub.API.Features.DirectCustomers.GetAll;
 
-public class GetDirectCustomerEndpoint(GetDirectCustomerHandler handler)
-    : EndpointWithoutRequest<DirectCustomerDto>
+public class GetAllDirectCustomersEndpoint(GetAllDirectCustomersHandler handler)
+    : EndpointWithoutRequest<IReadOnlyList<DirectCustomerDto>>
 {
     public override void Configure()
     {
-        Get("/directcustomer/{directCustomerId:guid}");
+        Get("/directcustomers");
         Roles("user", "admin");
         Description(x => x.WithTags("directcustomer")
             .Produces(StatusCodes.Status404NotFound)
@@ -27,9 +27,7 @@ public class GetDirectCustomerEndpoint(GetDirectCustomerHandler handler)
             return;
         }
 
-        var directCustomerId = Route<Guid>("directCustomerId");
-
-        var result = await handler.HandleAsync(Guid.Parse(appUserId), directCustomerId, cancellationToken);
+        var result = await handler.HandleAsync(Guid.Parse(appUserId), cancellationToken);
 
         switch (result.Status)
         {

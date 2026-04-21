@@ -265,6 +265,78 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FreelanceServices",
+                columns: table => new
+                {
+                    FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FreelanceServices", x => new { x.FreelanceId, x.ServiceId });
+                    table.ForeignKey(
+                        name: "FK_FreelanceServices_Freelances_FreelanceId",
+                        column: x => x.FreelanceId,
+                        principalTable: "Freelances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FreelanceServices_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FreelanceSourceLanguages",
+                columns: table => new
+                {
+                    FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SourceLanguageId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FreelanceSourceLanguages", x => new { x.FreelanceId, x.SourceLanguageId });
+                    table.ForeignKey(
+                        name: "FK_FreelanceSourceLanguages_Freelances_FreelanceId",
+                        column: x => x.FreelanceId,
+                        principalTable: "Freelances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FreelanceSourceLanguages_TranslationLanguages_SourceLanguag~",
+                        column: x => x.SourceLanguageId,
+                        principalTable: "TranslationLanguages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FreelanceTargetLanguages",
+                columns: table => new
+                {
+                    FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetLanguageId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FreelanceTargetLanguages", x => new { x.FreelanceId, x.TargetLanguageId });
+                    table.ForeignKey(
+                        name: "FK_FreelanceTargetLanguages_Freelances_FreelanceId",
+                        column: x => x.FreelanceId,
+                        principalTable: "Freelances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FreelanceTargetLanguages_TranslationLanguages_TargetLanguag~",
+                        column: x => x.TargetLanguageId,
+                        principalTable: "TranslationLanguages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LegalStatuses",
                 columns: table => new
                 {
@@ -394,7 +466,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Manages",
+                name: "ProjectDirectCustomers",
                 columns: table => new
                 {
                     DirectCustomerId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -402,19 +474,19 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Manages", x => new { x.DirectCustomerId, x.ProjectId });
+                    table.PrimaryKey("PK_ProjectDirectCustomers", x => new { x.DirectCustomerId, x.ProjectId });
                     table.ForeignKey(
-                        name: "FK_Manages_DirectCustomer",
+                        name: "FK_ProjectDirectCustomers_DirectCustomer",
                         column: x => x.DirectCustomerId,
                         principalTable: "DirectCustomers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Manages_Project",
+                        name: "FK_ProjectDirectCustomers_Project",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -644,6 +716,21 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FreelanceServices_ServiceId",
+                table: "FreelanceServices",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FreelanceSourceLanguages_SourceLanguageId",
+                table: "FreelanceSourceLanguages",
+                column: "SourceLanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FreelanceTargetLanguages_TargetLanguageId",
+                table: "FreelanceTargetLanguages",
+                column: "TargetLanguageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LegalStatuses_FreelanceId",
                 table: "LegalStatuses",
                 column: "FreelanceId");
@@ -652,11 +739,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 name: "IX_LegalStatuses_StatusId",
                 table: "LegalStatuses",
                 column: "StatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Manages_ProjectId",
-                table: "Manages",
-                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderLines_ServiceId",
@@ -677,6 +759,11 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 name: "IX_OrderLines_WorkOrderId",
                 table: "OrderLines",
                 column: "WorkOrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectDirectCustomers_ProjectId",
+                table: "ProjectDirectCustomers",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_EndCustomerId",
@@ -756,13 +843,22 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 name: "BankAccounts");
 
             migrationBuilder.DropTable(
+                name: "FreelanceServices");
+
+            migrationBuilder.DropTable(
+                name: "FreelanceSourceLanguages");
+
+            migrationBuilder.DropTable(
+                name: "FreelanceTargetLanguages");
+
+            migrationBuilder.DropTable(
                 name: "LegalStatuses");
 
             migrationBuilder.DropTable(
-                name: "Manages");
+                name: "OrderLines");
 
             migrationBuilder.DropTable(
-                name: "OrderLines");
+                name: "ProjectDirectCustomers");
 
             migrationBuilder.DropTable(
                 name: "Rates");

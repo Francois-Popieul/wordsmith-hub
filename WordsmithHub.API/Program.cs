@@ -10,6 +10,8 @@ using NJsonSchema.Generation;
 using WordsmithHub.API.Features.Authentication;
 using WordsmithHub.API.Features.DirectCustomers.Add;
 using WordsmithHub.API.Features.DirectCustomers.Get;
+using WordsmithHub.API.Features.DirectCustomers.GetAll;
+using WordsmithHub.API.Features.DirectCustomers.Update;
 using WordsmithHub.API.Features.Users.Get;
 using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
@@ -45,6 +47,7 @@ builder.Services.AddIdentityCore<AppUser>(options =>
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequiredLength = 12;
         options.User.RequireUniqueEmail = true;
+        // TODO : Uncomment when email confirmation service is implemented
         //options.SignIn.RequireConfirmedEmail = true;
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -104,8 +107,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<GetUserHandler>();
-builder.Services.AddScoped<GetDirectCustomerHandler>();
 builder.Services.AddScoped<AddDirectCustomerHandler>();
+builder.Services.AddScoped<GetDirectCustomerHandler>();
+builder.Services.AddScoped<GetAllDirectCustomersHandler>();
+builder.Services.AddScoped<UpdateDirectCustomerHandler>();
 builder.Services.AddScoped(typeof(Repository<>));
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IFreelanceAccessService, FreelanceAccessService>();

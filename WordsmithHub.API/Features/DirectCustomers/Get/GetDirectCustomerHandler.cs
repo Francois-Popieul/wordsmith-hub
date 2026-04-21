@@ -1,4 +1,6 @@
 ﻿using WordsmithHub.API.Features.Common.Results;
+using WordsmithHub.API.Features.DirectCustomers.Models;
+using WordsmithHub.API.Features.DirectCustomers.Services;
 using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
@@ -10,29 +12,29 @@ public class GetDirectCustomerHandler(
     IResourceAuthorizationService resourceAuthorizationService,
     IDirectCustomerRepository repository)
 {
-    public async Task<GetResult<DirectCustomer>> HandleAsync(Guid appUserId, Guid directCustomerId,
+    public async Task<OperationResult<DirectCustomerDto>> HandleAsync(Guid appUserId, Guid directCustomerId,
         CancellationToken cancellationToken)
     {
         var freelance = await freelanceAccessService.GetFreelanceForUserAsync(appUserId, cancellationToken);
 
         if (freelance == null)
         {
-            return new GetResult<DirectCustomer>(GetResultType.Forbidden);
+            return new OperationResult<DirectCustomerDto>(OperationStatus.Forbidden);
         }
 
         if (!await resourceAuthorizationService
                 .CanAccessAsync<DirectCustomer>(appUserId, directCustomerId, cancellationToken))
         {
-            return new GetResult<DirectCustomer>(GetResultType.Forbidden);
+            return new OperationResult<DirectCustomerDto>(OperationStatus.Forbidden);
         }
 
         var directCustomer = await repository.GetByIdAsync(directCustomerId, cancellationToken);
 
         if (directCustomer == null)
         {
-            return new GetResult<DirectCustomer>(GetResultType.NotFound);
+            return new OperationResult<DirectCustomerDto>(OperationStatus.NotFound);
         }
 
-        return new GetResult<DirectCustomer>(GetResultType.Success, directCustomer);
+        return new OperationResult<DirectCustomerDto>(OperationStatus.Success, directCustomer.ToDto());
     }
 }

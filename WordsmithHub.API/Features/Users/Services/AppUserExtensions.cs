@@ -1,4 +1,4 @@
-﻿using WordsmithHub.API.Features.Users.Model;
+﻿using WordsmithHub.API.Features.Users.Models;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 
 namespace WordsmithHub.API.Features.Users.Services;

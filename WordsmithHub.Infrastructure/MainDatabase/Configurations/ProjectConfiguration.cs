@@ -34,23 +34,23 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .OnDelete(DeleteBehavior.Restrict);
         builder
             .HasMany(p => p.DirectCustomers)
-            .WithMany(dc => dc.Projects)
+            .WithMany(c => c.Projects)
             .UsingEntity<Dictionary<string, object>>(
-                "Manages",
+                "ProjectDirectCustomers",
                 j => j.HasOne<DirectCustomer>()
                     .WithMany()
                     .HasForeignKey("DirectCustomerId")
-                    .HasConstraintName("FK_Manages_DirectCustomer")
-                    .OnDelete(DeleteBehavior.Restrict),
+                    .HasConstraintName("FK_ProjectDirectCustomers_DirectCustomer")
+                    .OnDelete(DeleteBehavior.Cascade),
                 j => j.HasOne<Project>()
                     .WithMany()
                     .HasForeignKey("ProjectId")
-                    .HasConstraintName("FK_Manages_Project")
-                    .OnDelete(DeleteBehavior.Restrict),
+                    .HasConstraintName("FK_ProjectDirectCustomers_Project")
+                    .OnDelete(DeleteBehavior.Cascade),
                 j =>
                 {
                     j.HasKey("DirectCustomerId", "ProjectId");
-                    j.ToTable("Manages");
+                    j.ToTable("ProjectDirectCustomers");
                 });
     }
 }

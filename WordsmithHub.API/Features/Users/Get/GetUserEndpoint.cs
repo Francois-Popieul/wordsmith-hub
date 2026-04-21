@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
-using WordsmithHub.API.Features.Users.Model;
+using WordsmithHub.API.Features.Common.Results;
+using WordsmithHub.API.Features.Users.Models;
 
 namespace WordsmithHub.API.Features.Users.Get;
 
@@ -31,16 +32,19 @@ public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<Ap
             return;
         }
 
-        var command = new GetUserCommand(UserId: Route<Guid>("userId"));
+        var userId = Route<Guid>("userId");
 
-        var result = await handler.HandleAsync(command);
+        var result = await handler.HandleAsync(userId);
 
-        if (result is null)
+        switch (result.Status)
         {
-            await Send.NotFoundAsync(cancellationToken);
-            return;
-        }
+            case OperationStatus.NotFound:
+                await Send.NotFoundAsync(cancellationToken);
+                return;
 
-        await Send.OkAsync(result, cancellationToken);
+            case OperationStatus.Success:
+                await Send.OkAsync(result.Value!, cancellationToken);
+                return;
+        }
     }
 }

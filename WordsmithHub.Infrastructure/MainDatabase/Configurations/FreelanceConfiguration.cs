@@ -39,5 +39,53 @@ public class FreelanceConfiguration : IEntityTypeConfiguration<Freelance>
             .HasForeignKey("Address_CountryId")
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasIndex("Address_CountryId");
+        builder
+            .HasMany(f => f.SourceLanguages)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "FreelanceSourceLanguages",
+                j => j
+                    .HasOne<TranslationLanguage>()
+                    .WithMany()
+                    .HasForeignKey("SourceLanguageId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne<Freelance>()
+                    .WithMany()
+                    .HasForeignKey("FreelanceId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => { j.HasKey("FreelanceId", "SourceLanguageId"); });
+        builder
+            .HasMany(f => f.TargetLanguages)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "FreelanceTargetLanguages",
+                j => j
+                    .HasOne<TranslationLanguage>()
+                    .WithMany()
+                    .HasForeignKey("TargetLanguageId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne<Freelance>()
+                    .WithMany()
+                    .HasForeignKey("FreelanceId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => { j.HasKey("FreelanceId", "TargetLanguageId"); });
+        builder
+            .HasMany(f => f.Services)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "FreelanceServices",
+                j => j
+                    .HasOne<Service>()
+                    .WithMany()
+                    .HasForeignKey("ServiceId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne<Freelance>()
+                    .WithMany()
+                    .HasForeignKey("FreelanceId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => { j.HasKey("FreelanceId", "ServiceId"); });
     }
 }

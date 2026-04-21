@@ -1,4 +1,5 @@
-﻿using WordsmithHub.API.Services.FreelanceAccessService;
+﻿using WordsmithHub.API.Features.Common.Results;
+using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Add;
@@ -8,14 +9,14 @@ public class AddDirectCustomerHandler(
     IDirectCustomerRepository repository,
     IDirectCustomerFactory factory)
 {
-    public async Task<Guid?> HandleAsync(AddDirectCustomerRequest request, Guid userId,
+    public async Task<OperationResult<Guid>> HandleAsync(AddDirectCustomerRequest request, Guid userId,
         CancellationToken cancellationToken)
     {
         var freelance = await freelanceAccessService.GetFreelanceForUserAsync(userId, cancellationToken);
 
         if (freelance == null)
         {
-            return null;
+            return OperationResult.Forbidden<Guid>();
         }
 
         var directCustomer = factory.CreateDirectCustomer(
@@ -31,6 +32,6 @@ public class AddDirectCustomerHandler(
 
         await repository.AddAsync(directCustomer, cancellationToken);
 
-        return directCustomer.Id;
+        return OperationResult.Success<Guid>(directCustomer.Id);
     }
 }
