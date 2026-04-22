@@ -33,7 +33,7 @@ public class BankAccountFactory : IBankAccountFactory
             Bic = bic,
             IsDefault = isDefault,
             FreelanceId = freelanceId,
-            StatusId = 1,
+            StatusId = StatusIds.General.Active,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };

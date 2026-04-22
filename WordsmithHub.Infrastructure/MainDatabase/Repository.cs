@@ -3,14 +3,10 @@ using WordsmithHub.Domain;
 
 namespace WordsmithHub.Infrastructure.MainDatabase;
 
-public class Repository<T> : IRepository<T> where T : BaseEntity
+public class Repository<T>(MainDbContext context) : IRepository<T>
+    where T : BaseEntity
 {
-    protected readonly MainDbContext Context;
-
-    public Repository(MainDbContext context)
-    {
-        Context = context;
-    }
+    protected readonly MainDbContext Context = context;
 
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {

@@ -13,7 +13,7 @@ public class EndCustomerFactory : IEndCustomerFactory
         {
             Id = Guid.NewGuid(),
             Name = name,
-            StatusId = 1,
+            StatusId = StatusIds.General.Active,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };

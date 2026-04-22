@@ -18,4 +18,10 @@ public class DirectCustomerRepository(MainDbContext context)
         return await Context.DirectCustomers.AsNoTracking().Where(c => c.FreelanceId == freelanceId)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task ArchiveAsync(DirectCustomer customer, CancellationToken cancellationToken = default)
+    {
+        await UpdateAsync(customer, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
+    }
 }

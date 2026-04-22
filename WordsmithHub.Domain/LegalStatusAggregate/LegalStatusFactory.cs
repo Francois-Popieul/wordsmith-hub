@@ -38,7 +38,7 @@ public class LegalStatusFactory : ILegalStatusFactory
             ValidFrom = validFrom,
             ValidTo = validTo ?? null,
             FreelanceId = freelanceId,
-            StatusId = 1,
+            StatusId = StatusIds.General.Active,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };

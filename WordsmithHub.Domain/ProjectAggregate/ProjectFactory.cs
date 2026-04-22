@@ -33,7 +33,7 @@ public class ProjectFactory : IProjectFactory
             Description = description ?? string.Empty,
             FreelanceId = freelanceId,
             EndCustomerId = endCustomerId ?? null,
-            StatusId = 1,
+            StatusId = StatusIds.General.Active,
             DirectCustomers = directCustomers,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow

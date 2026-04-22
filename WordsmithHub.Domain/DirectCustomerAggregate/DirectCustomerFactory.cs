@@ -39,7 +39,7 @@ public class DirectCustomerFactory : IDirectCustomerFactory
             PaymentDelay = paymentDelay,
             FreelanceId = freelanceId,
             CurrencyId = currencyId,
-            StatusId = 1,
+            StatusId = StatusIds.General.Active,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };

@@ -18,6 +18,7 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
             // General
             new Status { Id = 1, Name = "Actif", Category = "General" },
             new Status { Id = 2, Name = "Inactif", Category = "General" },
+            new Status { Id = 3, Name = "Brouillon", Category = "General" },
             // Invoice
             new Status { Id = 10, Name = "Brouillon", Category = "Invoice" },
             new Status { Id = 11, Name = "Envoyée", Category = "Invoice" },

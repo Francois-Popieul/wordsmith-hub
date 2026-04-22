@@ -32,7 +32,7 @@ public class RateFactory : IRateFactory
             SourceLanguageId = sourceLanguageId,
             TargetLanguageId = targetLanguageId,
             ServiceId = serviceId,
-            StatusId = 1,
+            StatusId = StatusIds.General.Active,
             DirectCustomerId = directCustomerId,
             FreelanceId = freelanceId,
             CreatedAt = DateTimeOffset.UtcNow,

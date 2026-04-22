@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\DirectCustomers\Delete\"/>
         <Folder Include="Features\Users\Add\"/>
         <Folder Include="Features\Users\Delete\"/>
         <Folder Include="Features\Users\GetAll\"/>

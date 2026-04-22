@@ -19,4 +19,9 @@ public class DirectCustomer : BaseEntity, IBelongsToFreelance
     public required int StatusId { get; set; }
     public Status? Status { get; set; }
     public ICollection<Project> Projects { get; set; } = new List<Project>();
+
+    public void MarkAsDeleted()
+    {
+        StatusId = StatusIds.General.Inactive;
+    }
 }
