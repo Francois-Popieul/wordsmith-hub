@@ -33,12 +33,12 @@ jobs:
         run: dotnet build WordsmithHub.sln --configuration Release
 
       - name: "Qodana Scan"
-        uses: JetBrains/qodana-action@v2025.3
+        uses: JetBrains/qodana-action@v2026.1
         with:
           upload-result: true
           pr-mode: false
           use-caches: false
-          args: --image jetbrains/qodana-dotnet:2025.3
+          args: --image jetbrains/qodana-dotnet:2026.1
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_825887637 }}
           QODANA_ENDPOINT: "https://qodana.cloud"
