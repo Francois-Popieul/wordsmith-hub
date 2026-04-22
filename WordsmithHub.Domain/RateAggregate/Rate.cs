@@ -19,4 +19,9 @@ public class Rate : BaseEntity, IBelongsToFreelance
     public DirectCustomer? DirectCustomer { get; set; }
     public required Guid FreelanceId { get; set; }
     public Freelance? Freelance { get; set; }
+
+    public void MarkAsDeleted()
+    {
+        StatusId = StatusIds.General.Inactive;
+    }
 }

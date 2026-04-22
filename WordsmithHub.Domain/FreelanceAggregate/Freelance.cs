@@ -13,4 +13,9 @@ public class Freelance : BaseEntity
     public ICollection<TranslationLanguage> SourceLanguages { get; set; } = new List<TranslationLanguage>();
     public ICollection<TranslationLanguage> TargetLanguages { get; set; } = new List<TranslationLanguage>();
     public ICollection<Service> Services { get; set; } = new List<Service>();
+
+    public void MarkAsDeleted()
+    {
+        StatusId = StatusIds.General.Inactive;
+    }
 }

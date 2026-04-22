@@ -51,9 +51,9 @@ public class UpdateDirectCustomerEndpoint(UpdateDirectCustomerHandler handler) :
             return;
         }
 
-        var directCustomer = Route<Guid>("directCustomerId");
+        var directCustomerId = Route<Guid>("directCustomerId");
 
-        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), directCustomer, cancellationToken);
+        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), directCustomerId, cancellationToken);
 
         switch (result.Status)
         {

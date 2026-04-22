@@ -16,4 +16,9 @@ public class LegalStatus : BaseEntity, IBelongsToFreelance
     public Freelance? Freelance { get; set; }
     public required int StatusId { get; set; }
     public Status? Status { get; set; }
+
+    public void MarkAsDeleted()
+    {
+        StatusId = StatusIds.General.Inactive;
+    }
 }
