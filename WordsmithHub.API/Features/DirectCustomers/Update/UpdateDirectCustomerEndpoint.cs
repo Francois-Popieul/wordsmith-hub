@@ -62,7 +62,7 @@ public class UpdateDirectCustomerEndpoint(UpdateDirectCustomerHandler handler) :
                 return;
 
             case OperationStatus.Success:
-                await Send.OkAsync(result.Value!, cancellationToken);
+                await Send.OkAsync(result.Value, cancellationToken);
                 return;
         }
     }

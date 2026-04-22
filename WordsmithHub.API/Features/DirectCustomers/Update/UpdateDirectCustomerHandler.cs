@@ -48,6 +48,6 @@ public class UpdateDirectCustomerHandler(
 
         await repository.UpdateAsync(directCustomer, cancellationToken);
 
-        return OperationResult.Success<Guid>(directCustomer.Id);
+        return OperationResult.Success(directCustomer.Id);
     }
 }

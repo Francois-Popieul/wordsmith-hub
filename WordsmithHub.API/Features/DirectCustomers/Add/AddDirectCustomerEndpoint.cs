@@ -60,7 +60,7 @@ public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpo
                 return;
 
             case OperationStatus.Success:
-                await Send.OkAsync(result.Value!, cancellationToken);
+                await Send.OkAsync(result.Value, cancellationToken);
                 return;
         }
     }
