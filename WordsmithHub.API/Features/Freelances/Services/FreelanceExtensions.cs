@@ -23,18 +23,16 @@ public static class FreelanceExtensions
                 StatusId = freelance.StatusId
             };
         }
-        else
+
+        return new FreelanceDto()
         {
-            return new FreelanceDto()
-            {
-                Id = freelance.Id,
-                FirstName = freelance.FirstName ?? string.Empty,
-                LastName = freelance.LastName ?? string.Empty,
-                Email = freelance.Email,
-                Address = null,
-                Phone = freelance.Phone ?? string.Empty,
-                StatusId = freelance.StatusId
-            };
-        }
+            Id = freelance.Id,
+            FirstName = freelance.FirstName ?? string.Empty,
+            LastName = freelance.LastName ?? string.Empty,
+            Email = freelance.Email,
+            Address = null,
+            Phone = freelance.Phone ?? string.Empty,
+            StatusId = freelance.StatusId
+        };
     }
 }

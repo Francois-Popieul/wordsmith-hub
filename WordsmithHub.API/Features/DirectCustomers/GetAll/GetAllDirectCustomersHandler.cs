@@ -27,8 +27,8 @@ public class GetAllDirectCustomersHandler(
             return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.NotFound);
         }
 
-        var directCustomersDto = directCustomers.Select(directCustomer => directCustomer.ToDto()).ToList();
+        var customerDtoList = directCustomers.Select(directCustomer => directCustomer.ToDto()).ToList();
 
-        return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.Success, directCustomersDto);
+        return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.Success, customerDtoList);
     }
 }

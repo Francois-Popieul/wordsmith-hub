@@ -1,7 +1,5 @@
 ﻿using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Services.FreelanceAccessService;
-using WordsmithHub.API.Services.ResourceAccessService;
-using WordsmithHub.Domain.DirectCustomerAggregate;
 using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.Freelances.Delete;

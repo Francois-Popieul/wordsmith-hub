@@ -103,7 +103,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
-// API services
+// API Handlers
 builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<GetUserHandler>();
@@ -112,6 +112,8 @@ builder.Services.AddScoped<GetDirectCustomerHandler>();
 builder.Services.AddScoped<GetAllDirectCustomersHandler>();
 builder.Services.AddScoped<UpdateDirectCustomerHandler>();
 builder.Services.AddScoped(typeof(Repository<>));
+
+// API services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IFreelanceAccessService, FreelanceAccessService>();
 builder.Services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
