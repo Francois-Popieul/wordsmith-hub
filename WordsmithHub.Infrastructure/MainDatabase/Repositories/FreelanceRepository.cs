@@ -25,4 +25,10 @@ public class FreelanceRepository(MainDbContext context) : Repository<Freelance>(
     {
         return await Context.Freelances.Where(f => f.StatusId == statusId).ToListAsync(cancellationToken);
     }
+
+    public Task ArchiveAsync(Freelance freelance, CancellationToken cancellationToken = default)
+    {
+        Context.Freelances.Update(freelance);
+        return Context.SaveChangesAsync(cancellationToken);
+    }
 }
