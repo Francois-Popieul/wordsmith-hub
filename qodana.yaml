@@ -5,10 +5,10 @@
 version: "1.0"
 linter: jetbrains/qodana-dotnet:2025.3
 profile:
-  name: qodana.starter
+  name: qodana.recommended
 dotnet:
   solution: WordsmithHub.sln
 failureConditions:
   severityThresholds:
-    any: 100
+    any: 200
     critical: 5
