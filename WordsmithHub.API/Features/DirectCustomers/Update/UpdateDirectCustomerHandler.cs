@@ -18,12 +18,8 @@ public class UpdateDirectCustomerHandler(
     {
         var freelance = await freelanceAccessService.GetFreelanceForUserAsync(userId, cancellationToken);
 
-        if (freelance == null)
-        {
-            return OperationResult.Forbidden<Guid>();
-        }
-
-        if (!await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(userId, directCustomerId,
+        if (freelance == null ||
+            !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(userId, directCustomerId,
                 cancellationToken))
         {
             return OperationResult.Forbidden<Guid>();

@@ -17,12 +17,7 @@ public class GetDirectCustomerHandler(
     {
         var freelance = await freelanceAccessService.GetFreelanceForUserAsync(appUserId, cancellationToken);
 
-        if (freelance == null)
-        {
-            return new OperationResult<DirectCustomerDto>(OperationStatus.Forbidden);
-        }
-
-        if (!await resourceAuthorizationService
+        if (freelance == null || !await resourceAuthorizationService
                 .CanAccessAsync<DirectCustomer>(appUserId, directCustomerId, cancellationToken))
         {
             return new OperationResult<DirectCustomerDto>(OperationStatus.Forbidden);
@@ -30,11 +25,8 @@ public class GetDirectCustomerHandler(
 
         var directCustomer = await repository.GetByIdAsync(directCustomerId, cancellationToken);
 
-        if (directCustomer == null)
-        {
-            return new OperationResult<DirectCustomerDto>(OperationStatus.NotFound);
-        }
-
-        return new OperationResult<DirectCustomerDto>(OperationStatus.Success, directCustomer.ToDto());
+        return directCustomer == null
+            ? new OperationResult<DirectCustomerDto>(OperationStatus.NotFound)
+            : new OperationResult<DirectCustomerDto>(OperationStatus.Success, directCustomer.ToDto());
     }
 }

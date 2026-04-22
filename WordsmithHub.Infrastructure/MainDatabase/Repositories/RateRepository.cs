@@ -3,12 +3,8 @@ using WordsmithHub.Domain.RateAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class RateRepository : Repository<Rate>, IRateRepository
+public class RateRepository(MainDbContext context) : Repository<Rate>(context), IRateRepository
 {
-    public RateRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<IReadOnlyList<Rate>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {

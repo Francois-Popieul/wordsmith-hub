@@ -3,12 +3,9 @@ using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class DirectCustomerRepository : Repository<DirectCustomer>, IDirectCustomerRepository
+public class DirectCustomerRepository(MainDbContext context)
+    : Repository<DirectCustomer>(context), IDirectCustomerRepository
 {
-    public DirectCustomerRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<bool> ExistsWithNameAsync(string name, CancellationToken cancellationToken = default)
     {
         return await Context.DirectCustomers.AnyAsync(c => c.Name == name,

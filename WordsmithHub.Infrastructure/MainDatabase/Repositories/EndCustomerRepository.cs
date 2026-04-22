@@ -3,12 +3,8 @@ using WordsmithHub.Domain.EndCustomerAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class EndCustomerRepository : Repository<EndCustomer>, IEndCustomerRepository
+public class EndCustomerRepository(MainDbContext context) : Repository<EndCustomer>(context), IEndCustomerRepository
 {
-    public EndCustomerRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<IReadOnlyList<EndCustomer>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {

@@ -3,12 +3,8 @@ using WordsmithHub.Domain.InvoiceAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class InvoiceRepository : Repository<Invoice>, IInvoiceRepository
+public class InvoiceRepository(MainDbContext context) : Repository<Invoice>(context), IInvoiceRepository
 {
-    public InvoiceRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<IReadOnlyList<Invoice>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {

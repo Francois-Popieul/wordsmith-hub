@@ -3,12 +3,8 @@ using WordsmithHub.Domain.WorkOrderAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class WorkOrderRepository : Repository<WorkOrder>, IWorkOrderRepository
+public class WorkOrderRepository(MainDbContext context) : Repository<WorkOrder>(context), IWorkOrderRepository
 {
-    public WorkOrderRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<IReadOnlyList<WorkOrder>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {

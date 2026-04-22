@@ -3,12 +3,8 @@ using WordsmithHub.Domain.LegalStatusAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class LegalStatusRepository : Repository<LegalStatus>, ILegalStatusRepository
+public class LegalStatusRepository(MainDbContext context) : Repository<LegalStatus>(context), ILegalStatusRepository
 {
-    public LegalStatusRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<IReadOnlyList<LegalStatus>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {

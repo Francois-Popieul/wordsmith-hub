@@ -3,12 +3,8 @@ using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class ProjectRepository : Repository<Project>, IProjectRepository
+public class ProjectRepository(MainDbContext context) : Repository<Project>(context), IProjectRepository
 {
-    public ProjectRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<IReadOnlyList<Project>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {

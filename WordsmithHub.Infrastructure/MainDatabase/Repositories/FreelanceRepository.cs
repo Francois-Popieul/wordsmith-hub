@@ -3,12 +3,8 @@ using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class FreelanceRepository : Repository<Freelance>, IFreelanceRepository
+public class FreelanceRepository(MainDbContext context) : Repository<Freelance>(context), IFreelanceRepository
 {
-    public FreelanceRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<Freelance?> GetByAppUserIdAsync(Guid appUserId, CancellationToken cancellationToken = default)
     {
         return await Context.Freelances.FirstOrDefaultAsync(f => f.AppUserId == appUserId, cancellationToken);

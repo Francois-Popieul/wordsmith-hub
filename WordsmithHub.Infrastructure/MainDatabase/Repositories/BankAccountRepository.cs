@@ -3,12 +3,8 @@ using WordsmithHub.Domain.BankAccountAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class BankAccountRepository : Repository<BankAccount>, IBankAccountRepository
+public class BankAccountRepository(MainDbContext context) : Repository<BankAccount>(context), IBankAccountRepository
 {
-    public BankAccountRepository(MainDbContext context) : base(context)
-    {
-    }
-
     public async Task<bool> ExistsWithIbanAsync(string iban, CancellationToken cancellationToken = default)
     {
         return await Context.BankAccounts.AnyAsync(a => a.Iban == iban, cancellationToken);
