@@ -10,7 +10,7 @@ public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<Ap
     public override void Configure()
     {
         Get("/user/{userId:guid}");
-        Roles("User", "Admin");
+        Roles("user", "admin");
         Description(x => x.WithTags("user")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));

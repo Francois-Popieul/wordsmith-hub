@@ -1,9 +1,11 @@
 ﻿using FastEndpoints;
 using FluentValidation;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 
 namespace WordsmithHub.API.Features.Authentication;
 
+[UsedImplicitly]
 public record LoginUserRequest(
     string Email,
     string Password);

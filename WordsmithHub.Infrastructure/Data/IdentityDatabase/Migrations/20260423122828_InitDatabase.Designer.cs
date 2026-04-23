@@ -12,7 +12,7 @@ using WordsmithHub.Infrastructure.IdentityDatabase;
 namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260420073439_InitDatabase")]
+    [Migration("20260423122828_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -55,14 +55,14 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                         {
                             Id = "1",
                             ConcurrencyStamp = "1",
-                            Name = "Admin",
+                            Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
                             ConcurrencyStamp = "2",
-                            Name = "User",
+                            Name = "user",
                             NormalizedName = "USER"
                         });
                 });

@@ -149,15 +149,14 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Phone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
-                    Address_StreetInfo = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Address_StreetInfo = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     Address_Complement = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    Address_PostCode = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    Address_City = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Address_PostCode = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    Address_City = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Address_State = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Address_CountryId = table.Column<int>(type: "integer", nullable: false),
+                    Address_CountryId = table.Column<int>(type: "integer", nullable: true),
                     AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
-                    Freelance_Address_CountryId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
@@ -165,8 +164,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 {
                     table.PrimaryKey("PK_Freelances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Freelances_Countries_Freelance_Address_CountryId",
-                        column: x => x.Freelance_Address_CountryId,
+                        name: "FK_Freelances_Countries_Address_CountryId",
+                        column: x => x.Address_CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -231,7 +230,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
                     CurrencyId = table.Column<int>(type: "integer", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
-                    DirectCustomer_Address_CountryId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
@@ -239,8 +237,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 {
                     table.PrimaryKey("PK_DirectCustomers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DirectCustomers_Countries_DirectCustomer_Address_CountryId",
-                        column: x => x.DirectCustomer_Address_CountryId,
+                        name: "FK_DirectCustomers_Countries_Address_CountryId",
+                        column: x => x.Address_CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -634,6 +632,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 {
                     { 1, "General", "Actif" },
                     { 2, "General", "Inactif" },
+                    { 3, "General", "Brouillon" },
                     { 10, "Invoice", "Brouillon" },
                     { 11, "Invoice", "Envoyée" },
                     { 12, "Invoice", "Payée" },
@@ -681,14 +680,14 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DirectCustomers_Address_CountryId",
+                table: "DirectCustomers",
+                column: "Address_CountryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DirectCustomers_CurrencyId",
                 table: "DirectCustomers",
                 column: "CurrencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DirectCustomers_DirectCustomer_Address_CountryId",
-                table: "DirectCustomers",
-                column: "DirectCustomer_Address_CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DirectCustomers_FreelanceId",
@@ -706,9 +705,9 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Freelances_Freelance_Address_CountryId",
+                name: "IX_Freelances_Address_CountryId",
                 table: "Freelances",
-                column: "Freelance_Address_CountryId");
+                column: "Address_CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Freelances_StatusId",

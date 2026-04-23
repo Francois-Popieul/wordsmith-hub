@@ -1,4 +1,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgssapi-krb5-2 \
+    && rm -rf /var/lib/apt/lists/*
+
 ARG APP_UID=1000
 USER $APP_UID
 WORKDIR /app

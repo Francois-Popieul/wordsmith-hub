@@ -1,8 +1,10 @@
 ﻿using FastEndpoints;
 using FluentValidation;
+using JetBrains.Annotations;
 
 namespace WordsmithHub.API.Features.Authentication;
 
+[UsedImplicitly]
 public record RegisterUserRequest(
     string? FirstName,
     string? LastName,

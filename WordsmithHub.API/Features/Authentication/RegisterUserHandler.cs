@@ -35,7 +35,7 @@ public class RegisterUserHandler(
             return new RegisterUserResult(result, result.Errors.First().Description);
         }
 
-        await userManager.AddToRoleAsync(user, "User");
+        await userManager.AddToRoleAsync(user, "user");
 
         var freelance = freelanceFactory.CreateFreelanceProfile(
             Guid.Parse(user.Id),

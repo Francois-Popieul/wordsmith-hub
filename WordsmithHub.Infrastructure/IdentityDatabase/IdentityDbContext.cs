@@ -20,8 +20,8 @@ public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : Id
                         StringComparison.Ordinal));
 
         modelBuilder.Entity<IdentityRole>().HasData(
-            new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "1" },
-            new IdentityRole { Id = "2", Name = "User", NormalizedName = "USER", ConcurrencyStamp = "2" }
+            new IdentityRole { Id = "1", Name = "admin", NormalizedName = "ADMIN", ConcurrencyStamp = "1" },
+            new IdentityRole { Id = "2", Name = "user", NormalizedName = "USER", ConcurrencyStamp = "2" }
         );
 
         const string adminId = "8feb56a9-5b14-4a47-be5f-b56e1c822e1c";

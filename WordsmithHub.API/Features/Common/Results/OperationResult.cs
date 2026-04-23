@@ -33,4 +33,9 @@ public static class OperationResult
     {
         return new OperationResult<T>(OperationStatus.Error);
     }
+
+    public static OperationResult<T> ValidationError<T>()
+    {
+        return new OperationResult<T>(OperationStatus.ValidationError);
+    }
 }

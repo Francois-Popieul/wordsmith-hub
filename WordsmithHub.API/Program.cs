@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using FastEndpoints;
 using FastEndpoints.Swagger;
@@ -9,9 +10,14 @@ using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
 using WordsmithHub.API.Features.Authentication;
 using WordsmithHub.API.Features.DirectCustomers.Add;
+using WordsmithHub.API.Features.DirectCustomers.Delete;
 using WordsmithHub.API.Features.DirectCustomers.Get;
 using WordsmithHub.API.Features.DirectCustomers.GetAll;
 using WordsmithHub.API.Features.DirectCustomers.Update;
+using WordsmithHub.API.Features.Freelances.Delete;
+using WordsmithHub.API.Features.Freelances.Get;
+using WordsmithHub.API.Features.Freelances.GetAll;
+using WordsmithHub.API.Features.Freelances.Update;
 using WordsmithHub.API.Features.Users.Get;
 using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
@@ -70,6 +76,7 @@ builder.Services
     })
     .AddJwtBearer(options =>
     {
+        options.MapInboundClaims = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = !string.IsNullOrEmpty(jwtSection["Issuer"]),
@@ -80,7 +87,7 @@ builder.Services
             ValidAudience = jwtSection["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ClockSkew = TimeSpan.FromMinutes(1),
-            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+            RoleClaimType = "role",
             NameClaimType = "sub"
         };
     });
@@ -108,9 +115,15 @@ builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<GetUserHandler>();
 builder.Services.AddScoped<AddDirectCustomerHandler>();
+builder.Services.AddScoped<DeleteDirectCustomerHandler>();
 builder.Services.AddScoped<GetDirectCustomerHandler>();
 builder.Services.AddScoped<GetAllDirectCustomersHandler>();
 builder.Services.AddScoped<UpdateDirectCustomerHandler>();
+builder.Services.AddScoped<DeleteFreelanceHandler>();
+builder.Services.AddScoped<GetFreelanceHandler>();
+builder.Services.AddScoped<GetAllFreelancesHandler>();
+builder.Services.AddScoped<UpdateFreelanceHandler>();
+
 builder.Services.AddScoped(typeof(Repository<>));
 
 // API services

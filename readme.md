@@ -49,7 +49,6 @@ Freelance translators often juggle multiple tools to manage clients, projects, r
 ### 🛠️ Administration
 
 - Manage static reference tables:
-  - Legal statuses
   - Languages
   - Currencies
   - Services

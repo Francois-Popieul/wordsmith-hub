@@ -55,7 +55,7 @@
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${POSTGRES_APP_DB}"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_APP_DB}" ]
       interval: 5s
@@ -73,7 +73,7 @@
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${POSTGRES_IDENTITY_DB}"
     volumes:
-      - identity_data:/var/lib/postgresql/data
+      - identity_data:/var/lib/postgresql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_IDENTITY_DB}" ]
       interval: 5s

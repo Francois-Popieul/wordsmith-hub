@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
 using FluentValidation;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Add;
 
+[UsedImplicitly]
 public record AddDirectCustomerRequest(
     string Name,
     string Code,
@@ -51,7 +53,7 @@ public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpo
             return;
         }
 
-        var result = await handler.HandleAsync(request, Route<Guid>("userId"), cancellationToken);
+        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), cancellationToken);
 
         switch (result.Status)
         {

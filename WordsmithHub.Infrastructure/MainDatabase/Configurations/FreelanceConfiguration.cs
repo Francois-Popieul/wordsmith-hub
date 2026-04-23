@@ -24,6 +24,11 @@ public class FreelanceConfiguration : IEntityTypeConfiguration<Freelance>
             a.Property(p => p.City).IsRequired().HasMaxLength(100).HasColumnName("Address_City");
             a.Property(p => p.State).HasMaxLength(50).HasColumnName("Address_State");
             a.Property(p => p.CountryId).IsRequired().HasColumnName("Address_CountryId");
+            a.HasOne<Country>()
+                .WithMany()
+                .HasForeignKey(p => p.CountryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            a.HasIndex(p => p.CountryId);
         });
         builder.Property(f => f.AppUserId).IsRequired();
         builder.Property(f => f.CreatedAt).IsRequired();
@@ -33,12 +38,6 @@ public class FreelanceConfiguration : IEntityTypeConfiguration<Freelance>
             .WithMany()
             .HasForeignKey(f => f.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder
-            .HasOne<Country>()
-            .WithMany()
-            .HasForeignKey("Address_CountryId")
-            .OnDelete(DeleteBehavior.Restrict);
-        builder.HasIndex("Address_CountryId");
         builder
             .HasMany(f => f.SourceLanguages)
             .WithMany()

@@ -17,7 +17,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -300,9 +300,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("Address_CountryId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(5)
@@ -346,19 +343,13 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Address_CountryId");
-
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("FreelanceId");
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("DirectCustomers", null, t =>
-                        {
-                            t.Property("Address_CountryId")
-                                .HasColumnName("DirectCustomer_Address_CountryId");
-                        });
+                    b.ToTable("DirectCustomers", (string)null);
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.EndCustomerAggregate.EndCustomer", b =>
@@ -391,9 +382,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
-
-                    b.Property<int?>("Address_CountryId")
-                        .HasColumnType("integer");
 
                     b.Property<Guid>("AppUserId")
                         .HasColumnType("uuid");
@@ -428,15 +416,9 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Address_CountryId");
-
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Freelances", null, t =>
-                        {
-                            t.Property("Address_CountryId")
-                                .HasColumnName("Freelance_Address_CountryId");
-                        });
+                    b.ToTable("Freelances", (string)null);
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.InvoiceAggregate.Invoice", b =>
@@ -827,6 +809,12 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         },
                         new
                         {
+                            Id = 3,
+                            Category = "General",
+                            Name = "Brouillon"
+                        },
+                        new
+                        {
                             Id = 10,
                             Category = "Invoice",
                             Name = "Brouillon"
@@ -1138,11 +1126,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
             modelBuilder.Entity("WordsmithHub.Domain.DirectCustomerAggregate.DirectCustomer", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.Country", null)
-                        .WithMany()
-                        .HasForeignKey("Address_CountryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("WordsmithHub.Domain.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
@@ -1200,7 +1183,15 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                             b1.HasKey("DirectCustomerId");
 
+                            b1.HasIndex("CountryId");
+
                             b1.ToTable("DirectCustomers");
+
+                            b1.HasOne("WordsmithHub.Domain.Country", null)
+                                .WithMany()
+                                .HasForeignKey("CountryId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
 
                             b1.WithOwner()
                                 .HasForeignKey("DirectCustomerId");
@@ -1229,11 +1220,6 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
             modelBuilder.Entity("WordsmithHub.Domain.FreelanceAggregate.Freelance", b =>
                 {
-                    b.HasOne("WordsmithHub.Domain.Country", null)
-                        .WithMany()
-                        .HasForeignKey("Address_CountryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -1279,14 +1265,21 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                             b1.HasKey("FreelanceId");
 
+                            b1.HasIndex("CountryId");
+
                             b1.ToTable("Freelances");
+
+                            b1.HasOne("WordsmithHub.Domain.Country", null)
+                                .WithMany()
+                                .HasForeignKey("CountryId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
 
                             b1.WithOwner()
                                 .HasForeignKey("FreelanceId");
                         });
 
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("Address");
 
                     b.Navigation("Status");
                 });

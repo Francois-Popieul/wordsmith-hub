@@ -166,8 +166,8 @@ namespace WordsmithHub.Infrastructure.Data.IdentityDatabase.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "1", "Admin", "ADMIN" },
-                    { "2", "2", "User", "USER" }
+                    { "1", "1", "admin", "ADMIN" },
+                    { "2", "2", "user", "USER" }
                 });
 
             migrationBuilder.InsertData(
