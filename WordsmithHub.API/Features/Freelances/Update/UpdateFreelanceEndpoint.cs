@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
 using FluentValidation;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
 namespace WordsmithHub.API.Features.Freelances.Update;
 
+[UsedImplicitly]
 public record UpdateFreelanceRequest(
     string FirstName,
     string LastName,

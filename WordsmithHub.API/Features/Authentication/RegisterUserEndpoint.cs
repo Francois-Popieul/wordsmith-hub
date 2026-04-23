@@ -18,7 +18,7 @@ public class RegisterUserRequestValidator : Validator<RegisterUserRequest>
         RuleFor(x => x.FirstName).MaximumLength(50);
         RuleFor(x => x.LastName).MaximumLength(100);
         RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
-        RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
+        RuleFor(x => x.Password).NotEmpty().MinimumLength(12).MaximumLength(255);
     }
 }
 

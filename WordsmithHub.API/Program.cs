@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using FastEndpoints;
 using FastEndpoints.Swagger;

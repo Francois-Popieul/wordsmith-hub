@@ -14,8 +14,8 @@ public class LoginUserRequestValidator : Validator<LoginUserRequest>
 {
     public LoginUserRequestValidator()
     {
-        RuleFor(x => x.Email).NotEmpty().EmailAddress();
-        RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
+        RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
+        RuleFor(x => x.Password).NotEmpty().MinimumLength(12).MaximumLength(255);
     }
 }
 

@@ -1,5 +1,8 @@
-﻿namespace WordsmithHub.Domain;
+﻿using JetBrains.Annotations;
 
+namespace WordsmithHub.Domain;
+
+[UsedImplicitly]
 public class Address
 {
     public required string StreetInfo { get; set; }
