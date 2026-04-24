@@ -4,7 +4,7 @@ using WordsmithHub.API.Features.Common.Results;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Delete;
 
-public class DeleteDirectCustomerEndpoint : EndpointWithoutRequest
+public class DeleteDirectCustomerEndpoint : EndpointWithoutRequest<Guid>
 {
     public override void Configure()
     {
