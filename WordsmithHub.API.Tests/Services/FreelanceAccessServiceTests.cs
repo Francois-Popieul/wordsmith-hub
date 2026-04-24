@@ -26,7 +26,10 @@ public class FreelanceAccessServiceTests : IDisposable
         _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
     }
 
-    public void Dispose() => _context.Dispose();
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private FreelanceAccessService CreateSut()
     {
