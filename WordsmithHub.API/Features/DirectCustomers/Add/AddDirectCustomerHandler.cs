@@ -1,18 +1,34 @@
-﻿using WordsmithHub.API.Features.Common.Results;
+﻿using FastEndpoints;
+using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Services.FreelanceAccessService;
+using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Add;
 
+public record AddDirectCustomerCommand(
+    string Name,
+    string Code,
+    string? Phone,
+    string Email,
+    Address Address,
+    string? SiretOrSiren,
+    int PaymentDelay,
+    int CurrencyId,
+    Guid AppUserId)
+    : ICommand<OperationResult<Guid>>;
+
+[UsedImplicitly]
 public class AddDirectCustomerHandler(
     IFreelanceAccessService freelanceAccessService,
     IDirectCustomerRepository repository,
-    IDirectCustomerFactory factory)
+    IDirectCustomerFactory factory) : ICommandHandler<AddDirectCustomerCommand, OperationResult<Guid>>
 {
-    public async Task<OperationResult<Guid>> HandleAsync(AddDirectCustomerRequest request, Guid userId,
+    public async Task<OperationResult<Guid>> ExecuteAsync(AddDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(userId, cancellationToken);
+        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
         {
@@ -21,14 +37,14 @@ public class AddDirectCustomerHandler(
 
         var directCustomer = factory.CreateDirectCustomer(
             freelance.Id,
-            request.Name,
-            request.Code,
-            request.Phone ?? string.Empty,
-            request.Email,
-            request.Address,
-            request.SiretOrSiren,
-            request.PaymentDelay,
-            request.CurrencyId);
+            command.Name,
+            command.Code,
+            command.Phone ?? string.Empty,
+            command.Email,
+            command.Address,
+            command.SiretOrSiren,
+            command.PaymentDelay,
+            command.CurrencyId);
 
         await repository.AddAsync(directCustomer, cancellationToken);
 

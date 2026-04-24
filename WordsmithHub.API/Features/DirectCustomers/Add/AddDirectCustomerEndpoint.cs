@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
 using FluentValidation;
 using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
@@ -33,7 +33,7 @@ public class AddDirectCustomerRequestValidator : Validator<AddDirectCustomerRequ
     }
 }
 
-public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpoint<AddDirectCustomerRequest>
+public class AddDirectCustomerEndpoint : Endpoint<AddDirectCustomerRequest>
 {
     public override void Configure()
     {
@@ -45,15 +45,20 @@ public class AddDirectCustomerEndpoint(AddDirectCustomerHandler handler) : Endpo
 
     public override async Task HandleAsync(AddDirectCustomerRequest request, CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
-        if (appUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
+        var command = new AddDirectCustomerCommand(
+            request.Name,
+            request.Code,
+            request.Phone,
+            request.Email,
+            request.Address,
+            request.SiretOrSiren,
+            request.PaymentDelay,
+            request.CurrencyId,
+            appUserId);
 
-        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), cancellationToken);
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

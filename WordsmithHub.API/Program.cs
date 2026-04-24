@@ -7,17 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
-using WordsmithHub.API.Features.Authentication;
-using WordsmithHub.API.Features.DirectCustomers.Add;
-using WordsmithHub.API.Features.DirectCustomers.Delete;
-using WordsmithHub.API.Features.DirectCustomers.Get;
-using WordsmithHub.API.Features.DirectCustomers.GetAll;
-using WordsmithHub.API.Features.DirectCustomers.Update;
-using WordsmithHub.API.Features.Freelances.Delete;
-using WordsmithHub.API.Features.Freelances.Get;
-using WordsmithHub.API.Features.Freelances.GetAll;
-using WordsmithHub.API.Features.Freelances.Update;
-using WordsmithHub.API.Features.Users.Get;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.API.Services.TokenService;
@@ -109,20 +99,6 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
-// API Handlers
-builder.Services.AddScoped<RegisterUserHandler>();
-builder.Services.AddScoped<LoginUserHandler>();
-builder.Services.AddScoped<GetUserHandler>();
-builder.Services.AddScoped<AddDirectCustomerHandler>();
-builder.Services.AddScoped<DeleteDirectCustomerHandler>();
-builder.Services.AddScoped<GetDirectCustomerHandler>();
-builder.Services.AddScoped<GetAllDirectCustomersHandler>();
-builder.Services.AddScoped<UpdateDirectCustomerHandler>();
-builder.Services.AddScoped<DeleteFreelanceHandler>();
-builder.Services.AddScoped<GetFreelanceHandler>();
-builder.Services.AddScoped<GetAllFreelancesHandler>();
-builder.Services.AddScoped<UpdateFreelanceHandler>();
-
 builder.Services.AddScoped(typeof(Repository<>));
 
 // API services
@@ -170,7 +146,10 @@ app.UseAuthorization();
 
 if (!app.Environment.IsEnvironment("IntegrationTest"))
 {
-    app.UseFastEndpoints().UseSwaggerGen();
+    app.UseFastEndpoints(c =>
+    {
+        c.Endpoints.Configurator = ep => { ep.PreProcessors(0, typeof(AppUserIdPreProcessor<>)); };
+    }).UseSwaggerGen();
     app.UseHttpLogging();
 }
 

@@ -1,19 +1,25 @@
-﻿using WordsmithHub.API.Features.Common.Results;
+﻿using FastEndpoints;
+using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.Freelances.Delete;
 
+public record DeleteFreelanceCommand(Guid AppUserId, Guid FreelanceId) : ICommand<OperationResult<Guid>>;
+
+[UsedImplicitly]
 public class DeleteFreelanceHandler(
     IFreelanceAccessService freelanceAccessService,
     IFreelanceRepository repository)
+    : ICommandHandler<DeleteFreelanceCommand, OperationResult<Guid>>
 {
-    public async Task<OperationResult<Guid>> HandleAsync(Guid appUserId, Guid freelanceId,
+    public async Task<OperationResult<Guid>> ExecuteAsync(DeleteFreelanceCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(appUserId, cancellationToken);
+        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
 
-        if (freelance == null || freelance.Id != freelanceId)
+        if (freelance == null || freelance.Id != command.FreelanceId)
         {
             return OperationResult.Forbidden<Guid>();
         }

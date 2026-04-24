@@ -1,10 +1,10 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Delete;
 
-public class DeleteDirectCustomerEndpoint(DeleteDirectCustomerHandler handler) : EndpointWithoutRequest
+public class DeleteDirectCustomerEndpoint : EndpointWithoutRequest
 {
     public override void Configure()
     {
@@ -16,17 +16,13 @@ public class DeleteDirectCustomerEndpoint(DeleteDirectCustomerHandler handler) :
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
-
-        if (appUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var directCustomer = Route<Guid>("directCustomerId");
 
-        var result = await handler.HandleAsync(Guid.Parse(appUserId), directCustomer, cancellationToken);
+        var command = new DeleteDirectCustomerCommand(appUserId, directCustomer);
+
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

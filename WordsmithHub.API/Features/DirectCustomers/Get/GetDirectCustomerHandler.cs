@@ -1,4 +1,6 @@
-﻿using WordsmithHub.API.Features.Common.Results;
+﻿using FastEndpoints;
+using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Models;
 using WordsmithHub.API.Features.DirectCustomers.Services;
 using WordsmithHub.API.Services.FreelanceAccessService;
@@ -7,23 +9,28 @@ using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Get;
 
+public record GetDirectCustomerCommand(Guid AppUserId, Guid DirectCustomerId)
+    : ICommand<OperationResult<DirectCustomerDto>>;
+
+[UsedImplicitly]
 public class GetDirectCustomerHandler(
     IFreelanceAccessService freelanceAccessService,
     IResourceAuthorizationService resourceAuthorizationService,
     IDirectCustomerRepository repository)
+    : ICommandHandler<GetDirectCustomerCommand, OperationResult<DirectCustomerDto>>
 {
-    public async Task<OperationResult<DirectCustomerDto>> HandleAsync(Guid appUserId, Guid directCustomerId,
+    public async Task<OperationResult<DirectCustomerDto>> ExecuteAsync(GetDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(appUserId, cancellationToken);
+        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || !await resourceAuthorizationService
-                .CanAccessAsync<DirectCustomer>(appUserId, directCustomerId, cancellationToken))
+                .CanAccessAsync<DirectCustomer>(command.AppUserId, command.DirectCustomerId, cancellationToken))
         {
             return new OperationResult<DirectCustomerDto>(OperationStatus.Forbidden);
         }
 
-        var directCustomer = await repository.GetByIdAsync(directCustomerId, cancellationToken);
+        var directCustomer = await repository.GetByIdAsync(command.DirectCustomerId, cancellationToken);
 
         return directCustomer == null
             ? new OperationResult<DirectCustomerDto>(OperationStatus.NotFound)

@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Models;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Get;
 
-public class GetDirectCustomerEndpoint(GetDirectCustomerHandler handler)
-    : EndpointWithoutRequest<DirectCustomerDto>
+public class GetDirectCustomerEndpoint : EndpointWithoutRequest<DirectCustomerDto>
 {
     public override void Configure()
     {
@@ -19,17 +18,13 @@ public class GetDirectCustomerEndpoint(GetDirectCustomerHandler handler)
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
-
-        if (appUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var directCustomerId = Route<Guid>("directCustomerId");
 
-        var result = await handler.HandleAsync(Guid.Parse(appUserId), directCustomerId, cancellationToken);
+        var command = new GetDirectCustomerCommand(appUserId, directCustomerId);
+
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

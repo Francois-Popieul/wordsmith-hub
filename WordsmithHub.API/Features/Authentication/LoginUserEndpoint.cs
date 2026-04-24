@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Authentication.BearerToken;
 namespace WordsmithHub.API.Features.Authentication;
 
 [UsedImplicitly]
-public record LoginUserRequest(
-    string Email,
-    string Password);
+public record LoginUserRequest(string Email, string Password);
 
 public class LoginUserRequestValidator : Validator<LoginUserRequest>
 {
@@ -19,9 +17,7 @@ public class LoginUserRequestValidator : Validator<LoginUserRequest>
     }
 }
 
-public class LoginUserEndpoint(
-    LoginUserHandler handler,
-    IConfiguration configuration) : Endpoint<LoginUserRequest, AccessTokenResponse>
+public class LoginUserEndpoint(IConfiguration configuration) : Endpoint<LoginUserRequest, AccessTokenResponse>
 {
     public override void Configure()
     {
@@ -33,12 +29,9 @@ public class LoginUserEndpoint(
 
     public override async Task HandleAsync(LoginUserRequest request, CancellationToken cancellationToken)
     {
-        var command = new LoginUserCommand(
-            request.Email,
-            request.Password
-        );
+        var command = new LoginUserCommand(request.Email, request.Password);
 
-        var result = await handler.HandleAsync(command);
+        var result = await command.ExecuteAsync(cancellationToken);
 
         if (!result.Succeeded)
         {

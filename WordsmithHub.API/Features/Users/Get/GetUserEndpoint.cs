@@ -1,11 +1,11 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.Users.Models;
 
 namespace WordsmithHub.API.Features.Users.Get;
 
-public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<AppUserDto>
+public class GetUserEndpoint : EndpointWithoutRequest<AppUserDto>
 {
     public override void Configure()
     {
@@ -18,23 +18,17 @@ public class GetUserEndpoint(GetUserHandler handler) : EndpointWithoutRequest<Ap
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var tokenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
-        if (tokenUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
-
-        if (tokenUserId != Route<Guid>("userId").ToString())
+        if (appUserId != Route<Guid>("userId"))
         {
             await Send.ForbiddenAsync(cancellationToken);
             return;
         }
 
-        var userId = Route<Guid>("userId");
+        var command = new GetUserCommand(appUserId);
 
-        var result = await handler.HandleAsync(userId);
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FastEndpoints;
+using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity;
 using WordsmithHub.Domain.FreelanceAggregate;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
@@ -9,16 +11,18 @@ public record RegisterUserCommand(
     string? FirstName,
     string? LastName,
     string Email,
-    string Password);
+    string Password) : ICommand<RegisterUserResult>;
 
 public sealed record RegisterUserResult(IdentityResult IdentityResult, string? Message);
 
+[UsedImplicitly]
 public class RegisterUserHandler(
     UserManager<AppUser> userManager,
     IFreelanceFactory freelanceFactory,
     MainDbContext dbContext)
+    : ICommandHandler<RegisterUserCommand, RegisterUserResult>
 {
-    public async Task<RegisterUserResult> HandleAsync(RegisterUserCommand command)
+    public async Task<RegisterUserResult> ExecuteAsync(RegisterUserCommand command, CancellationToken cancellationToken)
     {
         var user = new AppUser
         {
@@ -42,8 +46,8 @@ public class RegisterUserHandler(
             user.FirstName,
             user.LastName,
             user.Email);
-        await dbContext.Freelances.AddAsync(freelance);
-        await dbContext.SaveChangesAsync();
+        await dbContext.Freelances.AddAsync(freelance, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         // TODO
         // Send email confirmation and update result message

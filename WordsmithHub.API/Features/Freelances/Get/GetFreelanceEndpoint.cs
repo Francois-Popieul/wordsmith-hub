@@ -1,11 +1,11 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.Freelances.Models;
 
 namespace WordsmithHub.API.Features.Freelances.Get;
 
-public class GetFreelanceEndpoint(GetFreelanceHandler handler) : EndpointWithoutRequest<FreelanceDto>
+public class GetFreelanceEndpoint : EndpointWithoutRequest<FreelanceDto>
 {
     public override void Configure()
     {
@@ -17,17 +17,13 @@ public class GetFreelanceEndpoint(GetFreelanceHandler handler) : EndpointWithout
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
-
-        if (appUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var freelanceId = Route<Guid>("freelanceId");
 
-        var result = await handler.HandleAsync(Guid.Parse(appUserId), freelanceId, cancellationToken);
+        var command = new GetFreelanceCommand(appUserId, freelanceId);
+
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

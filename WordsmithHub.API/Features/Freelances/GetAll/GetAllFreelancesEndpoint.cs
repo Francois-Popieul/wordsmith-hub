@@ -5,8 +5,7 @@ using WordsmithHub.API.Features.Freelances.Models;
 
 namespace WordsmithHub.API.Features.Freelances.GetAll;
 
-public class GetAllFreelancesEndpoint(GetAllFreelancesHandler handler)
-    : EndpointWithoutRequest<IReadOnlyList<FreelanceDto>>
+public class GetAllFreelancesEndpoint : EndpointWithoutRequest<IReadOnlyList<FreelanceDto>>
 {
     public override void Configure()
     {
@@ -18,16 +17,17 @@ public class GetAllFreelancesEndpoint(GetAllFreelancesHandler handler)
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
         var appUserRole = User.FindFirstValue("role");
 
-        if (appUserId == null || appUserRole != "admin")
+        if (appUserRole != "admin")
         {
             await Send.UnauthorizedAsync(cancellationToken);
             return;
         }
 
-        var result = await handler.HandleAsync(cancellationToken);
+        var command = new GetAllFreelancesCommand();
+
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

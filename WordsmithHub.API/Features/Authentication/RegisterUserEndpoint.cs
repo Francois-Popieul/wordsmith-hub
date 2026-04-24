@@ -22,7 +22,7 @@ public class RegisterUserRequestValidator : Validator<RegisterUserRequest>
     }
 }
 
-public class RegisterUserEndpoint(RegisterUserHandler handler) : Endpoint<RegisterUserRequest, string>
+public class RegisterUserEndpoint : Endpoint<RegisterUserRequest, string>
 {
     public override void Configure()
     {
@@ -40,7 +40,7 @@ public class RegisterUserEndpoint(RegisterUserHandler handler) : Endpoint<Regist
             request.Password
         );
 
-        var result = await handler.HandleAsync(command);
+        var result = await command.ExecuteAsync(cancellationToken);
 
         if (!result.IdentityResult.Succeeded)
         {

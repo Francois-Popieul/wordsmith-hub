@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
 using FluentValidation;
 using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
@@ -33,7 +33,7 @@ public class UpdateDirectCustomerRequestValidator : Validator<UpdateDirectCustom
     }
 }
 
-public class UpdateDirectCustomerEndpoint(UpdateDirectCustomerHandler handler) : Endpoint<UpdateDirectCustomerRequest>
+public class UpdateDirectCustomerEndpoint : Endpoint<UpdateDirectCustomerRequest>
 {
     public override void Configure()
     {
@@ -45,17 +45,23 @@ public class UpdateDirectCustomerEndpoint(UpdateDirectCustomerHandler handler) :
 
     public override async Task HandleAsync(UpdateDirectCustomerRequest request, CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
-
-        if (appUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var directCustomerId = Route<Guid>("directCustomerId");
 
-        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), directCustomerId, cancellationToken);
+        var command = new UpdateDirectCustomerCommand(
+            request.Name,
+            request.Code,
+            request.Phone,
+            request.Email,
+            request.Address,
+            request.SiretOrSiren,
+            request.PaymentDelay,
+            request.CurrencyId,
+            appUserId,
+            directCustomerId);
+
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {

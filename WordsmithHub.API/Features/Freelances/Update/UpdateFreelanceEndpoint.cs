@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using FastEndpoints;
+﻿using FastEndpoints;
 using FluentValidation;
 using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
@@ -27,7 +27,7 @@ public class UpdateFreelanceRequestValidator : Validator<UpdateFreelanceRequest>
     }
 }
 
-public class UpdateFreelanceEndpoint(UpdateFreelanceHandler handler) : Endpoint<UpdateFreelanceRequest>
+public class UpdateFreelanceEndpoint : Endpoint<UpdateFreelanceRequest>
 {
     public override void Configure()
     {
@@ -39,17 +39,20 @@ public class UpdateFreelanceEndpoint(UpdateFreelanceHandler handler) : Endpoint<
 
     public override async Task HandleAsync(UpdateFreelanceRequest request, CancellationToken cancellationToken)
     {
-        var appUserId = User.FindFirstValue("sub");
-
-        if (appUserId == null)
-        {
-            await Send.UnauthorizedAsync(cancellationToken);
-            return;
-        }
+        var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var freelanceId = Route<Guid>("freelanceId");
 
-        var result = await handler.HandleAsync(request, Guid.Parse(appUserId), freelanceId, cancellationToken);
+        var command = new UpdateFreelanceCommand(
+            request.FirstName,
+            request.LastName,
+            request.Email,
+            request.Phone,
+            request.Address,
+            appUserId,
+            freelanceId);
+
+        var result = await command.ExecuteAsync(cancellationToken);
 
         switch (result.Status)
         {
