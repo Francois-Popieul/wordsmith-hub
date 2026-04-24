@@ -9,6 +9,7 @@ namespace WordsmithHub.API.Features.Users.Get;
 
 public record GetUserCommand(Guid AppUserId) : ICommand<OperationResult<AppUserDto>>;
 
+[UsedImplicitly]
 public class GetUserHandler(UserManager<Infrastructure.IdentityDatabase.AppUser> userManager)
     : ICommandHandler<GetUserCommand, OperationResult<AppUserDto>>
 {
