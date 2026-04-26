@@ -84,20 +84,3 @@ jobs:
         with:
           name: backend-coverage
           path: src/backend/tests/**/coverage/coverage.info
-
-  qodana:
-    runs-on: ubuntu-latest
-    needs: [build, test]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Qodana Scan
-        uses: JetBrains/qodana-action@v2025.3
-        with:
-          pr-mode: false
-          use-caches: true
-          args: --image,jetbrains/qodana-dotnet:2025.3
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_825887637 }}
-          QODANA_ENDPOINT: "https://qodana.cloud"
