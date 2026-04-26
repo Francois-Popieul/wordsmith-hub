@@ -84,3 +84,9 @@ jobs:
         with:
           name: backend-coverage
           path: src/backend/tests/**/coverage/coverage.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: backend-coverage/coverage.info
+          fail_ci_if_error: true

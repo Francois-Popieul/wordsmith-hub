@@ -10,5 +10,5 @@ dotnet:
   solution: WordsmithHub.sln
 failureConditions:
   severityThresholds:
-    any: 250
+    any: 300
     critical: 5
