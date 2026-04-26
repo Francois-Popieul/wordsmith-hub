@@ -40,10 +40,7 @@ jobs:
         run: dotnet build WordsmithHub.sln --no-restore --configuration Release
 
       - name: Publish backend API
-        run:
-          dotnet publish src/backend/WordsmithHub.API/WordsmithHub.API.csproj \
-          --configuration Release \
-          --output ./publish
+        run: dotnet publish src/backend/WordsmithHub.API/WordsmithHub.API.csproj --configuration Release --output ./publish
 
       - name: Upload backend publish artifact
         uses: actions/upload-artifact@v4
