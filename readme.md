@@ -195,5 +195,6 @@ This project is released under the MIT License.
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![.NET](https://img.shields.io/badge/.NET-10.0-blue)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
+[![Coverage](https://codecov.io/gh/Francois-Popieul/Wordsmith-Hub/branch/main/graph/badge.svg)](https://codecov.io/gh/Francois-Popieul/Wordsmith-Hub)
