@@ -2,14 +2,16 @@
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - "src/backend/**"
+      - "WordsmithHub.sln"
       - ".github/workflows/ci-backend.yaml"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - "src/backend/**"
+      - "WordsmithHub.sln"
 
 jobs:
   build:
@@ -19,7 +21,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
 
@@ -31,19 +33,20 @@ jobs:
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      - name: Restore dependencies
-        run: dotnet restore src/backend
+      - name: Restore solution
+        run: dotnet restore WordsmithHub.sln
 
-      - name: Build (Release)
-        run: dotnet build src/backend --no-restore --configuration Release
+      - name: Build solution (Release)
+        run: dotnet build WordsmithHub.sln --no-restore --configuration Release
 
-      - name: Publish backend
-        run: dotnet publish src/backend/WordsmithHub.API/WordsmithHub.API.csproj \
+      - name: Publish backend API
+        run:
+          dotnet publish src/backend/WordsmithHub.API/WordsmithHub.API.csproj \
           --configuration Release \
           --output ./publish
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v6
+      - name: Upload backend publish artifact
+        uses: actions/upload-artifact@v4
         with:
           name: backend-publish
           path: publish
@@ -56,7 +59,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
 
@@ -68,26 +71,29 @@ jobs:
           restore-keys: |
             nuget-${{ runner.os }}-
 
+      - name: Restore solution
+        run: dotnet restore WordsmithHub.sln
+
       - name: Run tests with coverage
         run: |
-          dotnet test src/backend/tests \
+          dotnet test WordsmithHub.sln \
             --configuration Release \
             /p:CollectCoverage=true \
             /p:CoverletOutputFormat=lcov \
             /p:CoverletOutput=./coverage/
 
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: backend-coverage
           path: src/backend/tests/**/coverage/coverage.info
 
   qodana:
     runs-on: ubuntu-latest
-    needs: [ build, test ]
+    needs: [build, test]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2025.3
@@ -96,5 +102,5 @@ jobs:
           use-caches: true
           args: --image,jetbrains/qodana-dotnet:2025.3
         env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_825887637 }}
           QODANA_ENDPOINT: "https://qodana.cloud"
