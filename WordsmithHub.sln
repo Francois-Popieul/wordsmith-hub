@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.API", "WordsmithHub.API\WordsmithHub.API.csproj", "{1087C516-F50B-4707-93F0-4CC33CC30C88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.API", "src\backend\WordsmithHub.API\WordsmithHub.API.csproj", "{1087C516-F50B-4707-93F0-4CC33CC30C88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.Infrastructure", "WordsmithHub.Infrastructure\WordsmithHub.Infrastructure.csproj", "{86E08986-1CC7-4729-9929-1546DC0BE63C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.Infrastructure", "src\backend\WordsmithHub.Infrastructure\WordsmithHub.Infrastructure.csproj", "{86E08986-1CC7-4729-9929-1546DC0BE63C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.Domain", "WordsmithHub.Domain\WordsmithHub.Domain.csproj", "{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.Domain", "src\backend\WordsmithHub.Domain\WordsmithHub.Domain.csproj", "{FCF8D2F0-3DCC-4756-91CE-3158BE64FDA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.API.Tests", "WordsmithHub.API.Tests\WordsmithHub.API.Tests.csproj", "{C40FA95C-E9EF-4C0A-BB14-98D4BBD085E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsmithHub.API.Tests", "src\backend\tests\WordsmithHub.API.Tests\WordsmithHub.API.Tests.csproj", "{C40FA95C-E9EF-4C0A-BB14-98D4BBD085E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

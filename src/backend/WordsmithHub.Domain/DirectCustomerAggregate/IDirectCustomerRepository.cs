@@ -1,0 +1,11 @@
+﻿namespace WordsmithHub.Domain.DirectCustomerAggregate;
+
+public interface IDirectCustomerRepository : IRepository<DirectCustomer>
+{
+    Task<bool> ExistsWithNameAsync(string name, CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<DirectCustomer>> GetByFreelanceIdAsync(Guid freelanceId,
+        CancellationToken cancellationToken = default);
+
+    Task ArchiveAsync(DirectCustomer customer, CancellationToken cancellationToken = default);
+}

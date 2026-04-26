@@ -1,0 +1,100 @@
+﻿name: CI-Backend
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "src/backend/**"
+      - ".github/workflows/ci-backend.yaml"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "src/backend/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore dependencies
+        run: dotnet restore src/backend
+
+      - name: Build (Release)
+        run: dotnet build src/backend --no-restore --configuration Release
+
+      - name: Publish backend
+        run: dotnet publish src/backend/WordsmithHub.API/WordsmithHub.API.csproj \
+          --configuration Release \
+          --output ./publish
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: backend-publish
+          path: publish
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Run tests with coverage
+        run: |
+          dotnet test src/backend/tests \
+            --configuration Release \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=lcov \
+            /p:CoverletOutput=./coverage/
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: backend-coverage
+          path: src/backend/tests/**/coverage/coverage.info
+
+  qodana:
+    runs-on: ubuntu-latest
+    needs: [ build, test ]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2025.3
+        with:
+          pr-mode: false
+          use-caches: true
+          args: --image,jetbrains/qodana-dotnet:2025.3
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_ENDPOINT: "https://qodana.cloud"
