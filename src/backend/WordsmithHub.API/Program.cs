@@ -20,12 +20,15 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // DbContexts
-builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseNpgsql(configuration.GetConnectionString("IdentityDbConnection"),
-        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__IdentityDbHistory")));
-builder.Services.AddDbContext<MainDbContext>(options =>
-    options.UseNpgsql(configuration.GetConnectionString("MainDbConnection"),
-        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory")));
+if (!builder.Environment.IsEnvironment("IntegrationTest"))
+{
+    builder.Services.AddDbContext<IdentityDbContext>(options =>
+        options.UseNpgsql(configuration.GetConnectionString("IdentityDbConnection"),
+            npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__IdentityDbHistory")));
+    builder.Services.AddDbContext<MainDbContext>(options =>
+        options.UseNpgsql(configuration.GetConnectionString("MainDbConnection"),
+            npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory")));
+}
 
 // Infrastructure Repositories
 builder.Services.AddRepositories();
@@ -55,7 +58,14 @@ builder.Services.AddIdentityCore<AppUser>(options =>
 
 // Jwt
 var jwtSection = configuration.GetSection("Jwt");
-var key = Encoding.UTF8.GetBytes(jwtSection["Key"]!);
+var jwtKey = jwtSection["Key"];
+
+if (builder.Environment.IsEnvironment("IntegrationTest") && string.IsNullOrWhiteSpace(jwtKey))
+{
+    jwtKey = "integration-test-jwt-key-with-sufficient-length";
+}
+
+var key = Encoding.UTF8.GetBytes(jwtKey!);
 
 builder.Services
     .AddAuthentication(options =>
@@ -144,12 +154,14 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseFastEndpoints(c =>
+{
+    c.Endpoints.Configurator = ep => { ep.PreProcessors(0, typeof(AppUserIdPreProcessor<>)); };
+});
+
 if (!app.Environment.IsEnvironment("IntegrationTest"))
 {
-    app.UseFastEndpoints(c =>
-    {
-        c.Endpoints.Configurator = ep => { ep.PreProcessors(0, typeof(AppUserIdPreProcessor<>)); };
-    }).UseSwaggerGen();
+    app.UseSwaggerGen();
     app.UseHttpLogging();
 }
 

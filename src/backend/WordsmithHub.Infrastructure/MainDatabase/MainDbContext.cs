@@ -13,7 +13,7 @@ using WordsmithHub.Domain.WorkOrderAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase;
 
-public class MainDbContext(DbContextOptions options) : DbContext(options)
+public class MainDbContext(DbContextOptions<MainDbContext> options) : DbContext(options)
 {
     // Aggregates
     public virtual DbSet<BankAccount> BankAccounts { get; set; }

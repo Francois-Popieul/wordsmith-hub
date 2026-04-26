@@ -79,3 +79,6 @@ project.nuget.cache
 # Static web assets
 staticwebassets/
 *.staticwebassets.json
+
+# AI directories
+/.claude/
