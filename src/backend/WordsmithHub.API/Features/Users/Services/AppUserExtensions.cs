@@ -9,7 +9,7 @@ public static class AppUserExtensions
     {
         ArgumentNullException.ThrowIfNull(user);
 
-        return new AppUserDto()
+        return new AppUserDto
         {
             Id = Guid.Parse(user.Id),
             FirstName = user.FirstName,

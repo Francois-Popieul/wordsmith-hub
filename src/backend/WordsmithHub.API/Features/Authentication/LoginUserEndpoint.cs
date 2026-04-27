@@ -41,7 +41,7 @@ public class LoginUserEndpoint(IConfiguration configuration) : Endpoint<LoginUse
 
         var jwtSection = configuration.GetSection("Jwt");
 
-        var response = new AccessTokenResponse()
+        var response = new AccessTokenResponse
         {
             AccessToken = result.Token!,
             RefreshToken = "refresh",

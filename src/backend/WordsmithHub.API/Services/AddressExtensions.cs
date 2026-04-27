@@ -9,7 +9,7 @@ public static class AddressExtensions
     {
         ArgumentNullException.ThrowIfNull(address);
 
-        return new AddressDto()
+        return new AddressDto
         {
             StreetInfo = address.StreetInfo,
             AddressComplement = address.AddressComplement,

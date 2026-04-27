@@ -1,11 +1,12 @@
 ﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.Users.Models;
 
 namespace WordsmithHub.API.Features.Users.Get;
 
-public class GetUserEndpoint : EndpointWithoutRequest<AppUserDto>
+public class GetUserEndpoint : ApiEndpointWithoutRequest<AppUserDto>
 {
     public override void Configure()
     {
@@ -30,15 +31,6 @@ public class GetUserEndpoint : EndpointWithoutRequest<AppUserDto>
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.NotFound:
-                await Send.NotFoundAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value!, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

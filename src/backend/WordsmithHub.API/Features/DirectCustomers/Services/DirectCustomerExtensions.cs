@@ -10,7 +10,7 @@ public static class DirectCustomerExtensions
     {
         ArgumentNullException.ThrowIfNull(directCustomer);
 
-        return new DirectCustomerDto()
+        return new DirectCustomerDto
         {
             Id = directCustomer.Id,
             Name = directCustomer.Name,
