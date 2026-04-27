@@ -1,0 +1,95 @@
+@import '../../stylesheets/variables.css';
+
+.button {
+    font-family: var(--font-sans);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.button_plain {
+    background-color: var(--color-slate-700);
+    color: var(--color-slate-100);
+
+    &:hover {
+        background-color: var(--color-slate-300);
+        color: var(--color-slate-900);
+    }
+}
+
+.button_outline {
+    background-color: transparent;
+    border: solid 2px var(--color-slate-400);
+    color: var(--color-slate-600);
+
+    &:hover {
+        background-color: var(--color-slate-300);
+        color: var(--color-slate-900);
+        border: none;
+    }
+}
+
+.button_outline_on_dark_background {
+    background-color: transparent;
+    border: solid 2px var(--color-slate-400);
+    color: var(--color-slate-100);
+
+    &:hover {
+        background-color: var(--color-slate-300);
+        color: var(--color-slate-900);
+        border: none;
+    }
+}
+
+.button_default {
+    width: fit-content;
+    height: 40px;
+}
+
+.button_very_small {
+    width: 48px;
+    font-size: 0.6rem;
+    padding: 5px;
+    margin: 4px;
+    height: auto;
+}
+
+.button_small {
+    width: 100px;
+    font-size: 0.6rem;
+    padding: 5px;
+    margin: 4px;
+    height: 40px;
+}
+
+.button_medium {
+    width: 150px;
+    height: 40px;
+}
+
+.button_large {
+    width: 200px;
+    height: 40px;
+}
+
+.button_extra_large {
+    flex: 2 0 50%;
+    width: 225px;
+    height: 40px;
+}
+
+.button_left_side {
+    border-radius: 8px 0 0 8px;
+    margin: 0;
+}
+
+.button_right_side {
+    border-radius: 0 8px 8px 0;
+    margin: 0;
+}

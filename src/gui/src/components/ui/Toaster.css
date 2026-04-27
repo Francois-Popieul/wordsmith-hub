@@ -1,0 +1,97 @@
+@import '../../stylesheets/variables.css';
+
+.toast {
+    position: fixed;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: var(--color-slate-50);
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 4px 4px 4px var(--color-slate-400);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.4s ease-out forwards;
+
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.toast_success {
+    background-color: var(--color-emerald-500);
+}
+
+.toast_error {
+    background-color: var(--color-red-500);
+}
+
+.toast_information {
+    background-color: var(--color-slate-600);
+}
+
+.toast_close {
+    background: none;
+    border: none;
+    color: var(--color-slate-50);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.top_left {
+    top: 20px;
+    left: 20px;
+}
+
+.top_center {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.top_right {
+    top: 20px;
+    right: 20px;
+}
+
+.middle_left {
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.middle_center {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    transform: translateY(-50%);
+}
+
+.middle_right {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.bottom_left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.bottom_center {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.bottom_right {
+    bottom: 20px;
+    right: 20px;
+}

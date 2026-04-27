@@ -1,0 +1,33 @@
+:root {
+    /* Color Palette */
+    --color-slate-50: #f8fafc;
+    --color-slate-100: #f1f5f9;
+    --color-slate-200: #e2e8f0;
+    --color-slate-300: #cbd5e1;
+    --color-slate-400: #94a3b8;
+    --color-slate-500: #64748b;
+    --color-slate-600: #475569;
+    --color-slate-700: #334155;
+    --color-slate-800: #1e293b;
+    --color-slate-900: #0f172a;
+    --color-slate-950: #020617;
+
+    --color-red-500: #E7000B;
+
+    --color-blue-250: #DBEAFE;
+    --color-blue-500: #155DFC;
+    --color-blue-750: #0F172B;
+
+    --color-yellow-250: #FEF9C2;
+    --color-yellow-500: #ecef25f5;
+    --color-yellow-750: #894B00;
+
+    --color-green-250: #10b981;
+    --color-green-500: #016630;
+
+    /* Sidebar Linear Gradient*/
+    --sidebar-gradient: linear-gradient(180deg, #0F172B 0%, #155DFC 100%);
+
+    /* Fonts */
+    --font-sans: "Segoe UI", "Segoe UI Fallback", sans-serif;
+}
