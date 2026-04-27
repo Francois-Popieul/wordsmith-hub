@@ -1,8 +1,8 @@
 ﻿using FastEndpoints;
 using FluentValidation;
 using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Update;
@@ -33,7 +33,7 @@ public class UpdateDirectCustomerRequestValidator : Validator<UpdateDirectCustom
     }
 }
 
-public class UpdateDirectCustomerEndpoint : Endpoint<UpdateDirectCustomerRequest>
+public class UpdateDirectCustomerEndpoint : ApiEndpoint<UpdateDirectCustomerRequest, Guid>
 {
     public override void Configure()
     {
@@ -63,15 +63,6 @@ public class UpdateDirectCustomerEndpoint : Endpoint<UpdateDirectCustomerRequest
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.Forbidden:
-                await Send.ForbiddenAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

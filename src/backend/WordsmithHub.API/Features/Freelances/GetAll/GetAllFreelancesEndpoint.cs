@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
-using WordsmithHub.API.Features.Common.Results;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Freelances.Models;
 
 namespace WordsmithHub.API.Features.Freelances.GetAll;
 
-public class GetAllFreelancesEndpoint : EndpointWithoutRequest<IReadOnlyList<FreelanceDto>>
+public class GetAllFreelancesEndpoint : ApiEndpointWithoutRequest<IReadOnlyList<FreelanceDto>>
 {
     public override void Configure()
     {
@@ -29,15 +29,6 @@ public class GetAllFreelancesEndpoint : EndpointWithoutRequest<IReadOnlyList<Fre
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.NotFound:
-                await Send.NotFoundAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value!, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

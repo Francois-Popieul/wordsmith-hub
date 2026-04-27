@@ -18,13 +18,15 @@ public class ResourceAuthorizationService(MainDbContext context) : IResourceAuth
         if (freelance == null)
             return false;
 
-        var entity = await context.Set<T>()
-            .SingleOrDefaultAsync(e => e.Id == entityId,
-                cancellationToken);
+        var entityFreelanceId = await context.Set<T>()
+            .Where(e => e.Id == entityId)
+            .Select(e => e.FreelanceId)
+            .SingleOrDefaultAsync(cancellationToken);
 
-        if (entity == null)
+
+        if (entityFreelanceId == Guid.Empty)
             return false;
 
-        return entity.FreelanceId == freelance.Id;
+        return entityFreelanceId == freelance.Id;
     }
 }

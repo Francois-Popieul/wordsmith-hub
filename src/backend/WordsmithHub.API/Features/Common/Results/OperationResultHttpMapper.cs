@@ -1,56 +1,38 @@
-﻿using FastEndpoints;
+﻿using System.Text.Json;
 
 namespace WordsmithHub.API.Features.Common.Results;
 
 public static class OperationResultHttpMapper
 {
-    public static async Task SendResultAsync<T>(
-        this HttpContext http,
+    public static async Task MapToHttpAsync<T>(
+        this HttpContext httpContext,
         OperationResult<T> result,
-        CancellationToken cancellationToken = default) where T : notnull
+        CancellationToken cancellationToken)
     {
-        switch (result.Status)
+        if (typeof(T) == typeof(NoContent))
         {
-            case OperationStatus.Success:
-                await http.Response.SendOkAsync(result.Value!, cancellation: cancellationToken);
-                return;
+            httpContext.Response.StatusCode = StatusCodes.Status204NoContent;
+            return;
+        }
 
-            case OperationStatus.NotFound:
-                await http.Response.SendNotFoundAsync(cancellationToken);
-                return;
+        var (statusCode, body) = result.Status switch
+        {
+            OperationStatus.Success => (StatusCodes.Status200OK, (object?)result.Value),
+            OperationStatus.NotFound => (StatusCodes.Status404NotFound, null),
+            OperationStatus.Forbidden => (StatusCodes.Status403Forbidden, null),
+            OperationStatus.Unauthorized => (StatusCodes.Status401Unauthorized, null),
+            OperationStatus.ValidationError => (StatusCodes.Status400BadRequest, null),
+            OperationStatus.Conflict => (StatusCodes.Status409Conflict, null),
+            _ => (StatusCodes.Status500InternalServerError, null)
+        };
 
-            case OperationStatus.Forbidden:
-                await http.Response.SendForbiddenAsync(cancellationToken);
-                return;
+        var response = httpContext.Response;
+        response.StatusCode = statusCode;
 
-            case OperationStatus.Unauthorized:
-                await http.Response.SendUnauthorizedAsync(cancellationToken);
-                return;
-
-            case OperationStatus.ValidationError:
-                await http.Response.SendAsync(
-                    new { },
-                    StatusCodes.Status400BadRequest,
-                    cancellation: cancellationToken
-                );
-                return;
-
-            case OperationStatus.Conflict:
-                await http.Response.SendAsync(
-                    new { },
-                    StatusCodes.Status409Conflict,
-                    cancellation: cancellationToken
-                );
-                return;
-
-            case OperationStatus.Error:
-            default:
-                await http.Response.SendAsync(
-                    new { },
-                    StatusCodes.Status500InternalServerError,
-                    cancellation: cancellationToken
-                );
-                return;
+        if (body is not null)
+        {
+            response.ContentType = "application/json";
+            await JsonSerializer.SerializeAsync(response.Body, body, cancellationToken: cancellationToken);
         }
     }
 }

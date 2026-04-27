@@ -1,11 +1,11 @@
 ﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Models;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Get;
 
-public class GetDirectCustomerEndpoint : EndpointWithoutRequest<DirectCustomerDto>
+public class GetDirectCustomerEndpoint : ApiEndpointWithoutRequest<DirectCustomerDto>
 {
     public override void Configure()
     {
@@ -26,19 +26,6 @@ public class GetDirectCustomerEndpoint : EndpointWithoutRequest<DirectCustomerDt
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.Forbidden:
-                await Send.ForbiddenAsync(cancellationToken);
-                return;
-
-            case OperationStatus.NotFound:
-                await Send.NotFoundAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value!, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

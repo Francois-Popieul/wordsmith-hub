@@ -1,11 +1,11 @@
 ﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.Freelances.Models;
 
 namespace WordsmithHub.API.Features.Freelances.Get;
 
-public class GetFreelanceEndpoint : EndpointWithoutRequest<FreelanceDto>
+public class GetFreelanceEndpoint : ApiEndpointWithoutRequest<FreelanceDto>
 {
     public override void Configure()
     {
@@ -25,15 +25,6 @@ public class GetFreelanceEndpoint : EndpointWithoutRequest<FreelanceDto>
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.Forbidden:
-                await Send.ForbiddenAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value!, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

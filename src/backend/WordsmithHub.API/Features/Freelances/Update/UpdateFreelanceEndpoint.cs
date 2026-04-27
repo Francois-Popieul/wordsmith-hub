@@ -1,8 +1,8 @@
 ﻿using FastEndpoints;
 using FluentValidation;
 using JetBrains.Annotations;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 
 namespace WordsmithHub.API.Features.Freelances.Update;
@@ -27,7 +27,7 @@ public class UpdateFreelanceRequestValidator : Validator<UpdateFreelanceRequest>
     }
 }
 
-public class UpdateFreelanceEndpoint : Endpoint<UpdateFreelanceRequest>
+public class UpdateFreelanceEndpoint : ApiEndpoint<UpdateFreelanceRequest, Guid>
 {
     public override void Configure()
     {
@@ -54,15 +54,6 @@ public class UpdateFreelanceEndpoint : Endpoint<UpdateFreelanceRequest>
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.Forbidden:
-                await Send.ForbiddenAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

@@ -8,16 +8,16 @@ using WordsmithHub.Domain.DirectCustomerAggregate;
 namespace WordsmithHub.API.Features.DirectCustomers.Delete;
 
 public record DeleteDirectCustomerCommand(Guid AppUserId, Guid DirectCustomerId)
-    : ICommand<OperationResult<Guid>>;
+    : ICommand<OperationResult<NoContent>>;
 
 [UsedImplicitly]
 public class DeleteDirectCustomerHandler(
     IFreelanceAccessService freelanceAccessService,
     IResourceAuthorizationService resourceAuthorizationService,
     IDirectCustomerRepository repository)
-    : ICommandHandler<DeleteDirectCustomerCommand, OperationResult<Guid>>
+    : ICommandHandler<DeleteDirectCustomerCommand, OperationResult<NoContent>>
 {
-    public async Task<OperationResult<Guid>> ExecuteAsync(DeleteDirectCustomerCommand command,
+    public async Task<OperationResult<NoContent>> ExecuteAsync(DeleteDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
         var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
@@ -26,20 +26,20 @@ public class DeleteDirectCustomerHandler(
             !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(command.AppUserId,
                 command.DirectCustomerId, cancellationToken))
         {
-            return OperationResult.Forbidden<Guid>();
+            return OperationResult.Forbidden<NoContent>();
         }
 
         var directCustomer = await repository.GetByIdAsync(command.DirectCustomerId, cancellationToken);
 
         if (directCustomer == null)
         {
-            return OperationResult.NotFound<Guid>();
+            return OperationResult.NotFound<NoContent>();
         }
 
         directCustomer.MarkAsDeleted();
 
         await repository.ArchiveAsync(directCustomer, cancellationToken);
 
-        return OperationResult.Success(directCustomer.Id);
+        return OperationResult.Success(new NoContent());
     }
 }

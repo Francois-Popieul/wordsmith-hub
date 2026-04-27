@@ -1,10 +1,11 @@
 ﻿using FastEndpoints;
+using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 using WordsmithHub.API.Features.Common.Results;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Delete;
 
-public class DeleteDirectCustomerEndpoint : EndpointWithoutRequest<Guid>
+public class DeleteDirectCustomerEndpoint : ApiEndpointWithoutRequest<NoContent>
 {
     public override void Configure()
     {
@@ -24,15 +25,6 @@ public class DeleteDirectCustomerEndpoint : EndpointWithoutRequest<Guid>
 
         var result = await command.ExecuteAsync(cancellationToken);
 
-        switch (result.Status)
-        {
-            case OperationStatus.Forbidden:
-                await Send.ForbiddenAsync(cancellationToken);
-                return;
-
-            case OperationStatus.Success:
-                await Send.OkAsync(result.Value, cancellationToken);
-                return;
-        }
+        await SendResult(result, cancellationToken);
     }
 }

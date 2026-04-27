@@ -109,8 +109,6 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
-builder.Services.AddScoped(typeof(Repository<>));
-
 // API services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IFreelanceAccessService, FreelanceAccessService>();
