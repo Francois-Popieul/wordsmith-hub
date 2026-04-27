@@ -24,7 +24,7 @@ public static class FreelanceExtensions
             };
         }
 
-        return new FreelanceDto()
+        return new FreelanceDto
         {
             Id = freelance.Id,
             FirstName = freelance.FirstName ?? string.Empty,

@@ -1,7 +1,6 @@
 ﻿using FastEndpoints;
 using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.Users.Models;
 
 namespace WordsmithHub.API.Features.Users.Get;
