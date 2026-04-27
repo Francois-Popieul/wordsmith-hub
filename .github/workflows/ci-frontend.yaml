@@ -17,28 +17,28 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: WordsmithHub/src/gui/package-lock.json
+          cache-dependency-path: src/gui/package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: WordsmithHub/src/gui
+        working-directory: src/gui
 
       - name: Lint
         run: npm run lint
-        working-directory: WordsmithHub/src/gui
+        working-directory: src/gui
 
       - name: Test
         run: npm run test -- --coverage
-        working-directory: WordsmithHub/src/gui
+        working-directory: src/gui
 
       - name: Build
         run: npm run build
-        working-directory: WordsmithHub/src/gui
+        working-directory: src/gui
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          files: WordsmithHub/src/gui/coverage/lcov.info
+          files: src/gui/coverage/lcov.info
           flags: unittests
           name: codecov-frontend
           fail_ci_if_error: true
