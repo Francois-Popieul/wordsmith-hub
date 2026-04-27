@@ -30,6 +30,7 @@ public class ResourceAuthorizationServiceTests : IDisposable
     public void Dispose()
     {
         _context.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     private ResourceAuthorizationService CreateSut()

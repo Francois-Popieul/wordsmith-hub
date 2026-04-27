@@ -13,13 +13,13 @@ namespace WordsmithHub.API.Tests;
 
 public abstract class TestWebApplicationFactory(string roles) : WebApplicationFactory<Program>
 {
-    public Guid AppUserId { get; } = Guid.Parse("11111111-1111-1111-1111-111111111111");
+    protected Guid AppUserId { get; } = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
     private string Roles { get; } = roles;
     private string MainDatabaseName { get; } = $"main-db-{Guid.NewGuid()}";
     private string IdentityDatabaseName { get; } = $"identity-db-{Guid.NewGuid()}";
 
-    override protected void ConfigureWebHost(IWebHostBuilder builder)
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("IntegrationTest");
         builder.ConfigureAppConfiguration((_, configurationBuilder) =>
