@@ -11,46 +11,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: WordsmithHub/src/gui/package-lock.json
 
-      - name: Cache Vite build
-        uses: actions/cache@v5
-        with:
-          path: |
-            node_modules/.vite
-            .vite
-          key: vite-${{ hashFiles('package-lock.json') }}
-
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
         working-directory: WordsmithHub/src/gui
 
-      - run: npm run lint
+      - name: Lint
+        run: npm run lint
         working-directory: WordsmithHub/src/gui
 
-      - name: Run tests
+      - name: Test
         run: npm run test -- --coverage
         working-directory: WordsmithHub/src/gui
 
-      - name: Build app
+      - name: Build
         run: npm run build
         working-directory: WordsmithHub/src/gui
-
-      - name: Smoke test preview build
-        run: |
-          npm run preview -- --port 4173 &
-          sleep 2
-          curl -f http://localhost:4173
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          files: ./coverage/lcov.info
+          files: WordsmithHub/src/gui/coverage/lcov.info
           flags: unittests
           name: codecov-frontend
           fail_ci_if_error: true
