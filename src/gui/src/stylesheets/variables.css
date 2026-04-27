@@ -1,5 +1,7 @@
 :root {
     /* Color Palette */
+    --color-white-50: #fbfbfb;
+
     --color-slate-50: #f8fafc;
     --color-slate-100: #f1f5f9;
     --color-slate-200: #e2e8f0;
@@ -12,6 +14,7 @@
     --color-slate-900: #0f172a;
     --color-slate-950: #020617;
 
+    --color-red-400: #ed6f75;
     --color-red-500: #E7000B;
 
     --color-blue-250: #DBEAFE;

@@ -1,0 +1,51 @@
+name: CI-frontend
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Cache Vite build
+        uses: actions/cache@v5
+        with:
+          path: |
+            node_modules/.vite
+            .vite
+          key: vite-${{ hashFiles('package-lock.json') }}
+
+      - run: npm ci --prefer-offline
+
+      - run: npm run lint
+
+      - name: Run tests
+        run: npm run test -- --coverage
+
+      - name: Build app
+        run: npm run build
+
+      - name: Smoke test preview build
+        run: |
+          npm run preview -- --port 4173 &
+          sleep 2
+          curl -f http://localhost:4173
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-frontend
+          fail_ci_if_error: true

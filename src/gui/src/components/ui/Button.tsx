@@ -4,8 +4,8 @@ import clsx from "clsx";
 
 interface ButtonProps {
     name: string;
-    variant: "plain" | "outline" | "outline_on_dark_background";
-    width?: "default" | "very_small" | "small" | "medium" | "large" | "extra_large";
+    variant: "dark" | "grey" | "light" | "red" | "sidebar" | "sidebar_selected";
+    width?: "default" | "small" | "medium" | "contained" | "extended" | "full_width";
     type?: "submit" | "button";
     special?: "right_side" | "left_side";
     children?: React.ReactNode;
@@ -23,7 +23,7 @@ function Button(props: ButtonProps) {
             )}
             onClick={props.onClick}
         >
-            {props.name}{props.children}
+            {props.children} {props.name}
         </button>
     );
 };

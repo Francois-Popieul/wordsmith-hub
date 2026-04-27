@@ -3,9 +3,10 @@
 .button {
     font-family: var(--font-sans);
     display: inline-flex;
+    gap: 8px;
     align-items: center;
     justify-content: center;
-    margin: 8px 16px;
+    margin: 8px;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
@@ -13,51 +14,63 @@
     box-sizing: border-box;
 }
 
-.button_plain {
-    background-color: var(--color-slate-700);
+/* Variant */
+.button_dark {
+    background-color: var(--color-slate-950);
+    color: var(--color-slate-100);
+    box-shadow: 4px 6px 6px var(--color-slate-500);
+
+    &:hover {
+        scale: 1.05;
+    }
+}
+
+.button_light {
+    background-color: var(--color-slate-50);
+    color: var(--color-slate-950);
+    box-shadow: 4px 6px 6px var(--color-slate-300);
+
+    &:hover {
+        scale: 1.05;
+    }
+}
+
+.button_red {
+    background-color: var(--color-red-500);
+    color: var(--color-slate-50);
+    box-shadow: 4px 6px 6px var(--color-red-400);
+
+    &:hover {
+        scale: 1.05;
+    }
+}
+
+.button_sidebar {
+    justify-content: flex-start;
+    background-color: transparent;
     color: var(--color-slate-100);
 
     &:hover {
-        background-color: var(--color-slate-300);
-        color: var(--color-slate-900);
+        background-color: var(--color-slate-50);
+        color: var(--color-slate-500);
+        scale: 1.05;
     }
 }
 
-.button_outline {
-    background-color: transparent;
-    border: solid 2px var(--color-slate-400);
-    color: var(--color-slate-600);
+.button_sidebar_selected {
+    justify-content: flex-start;
+    background-color: var(--color-slate-100);
+    color: var(--color-blue-500);
 
     &:hover {
-        background-color: var(--color-slate-300);
-        color: var(--color-slate-900);
-        border: none;
+        scale: 1.05;
     }
 }
 
-.button_outline_on_dark_background {
-    background-color: transparent;
-    border: solid 2px var(--color-slate-400);
-    color: var(--color-slate-100);
-
-    &:hover {
-        background-color: var(--color-slate-300);
-        color: var(--color-slate-900);
-        border: none;
-    }
-}
-
+/* Width */
 .button_default {
     width: fit-content;
     height: 40px;
-}
-
-.button_very_small {
-    width: 48px;
-    font-size: 0.6rem;
-    padding: 5px;
-    margin: 4px;
-    height: auto;
 }
 
 .button_small {
@@ -73,17 +86,22 @@
     height: 40px;
 }
 
-.button_large {
-    width: 200px;
+.button_contained {
+    width: 30%;
     height: 40px;
 }
 
-.button_extra_large {
-    flex: 2 0 50%;
-    width: 225px;
+.button_extended {
+    width: 65%;
     height: 40px;
 }
 
+.button_full_width {
+    width: 100%;
+    height: 40px;
+}
+
+/* Special */
 .button_left_side {
     border-radius: 8px 0 0 8px;
     margin: 0;
