@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: WordsmithHub/src/gui/package-lock.json
 
       - name: Cache Vite build
         uses: actions/cache@v5
@@ -26,15 +27,19 @@ jobs:
             .vite
           key: vite-${{ hashFiles('package-lock.json') }}
 
-      - run: npm ci --prefer-offline
+      - run: npm ci
+        working-directory: WordsmithHub/src/gui
 
       - run: npm run lint
+        working-directory: WordsmithHub/src/gui
 
       - name: Run tests
         run: npm run test -- --coverage
+        working-directory: WordsmithHub/src/gui
 
       - name: Build app
         run: npm run build
+        working-directory: WordsmithHub/src/gui
 
       - name: Smoke test preview build
         run: |
