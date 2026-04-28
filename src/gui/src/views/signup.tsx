@@ -1,8 +1,13 @@
+import { useState } from "react";
+import CheckboxOption from "../components/ui/CheckboxOption";
 import FormContainer from "../components/ui/FormContainer";
 import FormInputGroup from "../components/ui/FormInputGroup";
 import "../stylesheets/authentication-form.css";
 
 function Signup() {
+    const [conditionsIsChecked, setConditionsIsChecked] = useState(false);
+    const [privacyIsChecked, setPrivacyIsChecked] = useState(false);
+
     return (
         <section className="authentication">
             <h1 className="invisible">Inscription</h1>
@@ -12,6 +17,8 @@ function Signup() {
                 <FormInputGroup label="E-mail" type="email" name="email" placeholder="jean.dupont@exemple.com" />
                 <FormInputGroup label="Mot de passe" type="password" name="password" placeholder="************" />
                 <FormInputGroup label="Confirmation du mot de passe" type="password" name="password_confirmation" placeholder="************" />
+                <CheckboxOption label="J’accepte les conditions d’utilisation" checked={conditionsIsChecked} onChange={setConditionsIsChecked} />
+                <CheckboxOption label="J’accepte la politique de confidentialité" checked={privacyIsChecked} onChange={setPrivacyIsChecked} />
             </FormContainer>
         </section>
     );
