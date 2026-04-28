@@ -1,0 +1,37 @@
+.homepage_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 10px;
+    background-color: var(--color-dark);
+}
+
+.link_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.link_color {
+    margin: 0;
+    color: var(--color-blue-deep);
+
+    &:hover {
+        color: var(--color-blue-light);
+        text-decoration: underline;
+    }
+}
+
+.no_decoration {
+    text-decoration: none;
+}
+
+.slogan {
+    margin: 0 auto 0.5rem;
+    color: var(--color-white);
+    text-align: center;
+}

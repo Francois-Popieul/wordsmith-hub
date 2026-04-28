@@ -1,0 +1,15 @@
+.homepage_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    background-color: var(--color-slate-100);
+}
+
+.navigation_container {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}

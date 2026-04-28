@@ -30,7 +30,7 @@
 }
 
 .toast_error {
-    background-color: var(--color-red-500);
+    background-color: var(--color-red-deep);
 }
 
 .toast_information {

@@ -1,0 +1,35 @@
+.brand_container {
+    display: flex;
+    align-items: center;
+    align-items: flex-start;
+}
+
+.brand_name_dark {
+    color: var(--color-dark);
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.brand_name_light {
+    color: var(--color-white);
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.brand_name_large {
+    font-size: 1.5rem;
+}
+
+.brand_name_small {
+    font-size: 1.25rem;
+}
+
+.brand_logo_large {
+    width: auto;
+    height: 48px;
+}
+
+.brand_logo_small {
+    width: auto;
+    height: 32px;
+}

@@ -1,7 +1,6 @@
 import type React from "react";
 import Button from "./Button";
 import { Link } from "react-router";
-import "../../stylesheets/form.css";
 
 interface FormContainerProps {
     title: string;
@@ -16,18 +15,19 @@ interface FormContainerProps {
     }
 }
 
-function FormContainer(props: FormContainerProps) {
+function FormContainer({ title, presentation, children, button_name, onSubmit, link }: FormContainerProps) {
     return <form
-        onSubmit={props.onSubmit}
+        onSubmit={onSubmit}
         action=""
         method="post"
         className="form">
-        <h1 className="form_title">{props.title}</h1>
-        <p className="form_presentation">{props.presentation}</p>
-        {props.children}
+        <p className="logo_container"><img className="form_logo" src="./logo.png" alt="Logo de Wordsmith Hub" /></p>
+        <h1 className="form_title">{title}</h1>
+        <p className="form_presentation">{presentation}</p>
+        {children}
         <div className="form_centered_container">
-            <Button name={props.button_name} variant="dark" width="full_width" />
-            {props.link && <><p>{props.link.link_message} <Link to={props.link.link_destination}>{props.link.link_text}</Link></p></>}
+            <Button name={button_name} variant="dark" width="full_width" />
+            {link && <><p>{link.link_message} <Link to={link.link_destination}>{link.link_text}</Link></p></>}
         </div>
     </form >
 }

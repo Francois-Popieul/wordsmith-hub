@@ -1,27 +1,20 @@
-import Button from "../components/ui/Button";
-import { Link } from "react-router";
+import Footer from "../components/partials/Footer";
+import Header from "../components/partials/Header";
+import "../stylesheets/homepage.css";
 
 function Homepage() {
     return (
-        <div className="homepage">
+        <section className="homepage">
             <h1 className="invisible">Page d'accueil de Wordsmith Hub</h1>
-            <div className="homepage_header">
-                <div className="homepage_brand_container">
-                    <img src="" alt="" />
-                    <p>Wordsmith Hub</p>
-                </div>
-                <div className="homepage_button_container">
-                    <Link to={"/login"}><Button name="Se connecter" variant="light" width="medium" /></Link>
-                    <Link to={"/signup"}><Button name="Commencer" variant="dark" width="medium" /></Link>
-                </div>
-            </div>
-
+            <Header />
             <div className="homepage_presentation_container">
                 <div>
-                    <h2>Simplifiez la gestion de votre activité de traduction</h2>
-                    <p>Wordsmith Hub est un service complet destiné aux traducteurs indépendants. Gérez vos clients, suivez vos projets et créez vos factures au même endroit.</p>
+                    <h2 className="homepage_presentation_title">Simplifiez la gestion de votre activité de traduction</h2>
+                    <p className="homepage_presentation_text">Wordsmith Hub est un service complet destiné aux traducteurs indépendants. Gérez vos clients, suivez vos projets et créez vos factures au même endroit.</p>
                 </div>
-                <img src="" alt="" />
+                <div className="homepage_image_container">
+                    <img className="homepage_image" src="../src/assets/image_01.avif" alt="Image d'illustration" />
+                </div>
             </div>
 
             <div className="homepage_tools_container">
@@ -33,7 +26,9 @@ function Homepage() {
             </div>
 
             <div className="homepage_feature_container">
-                <img src="" alt="" />
+                <div className="homepage_image_container">
+                    <img className="homepage_image" src="../src/assets/image_02.avif" alt="Image d'illustration" />
+                </div>
                 <div>
                     <h2>Concentrez-vous sur la traduction, pas sur la gestion administrative</h2>
                     <ul>
@@ -44,8 +39,8 @@ function Homepage() {
                     </ul>
                 </div>
             </div>
-
-        </div>
+            <Footer />
+        </section>
     );
 }
 

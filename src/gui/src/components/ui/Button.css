@@ -16,9 +16,9 @@
 
 /* Variant */
 .button_dark {
-    background-color: var(--color-slate-950);
+    background-color: var(--color-dark);
     color: var(--color-slate-100);
-    box-shadow: 4px 6px 6px var(--color-slate-500);
+    box-shadow: var(--drop-shadow);
 
     &:hover {
         scale: 1.05;
@@ -27,8 +27,8 @@
 
 .button_light {
     background-color: var(--color-slate-50);
-    color: var(--color-slate-950);
-    box-shadow: 4px 6px 6px var(--color-slate-300);
+    color: var(--color-dark);
+    box-shadow: var(--drop-shadow);
 
     &:hover {
         scale: 1.05;
@@ -36,9 +36,9 @@
 }
 
 .button_red {
-    background-color: var(--color-red-500);
+    background-color: var(--color-red-deep);
     color: var(--color-slate-50);
-    box-shadow: 4px 6px 6px var(--color-red-400);
+    box-shadow: var(--drop-shadow);
 
     &:hover {
         scale: 1.05;
@@ -60,7 +60,7 @@
 .button_sidebar_selected {
     justify-content: flex-start;
     background-color: var(--color-slate-100);
-    color: var(--color-blue-500);
+    color: var(--color-blue-deep);
 
     &:hover {
         scale: 1.05;

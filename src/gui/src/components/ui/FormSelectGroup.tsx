@@ -1,5 +1,3 @@
-import "../../stylesheets/form.css";
-
 interface FormSelectGroupProps {
     label: string;
     name: string;
