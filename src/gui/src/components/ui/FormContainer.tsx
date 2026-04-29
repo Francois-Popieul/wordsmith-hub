@@ -1,6 +1,7 @@
 import type React from "react";
 import Button from "./Button";
 import { Link } from "react-router";
+import { FaArrowLeft } from "react-icons/fa6";
 
 interface FormContainerProps {
     title: string;
@@ -28,6 +29,7 @@ function FormContainer({ title, presentation, children, button_name, onSubmit, l
         <div className="form_centered_container">
             <Button name={button_name} variant="dark" width="full_width" />
             {link && <><p>{link.link_message} <Link to={link.link_destination}>{link.link_text}</Link></p></>}
+            <Link to="/"><div className="back_home_container"><FaArrowLeft /><p>Revenir à l’accueil</p></div></Link>
         </div>
     </form >
 }
