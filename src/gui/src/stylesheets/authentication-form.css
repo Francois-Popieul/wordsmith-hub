@@ -82,6 +82,14 @@
     margin-left: 0.25rem;
 }
 
+.form_error {
+    color: var(--color-red-deep);
+    font-size: 0.9rem;
+    text-align: left;
+    margin-top: 0.25rem;
+    width: 100%;
+}
+
 @media screen and (max-width: 768px) {
     .form {
         width: 95%;
