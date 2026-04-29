@@ -8,10 +8,10 @@ import type SignupUser from "../models/SignupUser";
 
 const signupSchema = zod
     .object({
-        firstName: zod.string().trim().max(50, "Prénom trop long.").optional(),
-        lastName: zod.string().trim().max(100, "Nom trop long.").optional(),
-        email: zod.email("Veuillez renseigner une adresse e-mail valide."),
-        password: zod.string().min(12, "Le mot de passe doit contenir au moins 12 caractères incluant majuscules, minuscules, chiffres et caractères spéciaux."),
+        firstName: zod.string().trim().max(50, { message: "Prénom trop long." }).optional(),
+        lastName: zod.string().trim().max(100, { message: "Nom trop long." }).optional(),
+        email: zod.email({ message: "Veuillez renseigner une adresse e-mail valide." }),
+        password: zod.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/, { message: "Le mot de passe doit contenir au moins 12 caractères incluant majuscules, minuscules, chiffres et caractères spéciaux." }),
         passwordConfirmation: zod.string(),
         conditions: zod.literal(true, { message: "Vous devez accepter les conditions d’utilisation." }),
         privacy: zod.literal(true, { message: "Vous devez accepter la politique de confidentialité." }),

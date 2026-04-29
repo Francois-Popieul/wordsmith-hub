@@ -7,8 +7,8 @@ import type LoginUser from "../models/LoginUser";
 
 const loginSchema = zod
     .object({
-        email: zod.email("Veuillez renseigner une adresse e-mail valide."),
-        password: zod.string().min(1, "Le mot de passe est requis."),
+        email: zod.email({ message: "Veuillez renseigner une adresse e-mail valide." }),
+        password: zod.string().min(1, { message: "Le mot de passe est requis." }),
     });
 
 function LoginView() {
