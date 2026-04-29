@@ -15,11 +15,11 @@ public class LoginUserRequestValidator : Validator<LoginUserRequest>
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("L'adresse email est requise.")
             .EmailAddress().WithMessage("L'adresse email est invalide.")
-            .MaximumLength(255).WithMessage("L'adresse email ne doit pas dépasser 255 caractères.");
+            .MaximumLength(255).WithMessage("L'adresse email ne doit pas dépasser 255 caractères.");
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Le mot de passe est requis.")
-            .MaximumLength(255).WithMessage("Le mot de passe ne doit pas dépasser 255 caractères.");
+            .MaximumLength(255).WithMessage("Le mot de passe ne doit pas dépasser 255 caractères.");
     }
 }
 
