@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import * as zod from "zod";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import FormContainer from "../../components/ui/FormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../stylesheets/authentication-form.css";
-import type SignupUser from "../models/SignupUser";
+import SignupUser from "../models/SignupUser";
 import { signupSchema } from "../zod/authenticationSchemas";
 import axios from "axios";
 import { createApiClient } from "../../infrastructure/openApi/client";
@@ -20,13 +20,13 @@ function SignupView() {
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const userData: SignupUser = {
-            firstName: formData.get("firstname") as string | null,
-            lastName: formData.get("lastname") as string | null,
-            email: formData.get("email") as string,
-            password: formData.get("password") as string,
-            passwordConfirmation: formData.get("password_confirmation") as string,
-        };
+        const userData = new SignupUser(
+            formData.get("email") as string,
+            formData.get("password") as string,
+            formData.get("password_confirmation") as string,
+            formData.get("firstname") as string,
+            formData.get("lastname") as string
+        );
 
         const validationResult = signupSchema.safeParse({
             ...userData,
@@ -39,11 +39,9 @@ function SignupView() {
         }
 
         setFieldErrors({});
-        console.log("User Data:", userData);
 
         try {
-            const response = await apiClient.RegisterUserEndpoint({ body: { ...userData } });
-            console.log("API Response:", response);
+            await apiClient.RegisterUserEndpoint({ body: { ...userData } });
             navigate("/login");
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
