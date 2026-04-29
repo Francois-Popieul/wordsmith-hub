@@ -2,6 +2,7 @@ import "./CheckboxOption.css";
 
 interface CheckboxOptionProps {
     label: string;
+    name?: string;
     checked: boolean;
     required?: boolean;
     error?: React.ReactNode | undefined;
@@ -10,6 +11,7 @@ interface CheckboxOptionProps {
 
 function CheckboxOption({
     label,
+    name,
     checked,
     required = false,
     error,
@@ -18,6 +20,7 @@ function CheckboxOption({
         <label className="checkbox_option">
             <input
                 type="checkbox"
+                name={name}
                 checked={checked}
                 required={required}
                 onChange={(e) => onChange(e.target.checked)}

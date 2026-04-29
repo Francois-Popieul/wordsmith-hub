@@ -4,12 +4,8 @@ import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../stylesheets/authentication-form.css";
 import { useState } from "react";
 import type LoginUser from "../models/LoginUser";
+import { loginSchema } from "../zod/authenticationSchemas";
 
-const loginSchema = zod
-    .object({
-        email: zod.email({ message: "Veuillez renseigner une adresse e-mail valide." }),
-        password: zod.string().min(1, { message: "Le mot de passe est requis." }),
-    });
 
 function LoginView() {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});

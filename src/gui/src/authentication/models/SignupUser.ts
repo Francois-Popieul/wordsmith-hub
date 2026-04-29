@@ -6,10 +6,10 @@ export default class SignupUser {
     passwordConfirmation: string;
 
     public constructor(
-        firstName: string, lastName: string, email: string, password: string, passwordConfirmation: string
+        email: string, password: string, passwordConfirmation: string, firstName?: string, lastName?: string
     ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = firstName ?? null;
+        this.lastName = lastName ?? null;
         this.email = email;
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;

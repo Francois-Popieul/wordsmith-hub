@@ -13,7 +13,7 @@ function HomepageView() {
         <Header />
         <main className="homepage">
             <h1 className="invisible">Page d'accueil de Wordsmith Hub</h1>
-            <div className="homepage_presentation_container">
+            <section className="homepage_presentation_container">
                 <div className="homepage_presentation_text_container">
                     <h2 className="homepage_presentation_title">Simplifiez la gestion de votre activité de traduction</h2>
                     <p className="homepage_presentation_text">Wordsmith Hub est un service complet destiné aux traducteurs indépendants. Gérez vos clients, suivez vos projets et créez vos factures au même endroit.</p>
@@ -21,9 +21,9 @@ function HomepageView() {
                 <div className="homepage_image_container">
                     <img className="homepage_horizontal_image" src="../src/assets/image_01.avif" alt="Image d'illustration" />
                 </div>
-            </div>
+            </section>
 
-            <div className="homepage_tools_container">
+            <section className="homepage_tools_container">
                 <h2 className="homepage_tools_title">Tout ce qu'il vous faut pour réussir</h2>
                 <p className="homepage_tools_text">Des outils pratiques conçus pour les traducteurs indépendants</p>
                 <div className="homepage_vignette_container">
@@ -32,9 +32,9 @@ function HomepageView() {
                     <HomepageVignette title="Gestion des commandes" text="Suivez votre charge de travail grâce aux informations détaillées sur chaque commande&nbsp;: compte de mots, tarifs, date de livraison, etc." icon={<FaRegClock size={32} color="var(--color-blue-deep)" />} />
                     <HomepageVignette title="Prise en charge de plusieurs langues" text="Gérez facilement toutes les paires de langues. Configurez facilement vos tarifs pour toutes les combinaisons et tous les services." icon={<IoLanguage size={32} color="var(--color-blue-deep)" />} />
                 </div>
-            </div>
+            </section>
 
-            <div className="homepage_feature_container">
+            <section className="homepage_feature_container">
                 <div className="homepage_image_container">
                     <img className="homepage_vertical_image" src="../src/assets/image_02.avif" alt="Image d'illustration" />
                 </div>
@@ -45,7 +45,7 @@ function HomepageView() {
                     <HomepageFeature title="Développez votre activité" text="Prenez des décisions réfléchies grâce aux informations sur vos activités les plus rentables." />
                     <HomepageFeature title="Optimisez votre organisation" text="Ne manquez jamais une échéance grâce à un système de gestion centralisée de vos commandes." />
                 </div>
-            </div>
+            </section>
         </main>
         <Footer />
     </>
