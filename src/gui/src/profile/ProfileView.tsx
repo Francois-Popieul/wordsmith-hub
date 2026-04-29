@@ -1,4 +1,4 @@
-function Profile() {
+function ProfileView() {
     return (
         <div className="profile">
             <h1>User Profile</h1>
@@ -7,4 +7,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default ProfileView;

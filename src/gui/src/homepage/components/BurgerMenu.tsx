@@ -2,8 +2,8 @@ import "./BurgerMenu.css";
 import { MdMenu } from "react-icons/md";
 import { useState } from 'react';
 import { Link } from "react-router";
-import Button from "./Button";
 import "./BurgerMenu.css";
+import Button from "../../components/ui/Button";
 
 function BurgerMenu() {
     const [isOpen, setIsOpen] = useState(false);

@@ -11,7 +11,7 @@ const loginSchema = zod
         password: zod.string().min(1, "Le mot de passe est requis."),
     });
 
-function Login() {
+function LoginView() {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
 
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
@@ -42,4 +42,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default LoginView;

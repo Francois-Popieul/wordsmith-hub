@@ -21,7 +21,7 @@ const signupSchema = zod
         message: "Les mots de passe ne correspondent pas.",
     });
 
-function Signup() {
+function SignupView() {
     const [conditionsIsChecked, setConditionsIsChecked] = useState(false);
     const [privacyIsChecked, setPrivacyIsChecked] = useState(false);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
@@ -63,4 +63,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default SignupView;

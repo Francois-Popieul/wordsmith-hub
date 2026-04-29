@@ -9,16 +9,31 @@ public record RegisterUserRequest(
     string? FirstName,
     string? LastName,
     string Email,
-    string Password);
+    string Password,
+    string? PasswordConfirmation);
 
 public class RegisterUserRequestValidator : Validator<RegisterUserRequest>
 {
     public RegisterUserRequestValidator()
     {
-        RuleFor(x => x.FirstName).MaximumLength(50);
-        RuleFor(x => x.LastName).MaximumLength(100);
-        RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
-        RuleFor(x => x.Password).NotEmpty().MinimumLength(12).MaximumLength(255);
+        RuleFor(x => x.FirstName)
+            .MaximumLength(50).WithMessage("Le prénom ne doit pas dépasser 50 caractères.");
+        RuleFor(x => x.LastName)
+            .MaximumLength(100).WithMessage("Le nom de famille ne doit pas dépasser 100 caractères.");
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage("L'adresse email est requise.")
+            .EmailAddress().WithMessage("L'adresse email est invalide.")
+            .MaximumLength(255).WithMessage("L'adresse email ne doit pas dépasser 255 caractères.");
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage("Le mot de passe est requis.")
+            .MinimumLength(12)
+            .WithMessage(
+                "Le mot de passe doit contenir au moins 12 caractères incluant majuscules, minuscules, chiffres et caractères spéciaux.")
+            .MaximumLength(255).WithMessage("Le mot de passe ne doit pas dépasser 255 caractères.");
+        RuleFor(x => x)
+            .Must(x => x.Password == x.PasswordConfirmation)
+            .WithMessage("Les mots de passe ne correspondent pas.")
+            .WithName("PasswordConfirmation");
     }
 }
 

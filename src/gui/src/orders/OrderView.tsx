@@ -1,4 +1,4 @@
-function Orders() {
+function OrderView() {
     return (
         <div className="orders">
             <h1>Orders Page</h1>
@@ -7,4 +7,4 @@ function Orders() {
     );
 }
 
-export default Orders;
+export default OrderView;

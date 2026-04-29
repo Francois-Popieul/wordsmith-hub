@@ -1,14 +1,14 @@
-import Footer from "../components/partials/Footer";
-import Header from "../components/partials/Header";
-import HomepageFeature from "../components/ui/HomepageFeature";
-import HomepageVignette from "../components/ui/HomepageVignette";
-import "../stylesheets/homepage.css";
+import Footer from "../../components/partials/Footer";
+import Header from "../../components/partials/Header";
+import "../../stylesheets/homepage.css";
 import { FaUserGroup } from "react-icons/fa6";
 import { FaRegFileLines } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa6";
 import { IoLanguage } from "react-icons/io5";
+import HomepageFeature from "../components/HomepageFeature";
+import HomepageVignette from "../components/HomepageVignette";
 
-function Homepage() {
+function HomepageView() {
     return (<>
         <Header />
         <main className="homepage">
@@ -52,4 +52,4 @@ function Homepage() {
     );
 }
 
-export default Homepage;
+export default HomepageView;

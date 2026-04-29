@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import Button from "../ui/Button";
 import "./Header.css";
 import Brand from "./Brand";
-import BurgerMenu from "../ui/BurgerMenu";
+import BurgerMenu from "../../homepage/components/BurgerMenu";
 
 function Header() {
     return (
