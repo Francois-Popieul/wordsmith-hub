@@ -1,15 +1,31 @@
 .homepage_header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 10px;
-    width: 100%;
     background-color: var(--color-slate-100);
+    margin: 0 auto;
+    width: 100%;
+    max-width: 80%;
 }
 
 .navigation_container {
     display: flex;
     gap: 10px;
     align-items: flex-end;
+}
+
+.button_container {
+    display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+    .homepage_header {
+        max-width: 95%;
+    }
+
+    .button_container {
+        display: none;
+    }
 }

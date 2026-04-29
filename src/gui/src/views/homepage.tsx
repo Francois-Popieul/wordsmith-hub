@@ -9,10 +9,10 @@ import { FaRegClock } from "react-icons/fa6";
 import { IoLanguage } from "react-icons/io5";
 
 function Homepage() {
-    return (
-        <section className="homepage">
+    return (<>
+        <Header />
+        <main className="homepage">
             <h1 className="invisible">Page d'accueil de Wordsmith Hub</h1>
-            <Header />
             <div className="homepage_presentation_container">
                 <div className="homepage_presentation_text_container">
                     <h2 className="homepage_presentation_title">Simplifiez la gestion de votre activité de traduction</h2>
@@ -46,8 +46,9 @@ function Homepage() {
                     <HomepageFeature title="Optimisez votre organisation" text="Ne manquez jamais une échéance grâce à un système de gestion centralisée de vos commandes." />
                 </div>
             </div>
-            <Footer />
-        </section>
+        </main>
+        <Footer />
+    </>
     );
 }
 
