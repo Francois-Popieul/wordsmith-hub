@@ -154,6 +154,7 @@ app.UseAuthorization();
 
 app.UseFastEndpoints(c =>
 {
+    c.Endpoints.ShortNames = true;
     c.Endpoints.Configurator = ep => { ep.PreProcessors(0, typeof(AppUserIdPreProcessor<>)); };
 });
 
