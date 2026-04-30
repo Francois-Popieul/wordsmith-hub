@@ -29,6 +29,7 @@ const UpdateFreelanceRequest = z.object({
   phone: z.string().min(0).max(15).nullish(),
   address: Address,
 });
+const NoContent = z.object({});
 const AddressDto = z.object({
   streetInfo: z.string(),
   addressComplement: z.string().nullable(),
@@ -46,7 +47,6 @@ const FreelanceDto = z.object({
   address: AddressDto.nullable(),
   statusId: z.number().int(),
 });
-const NoContent = z.object({});
 const UpdateDirectCustomerRequest = z.object({
   name: z.string().min(0).max(150),
   code: z.string().min(0).max(5),
@@ -121,9 +121,9 @@ export const schemas = {
   AppUserDto,
   Address,
   UpdateFreelanceRequest,
+  NoContent,
   AddressDto,
   FreelanceDto,
-  NoContent,
   UpdateDirectCustomerRequest,
   DirectCustomerDto,
   AddDirectCustomerRequest,
@@ -262,6 +262,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.array(DirectCustomerDto),
         config
       ),
+    GetFreelanceEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/freelance", params, FreelanceDto, config),
     UpdateFreelanceEndpoint: (
       params: {
         body?: unknown;
@@ -270,15 +278,6 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("put", "/freelance/:freelanceId", params, z.string(), config),
-    GetFreelanceEndpoint: (
-      params: {
-        body?: unknown;
-        pathParams?: Record<string, string | number>;
-        query?: Record<string, unknown>;
-      } = {},
-      config?: AxiosRequestConfig
-    ) =>
-      request("get", "/freelance/:freelanceId", params, FreelanceDto, config),
     DeleteFreelanceEndpoint: (
       params: {
         body?: unknown;
@@ -323,8 +322,8 @@ export function getTagByAlias(alias: string): string | undefined {
     GetDirectCustomerEndpoint: "directcustomer",
     DeleteDirectCustomerEndpoint: "directcustomer",
     GetAllDirectCustomersEndpoint: "directcustomer",
-    UpdateFreelanceEndpoint: "freelance",
     GetFreelanceEndpoint: "freelance",
+    UpdateFreelanceEndpoint: "freelance",
     DeleteFreelanceEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
     GetUserEndpoint: "user",

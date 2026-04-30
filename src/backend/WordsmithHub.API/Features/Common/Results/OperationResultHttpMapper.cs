@@ -4,6 +4,11 @@ namespace WordsmithHub.API.Features.Common.Results;
 
 public static class OperationResultHttpMapper
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
     public static async Task MapToHttpAsync<T>(
         this HttpContext httpContext,
         OperationResult<T> result,
@@ -32,7 +37,7 @@ public static class OperationResultHttpMapper
         if (body is not null)
         {
             response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(response.Body, body, cancellationToken: cancellationToken);
+            await JsonSerializer.SerializeAsync(response.Body, body, JsonOptions, cancellationToken);
         }
     }
 }

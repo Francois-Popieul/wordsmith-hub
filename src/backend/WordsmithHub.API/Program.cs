@@ -156,6 +156,7 @@ app.UseFastEndpoints(c =>
 {
     c.Endpoints.ShortNames = true;
     c.Endpoints.Configurator = ep => { ep.PreProcessors(0, typeof(AppUserIdPreProcessor<>)); };
+    c.Serializer.Options.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
 });
 
 if (!app.Environment.IsEnvironment("IntegrationTest"))

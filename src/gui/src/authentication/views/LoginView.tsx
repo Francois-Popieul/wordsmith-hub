@@ -3,20 +3,25 @@ import FormContainer from "../../components/ui/FormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../stylesheets/authentication-form.css";
 import { useState } from "react";
-import type LoginUser from "../models/LoginUser";
+import LoginUser from "../models/LoginUser";
 import { loginSchema } from "../zod/authenticationSchemas";
+import { createApiClient } from "../../infrastructure/openApi/client";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 
 function LoginView() {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+    const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL);
+    const navigate = useNavigate();
 
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const userData: LoginUser = {
-            email: formData.get("email") as string,
-            password: formData.get("password") as string
-        };
+        const userData: LoginUser = new LoginUser(
+            formData.get("email") as string,
+            formData.get("password") as string
+        );
 
         const validationResult = loginSchema.safeParse(userData);
         if (!validationResult.success) {
@@ -26,6 +31,18 @@ function LoginView() {
 
         setFieldErrors({});
         console.log("User Data:", userData);
+
+        try {
+            const response = await apiClient.LoginUserEndpoint({ body: { ...userData } });
+            localStorage.setItem("wshToken", response.accessToken);
+            navigate("/dashboard");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setFieldErrors(error.response.data.errors || {});
+            } else {
+                console.error("An unexpected error occurred:", error);
+            }
+        }
     }
     return (
         <main className="authentication">

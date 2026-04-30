@@ -9,7 +9,7 @@ public class GetFreelanceEndpoint : ApiEndpointWithoutRequest<FreelanceDto>
 {
     public override void Configure()
     {
-        Get("/freelance/{freelanceId:guid}");
+        Get("/freelance");
         Roles("user", "admin");
         Description(x => x.WithTags("freelance")
             .Produces(StatusCodes.Status403Forbidden));
@@ -19,9 +19,7 @@ public class GetFreelanceEndpoint : ApiEndpointWithoutRequest<FreelanceDto>
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
-        var freelanceId = Route<Guid>("freelanceId");
-
-        var command = new GetFreelanceCommand(appUserId, freelanceId);
+        var command = new GetFreelanceCommand(appUserId);
 
         var result = await command.ExecuteAsync(cancellationToken);
 

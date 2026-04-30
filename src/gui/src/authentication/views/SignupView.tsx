@@ -15,7 +15,7 @@ function SignupView() {
     const [privacyIsChecked, setPrivacyIsChecked] = useState(false);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const navigate = useNavigate();
-    const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL || "https://localhost:7095");
+    const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL);
 
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();

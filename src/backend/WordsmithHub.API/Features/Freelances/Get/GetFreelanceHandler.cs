@@ -7,7 +7,7 @@ using WordsmithHub.API.Services.FreelanceAccessService;
 
 namespace WordsmithHub.API.Features.Freelances.Get;
 
-public record GetFreelanceCommand(Guid AppUserId, Guid FreelanceId) : ICommand<OperationResult<FreelanceDto>>;
+public record GetFreelanceCommand(Guid AppUserId) : ICommand<OperationResult<FreelanceDto>>;
 
 [UsedImplicitly]
 public class GetFreelanceHandler(IFreelanceAccessService freelanceAccessService)
@@ -18,11 +18,8 @@ public class GetFreelanceHandler(IFreelanceAccessService freelanceAccessService)
     {
         var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
 
-        if (freelance == null || freelance.Id != command.FreelanceId)
-        {
-            return OperationResult.Forbidden<FreelanceDto>();
-        }
-
-        return OperationResult.Success(freelance.ToDto());
+        return freelance == null
+            ? OperationResult.Forbidden<FreelanceDto>()
+            : OperationResult.Success(freelance.ToDto());
     }
 }
