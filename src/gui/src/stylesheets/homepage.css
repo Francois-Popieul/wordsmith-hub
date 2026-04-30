@@ -6,6 +6,7 @@
     max-width: 80%;
     padding: 10px;
     background-color: var(--color-slate-50);
+    box-sizing: border-box;
 }
 
 .homepage_presentation_container,
@@ -106,5 +107,19 @@
     .homepage_feature_container {
         width: 100%;
         max-width: 768px;
+    }
+
+    .homepage_presentation_title {
+        font-size: 1.5rem;
+    }
+
+    .homepage_tools_text,
+    .homepage_presentation_text {
+        font-size: 1rem;
+    }
+
+    .homepage_feature_title,
+    .homepage_tools_title {
+        font-size: 1.25rem;
     }
 }

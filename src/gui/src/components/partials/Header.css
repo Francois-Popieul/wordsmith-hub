@@ -8,6 +8,7 @@
     margin: 0 auto;
     width: 100%;
     max-width: 80%;
+    box-sizing: border-box;
 }
 
 .navigation_container {
@@ -22,7 +23,8 @@
 
 @media screen and (max-width: 768px) {
     .homepage_header {
-        max-width: 95%;
+        width: 100%;
+        max-width: 100%;
     }
 
     .button_container {

@@ -12,8 +12,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     gap: 10px;
-    margin: 0;
-    padding: 0;
+    width: 95%;
 }
 
 .feature_title {
@@ -21,22 +20,23 @@
     text-align: left;
     font-weight: 600;
     color: var(--color-slate-800);
-    margin: 0;
-    padding: 0;
 }
 
 .feature_text {
     font-size: 1rem;
     text-align: left;
     color: var(--color-slate-700);
-    margin: 0;
-    padding: 0;
+}
+
+.feature_icon_container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 5%;
+    height: auto;
 }
 
 .feature_icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 50%;
     color: var(--color-blue-deep);
     background-color: var(--color-blue-light);

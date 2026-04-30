@@ -1,7 +1,7 @@
 .brand_container {
     display: flex;
     align-items: center;
-    align-items: flex-start;
+    flex-direction: row;
 }
 
 .brand_name_dark {
