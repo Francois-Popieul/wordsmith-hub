@@ -4,8 +4,8 @@ import "./Sidebar.css";
 import Brand from "./Brand";
 import { MdOutlineDashboard } from "react-icons/md";
 import { MdOutlineGroup } from "react-icons/md";
-import { FaFileInvoiceDollar } from "react-icons/fa6";
-import { FaRegFileAlt } from "react-icons/fa";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import { IoFolderOpenOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 
@@ -23,13 +23,15 @@ function Sidebar() {
         <div className="sidebar">
             <div className="sidebar_inner_container">
                 <Brand variant="light" width="small" />
+                <hr />
                 <Button name="Tableau de bord" variant={variant("/dashboard")} width="full_width" onClick={() => handleNav("/dashboard")}><MdOutlineDashboard /></Button>
                 <Button name="Clients" variant={variant("/direct-customers")} width="full_width" onClick={() => handleNav("/direct-customers")}><MdOutlineGroup /></Button>
-                <Button name="Commandes" variant={variant("/orders")} width="full_width" onClick={() => handleNav("/orders")}><FaRegFileAlt /></Button>
-                <Button name="Factures" variant={variant("/invoices")} width="full_width" onClick={() => handleNav("/invoices")}><FaFileInvoiceDollar /></Button>
+                <Button name="Commandes" variant={variant("/orders")} width="full_width" onClick={() => handleNav("/orders")}><IoFolderOpenOutline /></Button>
+                <Button name="Factures" variant={variant("/invoices")} width="full_width" onClick={() => handleNav("/invoices")}><LiaFileInvoiceDollarSolid /></Button>
                 <Button name="Profil" variant={variant("/profile")} width="full_width" onClick={() => handleNav("/profile")}><IoPersonOutline /></Button>
             </div>
             <div className="sidebar_inner_container">
+                <hr />
                 <Button name="Se déconnecter" variant="sidebar" width="full_width" onClick={() => handleNav("/logout")}><MdLogout /></Button>
             </div>
         </div>

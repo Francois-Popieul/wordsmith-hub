@@ -21,8 +21,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/login" element={<LoginView />} />
         <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/direct-customers" element={<DirectCustomers />} />
-        <Route path="/invoices" element={<Invoices />} />
         <Route path="/orders" element={<OrderView />} />
+        <Route path="/invoices" element={<Invoices />} />
         <Route path="/profile" element={<ProfileView />} />
         <Route path="/terms_of_service" element={<TermsOfService />} />
         <Route path="/privacy_policy" element={<PrivacyPolicy />} />
