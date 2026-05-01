@@ -25,7 +25,7 @@ public class TestAuthHandler(
 
         if (!string.IsNullOrWhiteSpace(Options.Roles))
         {
-            foreach (var role in Options.Roles.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            foreach (var role in Options.Roles.Split(",", StringSplitOptions.RemoveEmptyEntries))
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, role.Trim().ToLowerInvariant()));
             }

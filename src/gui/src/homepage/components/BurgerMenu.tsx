@@ -1,6 +1,6 @@
 import "./BurgerMenu.css";
 import { MdMenu } from "react-icons/md";
-import { useState } from 'react';
+import { useState } from "react";
 import { Link } from "react-router";
 import "./BurgerMenu.css";
 import Button from "../../components/ui/Button";

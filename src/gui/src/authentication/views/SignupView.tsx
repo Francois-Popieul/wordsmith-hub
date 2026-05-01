@@ -61,8 +61,8 @@ function SignupView() {
                 <FormInputGroup label="E-mail" type="email" name="email" placeholder="jean.dupont@exemple.com" error={fieldErrors.email?.[0]} />
                 <FormInputGroup label="Mot de passe" type="password" name="password" placeholder="************" error={fieldErrors.password?.[0]} />
                 <FormInputGroup label="Confirmation du mot de passe" type="password" name="password_confirmation" placeholder="************" error={fieldErrors.passwordConfirmation?.[0]} />
-                <CheckboxOption label="J'accepte les conditions d'utilisation" name="conditions" checked={conditionsIsChecked} required={true} onChange={setConditionsIsChecked} error={fieldErrors.conditions?.[0]} />
-                <CheckboxOption label="J'accepte la politique de confidentialité" name="privacy" checked={privacyIsChecked} required={true} onChange={setPrivacyIsChecked} error={fieldErrors.privacy?.[0]} />
+                <CheckboxOption label="J’accepte les conditions d’utilisation" name="conditions" checked={conditionsIsChecked} required={true} onChange={setConditionsIsChecked} error={fieldErrors.conditions?.[0]} />
+                <CheckboxOption label="J’accepte la politique de confidentialité" name="privacy" checked={privacyIsChecked} required={true} onChange={setPrivacyIsChecked} error={fieldErrors.privacy?.[0]} />
             </FormContainer>
         </main>
     );

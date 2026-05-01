@@ -21,9 +21,9 @@ public class RegisterUserRequestValidator : Validator<RegisterUserRequest>
         RuleFor(x => x.LastName)
             .MaximumLength(100).WithMessage("Le nom de famille ne doit pas dépasser 100 caractères.");
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("L'adresse email est requise.")
-            .EmailAddress().WithMessage("L'adresse email est invalide.")
-            .MaximumLength(255).WithMessage("L'adresse email ne doit pas dépasser 255 caractères.");
+            .NotEmpty().WithMessage("L’adresse email est requise.")
+            .EmailAddress().WithMessage("L’adresse email est invalide.")
+            .MaximumLength(255).WithMessage("L’adresse email ne doit pas dépasser 255 caractères.");
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Le mot de passe est requis.")
             .MinimumLength(12)

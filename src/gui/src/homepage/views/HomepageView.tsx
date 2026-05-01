@@ -12,19 +12,19 @@ function HomepageView() {
     return (<>
         <Header />
         <main className="homepage">
-            <h1 className="invisible">Page d'accueil de Wordsmith Hub</h1>
+            <h1 className="invisible">Page d’accueil de Wordsmith Hub</h1>
             <section className="homepage_presentation_container">
                 <div className="homepage_presentation_text_container">
                     <h2 className="homepage_presentation_title">Simplifiez la gestion de votre activité de traduction</h2>
                     <p className="homepage_presentation_text">Wordsmith Hub est un service complet destiné aux traducteurs indépendants. Gérez vos clients, suivez vos projets et créez vos factures au même endroit.</p>
                 </div>
                 <div className="homepage_image_container">
-                    <img className="homepage_horizontal_image" src="../src/assets/image_01.avif" alt="Image d'illustration" />
+                    <img className="homepage_horizontal_image" src="../src/assets/image_01.avif" alt="Image d’illustration" />
                 </div>
             </section>
 
             <section className="homepage_tools_container">
-                <h2 className="homepage_tools_title">Tout ce qu'il vous faut pour réussir</h2>
+                <h2 className="homepage_tools_title">Tout ce qu’il vous faut pour réussir</h2>
                 <p className="homepage_tools_text">Des outils pratiques conçus pour les traducteurs indépendants</p>
                 <div className="homepage_vignette_container">
                     <HomepageVignette title="Gestion des clients" text="Enregistrez vos clients, leurs informations de contact et vos tarifs pour chaque paire de langue et vos différents services." icon={<FaUserGroup size={32} color="var(--color-blue-deep)" />} />
@@ -36,7 +36,7 @@ function HomepageView() {
 
             <section className="homepage_feature_container">
                 <div className="homepage_image_container">
-                    <img className="homepage_vertical_image" src="../src/assets/image_02.avif" alt="Image d'illustration" />
+                    <img className="homepage_vertical_image" src="../src/assets/image_02.avif" alt="Image d’illustration" />
                 </div>
                 <div>
                     <h2 className="homepage_feature_title">Concentrez-vous sur la traduction, pas sur la gestion administrative</h2>
