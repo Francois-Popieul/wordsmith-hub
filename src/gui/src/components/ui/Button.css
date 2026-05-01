@@ -49,6 +49,7 @@
     justify-content: flex-start;
     background-color: transparent;
     color: var(--color-slate-100);
+    padding: 10px;
 
     &:hover {
         background-color: var(--color-slate-50);
@@ -61,10 +62,8 @@
     justify-content: flex-start;
     background-color: var(--color-slate-100);
     color: var(--color-blue-deep);
-
-    &:hover {
-        scale: 1.05;
-    }
+    padding: 10px;
+    scale: 1.05;
 }
 
 /* Width */

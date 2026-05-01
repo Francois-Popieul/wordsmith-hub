@@ -1,18 +1,36 @@
-import { Link } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import Button from "../ui/Button";
 import "./Sidebar.css";
 import Brand from "./Brand";
+import { MdOutlineDashboard } from "react-icons/md";
+import { MdOutlineGroup } from "react-icons/md";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
+import { FaRegFileAlt } from "react-icons/fa";
+import { IoPersonOutline } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
 
 function Sidebar() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleNav = (route: string) => {
+        navigate(route);
+    };
+
+    const variant = (route: string) => location.pathname === route ? "sidebar_selected" : "sidebar";
+
     return (
         <div className="sidebar">
-            <Brand variant="light" width="small" />
-            <div>
-                <Link to={"/dashboard"}><Button name="Tableau de bord" variant="sidebar_selected" width="full_width" ></Button></Link>
-                <Link to={"/directCustomers"}><Button name="Clients" variant="sidebar" width="full_width" ></Button></Link>
-                <Link to={"/orders"}><Button name="Commandes" variant="sidebar" width="full_width" ></Button></Link>
-                <Link to={"/invoices"}><Button name="Factures" variant="sidebar" width="full_width" ></Button></Link>
-                <Link to={"/profile"}><Button name="Profil" variant="sidebar" width="full_width" ></Button></Link>
+            <div className="sidebar_inner_container">
+                <Brand variant="light" width="small" />
+                <Button name="Tableau de bord" variant={variant("/dashboard")} width="full_width" onClick={() => handleNav("/dashboard")}><MdOutlineDashboard /></Button>
+                <Button name="Clients" variant={variant("/direct-customers")} width="full_width" onClick={() => handleNav("/direct-customers")}><MdOutlineGroup /></Button>
+                <Button name="Commandes" variant={variant("/orders")} width="full_width" onClick={() => handleNav("/orders")}><FaRegFileAlt /></Button>
+                <Button name="Factures" variant={variant("/invoices")} width="full_width" onClick={() => handleNav("/invoices")}><FaFileInvoiceDollar /></Button>
+                <Button name="Profil" variant={variant("/profile")} width="full_width" onClick={() => handleNav("/profile")}><IoPersonOutline /></Button>
+            </div>
+            <div className="sidebar_inner_container">
+                <Button name="Se déconnecter" variant="sidebar" width="full_width" onClick={() => handleNav("/logout")}><MdLogout /></Button>
             </div>
         </div>
     );
