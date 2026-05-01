@@ -8,6 +8,8 @@ import DirectCustomers from "./directCustomers/views/directCustomers.tsx"
 import OrderView from "./orders/OrderView.tsx"
 import ProfileView from "./profile/ProfileView.tsx"
 import { BrowserRouter, Route, Routes } from "react-router";
+import TermsOfService from "./terms_of_service/views/TermsOfService.tsx"
+import PrivacyPolicy from "./privacy_policy/views/PrivacyPolicy.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -20,6 +22,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/direct-customers" element={<DirectCustomers />} />
         <Route path="/orders" element={<OrderView />} />
         <Route path="/profile" element={<ProfileView />} />
+        <Route path="/terms_of_service" element={<TermsOfService />} />
+        <Route path="/privacy_policy" element={<PrivacyPolicy />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
