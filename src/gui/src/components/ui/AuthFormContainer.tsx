@@ -16,7 +16,7 @@ interface FormContainerProps {
     }
 }
 
-function FormContainer({ title, presentation, children, button_name, onSubmit, link }: FormContainerProps) {
+function AuthFormContainer({ title, presentation, children, button_name, onSubmit, link }: FormContainerProps) {
     return <form
         onSubmit={onSubmit}
         action=""
@@ -34,4 +34,4 @@ function FormContainer({ title, presentation, children, button_name, onSubmit, l
     </form >
 }
 
-export default FormContainer;
+export default AuthFormContainer;

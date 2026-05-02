@@ -1,13 +1,13 @@
-import Sidebar from "../components/partials/Sidebar";
+import AppLayout from "../components/ui/AppLayout";
+import Button from "../components/ui/Button";
+import PageHeader from "../components/ui/PageHeader";
 
 function ProfileView() {
     return (
         <>
-            <div className="profile">
-                <h1>User Profile</h1>
-                <p>This is the profile page where you can view and edit your personal information.</p>
-            </div>
-            <Sidebar />
+            <AppLayout>
+                <PageHeader pageTitle="Paramètres du profil" pageSubtitle="Gérez vos informations personnelles et commerciales" button={<Button variant="dark" name="Modifier" width="medium" type="button"></Button>}></PageHeader>
+            </AppLayout>
         </>
     );
 }

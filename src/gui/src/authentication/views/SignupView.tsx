@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as zod from "zod";
 import CheckboxOption from "../../components/ui/CheckboxOption";
-import FormContainer from "../../components/ui/FormContainer";
+import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../stylesheets/authentication-form.css";
 import SignupUser from "../models/SignupUser";
@@ -55,7 +55,7 @@ function SignupView() {
     return (
         <main className="authentication">
             <h1 className="invisible">Inscription</h1>
-            <FormContainer title="Créer votre compte" presentation="Commencez à gérer votre activité de traduction" button_name="Créer un compte" link={{ link_message: "Vous avez déjà un compte ?", link_destination: "/login", link_text: "Se connecter" }} onSubmit={handleSubmit}>
+            <AuthFormContainer title="Créer votre compte" presentation="Commencez à gérer votre activité de traduction" button_name="Créer un compte" link={{ link_message: "Vous avez déjà un compte ?", link_destination: "/login", link_text: "Se connecter" }} onSubmit={handleSubmit}>
                 <FormInputGroup label="Prénom" type="text" name="firstname" placeholder="Jean" required={false} error={fieldErrors.firstName?.[0]} />
                 <FormInputGroup label="Nom" type="text" name="lastname" placeholder="Dupont" required={false} error={fieldErrors.lastName?.[0]} />
                 <FormInputGroup label="E-mail" type="email" name="email" placeholder="jean.dupont@exemple.com" error={fieldErrors.email?.[0]} />
@@ -63,7 +63,7 @@ function SignupView() {
                 <FormInputGroup label="Confirmation du mot de passe" type="password" name="password_confirmation" placeholder="************" error={fieldErrors.passwordConfirmation?.[0]} />
                 <CheckboxOption label="J’accepte les conditions d’utilisation" name="conditions" checked={conditionsIsChecked} required={true} onChange={setConditionsIsChecked} error={fieldErrors.conditions?.[0]} />
                 <CheckboxOption label="J’accepte la politique de confidentialité" name="privacy" checked={privacyIsChecked} required={true} onChange={setPrivacyIsChecked} error={fieldErrors.privacy?.[0]} />
-            </FormContainer>
+            </AuthFormContainer>
         </main>
     );
 }

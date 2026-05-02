@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { createApiClient } from "../../infrastructure/openApi/client";
-import Sidebar from "../../components/partials/Sidebar";
+import AppLayout from "../../components/ui/AppLayout";
 
 function DashboardView() {
     const token = localStorage.getItem("wshToken");
@@ -29,11 +29,10 @@ function DashboardView() {
     }, [apiClient]);
 
     return (
-        <div className="dashboard">
-            <h1>{dashboardData ? "Dashboard" : "Loading..."}</h1>
-            <p>{JSON.stringify(dashboardData)}</p>
-            <Sidebar />
-        </div>
+        <AppLayout>
+            <h1>{dashboardData ? "Dashboard" : "Chargement en cours…"}</h1>
+        </AppLayout>
+
     );
 }
 
