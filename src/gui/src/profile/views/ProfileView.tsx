@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import AppLayout from "../../components/ui/AppLayout";
-import Button from "../../components/ui/Button";
 import PageHeader from "../../components/ui/PageHeader";
 import { createApiClient } from "../../infrastructure/openApi/client";
 import axios from "axios";
 import FreelanceDto from "../models/FreelanceDto";
 import FormInputGroup from "../../components/ui/FormInputGroup";
+import FormContainer from "../../components/ui/FormContainer";
+import { IoPersonOutline } from "react-icons/io5";
+import { FaRegBuilding } from "react-icons/fa";
+import { IoLanguage } from "react-icons/io5";
+import { FiBriefcase } from "react-icons/fi";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -36,20 +40,37 @@ function ProfileView() {
     return (
         <>
             <AppLayout>
-                <PageHeader pageTitle="Paramètres du profil" pageSubtitle="Gérez vos informations personnelles et commerciales" button={<Button variant="dark" name="Modifier" width="medium" type="button"></Button>}></PageHeader>
-                {profileData ? (
-                    <form className="profile-data">
-                        <FormInputGroup label="Prénom" name="firstName" type="text" placeholder="Jean" value={profileData.firstName} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Nom" name="lastName" type="text" placeholder="Dupont" value={profileData.lastName} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Email" name="email" type="email" placeholder="jean.dupont@example.com" value={profileData.email} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Téléphone" name="phone" type="tel" placeholder="0123456789" value={profileData.phone || ""} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Adresse" name="streetInfo" type="text" placeholder="123 Rue Exemple" value={profileData.address?.streetInfo || ""} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Ville" name="city" type="text" placeholder="Paris" value={profileData.address?.city || ""} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Code Postal" name="postCode" type="text" placeholder="75001" value={profileData.address?.postCode || ""} readonly={true}></FormInputGroup>
-                        <FormInputGroup label="Pays" name="countryId" type="text" placeholder="France" value={profileData.address?.countryId?.toString() || ""} readonly={true}></FormInputGroup>
-                    </form>
+                <PageHeader pageTitle="Paramètres du profil" pageSubtitle="Gérez vos informations personnelles et commerciales"></PageHeader>
+                {profileData ? (<>
+                    <FormContainer icon={<IoPersonOutline />} title="Informations personnelles" presentation="Informations générales sur votre compte" button_name="Modifier" onSubmit={() => null}>
+                        <div className="form_inner_flex_container">
+                            <FormInputGroup label="Prénom" name="firstName" type="text" placeholder="Jean" value={profileData.firstName} readonly={true}></FormInputGroup>
+                            <FormInputGroup label="Nom" name="lastName" type="text" placeholder="Dupont" value={profileData.lastName} readonly={true}></FormInputGroup>
+                        </div>
+                        <div className="form_inner_flex_container">
+                            <FormInputGroup label="E-mail" name="email" type="email" placeholder="jean.dupont@example.com" value={profileData.email} readonly={true}></FormInputGroup>
+                            <FormInputGroup label="Téléphone" name="phone" type="tel" placeholder="0123456789" value={profileData.phone || ""} readonly={true}></FormInputGroup>
+                        </div>
+                    </FormContainer>
+                    <FormContainer icon={<FaRegBuilding />} title="Adresse de facturation" presentation="Détails de votre adresse de facturation" button_name="Modifier" onSubmit={() => null}>
+                        <div className="form_inner_flex_container">
+                            <FormInputGroup label="Adresse" name="streetInfo" type="text" placeholder="123 Rue Exemple" value={profileData.address?.streetInfo || ""} readonly={true}></FormInputGroup>
+                        </div>
+                        <div className="form_inner_flex_container">
+                            <FormInputGroup label="Ville" name="city" type="text" placeholder="Paris" value={profileData.address?.city || ""} readonly={true}></FormInputGroup>
+                            <FormInputGroup label="Code Postal" name="postCode" type="text" placeholder="75001" value={profileData.address?.postCode || ""} readonly={true}></FormInputGroup>
+                            <FormInputGroup label="Pays" name="countryId" type="text" placeholder="France" value={profileData.address?.countryId?.toString() || ""} readonly={true}></FormInputGroup>
+                        </div>
+                    </FormContainer>
+                    <FormContainer icon={<IoLanguage />} title="Compétences linguistiques" presentation="Langues de travail que vous utilisez" button_name="Modifier" onSubmit={() => null}>
+                        <div>Empty</div>
+                    </FormContainer>
+                    <FormContainer icon={<FiBriefcase />} title="Services" presentation="Services que vous proposez" button_name="Modifier" onSubmit={() => null}>
+                        <div>Empty</div>
+                    </FormContainer>
+                </>
                 ) : (
-                    <p>Chargement des données du profil...</p>
+                    <p>Chargement des données du profil…</p>
                 )}
             </AppLayout>
         </>

@@ -29,22 +29,21 @@
     height: 32px;
 }
 
-.form_title {
+.form .form_title {
     color: var(--color-dark);
     text-align: left;
     font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 0;
+    margin: 1rem auto 0.25rem;
     width: 90%;
-    margin: 0.5rem auto;
 }
 
-.form_presentation {
+.form .form_presentation {
     text-align: left;
     color: var(--color-slate-700);
     font-size: 1.1rem;
+    margin: 0.25rem auto 0.5rem;
     width: 90%;
-    margin: 0.5rem auto;
 }
 
 .form_group {
