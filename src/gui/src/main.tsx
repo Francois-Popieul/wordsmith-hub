@@ -6,7 +6,7 @@ import LoginView from "./authentication/views/LoginView.tsx"
 import DashboardView from "./dashboard/views/DashboardView.tsx"
 import DirectCustomers from "./directCustomers/views/directCustomers.tsx"
 import OrdersView from "./orders/OrdersView.tsx"
-import ProfileView from "./profile/ProfileView.tsx"
+import ProfileView from "./profile/views/ProfileView.tsx"
 import { BrowserRouter, Route, Routes } from "react-router";
 import TermsOfService from "./terms_of_service/views/TermsOfService.tsx"
 import PrivacyPolicy from "./privacy_policy/views/PrivacyPolicy.tsx"

@@ -2,8 +2,8 @@ import * as zod from "zod";
 
 export type Address = {
     streetInfo: string;
-    complement: string | null;
-    postcode: string;
+    addressComplement: string | null;
+    postCode: string;
     city: string;
     state: string | null;
     countryId: number;
@@ -15,10 +15,10 @@ export const addressSchema = zod
         streetInfo: zod
             .string()
             .min(5, "Veuillez saisir une adresse valide"),
-        complement: zod
+        addressComplement: zod
             .string()
             .nullable(),
-        postcode: zod
+        postCode: zod
             .string()
             .trim()
             .min(1, "Code postal requis")
