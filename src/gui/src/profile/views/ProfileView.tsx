@@ -11,6 +11,9 @@ import { BuildingIcon } from "../../assets/icons/icons";
 import { LanguageIcon } from "../../assets/icons/icons";
 import { BriefcaseIcon } from "../../assets/icons/icons";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
+import type { Country } from "../../models/Country";
+import type { TranslationLanguage } from "../../models/TranslationLanguage";
+import type { Service } from "../../models/Service";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -20,7 +23,9 @@ function ProfileView() {
 
     const [profileData, setProfileData] = useState<FreelanceDto | void>();
     const [savedProfileData, setSavedProfileData] = useState<FreelanceDto | void>();
-    const [countries, setCountries] = useState<{ id: number, code: string; name: string, isEuropeanUnionMember: boolean }[]>([]);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [languages, setLanguages] = useState<TranslationLanguage[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
     const [editingForm, setEditingForm] = useState<string | null>(null);
 
     useEffect(() => {
@@ -57,6 +62,40 @@ function ProfileView() {
             }
         };
         fetchCountries();
+    }, [apiClient]);
+
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            try {
+                const response = await apiClient.GetAllLanguagesEndpoint();
+                console.log("Languages data:", response);
+                setLanguages(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    console.error("Erreur de l’API :", error.response.data);
+                } else {
+                    console.error("Une erreur inattendue est survenue :", error);
+                }
+            }
+        };
+        fetchLanguages();
+    }, [apiClient]);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const response = await apiClient.GetAllServicesEndpoint();
+                console.log("Services data:", response);
+                setServices(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    console.error("Erreur de l’API :", error.response.data);
+                } else {
+                    console.error("Une erreur inattendue est survenue :", error);
+                }
+            }
+        };
+        fetchServices();
     }, [apiClient]);
 
     function handleModifyPersonalData() {

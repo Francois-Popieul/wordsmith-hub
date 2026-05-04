@@ -9,6 +9,12 @@ const AppUserDto = z.object({
   userName: z.string(),
   phoneNumber: z.string().nullable(),
 });
+const Service = z.object({ id: z.number().int(), name: z.string() });
+const TranslationLanguage = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  code: z.string(),
+});
 const Address = z.object({
   streetInfo: z.string(),
   addressComplement: z.string().nullable(),
@@ -89,7 +95,13 @@ const AddDirectCustomerRequest = z.object({
   paymentDelay: z.number().int(),
   currencyId: z.number().int(),
 });
-const CountryDto = z.object({
+const Currency = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  code: z.string(),
+  symbol: z.string(),
+});
+const Country = z.object({
   id: z.number().int(),
   name: z.string(),
   code: z.string(),
@@ -125,6 +137,8 @@ const RegisterUserRequest = z.object({
 
 export const schemas = {
   AppUserDto,
+  Service,
+  TranslationLanguage,
   Address,
   UpdateFreelanceRequest,
   NoContent,
@@ -133,7 +147,8 @@ export const schemas = {
   UpdateDirectCustomerRequest,
   DirectCustomerDto,
   AddDirectCustomerRequest,
-  CountryDto,
+  Currency,
+  Country,
   LoginUserRequest,
   AccessTokenResponse,
   RegisterUserRequest,
@@ -208,7 +223,15 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         query?: Record<string, unknown>;
       } = {},
       config?: AxiosRequestConfig
-    ) => request("get", "/countries", params, z.array(CountryDto), config),
+    ) => request("get", "/countries", params, z.array(Country), config),
+    GetAllCurrenciesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/currencies", params, z.array(Currency), config),
     AddDirectCustomerEndpoint: (
       params: {
         body?: unknown;
@@ -316,6 +339,29 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/freelances", params, z.array(FreelanceDto), config),
+    GetAllLanguagesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "get",
+        "/languages",
+        params,
+        z.array(TranslationLanguage),
+        config
+      ),
+    GetAllServicesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/services", params, z.array(Service), config),
     GetUserEndpoint: (
       params: {
         body?: unknown;
@@ -333,6 +379,7 @@ export function getTagByAlias(alias: string): string | undefined {
     LoginUserEndpoint: "authentication",
     RegisterUserEndpoint: "authentication",
     GetAllCountriesEndpoint: "countries",
+    GetAllCurrenciesEndpoint: "currencies",
     AddDirectCustomerEndpoint: "directcustomer",
     UpdateDirectCustomerEndpoint: "directcustomer",
     GetDirectCustomerEndpoint: "directcustomer",
@@ -342,6 +389,8 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateFreelanceEndpoint: "freelance",
     DeleteFreelanceEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
+    GetAllLanguagesEndpoint: "languages",
+    GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
   };
   return endpointMap[alias];
