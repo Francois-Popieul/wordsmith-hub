@@ -14,6 +14,7 @@ interface FormContainerProps {
 
     // Form logic
     isEditing: boolean;
+    modifyDisabled?: boolean;
     onModify: () => void;
     onCancel: () => void;
     onSubmit: React.ReactEventHandler<HTMLFormElement>;
@@ -28,6 +29,7 @@ function FormContainer({
     cancel_button_name,
     save_button_name,
     isEditing,
+    modifyDisabled,
     onModify,
     onCancel,
     onSubmit
@@ -66,6 +68,7 @@ function FormContainer({
                             name={modify_button_name}
                             variant="dark"
                             width="medium"
+                            disabled={modifyDisabled}
                             onClick={onModify}
                         />
                     )}

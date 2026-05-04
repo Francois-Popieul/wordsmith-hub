@@ -8,6 +8,7 @@ interface ButtonProps {
     width?: "default" | "small" | "medium" | "contained" | "extended" | "full_width";
     type?: "submit" | "button";
     special?: "right_side" | "left_side";
+    disabled?: boolean;
     children?: React.ReactNode;
     onClick?: () => void;
 }
@@ -21,6 +22,7 @@ function Button(props: ButtonProps) {
                 `button_${props.width}`,
                 `button_${props.special}`,
             )}
+            disabled={props.disabled}
             onClick={props.onClick}
         >
             {props.children} {props.name}

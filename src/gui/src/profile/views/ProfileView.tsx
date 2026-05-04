@@ -21,8 +21,7 @@ function ProfileView() {
     const [profileData, setProfileData] = useState<FreelanceDto | void>();
     const [savedProfileData, setSavedProfileData] = useState<FreelanceDto | void>();
     const [countries, setCountries] = useState<{ id: number, code: string; name: string, isEuropeanUnionMember: boolean }[]>([]);
-    const [isEditingPersonalData, setIsEditingPersonalData] = useState(false);
-    const [isEditingBusinessData, setIsEditingBusinessData] = useState(false);
+    const [editingForm, setEditingForm] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -33,9 +32,9 @@ function ProfileView() {
                 setProfileData(freelancceData);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("API error:", error.response.data);
+                    console.error("Erreur de l’API :", error.response.data);
                 } else {
-                    console.error("An unexpected error occurred:", error);
+                    console.error("Une erreur inattendue est survenue :", error);
                 }
             }
         };
@@ -51,9 +50,9 @@ function ProfileView() {
                 setCountries(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("API error:", error.response.data);
+                    console.error("Erreur de l’API :", error.response.data);
                 } else {
-                    console.error("An unexpected error occurred:", error);
+                    console.error("Une erreur inattendue est survenue :", error);
                 }
             }
         };
@@ -62,16 +61,22 @@ function ProfileView() {
 
     function handleModifyPersonalData() {
         setSavedProfileData(profileData);
-        setIsEditingPersonalData(true);
+        setEditingForm("personal");
     }
 
     function handleCancelPersonalData() {
         setProfileData(savedProfileData);
-        setIsEditingPersonalData(false);
+        setEditingForm(null);
     }
 
-    function handleSubmitBusinessData(e: React.SyntheticEvent<HTMLFormElement>) {
+    function handleSubmitPersonalData(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
+        console.log("Submitted personal data:", {
+            firstName: profileData?.firstName,
+            lastName: profileData?.lastName,
+            email: profileData?.email,
+            phone: profileData?.phone
+        });
     }
 
     function handleModifyBusinessData() {
@@ -80,16 +85,24 @@ function ProfileView() {
             if (!prev || prev.address) return prev;
             return { ...prev, address: { streetInfo: "", addressComplement: null, postCode: "", city: "", state: null, countryId: 0 } };
         });
-        setIsEditingBusinessData(true);
+        setEditingForm("business");
     }
 
     function handleCancelBusinessData() {
         setProfileData(savedProfileData);
-        setIsEditingBusinessData(false);
+        setEditingForm(null);
     }
 
-    function handleSubmitPersonalData(e: React.SyntheticEvent<HTMLFormElement>) {
-        e.preventDefault();
+    function handleSubmitBusinessData(event: React.SyntheticEvent<HTMLFormElement>) {
+        event.preventDefault();
+        console.log("Submitted business data:", {
+            streetInfo: profileData?.address?.streetInfo,
+            addressComplement: profileData?.address?.addressComplement,
+            postCode: profileData?.address?.postCode,
+            city: profileData?.address?.city,
+            state: profileData?.address?.state,
+            countryId: profileData?.address?.countryId
+        });
     }
 
     return (
@@ -106,7 +119,8 @@ function ProfileView() {
                         cancel_button_name="Annuler"
                         save_button_name="Enregistrer"
                         modify_button_name="Modifier"
-                        isEditing={isEditingPersonalData}
+                        isEditing={editingForm === "personal"}
+                        modifyDisabled={editingForm !== null}
                         onModify={handleModifyPersonalData}
                         onCancel={handleCancelPersonalData}
                         onSubmit={handleSubmitPersonalData}>
@@ -117,7 +131,7 @@ function ProfileView() {
                                 type="text"
                                 placeholder="Jean"
                                 value={profileData.firstName}
-                                readonly={!isEditingPersonalData}
+                                readonly={editingForm !== "personal"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, firstName: value } : prev)}>
                             </FormInputGroup>
                             <FormInputGroup
@@ -126,7 +140,7 @@ function ProfileView() {
                                 type="text"
                                 placeholder="Dupont"
                                 value={profileData.lastName}
-                                readonly={!isEditingPersonalData}
+                                readonly={editingForm !== "personal"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, lastName: value } : prev)}>
                             </FormInputGroup>
                         </div>
@@ -137,7 +151,7 @@ function ProfileView() {
                                 type="email"
                                 placeholder="jean.dupont@example.com"
                                 value={profileData.email}
-                                readonly={!isEditingPersonalData}
+                                readonly={editingForm !== "personal"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, email: value } : prev)}>
                             </FormInputGroup>
                             <FormInputGroup
@@ -146,7 +160,7 @@ function ProfileView() {
                                 type="tel"
                                 placeholder="0123456789"
                                 value={profileData.phone || ""}
-                                readonly={!isEditingPersonalData}
+                                readonly={editingForm !== "personal"}
                                 required={false}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, phone: value } : prev)}>
                             </FormInputGroup>
@@ -160,7 +174,8 @@ function ProfileView() {
                         cancel_button_name="Annuler"
                         save_button_name="Enregistrer"
                         modify_button_name="Modifier"
-                        isEditing={isEditingBusinessData}
+                        isEditing={editingForm === "business"}
+                        modifyDisabled={editingForm !== null}
                         onModify={handleModifyBusinessData}
                         onCancel={handleCancelBusinessData}
                         onSubmit={handleSubmitBusinessData}>
@@ -169,39 +184,60 @@ function ProfileView() {
                                 label="Adresse"
                                 name="streetInfo"
                                 type="text"
-                                placeholder="123 Rue Exemple"
+                                placeholder="12 avenue des Champs-Élysées"
                                 value={profileData.address?.streetInfo || ""}
-                                readonly={!isEditingBusinessData}
+                                readonly={editingForm !== "business"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, streetInfo: value } : null } : prev)}>
+                            </FormInputGroup>
+                            <FormInputGroup
+                                label="Complément d’adresse"
+                                name="addressComplement"
+                                type="text"
+                                placeholder="Bâtiment A"
+                                value={profileData.address?.addressComplement || ""}
+                                readonly={editingForm !== "business"}
+                                required={false}
+                                onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, addressComplement: value } : null } : prev)}>
                             </FormInputGroup>
                         </div>
                         <div className="form_inner_flex_container">
-                            <FormInputGroup
-                                label="Ville"
-                                name="city"
-                                type="text"
-                                placeholder="Paris"
-                                value={profileData.address?.city || ""}
-                                readonly={!isEditingBusinessData}
-                                onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, city: value } : null } : prev)}>
-                            </FormInputGroup>
                             <FormInputGroup
                                 label="Code postal"
                                 name="postCode"
                                 type="text"
                                 placeholder="75001"
                                 value={profileData.address?.postCode || ""}
-                                readonly={!isEditingBusinessData}
+                                readonly={editingForm !== "business"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, postCode: value } : null } : prev)}>
+                            </FormInputGroup>
+                            <FormInputGroup
+                                label="Ville"
+                                name="city"
+                                type="text"
+                                placeholder="Paris"
+                                value={profileData.address?.city || ""}
+                                readonly={editingForm !== "business"}
+                                onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, city: value } : null } : prev)}>
+                            </FormInputGroup>
+                        </div>
+                        <div className="form_inner_flex_container">
+                            <FormInputGroup
+                                label="État/Région"
+                                name="state"
+                                type="text"
+                                required={false}
+                                placeholder="Île-de-France"
+                                value={profileData.address?.state || ""}
+                                readonly={editingForm !== "business"}
+                                onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, state: value } : null } : prev)}>
                             </FormInputGroup>
                             <FormSelectGroup
                                 label="Pays"
                                 name="countryId"
-                                options={[
-                                    { value: "country-invite", name: "-- Sélectionnez le pays --" },
-                                    ...countries.sort((a, b) => a.name.localeCompare(b.name)).map(country => ({ value: country.id.toString(), name: country.name }))]}
-                                selected={profileData.address?.countryId?.toString() || ""}
-                                readonly={!isEditingBusinessData}
+                                options={countries.sort((a, b) => a.name.localeCompare(b.name)).map(country => ({ value: country.id.toString(), name: country.name }))}
+                                placeholder="-- Sélectionnez le pays --"
+                                selected={profileData.address?.countryId ? profileData.address.countryId.toString() : ""}
+                                disabled={editingForm !== "business"}
                                 required={true}
                                 onChange={(value) => {
                                     setProfileData(prev => {
@@ -229,7 +265,16 @@ function ProfileView() {
                         onModify={() => null}
                         onCancel={() => null}
                         onSubmit={() => null}>
-                        <div>Empty</div>
+                        <div className="language_container">
+                            <div className="source_language_container">
+                                <p className="language_title">Langues source</p>
+                                <p></p>
+                            </div>
+                            <div className="target_language_container">
+                                <p className="language_title">Langues cible</p>
+                                <p></p>
+                            </div>
+                        </div>
                     </FormContainer>
 
                     <FormContainer
