@@ -89,6 +89,12 @@ const AddDirectCustomerRequest = z.object({
   paymentDelay: z.number().int(),
   currencyId: z.number().int(),
 });
+const CountryDto = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  code: z.string(),
+  isEuropeanUnionMember: z.boolean(),
+});
 const LoginUserRequest = z.object({
   email: z
     .string()
@@ -127,6 +133,7 @@ export const schemas = {
   UpdateDirectCustomerRequest,
   DirectCustomerDto,
   AddDirectCustomerRequest,
+  CountryDto,
   LoginUserRequest,
   AccessTokenResponse,
   RegisterUserRequest,
@@ -194,6 +201,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/auth/register", params, z.string(), config),
+    GetAllCountriesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/countries", params, z.array(CountryDto), config),
     AddDirectCustomerEndpoint: (
       params: {
         body?: unknown;
@@ -317,6 +332,7 @@ export function getTagByAlias(alias: string): string | undefined {
   const endpointMap: Record<string, string | undefined> = {
     LoginUserEndpoint: "authentication",
     RegisterUserEndpoint: "authentication",
+    GetAllCountriesEndpoint: "countries",
     AddDirectCustomerEndpoint: "directcustomer",
     UpdateDirectCustomerEndpoint: "directcustomer",
     GetDirectCustomerEndpoint: "directcustomer",

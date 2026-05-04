@@ -6,26 +6,77 @@ interface FormContainerProps {
     title: string;
     presentation: string;
     children: React.ReactNode;
-    button_name: string;
-    onSubmit: (event: React.SubmitEvent<HTMLFormElement>) => void;
+
+    // Button labels
+    cancel_button_name: string;
+    save_button_name: string;
+    modify_button_name: string;
+
+    // Form logic
+    isEditing: boolean;
+    onModify: () => void;
+    onCancel: () => void;
+    onSubmit: React.ReactEventHandler<HTMLFormElement>;
 }
 
-function FormContainer(props: FormContainerProps) {
-    const { icon, children, title, presentation, button_name, onSubmit } = props;
-    return <form className="form_container" onSubmit={onSubmit}>
-        <section className="form_header">
-            <div>
-                <h1 className="form_title">{icon && <span className="form_icon">{icon}</span>} {title}</h1>
-                <p className="form_presentation">{presentation}</p>
-            </div>
-            <div className="form_button">
-                <Button name={button_name} variant="dark" width="medium" onClick={() => null} />
-            </div>
-        </section>
-        <section className="form_content">
-            {children}
-        </section>
-    </form>
+function FormContainer({
+    icon,
+    children,
+    title,
+    presentation,
+    modify_button_name,
+    cancel_button_name,
+    save_button_name,
+    isEditing,
+    onModify,
+    onCancel,
+    onSubmit
+}: FormContainerProps) {
+
+    return (
+        <form className="form_container" onSubmit={onSubmit}>
+            <section className="form_header">
+                <div>
+                    <h1 className="form_title">
+                        {icon && <span className="form_icon">{icon}</span>} {title}
+                    </h1>
+                    <p className="form_presentation">{presentation}</p>
+                </div>
+
+                <div className="form_button">
+                    {isEditing ? (
+                        <>
+                            <Button
+                                type="button"
+                                name={cancel_button_name}
+                                variant="light"
+                                width="medium"
+                                onClick={onCancel}
+                            />
+                            <Button
+                                type="submit"
+                                name={save_button_name}
+                                variant="dark"
+                                width="medium"
+                            />
+                        </>
+                    ) : (
+                        <Button
+                            type="button"
+                            name={modify_button_name}
+                            variant="dark"
+                            width="medium"
+                            onClick={onModify}
+                        />
+                    )}
+                </div>
+            </section>
+
+            <section className="form_content">
+                {children}
+            </section>
+        </form>
+    );
 }
 
 export default FormContainer;

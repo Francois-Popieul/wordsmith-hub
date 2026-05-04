@@ -3,24 +3,28 @@ interface FormSelectGroupProps {
     name: string;
     options: { value: string; name: string }[];
     readonly?: boolean;
+    required?: boolean;
+    selected?: string;
     onChange: (value: string, name: string) => void;
 }
 
-function FormSelectGroup(props: FormSelectGroupProps) {
+function FormSelectGroup({ label, name, options, readonly, required, selected = "", onChange }: FormSelectGroupProps) {
     return <div className="form_group">
-        <label htmlFor={props.name} className="form_label">{props.label}</label>
+        <label htmlFor={name} className="form_label">{label}</label>
         <select
-            name={props.name}
-            id={props.name}
+            name={name}
+            id={name}
             className="form_select"
+            value={selected}
             onChange={(event) => {
                 const selectedValue = event.target.value;
-                const selectedOption = props.options.find(opt => opt.value === selectedValue);
+                const selectedOption = options.find(opt => opt.value === selectedValue);
                 const selectedName = selectedOption?.name ?? "";
-                props.onChange(selectedValue, selectedName);
-            }}>
-            {props.options.map((option) => (
-                <option value={option.value}>{option.name}</option>))}
+                onChange(selectedValue, selectedName);
+            }} required={required} disabled={readonly}>
+            {options.map((option) => (
+                <option key={option.value} value={option.value}>{option.name}</option>
+            ))}
         </select>
     </div>
 }
