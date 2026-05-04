@@ -15,7 +15,7 @@ function PrivacyPolicy() {
 
                 <p className="back_to_top"><a href="#top">Revenir en haut</a></p>
 
-                <h2>Collecte d'informations</h2>
+                <h2>Collecte d’informations</h2>
 
                 <p>Nous collectons des informations personnelles telles que votre nom, adresse e-mail, et autres données nécessaires pour créer et gérer votre compte. Nous pouvons également collecter des informations sur votre utilisation de la plateforme pour améliorer nos services.</p>
 
@@ -29,13 +29,13 @@ function PrivacyPolicy() {
 
                 <h2>Protection des informations</h2>
 
-                <p>Nous mettons en place des mesures de sécurité pour protéger vos informations personnelles contre l'accès non autorisé, la divulgation, ou la destruction. Cependant, aucune méthode de transmission sur Internet ou de stockage électronique n'est totalement sécurisée.</p>
+                <p>Nous mettons en place des mesures de sécurité pour protéger vos informations personnelles contre l’accès non autorisé, la divulgation, ou la destruction. Cependant, aucune méthode de transmission sur Internet ou de stockage électronique n’est totalement sécurisée.</p>
 
                 <p className="back_to_top"><a href="#top">Revenir en haut</a></p>
 
                 <h2>Vos droits</h2>
 
-                <p>Vous avez le droit d'accéder, de corriger ou de supprimer vos informations personnelles. Vous pouvez également vous opposer à l'utilisation de vos informations à des fins de marketing. Pour exercer ces droits, veuillez nous contacter à l'adresse e-mail fournie sur notre site.</p>
+                <p>Vous avez le droit d’accéder, de corriger ou de supprimer vos informations personnelles. Vous pouvez également vous opposer à l’utilisation de vos informations à des fins de marketing. Pour exercer ces droits, veuillez nous contacter à l’adresse e-mail fournie sur notre site.</p>
 
                 <p className="back_to_top"><a href="#top">Revenir en haut</a></p>
 
