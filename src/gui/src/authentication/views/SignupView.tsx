@@ -3,7 +3,7 @@ import * as zod from "zod";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
-import "../../stylesheets/authentication-form.css";
+import "../../components/ui/AuthFormContainer.css";
 import SignupUser from "../models/SignupUser";
 import { signupSchema } from "../zod/authenticationSchemas";
 import axios from "axios";

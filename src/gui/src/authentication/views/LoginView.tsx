@@ -1,7 +1,7 @@
 import zod from "zod";
 import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
-import "../../stylesheets/authentication-form.css";
+import "../../components/ui/AuthFormContainer.css";
 import { useState } from "react";
 import LoginUser from "../models/LoginUser";
 import { loginSchema } from "../zod/authenticationSchemas";

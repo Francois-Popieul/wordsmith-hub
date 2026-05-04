@@ -1,8 +1,7 @@
 import "./BurgerMenu.css";
-import { MdMenu } from "react-icons/md";
+import { BurgerIcon } from "../../assets/icons/icons";
 import { useState } from "react";
 import { Link } from "react-router";
-import "./BurgerMenu.css";
 import Button from "../../components/ui/Button";
 
 function BurgerMenu() {
@@ -14,7 +13,7 @@ function BurgerMenu() {
                 className="burger_toggle"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                {isOpen ? <MdMenu className="burger_icon" /> : <MdMenu className="burger_icon" />}
+                {isOpen ? <BurgerIcon className="burger_icon" /> : <BurgerIcon className="burger_icon" />}
             </button>
 
             {isOpen && (

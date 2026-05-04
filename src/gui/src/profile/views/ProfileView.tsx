@@ -6,10 +6,10 @@ import axios from "axios";
 import FreelanceDto from "../models/FreelanceDto";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
-import { IoPersonOutline } from "react-icons/io5";
-import { FaRegBuilding } from "react-icons/fa";
-import { IoLanguage } from "react-icons/io5";
-import { FiBriefcase } from "react-icons/fi";
+import { Profile } from "../../assets/icons/icons";
+import { BuildingIcon } from "../../assets/icons/icons";
+import { LanguageIcon } from "../../assets/icons/icons";
+import { BriefcaseIcon } from "../../assets/icons/icons";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -42,7 +42,7 @@ function ProfileView() {
             <AppLayout>
                 <PageHeader pageTitle="Paramètres du profil" pageSubtitle="Gérez vos informations personnelles et commerciales"></PageHeader>
                 {profileData ? (<>
-                    <FormContainer icon={<IoPersonOutline />} title="Informations personnelles" presentation="Informations générales sur votre compte" button_name="Modifier" onSubmit={() => null}>
+                    <FormContainer icon={<Profile />} title="Informations personnelles" presentation="Informations générales sur votre compte" button_name="Modifier" onSubmit={() => null}>
                         <div className="form_inner_flex_container">
                             <FormInputGroup label="Prénom" name="firstName" type="text" placeholder="Jean" value={profileData.firstName} readonly={true}></FormInputGroup>
                             <FormInputGroup label="Nom" name="lastName" type="text" placeholder="Dupont" value={profileData.lastName} readonly={true}></FormInputGroup>
@@ -52,7 +52,7 @@ function ProfileView() {
                             <FormInputGroup label="Téléphone" name="phone" type="tel" placeholder="0123456789" value={profileData.phone || ""} readonly={true}></FormInputGroup>
                         </div>
                     </FormContainer>
-                    <FormContainer icon={<FaRegBuilding />} title="Adresse de facturation" presentation="Détails de votre adresse de facturation" button_name="Modifier" onSubmit={() => null}>
+                    <FormContainer icon={<BuildingIcon />} title="Adresse de facturation" presentation="Détails de votre adresse de facturation" button_name="Modifier" onSubmit={() => null}>
                         <div className="form_inner_flex_container">
                             <FormInputGroup label="Adresse" name="streetInfo" type="text" placeholder="123 Rue Exemple" value={profileData.address?.streetInfo || ""} readonly={true}></FormInputGroup>
                         </div>
@@ -62,10 +62,10 @@ function ProfileView() {
                             <FormInputGroup label="Pays" name="countryId" type="text" placeholder="France" value={profileData.address?.countryId?.toString() || ""} readonly={true}></FormInputGroup>
                         </div>
                     </FormContainer>
-                    <FormContainer icon={<IoLanguage />} title="Compétences linguistiques" presentation="Langues de travail que vous utilisez" button_name="Modifier" onSubmit={() => null}>
+                    <FormContainer icon={<LanguageIcon />} title="Compétences linguistiques" presentation="Langues de travail que vous utilisez" button_name="Modifier" onSubmit={() => null}>
                         <div>Empty</div>
                     </FormContainer>
-                    <FormContainer icon={<FiBriefcase />} title="Services" presentation="Services que vous proposez" button_name="Modifier" onSubmit={() => null}>
+                    <FormContainer icon={<BriefcaseIcon />} title="Services" presentation="Services que vous proposez" button_name="Modifier" onSubmit={() => null}>
                         <div>Empty</div>
                     </FormContainer>
                 </>

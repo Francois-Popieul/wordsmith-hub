@@ -1,4 +1,4 @@
-import { FaArrowLeft } from "react-icons/fa6";
+import { BackArrow } from "../../assets/icons/icons";
 import Button from "./Button";
 import "./PageHeader.css";
 
@@ -13,7 +13,7 @@ function PageHeader(props: PageHeaderProps) {
     return (
         <div className="page_header">
             <div>
-                {props.backLink && <Button variant="light" name="{props.backLink}" width="default" type="button"><FaArrowLeft /></Button>}
+                {props.backLink && <Button variant="light" name="{props.backLink}" width="default" type="button"><BackArrow /></Button>}
                 <h1 className="page_title">{props.pageTitle}</h1>
                 <h2 className="page_subtitle">{props.pageSubtitle}</h2>
             </div>

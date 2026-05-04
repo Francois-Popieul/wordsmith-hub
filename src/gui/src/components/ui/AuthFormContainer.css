@@ -1,4 +1,4 @@
-.form {
+.auth_form {
     display: flex;
     flex-direction: column;
     align-items: flex-center;
@@ -12,7 +12,7 @@
     box-sizing: border-box;
 }
 
-.logo_container {
+.auth_form .logo_container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,12 +24,12 @@
     margin: 0 auto;
 }
 
-.form_logo {
+.auth_form .form_logo {
     width: auto;
     height: 32px;
 }
 
-.form .form_title {
+.auth_form .form_title {
     color: var(--color-dark);
     text-align: left;
     font-size: 1.5rem;
@@ -38,7 +38,7 @@
     width: 90%;
 }
 
-.form .form_presentation {
+.auth_form .form_presentation {
     text-align: left;
     color: var(--color-slate-700);
     font-size: 1.1rem;
@@ -46,7 +46,7 @@
     width: 90%;
 }
 
-.form_group {
+.auth_form .form_group {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,19 +55,19 @@
     width: 90%;
 }
 
-.form_label {
+.auth_form .form_label {
     width: 100%;
     font-size: 1.1rem;
     font-weight: 600;
 }
 
-.form_input,
-.form_select {
+.auth_form .form_input,
+.auth_form .form_select {
     font-size: 1rem;
     width: 100%;
 }
 
-.form_centered_container {
+.auth_form .form_centered_container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,12 +77,12 @@
     gap: 0.5rem;
 }
 
-.form_required_field {
+.auth_form .form_required_field {
     color: var(--color-red-deep);
     margin-left: 0.25rem;
 }
 
-.form_error {
+.auth_form .form_error {
     color: var(--color-red-deep);
     font-size: 0.9rem;
     text-align: left;
@@ -90,7 +90,7 @@
     width: 100%;
 }
 
-.back_home_container {
+.auth_form .back_home_container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -101,7 +101,7 @@
     width: 100%;
 }
 
-.forgotten_password_container {
+.auth_form .forgotten_password_container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -111,7 +111,7 @@
     margin: 0 auto;
 }
 
-.forgotten_password {
+.auth_form .forgotten_password {
     color: var(--color-blue-deep);
     font-size: 0.9rem;
     text-align: left;
@@ -120,7 +120,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .form {
+    .auth_form {
         width: 95%;
     }
 }
