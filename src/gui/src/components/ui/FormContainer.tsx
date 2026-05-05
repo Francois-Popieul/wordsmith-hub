@@ -39,9 +39,9 @@ function FormContainer({
         <form className="form_container" onSubmit={onSubmit}>
             <section className="form_header">
                 <div>
-                    <h1 className="form_title">
+                    <h2 className="form_title">
                         {icon && <span className="form_icon">{icon}</span>} {title}
-                    </h1>
+                    </h2>
                     <p className="form_presentation">{presentation}</p>
                 </div>
 

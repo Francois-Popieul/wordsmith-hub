@@ -3,7 +3,7 @@ import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { createApiClient } from "../../infrastructure/openApi/client";
 import axios from "axios";
-import FreelanceDto from "../models/FreelanceDto";
+import ProfileDto from "../models/ProfileDto";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
 import { Profile } from "../../assets/icons/icons";
@@ -14,6 +14,8 @@ import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import type { Country } from "../../models/Country";
 import type { TranslationLanguage } from "../../models/TranslationLanguage";
 import type { Service } from "../../models/Service";
+import CheckboxOption from "../../components/ui/CheckboxOption";
+import "../../stylesheets/profile_view.css";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -21,8 +23,8 @@ function ProfileView() {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
 
-    const [profileData, setProfileData] = useState<FreelanceDto | void>();
-    const [savedProfileData, setSavedProfileData] = useState<FreelanceDto | void>();
+    const [profileData, setProfileData] = useState<ProfileDto | void>();
+    const [savedProfileData, setSavedProfileData] = useState<ProfileDto | void>();
     const [countries, setCountries] = useState<Country[]>([]);
     const [languages, setLanguages] = useState<TranslationLanguage[]>([]);
     const [services, setServices] = useState<Service[]>([]);
@@ -33,8 +35,8 @@ function ProfileView() {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
                 console.log("Profile data:", response);
-                const freelancceData = new FreelanceDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId);
-                setProfileData(freelancceData);
+                const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
+                setProfileData(profileData);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     console.error("Erreur de l’API :", error.response.data);
@@ -51,7 +53,7 @@ function ProfileView() {
         const fetchCountries = async () => {
             try {
                 const response = await apiClient.GetAllCountriesEndpoint();
-                console.log("Countries data:", response);
+                response.sort((a: Country, b: Country) => a.name.localeCompare(b.name));
                 setCountries(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
@@ -68,7 +70,7 @@ function ProfileView() {
         const fetchLanguages = async () => {
             try {
                 const response = await apiClient.GetAllLanguagesEndpoint();
-                console.log("Languages data:", response);
+                response.sort((a: TranslationLanguage, b: TranslationLanguage) => a.name.localeCompare(b.name));
                 setLanguages(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
@@ -85,7 +87,7 @@ function ProfileView() {
         const fetchServices = async () => {
             try {
                 const response = await apiClient.GetAllServicesEndpoint();
-                console.log("Services data:", response);
+                response.sort((a: Service, b: Service) => a.name.localeCompare(b.name));
                 setServices(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
@@ -143,6 +145,42 @@ function ProfileView() {
             countryId: profileData?.address?.countryId
         });
     }
+
+    function handleModifyLanguages() {
+        setSavedProfileData(profileData);
+        setEditingForm("languages");
+    }
+
+    function handleCancelLanguages() {
+        setProfileData(savedProfileData);
+        setEditingForm(null);
+    }
+
+    function handleSubmitLanguages(event: React.SyntheticEvent<HTMLFormElement>) {
+        event.preventDefault();
+        console.log("Submitted languages data:", {
+            sourceLanguages: profileData?.sourceLanguages,
+            targetLanguages: profileData?.targetLanguages
+        });
+    }
+
+    function handleModifyService() {
+        setSavedProfileData(profileData);
+        setEditingForm("services");
+    }
+
+    function handleCancelService() {
+        setProfileData(savedProfileData);
+        setEditingForm(null);
+    }
+
+    function handleSubmitServices(event: React.SyntheticEvent<HTMLFormElement>) {
+        event.preventDefault();
+        console.log("Submitted services data:", {
+            services: profileData?.services
+        });
+    }
+
 
     return (
         <>
@@ -273,7 +311,7 @@ function ProfileView() {
                             <FormSelectGroup
                                 label="Pays"
                                 name="countryId"
-                                options={countries.sort((a, b) => a.name.localeCompare(b.name)).map(country => ({ value: country.id.toString(), name: country.name }))}
+                                options={countries.map(country => ({ value: country.id.toString(), name: country.name }))}
                                 placeholder="-- Sélectionnez le pays --"
                                 selected={profileData.address?.countryId ? profileData.address.countryId.toString() : ""}
                                 disabled={editingForm !== "business"}
@@ -292,44 +330,111 @@ function ProfileView() {
                             </FormSelectGroup>
                         </div>
                     </FormContainer>
-
-                    <FormContainer
-                        icon={<LanguageIcon />}
-                        title="Compétences linguistiques"
-                        presentation="Langues de travail que vous utilisez"
-                        cancel_button_name="Annuler"
-                        save_button_name="Enregistrer"
-                        modify_button_name="Modifier"
-                        isEditing={false}
-                        onModify={() => null}
-                        onCancel={() => null}
-                        onSubmit={() => null}>
-                        <div className="language_container">
-                            <div className="source_language_container">
-                                <p className="language_title">Langues source</p>
-                                <p></p>
+                    <section className="multiple_form_section">
+                        <FormContainer
+                            icon={<LanguageIcon />}
+                            title="Compétences linguistiques"
+                            presentation="Langues de travail que vous utilisez"
+                            cancel_button_name="Annuler"
+                            save_button_name="Enregistrer"
+                            modify_button_name="Modifier"
+                            isEditing={editingForm === "languages"}
+                            modifyDisabled={editingForm !== null}
+                            onModify={handleModifyLanguages}
+                            onCancel={handleCancelLanguages}
+                            onSubmit={handleSubmitLanguages}>
+                            <div className="language_container">
+                                <div className="source_language_container">
+                                    <h3 className="language_title">Langues source</h3>
+                                    <p></p>
+                                    <div className="language_list">{
+                                        languages.map(language => (
+                                            CheckboxOption({
+                                                name: `source-language-${language.id}`,
+                                                label: language.name,
+                                                checked: profileData.sourceLanguages.some(l => l.id === language.id),
+                                                disabled: editingForm !== "languages",
+                                                onChange: () => {
+                                                    setProfileData(prev => {
+                                                        if (!prev) return prev;
+                                                        const isSelected = prev.sourceLanguages.some(l => l.id === language.id);
+                                                        return {
+                                                            ...prev,
+                                                            sourceLanguages: isSelected
+                                                                ? prev.sourceLanguages.filter(l => l.id !== language.id)
+                                                                : [...prev.sourceLanguages, language]
+                                                        };
+                                                    });
+                                                }
+                                            })
+                                        ))
+                                    }</div>
+                                </div>
+                                <div className="target_language_container">
+                                    <h3 className="language_title">Langues cible</h3>
+                                    <p></p>
+                                    <div className="language_list">{
+                                        languages.map(language => (
+                                            CheckboxOption({
+                                                name: `target-language-${language.id}`,
+                                                label: language.name,
+                                                checked: profileData.targetLanguages.some(l => l.id === language.id),
+                                                disabled: editingForm !== "languages",
+                                                onChange: () => {
+                                                    setProfileData(prev => {
+                                                        if (!prev) return prev;
+                                                        const isSelected = prev.targetLanguages.some(l => l.id === language.id);
+                                                        return {
+                                                            ...prev,
+                                                            targetLanguages: isSelected
+                                                                ? prev.targetLanguages.filter(l => l.id !== language.id)
+                                                                : [...prev.targetLanguages, language]
+                                                        };
+                                                    });
+                                                }
+                                            })
+                                        ))
+                                    }</div>
+                                </div>
                             </div>
-                            <div className="target_language_container">
-                                <p className="language_title">Langues cible</p>
-                                <p></p>
-                            </div>
-                        </div>
-                    </FormContainer>
+                        </FormContainer>
 
-                    <FormContainer
-                        icon={<BriefcaseIcon />}
-                        title="Services"
-                        presentation="Services que vous proposez"
-                        cancel_button_name="Annuler"
-                        save_button_name="Enregistrer"
-                        modify_button_name="Modifier"
-                        isEditing={false}
-                        onModify={() => null}
-                        onCancel={() => null}
-                        onSubmit={() => null}>
-                        <div>Empty</div>
-                    </FormContainer>
-
+                        <FormContainer
+                            icon={<BriefcaseIcon />}
+                            title="Services"
+                            presentation="Services que vous proposez"
+                            cancel_button_name="Annuler"
+                            save_button_name="Enregistrer"
+                            modify_button_name="Modifier"
+                            isEditing={editingForm === "services"}
+                            modifyDisabled={editingForm !== null}
+                            onModify={handleModifyService}
+                            onCancel={handleCancelService}
+                            onSubmit={handleSubmitServices}>
+                            <div className="service_list">{
+                                services.map(service => (
+                                    CheckboxOption({
+                                        name: `service-${service.id}`,
+                                        label: service.name,
+                                        checked: profileData.services.some(s => s.id === service.id),
+                                        disabled: editingForm !== "services",
+                                        onChange: () => {
+                                            setProfileData(prev => {
+                                                if (!prev) return prev;
+                                                const isSelected = prev.services.some(s => s.id === service.id);
+                                                return {
+                                                    ...prev,
+                                                    services: isSelected
+                                                        ? prev.services.filter(s => s.id !== service.id)
+                                                        : [...prev.services, service]
+                                                };
+                                            });
+                                        }
+                                    })
+                                ))
+                            }</div>
+                        </FormContainer>
+                    </section>
                 </>
                 ) : (
                     <p>Chargement des données du profil…</p>

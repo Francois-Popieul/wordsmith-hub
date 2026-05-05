@@ -44,6 +44,18 @@ const AddressDto = z.object({
   state: z.string().nullable(),
   countryId: z.number().int(),
 });
+const ProfileDto = z.object({
+  id: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  phone: z.string().nullable(),
+  email: z.string(),
+  address: AddressDto.nullable(),
+  statusId: z.number().int(),
+  sourceLanguages: z.array(TranslationLanguage),
+  targetLanguages: z.array(TranslationLanguage),
+  services: z.array(Service),
+});
 const FreelanceDto = z.object({
   id: z.string(),
   firstName: z.string(),
@@ -143,6 +155,7 @@ export const schemas = {
   UpdateFreelanceRequest,
   NoContent,
   AddressDto,
+  ProfileDto,
   FreelanceDto,
   UpdateDirectCustomerRequest,
   DirectCustomerDto,
@@ -307,7 +320,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         query?: Record<string, unknown>;
       } = {},
       config?: AxiosRequestConfig
-    ) => request("get", "/freelance", params, FreelanceDto, config),
+    ) => request("get", "/freelance", params, ProfileDto, config),
     UpdateFreelanceEndpoint: (
       params: {
         body?: unknown;

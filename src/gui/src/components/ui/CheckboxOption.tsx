@@ -5,6 +5,7 @@ interface CheckboxOptionProps {
     name?: string;
     checked: boolean;
     required?: boolean;
+    disabled?: boolean;
     error?: React.ReactNode | undefined;
     onChange: (checked: boolean) => void;
 }
@@ -14,6 +15,7 @@ function CheckboxOption({
     name,
     checked,
     required = false,
+    disabled = false,
     error,
     onChange, }: CheckboxOptionProps) {
     return (
@@ -23,6 +25,7 @@ function CheckboxOption({
                 name={name}
                 checked={checked}
                 required={required}
+                disabled={disabled}
                 onChange={(e) => onChange(e.target.checked)}
             />
             {label}

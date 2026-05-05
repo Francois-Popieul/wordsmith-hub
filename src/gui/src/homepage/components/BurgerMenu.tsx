@@ -10,6 +10,7 @@ function BurgerMenu() {
     return (
         <div className="burger_menu">
             <button
+                aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
                 className="burger_toggle"
                 onClick={() => setIsOpen(!isOpen)}
             >

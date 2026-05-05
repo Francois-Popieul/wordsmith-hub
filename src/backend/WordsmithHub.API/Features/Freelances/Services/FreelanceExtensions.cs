@@ -20,7 +20,7 @@ public static class FreelanceExtensions
                 Email = freelance.Email,
                 Phone = freelance.Phone ?? string.Empty,
                 Address = freelance.Address.ToDto(),
-                StatusId = freelance.StatusId
+                StatusId = freelance.StatusId,
             };
         }
 
@@ -32,7 +32,43 @@ public static class FreelanceExtensions
             Email = freelance.Email,
             Address = null,
             Phone = freelance.Phone ?? string.Empty,
-            StatusId = freelance.StatusId
+            StatusId = freelance.StatusId,
+        };
+    }
+
+    public static ProfileDto ToDtoProfile(this Freelance freelance)
+    {
+        ArgumentNullException.ThrowIfNull(freelance);
+
+        if (freelance.Address != null)
+        {
+            return new ProfileDto()
+            {
+                Id = freelance.Id,
+                FirstName = freelance.FirstName ?? string.Empty,
+                LastName = freelance.LastName ?? string.Empty,
+                Email = freelance.Email,
+                Phone = freelance.Phone ?? string.Empty,
+                Address = freelance.Address.ToDto(),
+                StatusId = freelance.StatusId,
+                SourceLanguages = freelance.SourceLanguages.ToList(),
+                TargetLanguages = freelance.TargetLanguages.ToList(),
+                Services = freelance.Services.ToList()
+            };
+        }
+
+        return new ProfileDto
+        {
+            Id = freelance.Id,
+            FirstName = freelance.FirstName ?? string.Empty,
+            LastName = freelance.LastName ?? string.Empty,
+            Email = freelance.Email,
+            Address = null,
+            Phone = freelance.Phone ?? string.Empty,
+            StatusId = freelance.StatusId,
+            SourceLanguages = freelance.SourceLanguages.ToList(),
+            TargetLanguages = freelance.TargetLanguages.ToList(),
+            Services = freelance.Services.ToList()
         };
     }
 }

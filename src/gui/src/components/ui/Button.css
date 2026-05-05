@@ -61,7 +61,7 @@
 .button_sidebar_selected {
     justify-content: flex-start;
     background-color: var(--color-slate-100);
-    color: var(--color-blue-deep);
+    color: var(--color-blue-dark);
     padding: 10px;
     scale: 1.05;
 }

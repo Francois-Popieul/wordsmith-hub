@@ -15,7 +15,7 @@ function PageHeader(props: PageHeaderProps) {
             <div>
                 {props.backLink && <Button variant="light" name="{props.backLink}" width="default" type="button"><BackArrow /></Button>}
                 <h1 className="page_title">{props.pageTitle}</h1>
-                <h2 className="page_subtitle">{props.pageSubtitle}</h2>
+                <p className="page_subtitle">{props.pageSubtitle}</p>
             </div>
             {props.button && <div className="page_header_button_container">{props.button}</div>}
         </div>

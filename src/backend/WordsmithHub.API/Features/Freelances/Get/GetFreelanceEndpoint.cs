@@ -5,7 +5,7 @@ using WordsmithHub.API.Features.Freelances.Models;
 
 namespace WordsmithHub.API.Features.Freelances.Get;
 
-public class GetFreelanceEndpoint : ApiEndpointWithoutRequest<FreelanceDto>
+public class GetFreelanceEndpoint : ApiEndpointWithoutRequest<ProfileDto>
 {
     public override void Configure()
     {
