@@ -4,6 +4,8 @@ public interface IFreelanceRepository : IRepository<Freelance>
 {
     Task<Freelance?> GetByAppUserIdAsync(Guid appUserId, CancellationToken cancellationToken = default);
 
+    Task<Freelance?> GetProfileByAppUserIdAsync(Guid appUserId, CancellationToken cancellationToken = default);
+
     Task<bool> ExistsForAppUserAsync(Guid appUserId, CancellationToken cancellationToken = default);
 
     Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default);

@@ -1,8 +1,8 @@
 using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.Countries.GetAll;
 
@@ -11,7 +11,7 @@ public record GetAllCountriesCommand(Guid AppUserId)
 
 [UsedImplicitly]
 public class GetAllCountriesHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     ICountryRepository repository)
     : ICommandHandler<GetAllCountriesCommand, OperationResult<IReadOnlyList<Country>>>
 {
@@ -19,7 +19,7 @@ public class GetAllCountriesHandler(
         GetAllCountriesCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
         {

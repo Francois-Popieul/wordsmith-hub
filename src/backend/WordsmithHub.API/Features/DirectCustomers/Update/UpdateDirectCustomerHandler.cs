@@ -1,10 +1,10 @@
 ﻿using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Update;
 
@@ -23,7 +23,7 @@ public record UpdateDirectCustomerCommand(
 
 [UsedImplicitly]
 public class UpdateDirectCustomerHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     IResourceAuthorizationService resourceAuthorizationService,
     IDirectCustomerRepository repository)
     : ICommandHandler<UpdateDirectCustomerCommand, OperationResult<Guid>>
@@ -32,7 +32,7 @@ public class UpdateDirectCustomerHandler(
         UpdateDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(command.AppUserId,

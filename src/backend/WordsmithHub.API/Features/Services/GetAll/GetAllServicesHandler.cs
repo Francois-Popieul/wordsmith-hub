@@ -1,8 +1,8 @@
 using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.Services.GetAll;
 
@@ -11,7 +11,7 @@ public record GetAllServicesCommand(Guid AppUserId)
 
 [UsedImplicitly]
 public class GetAllServicesHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     IServiceRepository repository)
     : ICommandHandler<GetAllServicesCommand, OperationResult<IReadOnlyList<Service>>>
 {
@@ -19,7 +19,7 @@ public class GetAllServicesHandler(
         GetAllServicesCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
         {

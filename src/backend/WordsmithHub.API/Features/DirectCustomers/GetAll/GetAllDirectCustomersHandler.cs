@@ -3,8 +3,8 @@ using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Models;
 using WordsmithHub.API.Features.DirectCustomers.Services;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.GetAll;
 
@@ -13,7 +13,7 @@ public record GetAllDirectCustomersCommand(Guid AppUserId)
 
 [UsedImplicitly]
 public class GetAllDirectCustomersHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     IDirectCustomerRepository repository)
     : ICommandHandler<GetAllDirectCustomersCommand, OperationResult<IReadOnlyList<DirectCustomerDto>>>
 {
@@ -21,7 +21,7 @@ public class GetAllDirectCustomersHandler(
         GetAllDirectCustomersCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
         {

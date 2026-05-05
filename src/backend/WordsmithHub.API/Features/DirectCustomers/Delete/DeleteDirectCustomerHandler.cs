@@ -1,9 +1,9 @@
 ﻿using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Delete;
 
@@ -12,7 +12,7 @@ public record DeleteDirectCustomerCommand(Guid AppUserId, Guid DirectCustomerId)
 
 [UsedImplicitly]
 public class DeleteDirectCustomerHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     IResourceAuthorizationService resourceAuthorizationService,
     IDirectCustomerRepository repository)
     : ICommandHandler<DeleteDirectCustomerCommand, OperationResult<NoContent>>
@@ -20,7 +20,7 @@ public class DeleteDirectCustomerHandler(
     public async Task<OperationResult<NoContent>> ExecuteAsync(DeleteDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(command.AppUserId,

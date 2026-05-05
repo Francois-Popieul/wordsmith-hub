@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Generation;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.API.Services.TokenService;
 using WordsmithHub.Domain;
@@ -111,7 +110,6 @@ builder.Services.AddCors(options =>
 
 // API services
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IFreelanceAccessService, FreelanceAccessService>();
 builder.Services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
 
 // FastEndpoints

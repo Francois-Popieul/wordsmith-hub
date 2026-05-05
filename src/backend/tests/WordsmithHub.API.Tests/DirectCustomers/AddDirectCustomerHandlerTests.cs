@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using Moq;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Add;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 using WordsmithHub.Domain.FreelanceAggregate;
@@ -13,7 +12,7 @@ namespace WordsmithHub.API.Tests.DirectCustomers;
 [UsedImplicitly]
 public class AddDirectCustomerHandlerTests
 {
-    private readonly Mock<IFreelanceAccessService> _mockFreelanceAccessService = new();
+    private readonly Mock<IFreelanceRepository> _mockFreelanceRepository = new();
     private readonly Mock<IDirectCustomerRepository> _mockDirectCustomerRepository = new();
     private readonly Mock<IDirectCustomerFactory> _mockDirectCustomerFactory = new();
     private readonly Fixture _fixture;
@@ -46,7 +45,7 @@ public class AddDirectCustomerHandlerTests
 
     private AddDirectCustomerHandler CreateSut()
     {
-        return new AddDirectCustomerHandler(_mockFreelanceAccessService.Object, _mockDirectCustomerRepository.Object,
+        return new AddDirectCustomerHandler(_mockFreelanceRepository.Object, _mockDirectCustomerRepository.Object,
             _mockDirectCustomerFactory.Object);
     }
 
@@ -103,8 +102,8 @@ public class AddDirectCustomerHandlerTests
     {
         // Arrange
         var freelance = _fixture.Create<Freelance>();
-        _mockFreelanceAccessService
-            .Setup(x => x.GetFreelanceForUserAsync(_command.AppUserId, It.IsAny<CancellationToken>()))
+        _mockFreelanceRepository
+            .Setup(x => x.GetByAppUserIdAsync(_command.AppUserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(freelance);
 
         // Act
@@ -121,8 +120,8 @@ public class AddDirectCustomerHandlerTests
     public async Task Handle_ShouldReturnForbidden_WhenNoFreelanceExistsForUser()
     {
         // Arrange
-        _mockFreelanceAccessService
-            .Setup(x => x.GetFreelanceForUserAsync(_command.AppUserId, It.IsAny<CancellationToken>()))
+        _mockFreelanceRepository
+            .Setup(x => x.GetByAppUserIdAsync(_command.AppUserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Freelance?)null);
 
         // Act

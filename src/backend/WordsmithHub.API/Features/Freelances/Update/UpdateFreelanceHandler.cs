@@ -1,7 +1,6 @@
 ﻿using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.FreelanceAggregate;
 
@@ -19,7 +18,6 @@ public record UpdateFreelanceCommand(
 
 [UsedImplicitly]
 public class UpdateFreelanceHandler(
-    IFreelanceAccessService freelanceAccessService,
     IFreelanceFactory freelanceFactory,
     IFreelanceRepository repository)
     : ICommandHandler<UpdateFreelanceCommand, OperationResult<Guid>>
@@ -27,7 +25,7 @@ public class UpdateFreelanceHandler(
     public async Task<OperationResult<Guid>> ExecuteAsync(UpdateFreelanceCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await repository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || freelance.Id != command.FreelanceId)
         {

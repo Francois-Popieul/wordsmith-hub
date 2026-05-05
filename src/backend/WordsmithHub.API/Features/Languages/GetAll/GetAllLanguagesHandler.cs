@@ -1,8 +1,8 @@
 using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.Languages.GetAll;
 
@@ -11,7 +11,7 @@ public record GetAllLanguagesCommand(Guid AppUserId)
 
 [UsedImplicitly]
 public class GetAllLanguagesHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     ILanguageRepository repository)
     : ICommandHandler<GetAllLanguagesCommand, OperationResult<IReadOnlyList<TranslationLanguage>>>
 {
@@ -19,7 +19,7 @@ public class GetAllLanguagesHandler(
         GetAllLanguagesCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
         {

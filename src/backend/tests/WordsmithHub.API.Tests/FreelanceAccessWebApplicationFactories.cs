@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.FreelanceAggregate;
 
@@ -18,28 +17,32 @@ public class WebApplicationFactoryWithAuthorizedAccess() : TestWebApplicationFac
 
         builder.ConfigureServices(services =>
         {
-            services.RemoveAll<IFreelanceAccessService>();
-            services.AddScoped(_ => CreateMockedFreelanceAccessService(factoryReturnsFreelance: true, AppUserId));
+            services.RemoveAll<IFreelanceRepository>();
+            services.AddScoped(_ => CreateMockedFreelanceRepository(factoryReturnsFreelance: true, AppUserId));
         });
     }
 
-    public static IFreelanceAccessService CreateMockedFreelanceAccessService(bool factoryReturnsFreelance, Guid appUserId)
+    public static IFreelanceRepository CreateMockedFreelanceRepository(bool factoryReturnsFreelance, Guid appUserId)
     {
-        var mock = new Mock<IFreelanceAccessService>();
-        mock.Setup(x => x.GetFreelanceForUserAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(factoryReturnsFreelance
-                ? new Freelance
-                {
-                    Id = Guid.NewGuid(),
-                    AppUserId = appUserId,
-                    FirstName = "Integration",
-                    LastName = "Tester",
-                    Email = "endpoint-test@wordsmithhub.local",
-                    StatusId = StatusIds.General.Active,
-                    CreatedAt = DateTimeOffset.UtcNow,
-                    UpdatedAt = DateTimeOffset.UtcNow
-                }
-                : null);
+        var freelance = factoryReturnsFreelance
+            ? new Freelance
+            {
+                Id = Guid.NewGuid(),
+                AppUserId = appUserId,
+                FirstName = "Integration",
+                LastName = "Tester",
+                Email = "endpoint-test@wordsmithhub.local",
+                StatusId = StatusIds.General.Active,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow
+            }
+            : null;
+
+        var mock = new Mock<IFreelanceRepository>();
+        mock.Setup(x => x.GetByAppUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(freelance);
+        mock.Setup(x => x.GetProfileByAppUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(freelance);
 
         return mock.Object;
     }
@@ -54,9 +57,9 @@ public class WebApplicationFactoryWithForbiddenAccess() : TestWebApplicationFact
 
         builder.ConfigureServices(services =>
         {
-            services.RemoveAll<IFreelanceAccessService>();
+            services.RemoveAll<IFreelanceRepository>();
             services.AddScoped(_ => WebApplicationFactoryWithAuthorizedAccess
-                .CreateMockedFreelanceAccessService(factoryReturnsFreelance: false, AppUserId));
+                .CreateMockedFreelanceRepository(factoryReturnsFreelance: false, AppUserId));
         });
     }
 }

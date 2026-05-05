@@ -10,6 +10,15 @@ public class FreelanceRepository(MainDbContext context) : Repository<Freelance>(
         return await Context.Freelances.FirstOrDefaultAsync(f => f.AppUserId == appUserId, cancellationToken);
     }
 
+    public async Task<Freelance?> GetProfileByAppUserIdAsync(Guid appUserId, CancellationToken cancellationToken = default)
+    {
+        return await Context.Freelances
+            .Include(f => f.SourceLanguages)
+            .Include(f => f.TargetLanguages)
+            .Include(f => f.Services)
+            .FirstOrDefaultAsync(f => f.AppUserId == appUserId, cancellationToken);
+    }
+
     public async Task<bool> ExistsForAppUserAsync(Guid appUserId, CancellationToken cancellationToken = default)
     {
         return await Context.Freelances.AnyAsync(f => f.AppUserId == appUserId, cancellationToken);

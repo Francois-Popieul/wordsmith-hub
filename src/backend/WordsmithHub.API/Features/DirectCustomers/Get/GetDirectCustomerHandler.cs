@@ -3,9 +3,9 @@ using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.DirectCustomers.Models;
 using WordsmithHub.API.Features.DirectCustomers.Services;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Get;
 
@@ -14,7 +14,7 @@ public record GetDirectCustomerCommand(Guid AppUserId, Guid DirectCustomerId)
 
 [UsedImplicitly]
 public class GetDirectCustomerHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     IResourceAuthorizationService resourceAuthorizationService,
     IDirectCustomerRepository repository)
     : ICommandHandler<GetDirectCustomerCommand, OperationResult<DirectCustomerDto>>
@@ -22,7 +22,7 @@ public class GetDirectCustomerHandler(
     public async Task<OperationResult<DirectCustomerDto>> ExecuteAsync(GetDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || !await resourceAuthorizationService
                 .CanAccessAsync<DirectCustomer>(command.AppUserId, command.DirectCustomerId, cancellationToken))

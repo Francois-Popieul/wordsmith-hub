@@ -1,9 +1,9 @@
 ﻿using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Services.FreelanceAccessService;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.API.Features.DirectCustomers.Add;
 
@@ -21,14 +21,14 @@ public record AddDirectCustomerCommand(
 
 [UsedImplicitly]
 public class AddDirectCustomerHandler(
-    IFreelanceAccessService freelanceAccessService,
+    IFreelanceRepository freelanceRepository,
     IDirectCustomerRepository repository,
     IDirectCustomerFactory factory) : ICommandHandler<AddDirectCustomerCommand, OperationResult<Guid>>
 {
     public async Task<OperationResult<Guid>> ExecuteAsync(AddDirectCustomerCommand command,
         CancellationToken cancellationToken)
     {
-        var freelance = await freelanceAccessService.GetFreelanceForUserAsync(command.AppUserId, cancellationToken);
+        var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
         {
