@@ -16,13 +16,14 @@ const TranslationLanguage = z.object({
   code: z.string(),
 });
 const Address = z.object({
-  streetInfo: z.string(),
-  addressComplement: z.string().nullable(),
-  postCode: z.string(),
-  city: z.string(),
-  state: z.string().nullable(),
+  streetInfo: z.string().min(0).max(255),
+  addressComplement: z.string().min(0).max(255).nullable(),
+  postCode: z.string().min(0).max(10),
+  city: z.string().min(0).max(100),
+  state: z.string().min(0).max(50).nullable(),
   countryId: z.number().int(),
 });
+const UpdateFreelanceAddressRequest = z.object({ address: Address });
 const UpdateFreelanceRequest = z.object({
   firstName: z.string().min(0).max(50),
   lastName: z.string().min(0).max(100),
@@ -36,6 +37,24 @@ const UpdateFreelanceRequest = z.object({
   address: Address,
 });
 const NoContent = z.object({});
+const UpdateFreelanceLanguagesRequest = z.object({
+  sourceLanguageIds: z.array(z.number().int()),
+  targetLanguageIds: z.array(z.number().int()),
+});
+const UpdateFreelancePersonalDataRequest = z.object({
+  firstName: z.string().min(0).max(50),
+  lastName: z.string().min(0).max(100),
+  email: z
+    .string()
+    .min(0)
+    .max(255)
+    .regex(/^[^@]+@[^@]+$/)
+    .email(),
+  phone: z.string().min(0).max(15).nullish(),
+});
+const UpdateFreelanceServicesRequest = z.object({
+  serviceIds: z.array(z.number().int()),
+});
 const AddressDto = z.object({
   streetInfo: z.string(),
   addressComplement: z.string().nullable(),
@@ -152,8 +171,12 @@ export const schemas = {
   Service,
   TranslationLanguage,
   Address,
+  UpdateFreelanceAddressRequest,
   UpdateFreelanceRequest,
   NoContent,
+  UpdateFreelanceLanguagesRequest,
+  UpdateFreelancePersonalDataRequest,
+  UpdateFreelanceServicesRequest,
   AddressDto,
   ProfileDto,
   FreelanceDto,
@@ -344,6 +367,66 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.object({}),
         config
       ),
+    UpdateFreelanceAddressEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "put",
+        "/freelance/:freelanceId/address",
+        params,
+        z.string(),
+        config
+      ),
+    UpdateFreelanceLanguagesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "put",
+        "/freelance/:freelanceId/languages",
+        params,
+        z.string(),
+        config
+      ),
+    UpdateFreelancePersonalDataEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "put",
+        "/freelance/:freelanceId/personaldata",
+        params,
+        z.string(),
+        config
+      ),
+    UpdateFreelanceServicesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "put",
+        "/freelance/:freelanceId/services",
+        params,
+        z.string(),
+        config
+      ),
     GetAllFreelancesEndpoint: (
       params: {
         body?: unknown;
@@ -401,6 +484,10 @@ export function getTagByAlias(alias: string): string | undefined {
     GetFreelanceEndpoint: "freelance",
     UpdateFreelanceEndpoint: "freelance",
     DeleteFreelanceEndpoint: "freelance",
+    UpdateFreelanceAddressEndpoint: "freelance",
+    UpdateFreelanceLanguagesEndpoint: "freelance",
+    UpdateFreelancePersonalDataEndpoint: "freelance",
+    UpdateFreelanceServicesEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
     GetAllLanguagesEndpoint: "languages",
     GetAllServicesEndpoint: "services",

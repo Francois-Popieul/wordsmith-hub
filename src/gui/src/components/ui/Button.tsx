@@ -22,6 +22,7 @@ function Button(props: ButtonProps) {
                 `button_${props.width}`,
                 `button_${props.special}`,
             )}
+            type={props.type ?? "button"}
             disabled={props.disabled}
             onClick={props.onClick}
         >

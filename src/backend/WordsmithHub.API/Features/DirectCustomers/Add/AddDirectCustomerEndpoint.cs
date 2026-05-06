@@ -13,7 +13,7 @@ public record AddDirectCustomerRequest(
     string Code,
     string? Phone,
     string Email,
-    Address Address,
+    Address? Address,
     string? SiretOrSiren,
     int PaymentDelay,
     int CurrencyId);
@@ -27,11 +27,14 @@ public class AddDirectCustomerRequestValidator : Validator<AddDirectCustomerRequ
         RuleFor(x => x.Phone).MaximumLength(15);
         RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
         RuleFor(x => x.Address).NotNull();
-        RuleFor(x => x.Address.StreetInfo).MaximumLength(255);
-        RuleFor(x => x.Address.AddressComplement).MaximumLength(255);
-        RuleFor(x => x.Address.PostCode).MaximumLength(10);
-        RuleFor(x => x.Address.State).MaximumLength(50);
-        RuleFor(x => x.Address.City).MaximumLength(100);
+        When(x => x.Address != null, () =>
+        {
+            RuleFor(x => x.Address!.StreetInfo).MaximumLength(255);
+            RuleFor(x => x.Address!.AddressComplement).MaximumLength(255);
+            RuleFor(x => x.Address!.PostCode).MaximumLength(10);
+            RuleFor(x => x.Address!.State).MaximumLength(50);
+            RuleFor(x => x.Address!.City).MaximumLength(100);
+        });
         RuleFor(x => x.SiretOrSiren).MaximumLength(15);
         RuleFor(x => x.PaymentDelay).NotEmpty();
         RuleFor(x => x.CurrencyId).NotEmpty();
@@ -57,7 +60,7 @@ public class AddDirectCustomerEndpoint : ApiEndpoint<AddDirectCustomerRequest, G
             request.Code,
             request.Phone,
             request.Email,
-            request.Address,
+            request.Address!,
             request.SiretOrSiren,
             request.PaymentDelay,
             request.CurrencyId,

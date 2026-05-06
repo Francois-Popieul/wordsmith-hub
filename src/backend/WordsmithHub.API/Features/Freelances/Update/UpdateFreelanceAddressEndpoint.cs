@@ -8,18 +8,21 @@ using WordsmithHub.Domain;
 namespace WordsmithHub.API.Features.Freelances.Update;
 
 [UsedImplicitly]
-public record UpdateFreelanceAddressRequest(Address Address);
+public record UpdateFreelanceAddressRequest(Address? Address);
 
 public class UpdateFreelanceAddressRequestValidator : Validator<UpdateFreelanceAddressRequest>
 {
     public UpdateFreelanceAddressRequestValidator()
     {
         RuleFor(x => x.Address).NotNull();
-        RuleFor(x => x.Address.StreetInfo).MaximumLength(255);
-        RuleFor(x => x.Address.AddressComplement).MaximumLength(255);
-        RuleFor(x => x.Address.PostCode).MaximumLength(10);
-        RuleFor(x => x.Address.State).MaximumLength(50);
-        RuleFor(x => x.Address.City).MaximumLength(100);
+        When(x => x.Address != null, () =>
+        {
+            RuleFor(x => x.Address!.StreetInfo).MaximumLength(255);
+            RuleFor(x => x.Address!.AddressComplement).MaximumLength(255);
+            RuleFor(x => x.Address!.PostCode).MaximumLength(10);
+            RuleFor(x => x.Address!.State).MaximumLength(50);
+            RuleFor(x => x.Address!.City).MaximumLength(100);
+        });
     }
 }
 
@@ -40,7 +43,7 @@ public class UpdateFreelanceAddressEndpoint : ApiEndpoint<UpdateFreelanceAddress
         var freelanceId = Route<Guid>("freelanceId");
 
         var command = new UpdateFreelanceAddressCommand(
-            request.Address,
+            request.Address!,
             appUserId,
             freelanceId);
 
