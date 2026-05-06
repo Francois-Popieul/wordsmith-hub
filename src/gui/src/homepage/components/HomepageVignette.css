@@ -9,6 +9,7 @@
     padding: 20px;
     height: 140px;
     width: 300px;
+    box-shadow: var(--drop-shadow);
 }
 
 .vignette_title {

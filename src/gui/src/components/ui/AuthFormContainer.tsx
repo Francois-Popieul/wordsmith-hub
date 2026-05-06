@@ -27,7 +27,7 @@ function AuthFormContainer({ title, presentation, children, button_name, onSubmi
         <p className="form_presentation">{presentation}</p>
         {children}
         <div className="form_centered_container">
-            <Button name={button_name} variant="dark" width="full_width" />
+            <Button name={button_name} type="submit" variant="dark" width="full_width" />
             {link && <><p>{link.link_message} <Link to={link.link_destination}>{link.link_text}</Link></p></>}
             <Link to="/"><div className="back_home_container"><BackArrow /><p>Revenir à l’accueil</p></div></Link>
         </div>

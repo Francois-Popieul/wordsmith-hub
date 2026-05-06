@@ -1,0 +1,37 @@
+.app_burger_menu {
+    position: relative;
+    display: none;
+}
+
+.app_burger_toggle {
+    background: var(--color-slate-50);
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--color-slate-700);
+}
+
+.app_burger_dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--color-slate-50);
+    border: 1px solid var(--color-slate-300);
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 100;
+}
+
+.app_burger_icon {
+    width: 32px;
+    height: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .app_burger_menu {
+        display: inline-block;
+    }
+}

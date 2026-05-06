@@ -46,7 +46,7 @@ function LoginView() {
     }
     return (
         <main className="authentication">
-            <h1 className="invisible">Connexion</h1>
+            <h1 className="visually-hidden">Page de connexion</h1>
             <AuthFormContainer title="Bienvenue" presentation="Connectez-vous pour accéder à votre tableau de bord" button_name="Se connecter" link={{ link_message: "Pas encore de compte ?", link_destination: "/signup", link_text: "S’inscrire" }} onSubmit={handleSubmit}>
                 <FormInputGroup label="E-mail" type="email" name="email" placeholder="jean.dupont@exemple.com" error={fieldErrors.email?.[0]} />
                 <FormInputGroup label="Mot de passe" type="password" name="password" placeholder="************" error={fieldErrors.password?.[0]} />

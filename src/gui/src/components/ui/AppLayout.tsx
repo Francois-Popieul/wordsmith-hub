@@ -1,4 +1,5 @@
 import Sidebar from "../partials/Sidebar";
+import TopBar from "../partials/TopBar";
 import "./AppLayout.css";
 
 interface AppLayoutProps {
@@ -6,7 +7,8 @@ interface AppLayoutProps {
 }
 
 function AppLayout(props: AppLayoutProps) {
-    return (
+    return (<>
+        <TopBar />
         <main className="app_layout">
             <section>
                 <Sidebar />
@@ -15,6 +17,7 @@ function AppLayout(props: AppLayoutProps) {
                 {props.children}
             </section>
         </main >
+    </>
     );
 }
 

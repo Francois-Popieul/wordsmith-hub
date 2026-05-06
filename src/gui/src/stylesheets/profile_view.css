@@ -6,7 +6,8 @@
 }
 
 .source_language_container,
-.target_language_container {
+.target_language_container,
+.service_container {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -39,6 +40,8 @@
     margin: 0.5rem 0.25rem;
     border: solid 1px var(--color-slate-300);
     border-radius: 8px;
+    max-height: 195px;
+    overflow-y: auto;
     flex: 1;
 }
 

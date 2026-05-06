@@ -12,7 +12,7 @@ function HomepageView() {
     return (<>
         <Header />
         <main className="homepage">
-            <h1 className="invisible">Page d’accueil de Wordsmith Hub</h1>
+            <h1 className="visually-hidden">Page d’accueil de Wordsmith Hub, la plateforme de gestion pour les traducteurs indépendants</h1>
             <section className="homepage_presentation_container">
                 <div className="homepage_presentation_text_container">
                     <h2 className="homepage_presentation_title">Simplifiez la gestion de votre activité de traduction</h2>

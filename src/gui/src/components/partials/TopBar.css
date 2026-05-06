@@ -1,0 +1,17 @@
+.topbar {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .topbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        background: var(--color-dark);
+        padding: 5px;
+        height: 48px;
+        box-sizing: border-box;
+    }
+}

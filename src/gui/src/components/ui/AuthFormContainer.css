@@ -4,8 +4,8 @@
     align-items: flex-center;
     justify-content: flex-start;
     background-color: var(--color-slate-50);
-    border: solid 2px var(--color-slate-300);
-    border-radius: 10px;
+    border: solid 2px var(--color-slate-400);
+    border-radius: 16px;
     padding: 1rem;
     margin: 3rem auto 0.5rem;
     width: 550px;
@@ -82,7 +82,7 @@
     margin-left: 0.25rem;
 }
 
-.auth_form .form_error {
+.auth_form .form_error_message {
     color: var(--color-red-deep);
     font-size: 0.9rem;
     text-align: left;

@@ -5,8 +5,8 @@
     gap: 1rem;
     padding: 1rem;
     background-color: var(--color-slate-50);
-    border: solid 1px var(--color-slate-300);
-    border-radius: 8px;
+    border: solid 1px var(--color-slate-400);
+    border-radius: 16px;
     margin: 0;
     width: 100%;
     min-width: 0;
@@ -87,7 +87,7 @@
     margin-left: 0.25rem;
 }
 
-.form_error {
+.form_error_message {
     color: var(--color-red-deep);
     font-size: 0.9rem;
     text-align: left;
@@ -97,6 +97,10 @@
 
 @media screen and (max-width: 768px) {
     .form_inner_flex_container {
+        flex-direction: column;
+    }
+
+    .form_button {
         flex-direction: column;
     }
 }

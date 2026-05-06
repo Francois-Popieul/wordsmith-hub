@@ -15,8 +15,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 2rem;
     flex: 1;
     margin: 1rem;
+    background-color: var(--color-white);
     box-sizing: border-box;
 }

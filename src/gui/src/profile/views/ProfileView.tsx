@@ -16,8 +16,9 @@ import type { TranslationLanguage } from "../../models/TranslationLanguage";
 import type { Service } from "../../models/Service";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import "../../stylesheets/profile_view.css";
-import { PersonalDataSchema, type PersonalData } from "../../models/PersonalData";
+import { personalDataSchema, type PersonalData } from "../../models/PersonalData";
 import * as zod from "zod";
+import { addressSchema } from "../../models/Address";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -38,7 +39,6 @@ function ProfileView() {
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
-                console.log("Profile data:", response);
                 const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
                 setProfileData(profileData);
             } catch (error) {
@@ -112,6 +112,7 @@ function ProfileView() {
     function handleCancelPersonalData() {
         setProfileData(savedProfileData);
         setEditingForm(null);
+        setFieldErrors({});
     }
 
     async function handleSubmitPersonalData(e: React.SyntheticEvent<HTMLFormElement>) {
@@ -124,7 +125,7 @@ function ProfileView() {
             phone: formData.get("phone") as string | null
         };
 
-        const validationResult = PersonalDataSchema.safeParse(personalData);
+        const validationResult = personalDataSchema.safeParse(personalData);
         if (!validationResult.success) {
             setFieldErrors(zod.flattenError(validationResult.error).fieldErrors);
             return;
@@ -139,35 +140,57 @@ function ProfileView() {
             if (axios.isAxiosError(error) && error.response) {
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                console.error("An unexpected error occurred:", error);
+                console.error("Une erreur inattendue est survenue :", error);
             }
         }
     }
 
-    function handleModifyBusinessData() {
+    function handleModifyAddressData() {
         setSavedProfileData(profileData);
         setProfileData(prev => {
             if (!prev || prev.address) return prev;
             return { ...prev, address: { streetInfo: "", addressComplement: null, postCode: "", city: "", state: null, countryId: 0 } };
         });
-        setEditingForm("business");
+        setEditingForm("address");
     }
 
-    function handleCancelBusinessData() {
+    function handleCancelAddressData() {
         setProfileData(savedProfileData);
         setEditingForm(null);
+        setFieldErrors({});
     }
 
-    function handleSubmitBusinessData(event: React.SyntheticEvent<HTMLFormElement>) {
+    async function handleSubmitAddressData(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log("Submitted business data:", {
-            streetInfo: profileData?.address?.streetInfo,
-            addressComplement: profileData?.address?.addressComplement,
-            postCode: profileData?.address?.postCode,
-            city: profileData?.address?.city,
-            state: profileData?.address?.state,
-            countryId: profileData?.address?.countryId
-        });
+        const formData = new FormData(event.currentTarget);
+        const addressData = {
+            streetInfo: formData.get("streetInfo") as string,
+            addressComplement: formData.get("addressComplement") as string | null,
+            postCode: formData.get("postCode") as string,
+            state: formData.get("state") as string | null,
+            city: formData.get("city") as string,
+            countryId: formData.get("countryId") ? parseInt(formData.get("countryId") as string) : null
+        };
+        console.log("Submitted address data:", addressData);
+
+        const validationResult = addressSchema.safeParse(addressData);
+        if (!validationResult.success) {
+            setFieldErrors(zod.flattenError(validationResult.error).fieldErrors);
+            return;
+        }
+
+        setFieldErrors({});
+
+        try {
+            await apiClient.UpdateFreelanceAddressEndpoint({ body: { address: addressData }, pathParams: { freelanceId: profileData?.id || 0 } });
+            setEditingForm(null);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setFieldErrors(error.response.data.errors || {});
+            } else {
+                console.error("Une erreur inattendue est survenue :", error);
+            }
+        }
     }
 
     function handleModifyLanguages() {
@@ -178,14 +201,27 @@ function ProfileView() {
     function handleCancelLanguages() {
         setProfileData(savedProfileData);
         setEditingForm(null);
+        setFieldErrors({});
     }
 
-    function handleSubmitLanguages(event: React.SyntheticEvent<HTMLFormElement>) {
+    async function handleSubmitLanguages(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log("Submitted languages data:", {
-            sourceLanguages: profileData?.sourceLanguages,
-            targetLanguages: profileData?.targetLanguages
-        });
+        if (profileData?.sourceLanguages.length === 0 || profileData?.targetLanguages.length === 0) {
+            setFieldErrors({ languages: ["Veuillez sélectionner au moins une langue source et une langue cible."] });
+            return;
+        }
+        setFieldErrors({});
+
+        try {
+            await apiClient.UpdateFreelanceLanguagesEndpoint({ body: { sourceLanguageIds: profileData?.sourceLanguages.map(l => l.id) || [], targetLanguageIds: profileData?.targetLanguages.map(l => l.id) || [] }, pathParams: { freelanceId: profileData?.id || 0 } });
+            setEditingForm(null);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setFieldErrors(error.response.data.errors || {});
+            } else {
+                console.error("Une erreur inattendue est survenue :", error);
+            }
+        }
     }
 
     function handleModifyService() {
@@ -196,15 +232,28 @@ function ProfileView() {
     function handleCancelService() {
         setProfileData(savedProfileData);
         setEditingForm(null);
+        setFieldErrors({});
     }
 
-    function handleSubmitServices(event: React.SyntheticEvent<HTMLFormElement>) {
+    async function handleSubmitServices(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log("Submitted services data:", {
-            services: profileData?.services
-        });
-    }
+        if (profileData?.services.length === 0) {
+            setFieldErrors({ services: ["Veuillez sélectionner au moins un service."] });
+            return;
+        }
+        setFieldErrors({});
 
+        try {
+            await apiClient.UpdateFreelanceServicesEndpoint({ body: { serviceIds: profileData?.services.map(s => s.id) || [] }, pathParams: { freelanceId: profileData?.id || 0 } });
+            setEditingForm(null);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setFieldErrors(error.response.data.errors || {});
+            } else {
+                console.error("Une erreur inattendue est survenue :", error);
+            }
+        }
+    }
 
     return (
         <>
@@ -279,11 +328,11 @@ function ProfileView() {
                         cancel_button_name="Annuler"
                         save_button_name="Enregistrer"
                         modify_button_name="Modifier"
-                        isEditing={editingForm === "business"}
+                        isEditing={editingForm === "address"}
                         modifyDisabled={editingForm !== null}
-                        onModify={handleModifyBusinessData}
-                        onCancel={handleCancelBusinessData}
-                        onSubmit={handleSubmitBusinessData}>
+                        onModify={handleModifyAddressData}
+                        onCancel={handleCancelAddressData}
+                        onSubmit={handleSubmitAddressData}>
                         <div className="form_inner_flex_container">
                             <FormInputGroup
                                 label="Adresse"
@@ -291,7 +340,7 @@ function ProfileView() {
                                 type="text"
                                 placeholder="12 avenue des Champs-Élysées"
                                 value={profileData.address?.streetInfo || ""}
-                                readonly={editingForm !== "business"}
+                                readonly={editingForm !== "address"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, streetInfo: value } : null } : prev)}
                                 error={fieldErrors.streetInfo?.[0]}>
                             </FormInputGroup>
@@ -301,7 +350,7 @@ function ProfileView() {
                                 type="text"
                                 placeholder="Bâtiment A"
                                 value={profileData.address?.addressComplement || ""}
-                                readonly={editingForm !== "business"}
+                                readonly={editingForm !== "address          "}
                                 required={false}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, addressComplement: value } : null } : prev)}
                                 error={fieldErrors.addressComplement?.[0]}>
@@ -314,7 +363,7 @@ function ProfileView() {
                                 type="text"
                                 placeholder="75001"
                                 value={profileData.address?.postCode || ""}
-                                readonly={editingForm !== "business"}
+                                readonly={editingForm !== "address"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, postCode: value } : null } : prev)}
                                 error={fieldErrors.postCode?.[0]}>
                             </FormInputGroup>
@@ -324,7 +373,7 @@ function ProfileView() {
                                 type="text"
                                 placeholder="Paris"
                                 value={profileData.address?.city || ""}
-                                readonly={editingForm !== "business"}
+                                readonly={editingForm !== "address"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, city: value } : null } : prev)}
                                 error={fieldErrors.city?.[0]}>
                             </FormInputGroup>
@@ -337,7 +386,7 @@ function ProfileView() {
                                 required={false}
                                 placeholder="Île-de-France"
                                 value={profileData.address?.state || ""}
-                                readonly={editingForm !== "business"}
+                                readonly={editingForm !== "address"}
                                 onChange={(value) => setProfileData(prev => prev ? { ...prev, address: prev.address ? { ...prev.address, state: value } : null } : prev)}
                                 error={fieldErrors.state?.[0]}>
                             </FormInputGroup>
@@ -347,7 +396,7 @@ function ProfileView() {
                                 options={countries.map(country => ({ value: country.id.toString(), name: country.name }))}
                                 placeholder="-- Sélectionnez le pays --"
                                 selected={profileData.address?.countryId ? profileData.address.countryId.toString() : ""}
-                                disabled={editingForm !== "business"}
+                                disabled={editingForm !== "address"}
                                 required={true}
                                 onChange={(value) => {
                                     setProfileData(prev => {
@@ -430,6 +479,7 @@ function ProfileView() {
                                     }</div>
                                 </div>
                             </div>
+                            {fieldErrors.languages && <p className="form_error_message">{fieldErrors.languages[0]}</p>}
                         </FormContainer>
 
                         <FormContainer
@@ -444,28 +494,33 @@ function ProfileView() {
                             onModify={handleModifyService}
                             onCancel={handleCancelService}
                             onSubmit={handleSubmitServices}>
-                            <div className="service_list">{
-                                services.map(service => (
-                                    CheckboxOption({
-                                        name: `service-${service.id}`,
-                                        label: service.name,
-                                        checked: profileData.services.some(s => s.id === service.id),
-                                        disabled: editingForm !== "services",
-                                        onChange: () => {
-                                            setProfileData(prev => {
-                                                if (!prev) return prev;
-                                                const isSelected = prev.services.some(s => s.id === service.id);
-                                                return {
-                                                    ...prev,
-                                                    services: isSelected
-                                                        ? prev.services.filter(s => s.id !== service.id)
-                                                        : [...prev.services, service]
-                                                };
-                                            });
-                                        }
-                                    })
-                                ))
-                            }</div>
+                            <div className="service_container">
+                                <h3 className="language_title">&nbsp;</h3>
+                                <p></p>
+                                <div className="service_list">{
+                                    services.map(service => (
+                                        CheckboxOption({
+                                            name: `service-${service.id}`,
+                                            label: service.name,
+                                            checked: profileData.services.some(s => s.id === service.id),
+                                            disabled: editingForm !== "services",
+                                            onChange: () => {
+                                                setProfileData(prev => {
+                                                    if (!prev) return prev;
+                                                    const isSelected = prev.services.some(s => s.id === service.id);
+                                                    return {
+                                                        ...prev,
+                                                        services: isSelected
+                                                            ? prev.services.filter(s => s.id !== service.id)
+                                                            : [...prev.services, service]
+                                                    };
+                                                });
+                                            }
+                                        })
+                                    ))
+                                }</div>
+                            </div>
+                            {fieldErrors.services && <p className="form_error_message">{fieldErrors.services[0]}</p>}
                         </FormContainer>
                     </section>
                 </>

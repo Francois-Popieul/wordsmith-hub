@@ -29,7 +29,7 @@ function CheckboxOption({
                 onChange={(e) => onChange(e.target.checked)}
             />
             {label}
-            {error && (<p className="form_error">{error}</p>)}
+            {error && (<p className="form_error_message">{error}</p>)}
         </label>
     );
 }

@@ -54,7 +54,7 @@ function SignupView() {
 
     return (
         <main className="authentication">
-            <h1 className="invisible">Inscription</h1>
+            <h1 className="visually-hidden">Page d’inscription</h1>
             <AuthFormContainer title="Créer votre compte" presentation="Commencez à gérer votre activité de traduction" button_name="Créer un compte" link={{ link_message: "Vous avez déjà un compte ?", link_destination: "/login", link_text: "Se connecter" }} onSubmit={handleSubmit}>
                 <FormInputGroup label="Prénom" type="text" name="firstname" placeholder="Jean" required={false} error={fieldErrors.firstName?.[0]} />
                 <FormInputGroup label="Nom" type="text" name="lastname" placeholder="Dupont" required={false} error={fieldErrors.lastName?.[0]} />
