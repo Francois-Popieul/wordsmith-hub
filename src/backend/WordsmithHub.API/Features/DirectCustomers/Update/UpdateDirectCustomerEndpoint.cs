@@ -27,6 +27,11 @@ public class UpdateDirectCustomerRequestValidator : Validator<UpdateDirectCustom
         RuleFor(x => x.Phone).MaximumLength(15);
         RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
         RuleFor(x => x.Address).NotNull();
+        RuleFor(x => x.Address.StreetInfo).MaximumLength(255);
+        RuleFor(x => x.Address.AddressComplement).MaximumLength(255);
+        RuleFor(x => x.Address.PostCode).MaximumLength(10);
+        RuleFor(x => x.Address.State).MaximumLength(50);
+        RuleFor(x => x.Address.City).MaximumLength(100);
         RuleFor(x => x.SiretOrSiren).MaximumLength(15);
         RuleFor(x => x.PaymentDelay).NotEmpty();
         RuleFor(x => x.CurrencyId).NotEmpty();

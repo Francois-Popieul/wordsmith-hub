@@ -1,4 +1,4 @@
-﻿using FastEndpoints;
+using FastEndpoints;
 using FluentValidation;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common;
@@ -8,21 +8,12 @@ using WordsmithHub.Domain;
 namespace WordsmithHub.API.Features.Freelances.Update;
 
 [UsedImplicitly]
-public record UpdateFreelanceRequest(
-    string FirstName,
-    string LastName,
-    string Email,
-    string? Phone,
-    Address Address);
+public record UpdateFreelanceAddressRequest(Address Address);
 
-public class UpdateFreelanceRequestValidator : Validator<UpdateFreelanceRequest>
+public class UpdateFreelanceAddressRequestValidator : Validator<UpdateFreelanceAddressRequest>
 {
-    public UpdateFreelanceRequestValidator()
+    public UpdateFreelanceAddressRequestValidator()
     {
-        RuleFor(x => x.FirstName).NotEmpty().MaximumLength(50);
-        RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Phone).MaximumLength(15);
-        RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
         RuleFor(x => x.Address).NotNull();
         RuleFor(x => x.Address.StreetInfo).MaximumLength(255);
         RuleFor(x => x.Address.AddressComplement).MaximumLength(255);
@@ -32,27 +23,23 @@ public class UpdateFreelanceRequestValidator : Validator<UpdateFreelanceRequest>
     }
 }
 
-public class UpdateFreelanceEndpoint : ApiEndpoint<UpdateFreelanceRequest, Guid>
+public class UpdateFreelanceAddressEndpoint : ApiEndpoint<UpdateFreelanceAddressRequest, Guid>
 {
     public override void Configure()
     {
-        Put("/freelance/{freelanceId:guid}");
-        Roles("user", "admin");
+        Put("/freelance/{freelanceId:guid}/address");
+        Roles("user");
         Description(x => x.WithTags("freelance")
             .Produces(StatusCodes.Status403Forbidden));
     }
 
-    public override async Task HandleAsync(UpdateFreelanceRequest request, CancellationToken cancellationToken)
+    public override async Task HandleAsync(UpdateFreelanceAddressRequest request, CancellationToken cancellationToken)
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var freelanceId = Route<Guid>("freelanceId");
 
-        var command = new UpdateFreelanceCommand(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.Phone,
+        var command = new UpdateFreelanceAddressCommand(
             request.Address,
             appUserId,
             freelanceId);
