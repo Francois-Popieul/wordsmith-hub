@@ -7,7 +7,6 @@ interface ButtonProps {
     variant: "dark" | "grey" | "light" | "red" | "sidebar" | "sidebar_selected";
     width?: "default" | "small" | "medium" | "contained" | "extended" | "full_width";
     type?: "submit" | "button";
-    special?: "right_side" | "left_side";
     disabled?: boolean;
     children?: React.ReactNode;
     onClick?: () => void;
@@ -20,7 +19,6 @@ function Button(props: ButtonProps) {
                 "button",
                 `button_${props.variant}`,
                 `button_${props.width}`,
-                `button_${props.special}`,
             )}
             type={props.type ?? "button"}
             disabled={props.disabled}
