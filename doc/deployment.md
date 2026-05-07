@@ -22,4 +22,4 @@ Note: Databases are NOT exposed to localhost in production for security reasons.
 
 ### Certbot Renewal
 
-The certbot service automatically renews certificates every 12 hours.
+The certbot service automatically renews certificates every 720 hours.

@@ -1,0 +1,65 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Tests
+        run: pnpm run test
+
+      - name: Build app
+        run: pnpm run build
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: francois-popieul
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ghcr.io/francois-popieul/wordsmithhub-api:1.1.2
+
+      - name: Build and push Client image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./src/gui
+          file: Dockerfile
+          push: true
+          tags: ghcr.io/francois-popieul/wordsmithhub-client:1.1.2
+
+      - name: SSH deployment
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker pull ghcr.io/francois-popieul/wordsmithhub-api:1.1.2
+            docker pull ghcr.io/francois-popieul/wordsmithhub-client:1.1.2
+            docker compose -f /home/ubuntu/wordsmithhub-prod/compose.prod.yaml up -d --remove-orphans
