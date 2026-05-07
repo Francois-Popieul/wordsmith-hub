@@ -16,22 +16,17 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v6
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: latest
-
       - name: Install dependencies
         working-directory: ./src/gui
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Tests
         working-directory: ./src/gui
-        run: pnpm run test
+        run: npm test
 
       - name: Build app
         working-directory: ./src/gui
-        run: pnpm run build
+        run: npm run build
 
       - name: Log in to GHCR
         uses: docker/login-action@v4
