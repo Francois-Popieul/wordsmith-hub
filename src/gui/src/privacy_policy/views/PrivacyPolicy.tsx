@@ -17,7 +17,7 @@ function PrivacyPolicy() {
 
                 <h2>Collecte d’informations</h2>
 
-                <p>Nous collectons des informations personnelles telles que votre nom, adresse e-mail, et autres données nécessaires pour créer et gérer votre compte. Nous pouvons également collecter des informations sur votre utilisation de la plateforme pour améliorer nos services.</p>
+                <p>Nous collectons des informations personnelles telles que votre nom, votre adresse e-mail, et d’autres données nécessaires pour créer et gérer votre compte. Nous pouvons également collecter des informations sur votre utilisation de la plateforme pour améliorer nos services.</p>
 
                 <p className="back_to_top"><a href="#top">Revenir en haut</a></p>
 
