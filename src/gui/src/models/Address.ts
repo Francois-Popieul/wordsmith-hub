@@ -13,19 +13,19 @@ export const addressSchema = zod
     .object({
         streetInfo: zod
             .string()
-            .min(5, "Veuillez saisir une adresse valide"),
+            .min(5, { "message": "Veuillez saisir une adresse valide" }),
         addressComplement: zod
             .string()
             .nullable(),
         postCode: zod
             .string()
             .trim()
-            .min(1, "Code postal requis")
-            .max(5, "Code postal invalide"),
+            .min(1, { "message": "Code postal requis" })
+            .max(5, { "message": "Code postal invalide" }),
         city: zod
             .string()
             .trim()
-            .min(1, "Nom de ville requis"),
+            .min(1, { "message": "Nom de ville requis" }),
         state: zod
             .string()
             .nullable(),
