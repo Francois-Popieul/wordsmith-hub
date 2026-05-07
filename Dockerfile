@@ -14,11 +14,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src/backend
-COPY ["WordsmithHub.API/WordsmithHub.API.csproj", "WordsmithHub.API/"]
-COPY ["WordsmithHub.Domain/WordsmithHub.Domain.csproj", "WordsmithHub.Domain/"]
-COPY ["WordsmithHub.Infrastructure/WordsmithHub.Infrastructure.csproj", "WordsmithHub.Infrastructure/"]
+COPY ["src/backend/WordsmithHub.API/WordsmithHub.API.csproj", "WordsmithHub.API/"]
+COPY ["src/backend/WordsmithHub.Domain/WordsmithHub.Domain.csproj", "WordsmithHub.Domain/"]
+COPY ["src/backend/WordsmithHub.Infrastructure/WordsmithHub.Infrastructure.csproj", "WordsmithHub.Infrastructure/"]
 RUN dotnet restore "WordsmithHub.API/WordsmithHub.API.csproj"
-COPY . .
+COPY src/backend/ .
 WORKDIR "/src/backend/WordsmithHub.API"
 RUN dotnet build "./WordsmithHub.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

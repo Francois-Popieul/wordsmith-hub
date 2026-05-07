@@ -38,7 +38,7 @@ jobs:
       - name: Build and push API image
         uses: docker/build-push-action@v6
         with:
-          context: ./src/backend
+          context: .
           file: Dockerfile
           push: true
           tags: ghcr.io/francois-popieul/wordsmithhub-api:1.1.2
