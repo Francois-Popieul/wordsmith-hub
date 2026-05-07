@@ -47,7 +47,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./src/gui
-          file: Dockerfile
+          file: ./src/gui/Dockerfile
           push: true
           tags: ghcr.io/francois-popieul/wordsmithhub-client:1.1.2
 
