@@ -22,12 +22,15 @@ jobs:
           version: latest
 
       - name: Install dependencies
+        working-directory: ./src/gui
         run: pnpm install --frozen-lockfile
 
       - name: Tests
+        working-directory: ./src/gui
         run: pnpm run test
 
       - name: Build app
+        working-directory: ./src/gui
         run: pnpm run build
 
       - name: Log in to GHCR
