@@ -7,7 +7,6 @@ export type Address = {
     city: string;
     state: string | null;
     countryId: number;
-
 }
 
 export const addressSchema = zod
