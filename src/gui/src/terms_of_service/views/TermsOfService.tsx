@@ -169,7 +169,6 @@ function TermsOfService() {
                 <p>Toute contestation relative aux services fournis par le prestataire, de même que toute contestation quant à la validité, l’interprétation ou l’exécution des présentes Conditions générales d’utilisation sera régie par le droit français et soumise à la compétence exclusive des tribunaux français.</p>
 
                 <p className="back_to_top"><a href="#top">Revenir en haut</a></p>
-
             </main >
             <Footer />
         </>
