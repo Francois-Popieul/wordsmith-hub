@@ -63,7 +63,7 @@
       timeout: 3s
       retries: 5
     networks:
-      - backend
+      - wordsmith_network
 
   identitydb:
     image: postgres:18-alpine
