@@ -15,7 +15,7 @@
       Jwt__Audience: "${JWT_AUDIENCE}"
       Jwt__AccessTokenSeconds: "${JWT_ACCESSTOKENSECONDS}"
     networks:
-      - backend
+      - wordsmith_network
 
   nginx:
     image: nginx:alpine
@@ -29,8 +29,9 @@
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - api
+      - frontend
     networks:
-      - backend
+      - wordsmith_network
 
   certbot:
     image: certbot/certbot:latest
@@ -44,7 +45,7 @@
                sleep 720h;
              done"
     networks:
-      - backend
+      - wordsmith_network
 
   maindb:
     image: postgres:18-alpine
@@ -62,7 +63,7 @@
       timeout: 3s
       retries: 5
     networks:
-      - backend
+      - wordsmith_network
 
   identitydb:
     image: postgres:18-alpine
@@ -80,7 +81,17 @@
       timeout: 3s
       retries: 5
     networks:
-      - backend
+      - wordsmith_network
+  
+  frontend:
+    restart: always
+    image: ${FRONTEND_REPO}
+    build:
+      context: ./src/gui
+      args:
+        VITE_API_BASE_URL: ${FRONTEND_VITE_API_BASE_URL}
+    networks:
+      - wordsmith_network
 
 volumes:
   db_data:
