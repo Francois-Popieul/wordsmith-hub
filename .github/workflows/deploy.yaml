@@ -60,4 +60,4 @@ jobs:
           script: |
             docker pull ghcr.io/francois-popieul/wordsmithhub-api:1.1.2
             docker pull ghcr.io/francois-popieul/wordsmithhub-client:1.1.2
-            docker compose -f /home/ubuntu/wordsmithhub-prod/compose.prod.yaml up -d --remove-orphans
+            docker compose -f /home/ubuntu/wordsmithhub-prod/compose.prod.yaml --env-file /home/ubuntu/wordsmithhub-prod/.env.prod up -d --remove-orphans
