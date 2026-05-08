@@ -7,7 +7,7 @@ function Invoices() {
     return (
         <>
             <AppLayout>
-                <PageHeader pageTitle="Factures" pageSubtitle="Créez et gérez vos factures pour les commandes terminées" button={<Button variant="dark" name="Créer une facture" width="default" type="button"><PlusSign /></Button>}></PageHeader>
+                <PageHeader pageTitle="Factures" pageSubtitle="Créez et gérez vos factures pour les commandes terminées" button={<Button variant="blue" name="Créer une facture" width="default" type="button"><PlusSign /></Button>}></PageHeader>
             </AppLayout>
         </>
     );

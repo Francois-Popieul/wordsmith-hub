@@ -7,7 +7,7 @@ function DirectCustomers() {
     return (
         <>
             <AppLayout>
-                <PageHeader pageTitle="Clients" pageSubtitle="Gérez vos clients et vos tarifs" button={<Button variant="dark" name="Ajouter un client" width="default" type="button"><PlusSign /></Button>}></PageHeader>
+                <PageHeader pageTitle="Clients" pageSubtitle="Gérez vos clients et vos tarifs" button={<Button variant="blue" name="Ajouter un client" width="default" type="button"><PlusSign /></Button>}></PageHeader>
             </AppLayout>
         </>
     );

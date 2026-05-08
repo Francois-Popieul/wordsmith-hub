@@ -7,7 +7,7 @@ function OrdersView() {
     return (
         <>
             <AppLayout>
-                <PageHeader pageTitle="Commandes" pageSubtitle="Suivez vos commandes" button={<Button variant="dark" name="Ajouter une commande" width="default" type="button"><PlusSign /></Button>}></PageHeader>
+                <PageHeader pageTitle="Commandes" pageSubtitle="Suivez vos commandes" button={<Button variant="blue" name="Ajouter une commande" width="default" type="button"><PlusSign /></Button>}></PageHeader>
             </AppLayout>
         </>
     );

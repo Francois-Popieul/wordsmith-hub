@@ -29,13 +29,13 @@ function AppBurgerMenu() {
 
             {isOpen && (
                 <div className="app_burger_dropdown">
-                    <Button name="Accueil" variant="dark" width="medium" onClick={() => handleNav("/dashboard")}><Dashboard /></Button>
-                    <Button name="Clients" variant="dark" width="medium" onClick={() => handleNav("/direct-customers")}><Customers /></Button>
-                    <Button name="Projets" variant="dark" width="medium" onClick={() => handleNav("/projects")}><Projects /></Button>
-                    <Button name="Commandes" variant="dark" width="medium" onClick={() => handleNav("/orders")}><Orders /></Button>
-                    <Button name="Factures" variant="dark" width="medium" onClick={() => handleNav("/invoices")}><Invoices /></Button>
-                    <Button name="Profil" variant="dark" width="medium" onClick={() => handleNav("/profile")}><Profile /></Button>
-                    <Button name="Déconnexion" variant="dark" width="medium" onClick={() => handleNav("/logout")}><Logout /></Button>
+                    <Button name="Accueil" variant="blue" width="medium" onClick={() => handleNav("/dashboard")}><Dashboard /></Button>
+                    <Button name="Clients" variant="blue" width="medium" onClick={() => handleNav("/direct-customers")}><Customers /></Button>
+                    <Button name="Projets" variant="blue" width="medium" onClick={() => handleNav("/projects")}><Projects /></Button>
+                    <Button name="Commandes" variant="blue" width="medium" onClick={() => handleNav("/orders")}><Orders /></Button>
+                    <Button name="Factures" variant="blue" width="medium" onClick={() => handleNav("/invoices")}><Invoices /></Button>
+                    <Button name="Profil" variant="blue" width="medium" onClick={() => handleNav("/profile")}><Profile /></Button>
+                    <Button name="Déconnexion" variant="blue" width="medium" onClick={() => handleNav("/logout")}><Logout /></Button>
                 </div>
             )}
         </div>

@@ -58,7 +58,7 @@ function FormContainer({
                             <Button
                                 type="submit"
                                 name={save_button_name}
-                                variant="dark"
+                                variant="blue"
                                 width="medium"
                             />
                         </>
@@ -66,7 +66,7 @@ function FormContainer({
                         <Button
                             type="button"
                             name={modify_button_name}
-                            variant="dark"
+                            variant="blue"
                             width="medium"
                             disabled={modifyDisabled}
                             onClick={onModify}

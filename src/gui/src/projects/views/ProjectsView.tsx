@@ -7,7 +7,7 @@ function ProjectsView() {
     return (
         <>
             <AppLayout>
-                <PageHeader pageTitle="Projets" pageSubtitle="Gérez vos projets de traduction" button={<Button variant="dark" name="Ajouter un projet" width="default" type="button"><PlusSign /></Button>}></PageHeader>
+                <PageHeader pageTitle="Projets" pageSubtitle="Gérez vos projets de traduction" button={<Button variant="blue" name="Ajouter un projet" width="default" type="button"><PlusSign /></Button>}></PageHeader>
             </AppLayout>
         </>
     );

@@ -19,8 +19,8 @@ function BurgerMenu() {
 
             {isOpen && (
                 <div className="burger_dropdown">
-                    <Link to={"/login"}><Button name="Connexion" width="medium" variant="dark" /></Link>
-                    <Link to={"/signup"}><Button name="Inscription" width="medium" variant="dark" /></Link>
+                    <Link to={"/login"}><Button name="Connexion" width="medium" variant="blue" /></Link>
+                    <Link to={"/signup"}><Button name="Inscription" width="medium" variant="blue" /></Link>
                 </div>
             )}
         </div>

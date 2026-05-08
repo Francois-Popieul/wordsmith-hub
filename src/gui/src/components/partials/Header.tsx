@@ -11,7 +11,7 @@ function Header() {
             <nav className="navigation_container">
                 <div className="button_container">
                     <Link to="/login"><Button name="Se connecter" variant="light" width="medium" /></Link>
-                    <Link to="/signup"><Button name="Commencer" variant="dark" width="medium" /></Link>
+                    <Link to="/signup"><Button name="Commencer" variant="blue" width="medium" /></Link>
                 </div>
                 <BurgerMenu />
             </nav>
