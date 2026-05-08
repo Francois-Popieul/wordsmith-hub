@@ -9,7 +9,7 @@ This project was developed as part of the requirements to validate the Titre Pro
 ## 🎯 Why This Project?
 
 As a freelance translator myself, I identified the need for a unified tool to manage clients, projects, rates, and invoices.  
-This project allowed me to demonstrate the full range of CDA competencies while solving a real professional problem.
+This project allowed me to demonstrate the full range of abilities required for a CDA professional certificate while solving a real professional problem.
 
 ## 🚀 Project Overview
 
