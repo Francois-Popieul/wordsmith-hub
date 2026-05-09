@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://wordsmithhub.poplar-services.fr/sitemap.xml
