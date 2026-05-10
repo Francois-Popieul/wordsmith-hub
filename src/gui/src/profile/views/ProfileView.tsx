@@ -6,7 +6,7 @@ import axios from "axios";
 import ProfileDto from "../models/ProfileDto";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
-import { BuildingIcon } from "../../assets/icons/icons";
+import { BuildingIcon, ProfileIcon } from "../../assets/icons/icons";
 import { LanguageIcon } from "../../assets/icons/icons";
 import { BriefcaseIcon } from "../../assets/icons/icons";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
