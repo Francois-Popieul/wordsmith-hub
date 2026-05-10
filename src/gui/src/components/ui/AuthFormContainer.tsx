@@ -1,7 +1,7 @@
 import type React from "react";
 import Button from "./Button";
 import { Link } from "react-router";
-import { BackArrow } from "../../assets/icons/icons";
+import { BackArrowIcon } from "../../assets/icons/icons";
 
 interface FormContainerProps {
     title: string;
@@ -29,7 +29,7 @@ function AuthFormContainer({ title, presentation, children, button_name, onSubmi
         <div className="form_centered_container">
             <Button name={button_name} type="submit" variant="blue" width="full_width" />
             {link && <><p>{link.link_message} <Link to={link.link_destination}>{link.link_text}</Link></p></>}
-            <Link to="/"><div className="back_home_container"><BackArrow /><p>Revenir à l’accueil</p></div></Link>
+            <Link to="/"><div className="back_home_container"><BackArrowIcon /><p>Revenir à l’accueil</p></div></Link>
         </div>
     </form >
 }

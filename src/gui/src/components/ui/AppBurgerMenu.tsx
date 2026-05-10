@@ -1,15 +1,8 @@
 import "./AppBurgerMenu.css";
-import { BurgerIcon } from "../../assets/icons/icons";
+import { BurgerIcon, CustomersIcon, DashboardIcon, InvoicesIcon, LogoutIcon, OrdersIcon, ProfileIcon, ProjectsIcon } from "../../assets/icons/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "../../components/ui/Button";
-import { Dashboard } from "../../assets/icons/icons.ts";
-import { Customers } from "../../assets/icons/icons.ts";
-import { Projects } from "../../assets/icons/icons.ts";
-import { Orders } from "../../assets/icons/icons.ts";
-import { Invoices } from "../../assets/icons/icons.ts";
-import { Profile } from "../../assets/icons/icons.ts";
-import { Logout } from "../../assets/icons/icons.ts";
 
 function AppBurgerMenu() {
     const navigate = useNavigate();
@@ -29,13 +22,13 @@ function AppBurgerMenu() {
 
             {isOpen && (
                 <div className="app_burger_dropdown">
-                    <Button name="Accueil" variant="blue" width="medium" onClick={() => handleNav("/dashboard")}><Dashboard /></Button>
-                    <Button name="Clients" variant="blue" width="medium" onClick={() => handleNav("/direct-customers")}><Customers /></Button>
-                    <Button name="Projets" variant="blue" width="medium" onClick={() => handleNav("/projects")}><Projects /></Button>
-                    <Button name="Commandes" variant="blue" width="medium" onClick={() => handleNav("/orders")}><Orders /></Button>
-                    <Button name="Factures" variant="blue" width="medium" onClick={() => handleNav("/invoices")}><Invoices /></Button>
-                    <Button name="Profil" variant="blue" width="medium" onClick={() => handleNav("/profile")}><Profile /></Button>
-                    <Button name="Déconnexion" variant="blue" width="medium" onClick={() => handleNav("/logout")}><Logout /></Button>
+                    <Button name="Accueil" variant="blue" width="medium" onClick={() => handleNav("/dashboard")}><DashboardIcon /></Button>
+                    <Button name="Clients" variant="blue" width="medium" onClick={() => handleNav("/direct-customers")}><CustomersIcon /></Button>
+                    <Button name="Projets" variant="blue" width="medium" onClick={() => handleNav("/projects")}><ProjectsIcon /></Button>
+                    <Button name="Commandes" variant="blue" width="medium" onClick={() => handleNav("/orders")}><OrdersIcon /></Button>
+                    <Button name="Factures" variant="blue" width="medium" onClick={() => handleNav("/invoices")}><InvoicesIcon /></Button>
+                    <Button name="Profil" variant="blue" width="medium" onClick={() => handleNav("/profile")}><ProfileIcon /></Button>
+                    <Button name="Déconnexion" variant="blue" width="medium" onClick={() => handleNav("/logout")}><LogoutIcon /></Button>
                 </div>
             )}
         </div>

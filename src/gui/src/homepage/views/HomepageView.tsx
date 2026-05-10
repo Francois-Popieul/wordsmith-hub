@@ -5,8 +5,7 @@ import HomepageVignette from "../components/HomepageVignette";
 import "../../stylesheets/homepage.css";
 import image01 from "../../assets/image_01.avif";
 import image02 from "../../assets/image_02.avif";
-import { Customers } from "../../assets/icons/icons";
-import { Projects } from "../../assets/icons/icons";
+import { CustomersIcon, ProjectsIcon } from "../../assets/icons/icons";
 import { ClockIcon } from "../../assets/icons/icons";
 import { LanguageIcon } from "../../assets/icons/icons";
 
@@ -29,8 +28,8 @@ function HomepageView() {
                 <h2 className="homepage_tools_title">Tout ce qu’il vous faut pour réussir</h2>
                 <p className="homepage_tools_text">Des outils pratiques conçus pour les traducteurs indépendants</p>
                 <div className="homepage_vignette_container">
-                    <HomepageVignette title="Gestion des clients" text="Enregistrez vos clients, leurs informations de contact et vos tarifs pour chaque paire de langue et vos différents services." icon={<Customers size={32} color="var(--color-blue-deep)" />} />
-                    <HomepageVignette title="Suivi des projets" text="Organisez vos projets de traduction en notant leur statut, les langues de travail, le client final, etc." icon={<Projects size={32} color="var(--color-blue-deep)" />} />
+                    <HomepageVignette title="Gestion des clients" text="Enregistrez vos clients, leurs informations de contact et vos tarifs pour chaque paire de langue et vos différents services." icon={<CustomersIcon size={32} color="var(--color-blue-deep)" />} />
+                    <HomepageVignette title="Suivi des projets" text="Organisez vos projets de traduction en notant leur statut, les langues de travail, le client final, etc." icon={<ProjectsIcon size={32} color="var(--color-blue-deep)" />} />
                     <HomepageVignette title="Gestion des commandes" text="Suivez votre charge de travail grâce aux informations détaillées sur chaque commande&nbsp;: compte de mots, tarifs, date de livraison, etc." icon={<ClockIcon size={32} color="var(--color-blue-deep)" />} />
                     <HomepageVignette title="Prise en charge de plusieurs langues" text="Gérez facilement toutes les paires de langues. Configurez facilement vos tarifs pour toutes les combinaisons et tous les services." icon={<LanguageIcon size={32} color="var(--color-blue-deep)" />} />
                 </div>
