@@ -5,9 +5,7 @@ import HomepageVignette from "../components/HomepageVignette";
 import "../../stylesheets/homepage.css";
 import image01 from "../../assets/image_01.avif";
 import image02 from "../../assets/image_02.avif";
-import { CustomersIcon, ProjectsIcon } from "../../assets/icons/icons";
-import { ClockIcon } from "../../assets/icons/icons";
-import { LanguageIcon } from "../../assets/icons/icons";
+import { ClockIcon, CustomersIcon, LanguageIcon, ProjectsIcon } from "../../assets/icons/icons";
 
 function HomepageView() {
     return (<>
