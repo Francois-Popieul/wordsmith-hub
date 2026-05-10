@@ -17,7 +17,7 @@ Then upload the required files on your server:
 - .env.prod
 - compose.prod.yaml
 
-Deploy on your server pushing on the main branch, then generate SSL certificates for your client and your API:
+Deploy on your server pushing on the main branch, then run certbot with the correct compose file to generate a first certificate for your client and your API:
 
 ```bash
 docker-compose -f compose.prod.yaml --env-file .env.prod run --rm certbot certonly --webroot -w /var/www/certbot -d your-domain.com -d www.your-domain.com
@@ -27,11 +27,13 @@ docker-compose -f compose.prod.yaml --env-file .env.prod run --rm certbot certon
 docker-compose -f compose.prod.yaml --env-file .env.prod run --rm certbot certonly --webroot -w /var/www/certbot -d your-domain-api.com -d www.your-domain-api.com
 ```
 
-Upload the complete nginx.conf file including SSL blocks and reload nginx using:
+Upload the complete nginx.conf file including SSL blocks and restart nginx using:
 
 ```bash
-docker-compose -f compose.prod.yaml --env-file .env.prod exec nginx nginx -s reload
+docker compose -f compose.prod.yaml --env-file .env.prod restart nginx
 ```
+
+Your site should be accessible from th client url.
 
 ### Database Access
 
