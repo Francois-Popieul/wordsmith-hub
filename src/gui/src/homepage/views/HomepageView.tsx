@@ -5,9 +5,7 @@ import HomepageVignette from "../components/HomepageVignette";
 import "../../stylesheets/homepage.css";
 import image01 from "../../assets/image_01.avif";
 import image02 from "../../assets/image_02.avif";
-import { CustomersIcon, ProjectsIcon } from "../../assets/icons/icons";
-import { ClockIcon } from "../../assets/icons/icons";
-import { LanguageIcon } from "../../assets/icons/icons";
+import { ClockIcon, CustomersIcon, LanguageIcon, ProjectsIcon } from "../../assets/icons/icons";
 
 function HomepageView() {
     return (<>
@@ -20,7 +18,7 @@ function HomepageView() {
                     <p className="homepage_presentation_text">Wordsmith Hub est un service complet destiné aux traducteurs indépendants. Gérez vos clients, suivez vos projets et créez vos factures au même endroit.</p>
                 </div>
                 <div className="homepage_image_container">
-                    <img className="homepage_horizontal_image" src={image01} alt="Image d'illustration représentant un chat sur un clavier" fetchPriority="high" />
+                    <img className="homepage_horizontal_image" src={image01} alt="Image d’illustration représentant un chat sur un clavier" fetchPriority="high" width={2000} height={1333} />
                 </div>
             </section>
 
@@ -37,7 +35,7 @@ function HomepageView() {
 
             <section className="homepage_feature_container">
                 <div className="homepage_image_container">
-                    <img className="homepage_vertical_image" src={image02} alt="Image d'illustration représentant une bibliothèque" loading="lazy" />
+                    <img className="homepage_vertical_image" src={image02} alt="Image d’illustration représentant une bibliothèque" loading="lazy" width={1500} height={2250} />
                 </div>
                 <div>
                     <h2 className="homepage_feature_title">Concentrez-vous sur la traduction, pas sur la gestion administrative</h2>

@@ -32,6 +32,13 @@
     text-decoration: none;
 }
 
+.footer_link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 8px;
+}
+
 .slogan {
     margin: 0 auto 0.5rem;
     color: var(--color-white);

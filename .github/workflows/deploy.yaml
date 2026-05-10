@@ -41,7 +41,9 @@ jobs:
           context: ./src/backend
           file: ./src/backend/Dockerfile
           push: true
-          tags: ghcr.io/francois-popieul/wordsmithhub-api:1.1.4
+          tags: |
+            ghcr.io/francois-popieul/wordsmithhub-api:1.1.5
+            ghcr.io/francois-popieul/wordsmithhub-api:latest
 
       - name: Build and push Client image
         uses: docker/build-push-action@v6
@@ -49,7 +51,9 @@ jobs:
           context: ./src/gui
           file: ./src/gui/Dockerfile
           push: true
-          tags: ghcr.io/francois-popieul/wordsmithhub-client:1.1.4
+          tags: |
+            ghcr.io/francois-popieul/wordsmithhub-client:1.1.5
+            ghcr.io/francois-popieul/wordsmithhub-client:latest
           build-args: |
             VITE_API_BASE_URL=${{ secrets.FRONTEND_VITE_API_BASE_URL }}
 
@@ -60,6 +64,6 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull ghcr.io/francois-popieul/wordsmithhub-api:1.1.4
-            docker pull ghcr.io/francois-popieul/wordsmithhub-client:1.1.4
+            docker pull ghcr.io/francois-popieul/wordsmithhub-api:latest
+            docker pull ghcr.io/francois-popieul/wordsmithhub-client:latest
             docker compose -f /home/ubuntu/wordsmithhub-prod/compose.prod.yaml --env-file /home/ubuntu/wordsmithhub-prod/.env.prod up -d --remove-orphans
