@@ -8,8 +8,8 @@ function Footer() {
             <Brand variant="light" width="small" />
             <div className="link_container">
                 <p className="slogan">La plateforme moderne pour les traducteurs indépendants.</p>
-                <Link to="/terms_of_service" className="no_decoration"><p className="link_color">Conditions d’utilisation</p></Link>
-                <Link to="/privacy_policy" className="no_decoration"><p className="link_color">Politique de confidentialité</p></Link>
+                <Link to="/terms_of_service" className="no_decoration link_color footer_link">Conditions d’utilisation</Link>
+                <Link to="/privacy_policy" className="no_decoration link_color footer_link">Politique de confidentialité</Link>
             </div>
         </footer>
     );

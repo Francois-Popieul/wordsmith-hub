@@ -22,7 +22,7 @@ function AuthFormContainer({ title, presentation, children, button_name, onSubmi
         action=""
         method="post"
         className="auth_form">
-        <p className="logo_container"><img className="form_logo" src="./logo.png" alt="Logo de Wordsmith Hub" /></p>
+        <p className="logo_container"><img className="form_logo" src="./logo.avif" alt="Logo de Wordsmith Hub" width={576} height={376} /></p>
         <h1 className="form_title">{title}</h1>
         <p className="form_presentation">{presentation}</p>
         {children}
