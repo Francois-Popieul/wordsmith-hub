@@ -4,16 +4,33 @@
 
 ### First-Time Setup
 
-Before running the stack for the first time, generate SSL certificates:
+Before deploying on the server, create the required secrets inyour repository settings on Github:
+
+- SERVER HOST
+- SERVER USERNAME
+- SERVER PRIVATE KEY
+- VITE API BASE URL
+
+Then upload the required files on your server:
+
+- nginx.conf (removing the SSL blocks)
+- .env.prod
+- compose.prod.yaml
+
+Deploy on your server pushing on the main branch, then generate SSL certificates for your client and your API:
 
 ```bash
-docker-compose -f compose.prod.yaml run --rm certbot certonly --webroot -w /var/www/certbot -d wordsmith-hub.fr -d www.wordsmith-hub.fr
+docker-compose -f compose.prod.yaml --env-file .env.prod run --rm certbot certonly --webroot -w /var/www/certbot -d your-domain.com -d www.your-domain.com
 ```
 
-Then, start the stack:
+```bash
+docker-compose -f compose.prod.yaml --env-file .env.prod run --rm certbot certonly --webroot -w /var/www/certbot -d your-domain-api.com -d www.your-domain-api.com
+```
+
+Upload the complete nginx.conf file including SSL blocks and reload nginx using:
 
 ```bash
-docker-compose -f compose.prod.yaml up -d
+docker-compose -f compose.prod.yaml --env-file .env.prod exec nginx nginx -s reload
 ```
 
 ### Database Access
@@ -23,3 +40,11 @@ Note: Databases are NOT exposed to localhost in production for security reasons.
 ### Certbot Renewal
 
 The certbot service automatically renews certificates every 720 hours.
+
+### 502 Bad Gateway Error
+
+Nginx may not update the configuration after pushing new images on the server. In that case, force nginx to reload the configuration using:
+
+```bash
+docker-compose -f compose.prod.yaml --env-file .env.prod restart nginx
+```

@@ -1,0 +1,69 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        working-directory: ./src/gui
+        run: npm ci
+
+      - name: Tests
+        working-directory: ./src/gui
+        run: npm test
+
+      - name: Build app
+        working-directory: ./src/gui
+        run: npm run build
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: francois-popieul
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./src/backend
+          file: ./src/backend/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/francois-popieul/wordsmithhub-staging-api:1.1.5
+            ghcr.io/francois-popieul/wordsmithhub-staging-api:latest
+
+      - name: Build and push Client image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./src/gui
+          file: ./src/gui/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/francois-popieul/wordsmithhub-staging-client:1.1.5
+            ghcr.io/francois-popieul/wordsmithhub-staging-client:latest
+          build-args: |
+            VITE_API_BASE_URL=${{ secrets.FRONTEND_STAGING_VITE_API_BASE_URL }}
+
+      - name: SSH deployment
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker pull ghcr.io/francois-popieul/wordsmithhub-staging-api:latest
+            docker pull ghcr.io/francois-popieul/wordsmithhub-staging-client:latest
+            docker compose -f /home/ubuntu/wordsmithhub-staging/compose.staging.yaml --env-file /home/ubuntu/wordsmithhub-staging/.env.staging up -d --remove-orphans
