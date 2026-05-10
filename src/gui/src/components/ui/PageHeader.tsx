@@ -1,4 +1,4 @@
-import { BackArrow } from "../../assets/icons/icons";
+import { BackArrowIcon } from "../../assets/icons/icons";
 import Button from "./Button";
 import "./PageHeader.css";
 
@@ -13,7 +13,7 @@ function PageHeader(props: PageHeaderProps) {
     return (
         <div className="page_header">
             <div>
-                {props.backLink && <Button variant="light" name="{props.backLink}" width="default" type="button"><BackArrow /></Button>}
+                {props.backLink && <Button variant="light" name="{props.backLink}" width="default" type="button"><BackArrowIcon /></Button>}
                 <h1 className="page_title">{props.pageTitle}</h1>
                 <p className="page_subtitle">{props.pageSubtitle}</p>
             </div>

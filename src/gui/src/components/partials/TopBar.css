@@ -9,7 +9,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        background: var(--color-dark);
+        background: var(--topbar-gradient);
         padding: 5px;
         height: 48px;
         box-sizing: border-box;

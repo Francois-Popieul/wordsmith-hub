@@ -45,6 +45,16 @@
     }
 }
 
+.button_blue {
+    background-color: var(--color-blue-dark);
+    color: var(--color-slate-50);
+    box-shadow: var(--drop-shadow);
+
+    &:hover {
+        scale: 1.05;
+    }
+}
+
 .button_sidebar {
     justify-content: flex-start;
     background-color: transparent;

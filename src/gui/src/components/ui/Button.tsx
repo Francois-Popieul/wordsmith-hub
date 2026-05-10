@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 interface ButtonProps {
     name: string;
-    variant: "dark" | "grey" | "light" | "red" | "sidebar" | "sidebar_selected";
+    variant: "dark" | "grey" | "light" | "red" | "blue" | "sidebar" | "sidebar_selected";
     width?: "default" | "small" | "medium" | "contained" | "extended" | "full_width";
     type?: "submit" | "button";
     disabled?: boolean;

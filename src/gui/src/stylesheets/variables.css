@@ -15,7 +15,7 @@
 
     --color-dark: #020617;
 
-    --drop-shadow: #94a3b8 4px 6px 6px;
+    --drop-shadow: var(--color-slate-400) 4px 6px 6px;
 
     --color-red-light: #ed6f75;
     --color-red-deep: #E7000B;
@@ -33,7 +33,10 @@
     --color-green-dark: #016630;
 
     /* Sidebar Linear Gradient*/
-    --sidebar-gradient: linear-gradient(180deg, #0F172B 0%, #155DFC 100%);
+    --sidebar-gradient: linear-gradient(180deg, var(--color-slate-900) 0%, var(--color-blue-dark) 100%);
+
+    /* TopBar Linear Gradient */
+    --topbar-gradient: linear-gradient(90deg, var(--color-slate-900) 0%, var(--color-blue-dark) 100%);
 
     /* Fonts */
     --font-sans: "Segoe UI", "Segoe UI Fallback", sans-serif;
