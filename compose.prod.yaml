@@ -27,11 +27,13 @@
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
+      - /home/ubuntu/wordsmithhub-staging/certbot/conf:/etc/letsencrypt-staging
     depends_on:
       - api
       - frontend
     networks:
       - wordsmith_network
+      - wordsmith_shared_network
 
   certbot:
     image: certbot/certbot:latest
@@ -96,3 +98,5 @@ volumes:
 networks:
   wordsmith_network:
     driver: bridge
+  wordsmith_shared_network:
+    external: true
