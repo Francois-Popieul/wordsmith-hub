@@ -9,11 +9,13 @@ import { signupSchema } from "../zod/authenticationSchemas";
 import axios from "axios";
 import { createApiClient } from "../../infrastructure/openApi/client";
 import { useNavigate } from "react-router";
+import { useToast } from "../../hooks/useToast";
 
 function SignupView() {
     const [conditionsIsChecked, setConditionsIsChecked] = useState(false);
     const [privacyIsChecked, setPrivacyIsChecked] = useState(false);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+    const { addToast } = useToast();
     const navigate = useNavigate();
     const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL);
 
@@ -42,12 +44,13 @@ function SignupView() {
 
         try {
             await apiClient.RegisterUserEndpoint({ body: { ...userData } });
+            addToast("success", "Inscription réussie. Connectez-vous pour continuer.", "top_right", 3000);
             navigate("/login");
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                setFieldErrors(error.response.data.errors || {});
+                addToast("error", error.response.data, "top_right", 3000);
             } else {
-                console.error("An unexpected error occurred:", error);
+                addToast("error", "Une erreur inattendue s'est produite.", "top_right", 3000);
             }
         }
     }

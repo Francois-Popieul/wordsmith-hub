@@ -8,12 +8,14 @@ import { loginSchema } from "../zod/authenticationSchemas";
 import { createApiClient } from "../../infrastructure/openApi/client";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
+import { useToast } from "../../hooks/useToast";
 
 
 function LoginView() {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL);
     const navigate = useNavigate();
+    const { addToast } = useToast();
 
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -37,10 +39,10 @@ function LoginView() {
             localStorage.setItem("wshToken", response.accessToken);
             navigate("/dashboard");
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                setFieldErrors(error.response.data.errors || {});
+            if (axios.isAxiosError(error) && error.response?.status === 401) {
+                addToast("error", "Email ou mot de passe incorrect.", "top_right", 3000);
             } else {
-                console.error("An unexpected error occurred:", error);
+                addToast("error", "Une erreur inattendue s'est produite.", "top_right", 3000);
             }
         }
     }

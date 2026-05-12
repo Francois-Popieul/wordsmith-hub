@@ -12,23 +12,26 @@ import PrivacyPolicy from "./privacy_policy/views/PrivacyPolicy.tsx"
 import InvoicesView from "./invoices/views/InvoicesView.tsx"
 import ProjectsView from "./projects/views/ProjectsView.tsx"
 import DirectCustomersView from "./directCustomers/views/DirectCustomersView.tsx"
+import { ToastProvider } from "./hooks/useToast.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomepageView />} />
-        <Route path="/signup" element={<SignupView />} />
-        <Route path="/login" element={<LoginView />} />
-        <Route path="/dashboard" element={<DashboardView />} />
-        <Route path="/direct-customers" element={<DirectCustomersView />} />
-        <Route path="/projects" element={<ProjectsView />} />
-        <Route path="/orders" element={<OrdersView />} />
-        <Route path="/invoices" element={<InvoicesView />} />
-        <Route path="/profile" element={<ProfileView />} />
-        <Route path="/terms_of_service" element={<TermsOfService />} />
-        <Route path="/privacy_policy" element={<PrivacyPolicy />} />
-      </Routes>
-    </BrowserRouter>
+    <ToastProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomepageView />} />
+          <Route path="/signup" element={<SignupView />} />
+          <Route path="/login" element={<LoginView />} />
+          <Route path="/dashboard" element={<DashboardView />} />
+          <Route path="/direct-customers" element={<DirectCustomersView />} />
+          <Route path="/projects" element={<ProjectsView />} />
+          <Route path="/orders" element={<OrdersView />} />
+          <Route path="/invoices" element={<InvoicesView />} />
+          <Route path="/profile" element={<ProfileView />} />
+          <Route path="/terms_of_service" element={<TermsOfService />} />
+          <Route path="/privacy_policy" element={<PrivacyPolicy />} />
+        </Routes>
+      </BrowserRouter>
+    </ToastProvider>
   </StrictMode>,
 )

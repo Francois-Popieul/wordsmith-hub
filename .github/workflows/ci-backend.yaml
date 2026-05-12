@@ -5,13 +5,13 @@ env:
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - "src/backend/**"
       - "WordsmithHub.sln"
       - ".github/workflows/ci-backend.yaml"
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - "src/backend/**"
       - "WordsmithHub.sln"
