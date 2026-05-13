@@ -53,7 +53,7 @@ function HomepageView() {
             <section className="homepage_cta_container">
                 <h2 className="homepage_cta_title">Prêt à simplifier la gestion de votre activité de traduction&nbsp;?</h2>
                 <p className="homepage_cta_text">Rejoignez dès maintenant <strong>Wordsmith Hub</strong> pour découvrir comment transformer votre manière de travailler.</p>
-                <Link to={"/signup"}><Button name="Commencer gratuitement" width="default" variant="light" /></Link>
+                <Link to={"/signup"} className="button_link"><Button name="Commencer gratuitement" width="default" variant="light" /></Link>
             </section>
         </main>
         <Footer />

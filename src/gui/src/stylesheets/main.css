@@ -20,7 +20,7 @@ body {
     border: 0;
 }
 
-a:has(.button) {
+.button_link {
     display: inline-flex;
     text-decoration: none;
 }
