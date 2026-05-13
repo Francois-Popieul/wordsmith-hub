@@ -19,8 +19,3 @@ body {
     white-space: nowrap;
     border: 0;
 }
-
-.button_link {
-    display: inline-flex;
-    text-decoration: none;
-}
