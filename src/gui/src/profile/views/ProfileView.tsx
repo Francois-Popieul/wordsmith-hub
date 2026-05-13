@@ -16,6 +16,7 @@ import "../../stylesheets/profile_view.css";
 import { personalDataSchema, type PersonalData } from "../../models/PersonalData";
 import * as zod from "zod";
 import { addressSchema } from "../../models/Address";
+import { useToast } from "../../hooks/useToast";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -31,6 +32,7 @@ function ProfileView() {
     const [languages, setLanguages] = useState<TranslationLanguage[]>([]);
     const [services, setServices] = useState<Service[]>([]);
     const [editingForm, setEditingForm] = useState<string | null>(null);
+    const { addToast } = useToast();
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -40,14 +42,14 @@ function ProfileView() {
                 setProfileData(profileData);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("Erreur de l’API :", error.response.data);
+                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 } else {
-                    console.error("Une erreur inattendue est survenue :", error);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement des données de profil.", "top_right", 3000);
                 }
             }
         };
         fetchProfileData();
-    }, [apiClient]);
+    }, [apiClient, addToast]);
 
 
     useEffect(() => {
@@ -58,14 +60,14 @@ function ProfileView() {
                 setCountries(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("Erreur de l’API :", error.response.data);
+                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 } else {
-                    console.error("Une erreur inattendue est survenue :", error);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des pays.", "top_right", 3000);
                 }
             }
         };
         fetchCountries();
-    }, [apiClient]);
+    }, [apiClient, addToast]);
 
     useEffect(() => {
         const fetchLanguages = async () => {
@@ -75,14 +77,14 @@ function ProfileView() {
                 setLanguages(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("Erreur de l’API :", error.response.data);
+                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 } else {
-                    console.error("Une erreur inattendue est survenue :", error);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des langues.", "top_right", 3000);
                 }
             }
         };
         fetchLanguages();
-    }, [apiClient]);
+    }, [apiClient, addToast]);
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -92,14 +94,14 @@ function ProfileView() {
                 setServices(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("Erreur de l’API :", error.response.data);
+                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 } else {
-                    console.error("Une erreur inattendue est survenue :", error);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des services.", "top_right", 3000);
                 }
             }
         };
         fetchServices();
-    }, [apiClient]);
+    }, [apiClient, addToast]);
 
     function handleModifyPersonalData() {
         setSavedProfileData(profileData);
@@ -133,11 +135,13 @@ function ProfileView() {
         try {
             await apiClient.UpdateFreelancePersonalDataEndpoint({ body: { ...personalData }, pathParams: { freelanceId: profileData?.id || 0 } });
             setEditingForm(null);
+            addToast("success", "Données personnelles mises à jour.", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
+                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                console.error("Une erreur inattendue est survenue :", error);
+                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
             }
         }
     }
@@ -180,12 +184,14 @@ function ProfileView() {
 
         try {
             await apiClient.UpdateFreelanceAddressEndpoint({ body: { address: addressData }, pathParams: { freelanceId: profileData?.id || 0 } });
+            addToast("success", "Adresse mise à jour.", "top_right", 3000);
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
+                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                console.error("Une erreur inattendue est survenue :", error);
+                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour de l'adresse.", "top_right", 3000);
             }
         }
     }
@@ -211,12 +217,13 @@ function ProfileView() {
 
         try {
             await apiClient.UpdateFreelanceLanguagesEndpoint({ body: { sourceLanguageIds: profileData?.sourceLanguages.map(l => l.id) || [], targetLanguageIds: profileData?.targetLanguages.map(l => l.id) || [] }, pathParams: { freelanceId: profileData?.id || 0 } });
+            addToast("success", "Langues mises à jour.", "top_right", 3000);
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                setFieldErrors(error.response.data.errors || {});
+                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                console.error("Une erreur inattendue est survenue :", error);
+                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des langues.", "top_right", 3000);
             }
         }
     }
@@ -242,12 +249,14 @@ function ProfileView() {
 
         try {
             await apiClient.UpdateFreelanceServicesEndpoint({ body: { serviceIds: profileData?.services.map(s => s.id) || [] }, pathParams: { freelanceId: profileData?.id || 0 } });
+            addToast("success", "Services mis à jour.", "top_right", 3000);
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 setFieldErrors(error.response.data.errors || {});
+                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                console.error("Une erreur inattendue est survenue :", error);
+                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des services.", "top_right", 3000);
             }
         }
     }

@@ -19,7 +19,7 @@ Contains the various database migration histories separately to prevent issues w
 1. Database managing the users and roles.
 2. Uses Microsoft.AspNetCore.Identity.
 
-#### Migrations
+#### Identity Database Migrations
 
 First, navigate to WordsmithHub.Infrastructure.
 
@@ -39,7 +39,7 @@ dotnet ef database update --context IdentityDbContext
 
 1. Database managing all application data.
 
-#### Migrations
+#### Main Database Migrations
 
 To start a new migration:
 

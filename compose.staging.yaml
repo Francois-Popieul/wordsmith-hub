@@ -15,41 +15,28 @@
       Jwt__Audience: "${JWT_AUDIENCE}"
       Jwt__AccessTokenSeconds: "${JWT_ACCESSTOKENSECONDS}"
     networks:
-      - wordsmith_network
-
-  nginx:
-    image: nginx:alpine
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
-    depends_on:
-      - api
-      - frontend
-    networks:
-      - wordsmith_network
+      wordsmith_staging_network: {}
+      wordsmith_shared_network:
+        aliases:
+          - staging-api
 
   certbot:
-    image: certbot/certbot:latest
+    image: certbot/dns-ovh:latest
     volumes:
-      - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/ovh.ini:/etc/letsencrypt/ovh.ini:ro
     entrypoint: >
       sh -c "trap exit TERM;
              while :; do
-               certbot renew --webroot -w /var/www/certbot;
+               certbot renew --dns-ovh --dns-ovh-credentials /etc/letsencrypt/ovh.ini;
                sleep 720h;
              done"
     networks:
-      - wordsmith_network
+      - wordsmith_staging_network
 
   maindb:
     image: postgres:18-alpine
-    container_name: wordsmithhubdb
+    container_name: wordsmithhubdb-staging
     restart: always
     environment:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -63,11 +50,11 @@
       timeout: 3s
       retries: 5
     networks:
-      - wordsmith_network
+      - wordsmith_staging_network
 
   identitydb:
     image: postgres:18-alpine
-    container_name: identitydb
+    container_name: identitydb-staging
     restart: always
     environment:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -81,22 +68,23 @@
       timeout: 3s
       retries: 5
     networks:
-      - wordsmith_network
+      - wordsmith_staging_network
   
   frontend:
     restart: always
     image: ${FRONTEND_REPO}
-    build:
-      context: ./src/gui
-      args:
-        VITE_API_BASE_URL: ${FRONTEND_VITE_API_BASE_URL}
     networks:
-      - wordsmith_network
+      wordsmith_staging_network: {}
+      wordsmith_shared_network:
+        aliases:
+          - staging-frontend
 
 volumes:
   db_data:
   identity_data:
 
 networks:
-  backend:
+  wordsmith_staging_network:
     driver: bridge
+  wordsmith_shared_network:
+    external: true
