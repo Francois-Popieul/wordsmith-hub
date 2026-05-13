@@ -7,9 +7,10 @@ import image01 from "../../assets/image_01.avif";
 import image02 from "../../assets/image_02.avif";
 import { ClockIcon, CustomersIcon, LanguageIcon, ProjectsIcon } from "../../assets/icons/icons";
 import Button from "../../components/ui/Button";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 function HomepageView() {
+    const navigate = useNavigate();
     return (<>
         <Header />
         <main>
@@ -53,7 +54,7 @@ function HomepageView() {
             <section className="homepage_cta_container">
                 <h2 className="homepage_cta_title">Prêt à simplifier la gestion de votre activité de traduction&nbsp;?</h2>
                 <p className="homepage_cta_text">Rejoignez dès maintenant <strong>Wordsmith Hub</strong> pour découvrir comment transformer votre manière de travailler.</p>
-                <Link to={"/signup"} className="button_link"><Button name="Commencer gratuitement" width="default" variant="light" /></Link>
+                <Button name="Commencer gratuitement" width="default" variant="light" onClick={() => navigate("/signup")} />
             </section>
         </main>
         <Footer />

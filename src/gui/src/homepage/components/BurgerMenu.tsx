@@ -1,11 +1,12 @@
 import "./BurgerMenu.css";
 import { BurgerIcon } from "../../assets/icons/icons";
 import { useState } from "react";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import Button from "../../components/ui/Button";
 
 function BurgerMenu() {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <div className="burger_menu">
@@ -19,8 +20,8 @@ function BurgerMenu() {
 
             {isOpen && (
                 <div className="burger_dropdown">
-                    <Link to={"/login"} className="button_link"><Button name="Connexion" width="medium" variant="blue" /></Link>
-                    <Link to={"/signup"} className="button_link"><Button name="Inscription" width="medium" variant="blue" /></Link>
+                    <Button name="Connexion" width="medium" variant="blue" onClick={() => navigate("/login")} />
+                    <Button name="Inscription" width="medium" variant="blue" onClick={() => navigate("/signup")} />
                 </div>
             )}
         </div>
