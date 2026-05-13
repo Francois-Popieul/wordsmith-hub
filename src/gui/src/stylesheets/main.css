@@ -19,3 +19,8 @@ body {
     white-space: nowrap;
     border: 0;
 }
+
+a:has(.button) {
+    display: inline-flex;
+    text-decoration: none;
+}
