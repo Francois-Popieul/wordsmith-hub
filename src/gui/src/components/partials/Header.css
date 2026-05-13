@@ -18,7 +18,11 @@
 }
 
 .button_container {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
 }
 
 @media screen and (max-width: 768px) {
