@@ -1,0 +1,46 @@
+.confirmation_modal_backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+}
+
+.confirmation_modal_container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: auto;
+    background-color: var(--color-slate-50);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+    margin: auto;
+    z-index: 1000;
+    border: solid 1px var(--color-slate-400);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.confirmation_modal_title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-slate-900);
+}
+
+.confirmation_modal_message {
+    font-size: 1rem;
+    color: var(--color-slate-700);
+}
+
+.confirmation_modal_button_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    width: 100%;
+}
