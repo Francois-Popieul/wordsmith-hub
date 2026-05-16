@@ -16,3 +16,5 @@ export { Briefcase as BriefcaseIcon } from "lucide-react";
 export { Eye as EyeIcon } from "lucide-react";
 export { Pencil as PencilIcon } from "lucide-react";
 export { Trash as DeleteIcon } from "lucide-react";
+export { CreditCard as CreditCardIcon } from "lucide-react";
+export { X as CloseIcon } from "lucide-react";

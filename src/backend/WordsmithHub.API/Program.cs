@@ -2,6 +2,7 @@ using System.Text;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,11 @@ if (!builder.Environment.IsEnvironment("IntegrationTest"))
         options.UseNpgsql(configuration.GetConnectionString("MainDbConnection"),
             npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory")));
 }
+
+// Encryption
+builder.Services.AddDataProtection()
+    .SetApplicationName("WordsmithHub")
+    .PersistKeysToDbContext<MainDbContext>();
 
 // Infrastructure Repositories
 builder.Services.AddRepositories();

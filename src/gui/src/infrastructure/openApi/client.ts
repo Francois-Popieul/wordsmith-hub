@@ -10,6 +10,27 @@ const AppUserDto = z.object({
   phoneNumber: z.string().nullable(),
 });
 const Service = z.object({ id: z.number().int(), name: z.string() });
+const LegalStatusDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  siret: z.string().nullable(),
+  vatNumber: z.string().nullable(),
+  vatExemption: z.boolean(),
+  vatRate: z.number().nullable(),
+  taxDeductionExemption: z.boolean(),
+  validFrom: z.string().datetime({ offset: true }),
+  validTo: z.string().datetime({ offset: true }).nullable(),
+});
+const AddLegalStatusRequest = z.object({
+  name: z.string().min(0).max(50),
+  siret: z.string().min(0).max(14).nullish(),
+  vatNumber: z.string().min(0).max(13).nullish(),
+  vatExemption: z.boolean().optional(),
+  vatRate: z.number().gte(0).nullish(),
+  taxDeductionExemption: z.boolean().optional(),
+  validFrom: z.string().datetime({ offset: true }).optional(),
+  validTo: z.string().datetime({ offset: true }).nullish(),
+});
 const TranslationLanguage = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -33,7 +54,7 @@ const UpdateFreelanceRequest = z.object({
     .max(255)
     .regex(/^[^@]+@[^@]+$/)
     .email(),
-  phone: z.string().min(0).max(15).nullish(),
+  phone: z.string().min(0).max(20).nullish(),
   address: Address,
 });
 const NoContent = z.object({});
@@ -50,7 +71,7 @@ const UpdateFreelancePersonalDataRequest = z.object({
     .max(255)
     .regex(/^[^@]+@[^@]+$/)
     .email(),
-  phone: z.string().min(0).max(15).nullish(),
+  phone: z.string().min(0).max(20).nullish(),
 });
 const UpdateFreelanceServicesRequest = z.object({
   serviceIds: z.array(z.number().int()),
@@ -87,7 +108,7 @@ const FreelanceDto = z.object({
 const UpdateDirectCustomerRequest = z.object({
   name: z.string().min(0).max(150),
   code: z.string().min(0).max(5),
-  phone: z.string().min(0).max(15).nullish(),
+  phone: z.string().min(0).max(20).nullish(),
   email: z
     .string()
     .min(0)
@@ -114,7 +135,7 @@ const DirectCustomerDto = z.object({
 const AddDirectCustomerRequest = z.object({
   name: z.string().min(0).max(150),
   code: z.string().min(0).max(5),
-  phone: z.string().min(0).max(15).nullish(),
+  phone: z.string().min(0).max(20).nullish(),
   email: z
     .string()
     .min(0)
@@ -137,6 +158,22 @@ const Country = z.object({
   name: z.string(),
   code: z.string(),
   isEuropeanUnionMember: z.boolean(),
+});
+const BankAccountDto = z.object({
+  id: z.string(),
+  label: z.string(),
+  bankName: z.string(),
+  accountHolderName: z.string(),
+  iban: z.string(),
+  bic: z.string(),
+  isDefault: z.boolean(),
+});
+const AddBankAccountRequest = z.object({
+  label: z.string(),
+  bankName: z.string(),
+  accountHolderName: z.string(),
+  iban: z.string(),
+  bic: z.string(),
 });
 const LoginUserRequest = z.object({
   email: z
@@ -169,6 +206,8 @@ const RegisterUserRequest = z.object({
 export const schemas = {
   AppUserDto,
   Service,
+  LegalStatusDto,
+  AddLegalStatusRequest,
   TranslationLanguage,
   Address,
   UpdateFreelanceAddressRequest,
@@ -185,6 +224,8 @@ export const schemas = {
   AddDirectCustomerRequest,
   Currency,
   Country,
+  BankAccountDto,
+  AddBankAccountRequest,
   LoginUserRequest,
   AccessTokenResponse,
   RegisterUserRequest,
@@ -252,6 +293,23 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/auth/register", params, z.string(), config),
+    AddBankAccountEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("post", "/bankaccount", params, z.string(), config),
+    GetAllBankAccountsEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("get", "/bankaccounts", params, z.array(BankAccountDto), config),
     GetAllCountriesEndpoint: (
       params: {
         body?: unknown;
@@ -450,6 +508,23 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.array(TranslationLanguage),
         config
       ),
+    AddLegalStatusEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("post", "/legalstatus", params, z.string(), config),
+    GetAllLegalStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("get", "/legalstatuses", params, z.array(LegalStatusDto), config),
     GetAllServicesEndpoint: (
       params: {
         body?: unknown;
@@ -474,6 +549,8 @@ export function getTagByAlias(alias: string): string | undefined {
   const endpointMap: Record<string, string | undefined> = {
     LoginUserEndpoint: "authentication",
     RegisterUserEndpoint: "authentication",
+    AddBankAccountEndpoint: "bankaccount",
+    GetAllBankAccountsEndpoint: "bankaccount",
     GetAllCountriesEndpoint: "countries",
     GetAllCurrenciesEndpoint: "currencies",
     AddDirectCustomerEndpoint: "directcustomer",
@@ -490,6 +567,8 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateFreelanceServicesEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
     GetAllLanguagesEndpoint: "languages",
+    AddLegalStatusEndpoint: "legalstatus",
+    GetAllLegalStatusesEndpoint: "legalstatus",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
   };

@@ -17,13 +17,14 @@ import { personalDataSchema, type PersonalData } from "../../models/PersonalData
 import * as zod from "zod";
 import { addressSchema } from "../../models/Address";
 import { useToast } from "../../hooks/useToast";
+import LegalStatusListContainer from "../components/LegalStatusListContainer";
+import BankAcountListContainer from "../components/BankAcountListContainer";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
-
 
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const [profileData, setProfileData] = useState<ProfileDto | void>();
@@ -51,8 +52,8 @@ function ProfileView() {
         fetchProfileData();
     }, [apiClient, addToast]);
 
-
     useEffect(() => {
+
         const fetchCountries = async () => {
             try {
                 const response = await apiClient.GetAllCountriesEndpoint();
@@ -261,6 +262,10 @@ function ProfileView() {
         }
     }
 
+    function handleModifyDisabled() {
+        addToast("information", "Veuillez d'abord enregistrer ou annuler le formulaire en cours de modification.", "top_right", 3000);
+    }
+
     return (
         <>
             <AppLayout>
@@ -278,6 +283,7 @@ function ProfileView() {
                         isEditing={editingForm === "personal"}
                         modifyDisabled={editingForm !== null}
                         onModify={handleModifyPersonalData}
+                        onModifyDisabled={handleModifyDisabled}
                         onCancel={handleCancelPersonalData}
                         onSubmit={handleSubmitPersonalData}>
                         <div className="form_inner_flex_container">
@@ -337,6 +343,7 @@ function ProfileView() {
                         isEditing={editingForm === "address"}
                         modifyDisabled={editingForm !== null}
                         onModify={handleModifyAddressData}
+                        onModifyDisabled={handleModifyDisabled}
                         onCancel={handleCancelAddressData}
                         onSubmit={handleSubmitAddressData}>
                         <div className="form_inner_flex_container">
@@ -429,6 +436,7 @@ function ProfileView() {
                             isEditing={editingForm === "languages"}
                             modifyDisabled={editingForm !== null}
                             onModify={handleModifyLanguages}
+                            onModifyDisabled={handleModifyDisabled}
                             onCancel={handleCancelLanguages}
                             onSubmit={handleSubmitLanguages}>
                             <div className="language_container">
@@ -437,12 +445,13 @@ function ProfileView() {
                                     <p></p>
                                     <div className="language_list">{
                                         languages.map(language => (
-                                            CheckboxOption({
-                                                name: `source-language-${language.id}`,
-                                                label: language.name,
-                                                checked: profileData.sourceLanguages.some(l => l.id === language.id),
-                                                disabled: editingForm !== "languages",
-                                                onChange: () => {
+                                            <CheckboxOption
+                                                key={language.id}
+                                                name={`source-language-${language.id}`}
+                                                label={language.name}
+                                                checked={profileData.sourceLanguages.some(l => l.id === language.id)}
+                                                disabled={editingForm !== "languages"}
+                                                onChange={() => {
                                                     setProfileData(prev => {
                                                         if (!prev) return prev;
                                                         const isSelected = prev.sourceLanguages.some(l => l.id === language.id);
@@ -453,8 +462,8 @@ function ProfileView() {
                                                                 : [...prev.sourceLanguages, language]
                                                         };
                                                     });
-                                                }
-                                            })
+                                                }}
+                                            />
                                         ))
                                     }</div>
                                 </div>
@@ -463,12 +472,13 @@ function ProfileView() {
                                     <p></p>
                                     <div className="language_list">{
                                         languages.map(language => (
-                                            CheckboxOption({
-                                                name: `target-language-${language.id}`,
-                                                label: language.name,
-                                                checked: profileData.targetLanguages.some(l => l.id === language.id),
-                                                disabled: editingForm !== "languages",
-                                                onChange: () => {
+                                            <CheckboxOption
+                                                key={language.id}
+                                                name={`target-language-${language.id}`}
+                                                label={language.name}
+                                                checked={profileData.targetLanguages.some(l => l.id === language.id)}
+                                                disabled={editingForm !== "languages"}
+                                                onChange={() => {
                                                     setProfileData(prev => {
                                                         if (!prev) return prev;
                                                         const isSelected = prev.targetLanguages.some(l => l.id === language.id);
@@ -479,8 +489,8 @@ function ProfileView() {
                                                                 : [...prev.targetLanguages, language]
                                                         };
                                                     });
-                                                }
-                                            })
+                                                }}
+                                            />
                                         ))
                                     }</div>
                                 </div>
@@ -498,6 +508,7 @@ function ProfileView() {
                             isEditing={editingForm === "services"}
                             modifyDisabled={editingForm !== null}
                             onModify={handleModifyService}
+                            onModifyDisabled={handleModifyDisabled}
                             onCancel={handleCancelService}
                             onSubmit={handleSubmitServices}>
                             <div className="service_container">
@@ -505,12 +516,13 @@ function ProfileView() {
                                 <p></p>
                                 <div className="service_list">{
                                     services.map(service => (
-                                        CheckboxOption({
-                                            name: `service-${service.id}`,
-                                            label: service.name,
-                                            checked: profileData.services.some(s => s.id === service.id),
-                                            disabled: editingForm !== "services",
-                                            onChange: () => {
+                                        <CheckboxOption
+                                            key={service.id}
+                                            name={`service-${service.id}`}
+                                            label={service.name}
+                                            checked={profileData.services.some(s => s.id === service.id)}
+                                            disabled={editingForm !== "services"}
+                                            onChange={() => {
                                                 setProfileData(prev => {
                                                     if (!prev) return prev;
                                                     const isSelected = prev.services.some(s => s.id === service.id);
@@ -521,15 +533,18 @@ function ProfileView() {
                                                             : [...prev.services, service]
                                                     };
                                                 });
-                                            }
-                                        })
+                                            }}
+                                        />
                                     ))
                                 }</div>
                             </div>
                             {fieldErrors.services && <p className="form_error_message">{fieldErrors.services[0]}</p>}
                         </FormContainer>
                     </section>
+                    <BankAcountListContainer />
+                    <LegalStatusListContainer />
                 </>
+
                 ) : (
                     <p>Chargement des données du profil…</p>
                 )}

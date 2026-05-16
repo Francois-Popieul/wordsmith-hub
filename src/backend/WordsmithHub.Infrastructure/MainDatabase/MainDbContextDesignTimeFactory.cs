@@ -17,7 +17,8 @@ public class MainDbContextDesignTimeFactory : IDesignTimeDbContextFactory<MainDb
         Guard.Against.NullOrWhiteSpace(connectionString);
 
         var options = new DbContextOptionsBuilder<MainDbContext>()
-            .UseNpgsql(connectionString);
+            .UseNpgsql(connectionString,
+                npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__MainDbHistory"));
 
         return new MainDbContext(options.Options);
     }

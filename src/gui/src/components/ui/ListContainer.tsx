@@ -11,10 +11,11 @@ interface ListContainerProps {
     no_content_button: React.ReactNode;
     children: React.ReactNode;
     list_length: number;
+    onClickAdd?: () => void;
 }
 
 function ListContainer(props: ListContainerProps) {
-    const { icon, title, presentation, add_button_name, children, list_length, no_content_message, no_content_button } = props;
+    const { icon, title, presentation, add_button_name, children, list_length, no_content_message, no_content_button, onClickAdd } = props;
     return (
         <section className="list-container">
             <section className="list-container-header">
@@ -25,7 +26,7 @@ function ListContainer(props: ListContainerProps) {
                     <p className="list-container-presentation">{presentation}</p>
                 </div>
                 <div className="list-container-button">
-                    <Button name={add_button_name} variant="blue" width="default" type="button" onClick={() => { }}><PlusSignIcon /></Button>
+                    <Button name={add_button_name} variant="blue" width="default" type="button" onClick={onClickAdd}><PlusSignIcon /></Button>
                 </div>
             </section>
             <section className="list-container-content">

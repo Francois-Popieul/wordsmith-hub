@@ -12,6 +12,10 @@
     box-sizing: border-box;
 }
 
+.button:disabled {
+    pointer-events: none;
+}
+
 /* Variant */
 .button_dark {
     background-color: var(--color-dark);
@@ -94,11 +98,13 @@
 .button_contained {
     width: 30%;
     height: 48px;
+    margin: 0 0 1rem 0;
 }
 
 .button_extended {
-    width: 65%;
+    width: 66%;
     height: 48px;
+    margin: 0 0 1rem 0;
 }
 
 .button_full_width {
