@@ -23,7 +23,7 @@ export const legalStatusSchema = zod.object({
     vatNumber: zod
         .string()
         .nullable()
-        .refine(value => value === null || /^[A-Z]{2}[A-Z0-9]{2,}$/.test(value), "Le numéro de TVA doit commencer par un code pays suivi d'au moins 2 caractères alphanumériques."),
+        .refine(value => value === null || /^[A-Z]{2}[A-Z0-9]{2,}$/.test(value), "Le numéro de TVA doit commencer par un code pays suivi d’au moins 2 caractères alphanumériques."),
     vatExemption: zod.boolean(),
     vatRate: zod
         .string()

@@ -6,6 +6,7 @@ interface FormModalProps {
     title: string;
     presentation: string;
     children: React.ReactNode;
+    validateButtonText: string;
     onCancel: () => void;
     onSubmit: (event: React.SubmitEvent<HTMLFormElement>) => void;
 }
@@ -28,7 +29,7 @@ function FormModal(props: FormModalProps) {
                 </div>
                 <div className="form_modal_footer">
                     <Button name="Annuler" variant="light" width="contained" type="button" onClick={props.onCancel}></Button>
-                    <Button name="Valider" variant="blue" width="extended" type="submit"></Button>
+                    <Button name={props.validateButtonText} variant="blue" width="extended" type="submit"></Button>
                 </div>
             </form>
         </div>

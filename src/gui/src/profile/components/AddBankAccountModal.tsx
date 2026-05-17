@@ -4,7 +4,7 @@ import FormModal from "../../components/ui/FormModal";
 import { createApiClient } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
-import { bankAccountSchema, type BankAccount } from "../../models/BankAccount";
+import { bankAccountSchema, type BankAccount } from "../../types/BankAccount";
 import zod from "zod";
 
 interface AddBankAccountModalProps {
@@ -68,7 +68,7 @@ function AddBankAccountModal({ isVisible, onClose }: AddBankAccountModalProps) {
     return (
         <>
             {isVisible && (
-                <FormModal title="Ajouter un compte bancaire" presentation="Ajouter un nouveau compte bancaire pour recevoir des paiements" onCancel={handleClose} onSubmit={handleSubmit}>
+                <FormModal title="Ajouter un compte bancaire" presentation="Ajouter un nouveau compte bancaire pour recevoir des paiements" validateButtonText="Ajouter le compte" onCancel={handleClose} onSubmit={handleSubmit}>
                     <FormInputGroup name="label" label="Intitulé du compte" placeholder="ex. Compte principal, Compte en euros" type="text" required error={fieldErrors.label} />
                     <FormInputGroup name="bankName" label="Nom de la banque" placeholder="ex. BNP Paribas" type="text" required error={fieldErrors.bankName} />
                     <FormInputGroup name="accountHolderName" label="Nom du titulaire" placeholder="Jean Dupont" type="text" required error={fieldErrors.accountHolderName} />

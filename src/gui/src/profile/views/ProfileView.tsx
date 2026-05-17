@@ -8,14 +8,14 @@ import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
 import { BriefcaseIcon, BuildingIcon, LanguageIcon, ProfileIcon } from "../../assets/icons/icons";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import type { Country } from "../../models/Country";
-import type { TranslationLanguage } from "../../models/TranslationLanguage";
-import type { Service } from "../../models/Service";
+import type { Country } from "../../types/Country";
+import type { TranslationLanguage } from "../../types/TranslationLanguage";
+import type { Service } from "../../types/Service";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import "../../stylesheets/profile_view.css";
-import { personalDataSchema, type PersonalData } from "../../models/PersonalData";
+import { personalDataSchema, type PersonalData } from "../../types/PersonalData";
 import * as zod from "zod";
-import { addressSchema } from "../../models/Address";
+import { addressSchema, type Address } from "../../types/Address";
 import { useToast } from "../../hooks/useToast";
 import LegalStatusListContainer from "../components/LegalStatusListContainer";
 import BankAcountListContainer from "../components/BankAcountListContainer";
@@ -142,7 +142,7 @@ function ProfileView() {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
             }
         }
     }
@@ -165,13 +165,13 @@ function ProfileView() {
     async function handleSubmitAddressData(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const addressData = {
+        const addressData: Address = {
             streetInfo: formData.get("streetInfo") as string,
             addressComplement: formData.get("addressComplement") as string | null,
             postCode: formData.get("postCode") as string,
             state: formData.get("state") as string | null,
             city: formData.get("city") as string,
-            countryId: formData.get("countryId") ? parseInt(formData.get("countryId") as string) : null
+            countryId: parseInt(formData.get("countryId") as string, 10),
         };
         console.log("Submitted address data:", addressData);
 
@@ -192,7 +192,7 @@ function ProfileView() {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour de l'adresse.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour de l’adresse.", "top_right", 3000);
             }
         }
     }
@@ -224,7 +224,7 @@ function ProfileView() {
             if (axios.isAxiosError(error) && error.response) {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des langues.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des langues.", "top_right", 3000);
             }
         }
     }
@@ -257,13 +257,13 @@ function ProfileView() {
                 setFieldErrors(error.response.data.errors || {});
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des services.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des services.", "top_right", 3000);
             }
         }
     }
 
     function handleModifyDisabled() {
-        addToast("information", "Veuillez d'abord enregistrer ou annuler le formulaire en cours de modification.", "top_right", 3000);
+        addToast("information", "Veuillez d’abord enregistrer ou annuler le formulaire en cours de modification.", "top_right", 3000);
     }
 
     return (
@@ -393,7 +393,7 @@ function ProfileView() {
                         </div>
                         <div className="form_inner_flex_container">
                             <FormInputGroup
-                                label="État/Région"
+                                label="Région/État"
                                 name="state"
                                 type="text"
                                 required={false}

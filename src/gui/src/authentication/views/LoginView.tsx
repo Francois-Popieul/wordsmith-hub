@@ -42,7 +42,7 @@ function LoginView() {
             if (axios.isAxiosError(error) && error.response?.status === 401) {
                 addToast("error", "Email ou mot de passe incorrect.", "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s'est produite.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite.", "top_right", 3000);
             }
         }
     }

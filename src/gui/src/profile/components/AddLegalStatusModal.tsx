@@ -6,7 +6,7 @@ import { createApiClient } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import zod from "zod";
-import { legalStatusSchema, type LegalStatus } from "../../models/LegalStatus";
+import { legalStatusSchema, type LegalStatus } from "../../types/LegalStatus";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 
 interface AddLegalStatusModalProps {
@@ -87,7 +87,7 @@ function AddLegalStatusModal({ isVisible, onClose }: AddLegalStatusModalProps) {
     return (
         <>
             {isVisible && (
-                <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" onCancel={handleClose} onSubmit={handleSubmit}>
+                <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" validateButtonText="Ajouter le statut" onCancel={handleClose} onSubmit={handleSubmit}>
                     <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={LegalStatusTypes.map(type => ({ value: type.value, name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
                     <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
                     <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
