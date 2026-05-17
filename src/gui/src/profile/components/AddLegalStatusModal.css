@@ -1,0 +1,39 @@
+.checkbox_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
+    padding: 12px;
+    border: 1px solid var(--color-slate-400);
+    border-radius: 8px;
+    background-color: var(--color-white);
+    box-sizing: border-box;
+}
+
+.checkbox_container input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+}
+
+.checkbox_text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.checkbox_container label {
+    font-size: 1.1rem;
+    color: var(--color-slate-900);
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.checkbox_container p {
+    font-size: 0.9rem;
+    color: var(--color-slate-700);
+    margin: 0;
+}

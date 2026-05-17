@@ -20,6 +20,15 @@ function AddBankAccountModal({ isVisible, onClose }: AddBankAccountModalProps) {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
 
+    function resetForm() {
+        setFieldErrors({});
+    }
+
+    function handleClose() {
+        resetForm();
+        onClose();
+    }
+
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -45,7 +54,7 @@ function AddBankAccountModal({ isVisible, onClose }: AddBankAccountModalProps) {
                     ...bankAccountData
                 }
             });
-            onClose();
+            handleClose();
             addToast("success", "Compte bancaire ajouté !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -59,7 +68,7 @@ function AddBankAccountModal({ isVisible, onClose }: AddBankAccountModalProps) {
     return (
         <>
             {isVisible && (
-                <FormModal title="Ajouter un compte bancaire" presentation="Ajouter un nouveau compte bancaire pour recevoir des paiements" onCancel={onClose} onSubmit={handleSubmit}>
+                <FormModal title="Ajouter un compte bancaire" presentation="Ajouter un nouveau compte bancaire pour recevoir des paiements" onCancel={handleClose} onSubmit={handleSubmit}>
                     <FormInputGroup name="label" label="Intitulé du compte" placeholder="ex. Compte principal, Compte en euros" type="text" required error={fieldErrors.label} />
                     <FormInputGroup name="bankName" label="Nom de la banque" placeholder="ex. BNP Paribas" type="text" required error={fieldErrors.bankName} />
                     <FormInputGroup name="accountHolderName" label="Nom du titulaire" placeholder="Jean Dupont" type="text" required error={fieldErrors.accountHolderName} />
