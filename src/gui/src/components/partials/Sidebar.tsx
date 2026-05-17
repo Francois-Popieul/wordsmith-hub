@@ -14,6 +14,11 @@ function Sidebar() {
 
     const variant = (route: string) => location.pathname === route ? "sidebar_selected" : "sidebar";
 
+    function handleLogout() {
+        localStorage.removeItem("wshToken");
+        navigate("/");
+    }
+
     return (
         <div className="sidebar">
             <div className="sidebar_inner_container">
@@ -28,7 +33,7 @@ function Sidebar() {
             </div>
             <div className="sidebar_inner_container">
                 <hr />
-                <Button name="Se déconnecter" variant="sidebar" width="full_width" onClick={() => handleNav("/logout")}><LogoutIcon /></Button>
+                <Button name="Se déconnecter" variant="sidebar" width="full_width" onClick={handleLogout}><LogoutIcon /></Button>
             </div>
         </div>
     );

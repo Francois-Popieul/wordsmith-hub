@@ -24,11 +24,13 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
     const { addToast } = useToast();
     const [countries, setCountries] = useState<{ id: number; name: string }[]>([]);
     const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
-
+    const [currencies, setCurrencies] = useState<{ id: number; name: string; code: string }[]>([]);
+    const [selectedCurrency, setSelectedCurrency] = useState<number | null>(null);
 
     function resetForm() {
         setFieldErrors({});
         setSelectedCountryId(null);
+        setSelectedCurrency(null);
     }
 
     function handleClose() {
@@ -37,7 +39,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
     }
 
     useEffect(() => {
-
+        if (!token) return;
         const fetchCountries = async () => {
             try {
                 const response = await apiClient.GetAllCountriesEndpoint();
@@ -52,7 +54,25 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
             }
         };
         fetchCountries();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchCurrencies = async () => {
+            try {
+                const response = await apiClient.GetAllCurrenciesEndpoint();
+                response.sort((a: { id: number; name: string; code: string }, b: { id: number; name: string; code: string }) => a.name.localeCompare(b.name));
+                setCurrencies(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des devises.", "top_right", 3000);
+                }
+            }
+        };
+        fetchCurrencies();
+    }, [apiClient, addToast, token]);
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -64,7 +84,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
             phone: formData.get("phone") as string || null,
             address: {
                 streetInfo: formData.get("streetInfo") as string,
-                addressComplement: formData.get("adressComplement") as string || null,
+                addressComplement: formData.get("addressComplement") as string || null,
                 postCode: formData.get("postalCode") as string,
                 city: formData.get("city") as string,
                 state: null,
@@ -72,7 +92,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
             },
             siret: formData.get("siret") as string || null,
             paymentDelay: formData.get("paymentDelay") as string,
-            currencyId: formData.get("currency") as string,
+            currencyId: selectedCurrency!,
         };
 
         const validationResult = directCustomerSchema.safeParse(directCustomerData);
@@ -111,7 +131,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
                         <FormInputGroup name="phone" label="Téléphone du client" placeholder="ex. +33 1 23 45 67 89" type="text" required={false} error={fieldErrors.phone} />
                     </div>
                     <FormInputGroup name="streetInfo" label="Numéro et nom de rue" placeholder="ex. 123 rue des Champs-Élysées" type="text" required error={fieldErrors.streetInfo} />
-                    <FormInputGroup name="adressComplement" label="Complément d’adresse" placeholder="ex. Bâtiment B" type="text" required={false} error={fieldErrors.adressComplement} />
+                    <FormInputGroup name="addressComplement" label="Complément d’adresse" placeholder="ex. Bâtiment B" type="text" required={false} error={fieldErrors.addressComplement} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="postalCode" label="Code postal" placeholder="ex. 75008" type="text" required error={fieldErrors.postalCode} />
                         <FormInputGroup name="city" label="Ville" placeholder="ex. Paris" type="text" required error={fieldErrors.city} />
@@ -124,7 +144,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
                     <FormInputGroup name="siret" label="SIRET" placeholder="ex. FR123456789012" type="text" required={false} error={fieldErrors.siret} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="paymentDelay" label="Délai de paiement (jours)" placeholder="ex. 30" type="text" required error={fieldErrors.paymentDelay} />
-                        <FormInputGroup name="currency" label="Devise" placeholder="ex. EUR" type="text" required error={fieldErrors.currency} />
+                        <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="-- Sélectionnez la devise --" selected={selectedCurrency?.toString() || ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />
                     </div>
                 </FormModal>
             )}

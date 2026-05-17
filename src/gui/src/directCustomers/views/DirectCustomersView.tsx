@@ -4,9 +4,18 @@ import PageHeader from "../../components/ui/PageHeader";
 import { PlusSignIcon } from "../../assets/icons/icons";
 import { useState } from "react";
 import AddDirectCustomerModal from "../components/AddDirectCustomerModal";
+import { useNavigate } from "react-router";
 
 function DirectCustomers() {
+    const navigate = useNavigate();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+    const token = localStorage.getItem("wshToken");
+
+    if (!token) {
+        navigate("/");
+        return null;
+    }
+
     return (
         <>
             <AppLayout>

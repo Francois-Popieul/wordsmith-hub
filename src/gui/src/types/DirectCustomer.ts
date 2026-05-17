@@ -10,7 +10,7 @@ export type DirectCustomer = {
     address: Address;
     siret: string | null;
     paymentDelay: string;
-    currencyId: string;
+    currencyId: number;
 }
 
 export const directCustomerSchema = zod.object({
@@ -24,7 +24,7 @@ export const directCustomerSchema = zod.object({
         .string()
         .refine((value) => /^\d+$/.test(value), { message: "Le délai de paiement doit être un nombre entier positif" }),
     currencyId: zod
-        .string()
-        .min(1, { message: "La devise est requise" })
-        .refine((value) => /^\d+$/.test(value), { message: "Devise non valide" }),
+        .number()
+        .int({ message: "La devise doit être un nombre entier" })
+        .positive({ message: "La devise doit être un nombre positif" }),
 });

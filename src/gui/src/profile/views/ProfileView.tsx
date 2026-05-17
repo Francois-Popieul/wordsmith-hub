@@ -19,13 +19,13 @@ import { addressSchema, type Address } from "../../types/Address";
 import { useToast } from "../../hooks/useToast";
 import LegalStatusListContainer from "../components/LegalStatusListContainer";
 import BankAcountListContainer from "../components/BankAcountListContainer";
+import { Navigate } from "react-router";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
-
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const [profileData, setProfileData] = useState<ProfileDto | void>();
     const [savedProfileData, setSavedProfileData] = useState<ProfileDto | void>();
@@ -36,6 +36,7 @@ function ProfileView() {
     const { addToast } = useToast();
 
     useEffect(() => {
+        if (!token) return;
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
@@ -50,10 +51,10 @@ function ProfileView() {
             }
         };
         fetchProfileData();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
-
+        if (!token) return;
         const fetchCountries = async () => {
             try {
                 const response = await apiClient.GetAllCountriesEndpoint();
@@ -68,9 +69,10 @@ function ProfileView() {
             }
         };
         fetchCountries();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
+        if (!token) return;
         const fetchLanguages = async () => {
             try {
                 const response = await apiClient.GetAllLanguagesEndpoint();
@@ -85,9 +87,10 @@ function ProfileView() {
             }
         };
         fetchLanguages();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
+        if (!token) return;
         const fetchServices = async () => {
             try {
                 const response = await apiClient.GetAllServicesEndpoint();
@@ -102,7 +105,11 @@ function ProfileView() {
             }
         };
         fetchServices();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
+
+    if (!token) {
+        return <Navigate to="/" />;
+    }
 
     function handleModifyPersonalData() {
         setSavedProfileData(profileData);
