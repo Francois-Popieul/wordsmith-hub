@@ -1,12 +1,19 @@
-name: Deploy to VPS
+name: Deploy to Staging VPS
 
 on:
   push:
     branches: [staging]
 
 jobs:
+  ci-frontend:
+    uses: ./.github/workflows/ci-frontend.yaml
+
+  ci-backend:
+    uses: ./.github/workflows/ci-backend.yaml
+
   deploy:
     runs-on: ubuntu-latest
+    needs: [ci-frontend, ci-backend]
 
     permissions:
       contents: read
@@ -15,18 +22,6 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v6
-
-      - name: Install dependencies
-        working-directory: ./src/gui
-        run: npm ci
-
-      - name: Tests
-        working-directory: ./src/gui
-        run: npm test
-
-      - name: Build app
-        working-directory: ./src/gui
-        run: npm run build
 
       - name: Log in to GHCR
         uses: docker/login-action@v4
