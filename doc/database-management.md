@@ -12,7 +12,7 @@ docker compose --env-file .env.dev -f compose.dev.yaml up
 
 ### Data
 
-Contains the various database migration histories separately to prevent issues with the migrations and updates.
+The folder src/backend/WordsmithHub.Infrastructure/Data contains the various database migration histories separately to prevent issues with the migrations and updates.
 
 ### Identity Database
 

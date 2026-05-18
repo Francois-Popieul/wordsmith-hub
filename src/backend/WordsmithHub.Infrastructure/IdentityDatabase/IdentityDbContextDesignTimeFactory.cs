@@ -17,7 +17,8 @@ public class IdentityDbContextDesignTimeFactory : IDesignTimeDbContextFactory<Id
         Guard.Against.NullOrWhiteSpace(connectionString);
 
         var options = new DbContextOptionsBuilder<IdentityDbContext>()
-            .UseNpgsql(connectionString);
+            .UseNpgsql(connectionString,
+                npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__IdentityDbHistory"));
 
         return new IdentityDbContext(options.Options);
     }

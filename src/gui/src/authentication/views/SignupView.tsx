@@ -50,7 +50,7 @@ function SignupView() {
             if (axios.isAxiosError(error) && error.response) {
                 addToast("error", error.response.data, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s'est produite.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite.", "top_right", 3000);
             }
         }
     }

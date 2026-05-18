@@ -9,8 +9,8 @@ public interface ILegalStatusFactory
         bool vatExemption,
         decimal? vatRate,
         bool taxDeductionExemption,
-        DateTime validFrom,
-        DateTime? validTo,
+        DateTimeOffset validFrom,
+        DateTimeOffset? validTo,
         Guid freelanceId);
 }
 
@@ -23,12 +23,13 @@ public class LegalStatusFactory : ILegalStatusFactory
         bool vatExemption,
         decimal? vatRate,
         bool taxDeductionExemption,
-        DateTime validFrom,
-        DateTime? validTo,
+        DateTimeOffset validFrom,
+        DateTimeOffset? validTo,
         Guid freelanceId)
     {
         var legalStatus = new LegalStatus
         {
+            Id = Guid.NewGuid(),
             Name = name,
             Siret = siret ?? string.Empty,
             VatNumber = vatNumber ?? string.Empty,

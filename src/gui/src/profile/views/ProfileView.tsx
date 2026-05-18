@@ -8,23 +8,24 @@ import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
 import { BriefcaseIcon, BuildingIcon, LanguageIcon, ProfileIcon } from "../../assets/icons/icons";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import type { Country } from "../../models/Country";
-import type { TranslationLanguage } from "../../models/TranslationLanguage";
-import type { Service } from "../../models/Service";
+import type { Country } from "../../types/Country";
+import type { TranslationLanguage } from "../../types/TranslationLanguage";
+import type { Service } from "../../types/Service";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import "../../stylesheets/profile_view.css";
-import { personalDataSchema, type PersonalData } from "../../models/PersonalData";
+import { personalDataSchema, type PersonalData } from "../../types/PersonalData";
 import * as zod from "zod";
-import { addressSchema } from "../../models/Address";
+import { addressSchema, type Address } from "../../types/Address";
 import { useToast } from "../../hooks/useToast";
+import LegalStatusListContainer from "../components/LegalStatusListContainer";
+import BankAcountListContainer from "../components/BankAcountListContainer";
+import { Navigate } from "react-router";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
-
-
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const [profileData, setProfileData] = useState<ProfileDto | void>();
     const [savedProfileData, setSavedProfileData] = useState<ProfileDto | void>();
@@ -35,6 +36,7 @@ function ProfileView() {
     const { addToast } = useToast();
 
     useEffect(() => {
+        if (!token) return;
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
@@ -49,10 +51,10 @@ function ProfileView() {
             }
         };
         fetchProfileData();
-    }, [apiClient, addToast]);
-
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
+        if (!token) return;
         const fetchCountries = async () => {
             try {
                 const response = await apiClient.GetAllCountriesEndpoint();
@@ -67,9 +69,10 @@ function ProfileView() {
             }
         };
         fetchCountries();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
+        if (!token) return;
         const fetchLanguages = async () => {
             try {
                 const response = await apiClient.GetAllLanguagesEndpoint();
@@ -84,9 +87,10 @@ function ProfileView() {
             }
         };
         fetchLanguages();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
+        if (!token) return;
         const fetchServices = async () => {
             try {
                 const response = await apiClient.GetAllServicesEndpoint();
@@ -101,7 +105,11 @@ function ProfileView() {
             }
         };
         fetchServices();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, token]);
+
+    if (!token) {
+        return <Navigate to="/" />;
+    }
 
     function handleModifyPersonalData() {
         setSavedProfileData(profileData);
@@ -141,7 +149,7 @@ function ProfileView() {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
             }
         }
     }
@@ -164,13 +172,13 @@ function ProfileView() {
     async function handleSubmitAddressData(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const addressData = {
+        const addressData: Address = {
             streetInfo: formData.get("streetInfo") as string,
             addressComplement: formData.get("addressComplement") as string | null,
             postCode: formData.get("postCode") as string,
             state: formData.get("state") as string | null,
             city: formData.get("city") as string,
-            countryId: formData.get("countryId") ? parseInt(formData.get("countryId") as string) : null
+            countryId: parseInt(formData.get("countryId") as string, 10),
         };
         console.log("Submitted address data:", addressData);
 
@@ -191,7 +199,7 @@ function ProfileView() {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 setFieldErrors(error.response.data.errors || {});
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour de l'adresse.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour de l’adresse.", "top_right", 3000);
             }
         }
     }
@@ -223,7 +231,7 @@ function ProfileView() {
             if (axios.isAxiosError(error) && error.response) {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des langues.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des langues.", "top_right", 3000);
             }
         }
     }
@@ -256,9 +264,13 @@ function ProfileView() {
                 setFieldErrors(error.response.data.errors || {});
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s'est produite lors de la mise à jour des services.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des services.", "top_right", 3000);
             }
         }
+    }
+
+    function handleModifyDisabled() {
+        addToast("information", "Veuillez d’abord enregistrer ou annuler le formulaire en cours de modification.", "top_right", 3000);
     }
 
     return (
@@ -278,6 +290,7 @@ function ProfileView() {
                         isEditing={editingForm === "personal"}
                         modifyDisabled={editingForm !== null}
                         onModify={handleModifyPersonalData}
+                        onModifyDisabled={handleModifyDisabled}
                         onCancel={handleCancelPersonalData}
                         onSubmit={handleSubmitPersonalData}>
                         <div className="form_inner_flex_container">
@@ -337,6 +350,7 @@ function ProfileView() {
                         isEditing={editingForm === "address"}
                         modifyDisabled={editingForm !== null}
                         onModify={handleModifyAddressData}
+                        onModifyDisabled={handleModifyDisabled}
                         onCancel={handleCancelAddressData}
                         onSubmit={handleSubmitAddressData}>
                         <div className="form_inner_flex_container">
@@ -386,7 +400,7 @@ function ProfileView() {
                         </div>
                         <div className="form_inner_flex_container">
                             <FormInputGroup
-                                label="État/Région"
+                                label="Région/État"
                                 name="state"
                                 type="text"
                                 required={false}
@@ -429,6 +443,7 @@ function ProfileView() {
                             isEditing={editingForm === "languages"}
                             modifyDisabled={editingForm !== null}
                             onModify={handleModifyLanguages}
+                            onModifyDisabled={handleModifyDisabled}
                             onCancel={handleCancelLanguages}
                             onSubmit={handleSubmitLanguages}>
                             <div className="language_container">
@@ -437,12 +452,13 @@ function ProfileView() {
                                     <p></p>
                                     <div className="language_list">{
                                         languages.map(language => (
-                                            CheckboxOption({
-                                                name: `source-language-${language.id}`,
-                                                label: language.name,
-                                                checked: profileData.sourceLanguages.some(l => l.id === language.id),
-                                                disabled: editingForm !== "languages",
-                                                onChange: () => {
+                                            <CheckboxOption
+                                                key={language.id}
+                                                name={`source-language-${language.id}`}
+                                                label={language.name}
+                                                checked={profileData.sourceLanguages.some(l => l.id === language.id)}
+                                                disabled={editingForm !== "languages"}
+                                                onChange={() => {
                                                     setProfileData(prev => {
                                                         if (!prev) return prev;
                                                         const isSelected = prev.sourceLanguages.some(l => l.id === language.id);
@@ -453,8 +469,8 @@ function ProfileView() {
                                                                 : [...prev.sourceLanguages, language]
                                                         };
                                                     });
-                                                }
-                                            })
+                                                }}
+                                            />
                                         ))
                                     }</div>
                                 </div>
@@ -463,12 +479,13 @@ function ProfileView() {
                                     <p></p>
                                     <div className="language_list">{
                                         languages.map(language => (
-                                            CheckboxOption({
-                                                name: `target-language-${language.id}`,
-                                                label: language.name,
-                                                checked: profileData.targetLanguages.some(l => l.id === language.id),
-                                                disabled: editingForm !== "languages",
-                                                onChange: () => {
+                                            <CheckboxOption
+                                                key={language.id}
+                                                name={`target-language-${language.id}`}
+                                                label={language.name}
+                                                checked={profileData.targetLanguages.some(l => l.id === language.id)}
+                                                disabled={editingForm !== "languages"}
+                                                onChange={() => {
                                                     setProfileData(prev => {
                                                         if (!prev) return prev;
                                                         const isSelected = prev.targetLanguages.some(l => l.id === language.id);
@@ -479,8 +496,8 @@ function ProfileView() {
                                                                 : [...prev.targetLanguages, language]
                                                         };
                                                     });
-                                                }
-                                            })
+                                                }}
+                                            />
                                         ))
                                     }</div>
                                 </div>
@@ -498,6 +515,7 @@ function ProfileView() {
                             isEditing={editingForm === "services"}
                             modifyDisabled={editingForm !== null}
                             onModify={handleModifyService}
+                            onModifyDisabled={handleModifyDisabled}
                             onCancel={handleCancelService}
                             onSubmit={handleSubmitServices}>
                             <div className="service_container">
@@ -505,12 +523,13 @@ function ProfileView() {
                                 <p></p>
                                 <div className="service_list">{
                                     services.map(service => (
-                                        CheckboxOption({
-                                            name: `service-${service.id}`,
-                                            label: service.name,
-                                            checked: profileData.services.some(s => s.id === service.id),
-                                            disabled: editingForm !== "services",
-                                            onChange: () => {
+                                        <CheckboxOption
+                                            key={service.id}
+                                            name={`service-${service.id}`}
+                                            label={service.name}
+                                            checked={profileData.services.some(s => s.id === service.id)}
+                                            disabled={editingForm !== "services"}
+                                            onChange={() => {
                                                 setProfileData(prev => {
                                                     if (!prev) return prev;
                                                     const isSelected = prev.services.some(s => s.id === service.id);
@@ -521,15 +540,18 @@ function ProfileView() {
                                                             : [...prev.services, service]
                                                     };
                                                 });
-                                            }
-                                        })
+                                            }}
+                                        />
                                     ))
                                 }</div>
                             </div>
                             {fieldErrors.services && <p className="form_error_message">{fieldErrors.services[0]}</p>}
                         </FormContainer>
                     </section>
+                    <BankAcountListContainer />
+                    <LegalStatusListContainer />
                 </>
+
                 ) : (
                     <p>Chargement des données du profil…</p>
                 )}

@@ -63,8 +63,13 @@
 
 .auth_form .form_input,
 .auth_form .form_select {
-    font-size: 1rem;
     width: 100%;
+    height: 32px;
+    font-size: 1rem;
+    padding: 0 1rem;
+    border: solid 1px var(--color-slate-400);
+    border-radius: 8px;
+    box-sizing: border-box;
 }
 
 .auth_form .form_centered_container {

@@ -14,7 +14,7 @@ public class DirectCustomerConfiguration : IEntityTypeConfiguration<DirectCustom
         builder.Property(c => c.Id).ValueGeneratedNever();
         builder.Property(c => c.Name).IsRequired().HasMaxLength(150);
         builder.Property(c => c.Code).IsRequired().HasMaxLength(5);
-        builder.Property(c => c.Phone).HasMaxLength(15);
+        builder.Property(c => c.Phone).HasMaxLength(20);
         builder.Property(c => c.Email).IsRequired().HasMaxLength(255);
         builder.OwnsOne(c => c.Address, a =>
         {

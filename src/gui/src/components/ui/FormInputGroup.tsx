@@ -1,4 +1,4 @@
-type InputType = "text" | "email" | "tel" | "password";
+type InputType = "text" | "email" | "tel" | "password" | "date";
 
 interface FormInputGroupProps {
     label: string;

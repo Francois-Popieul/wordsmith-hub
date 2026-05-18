@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.BankAccountAggregate;
 using WordsmithHub.Domain.DirectCustomerAggregate;
@@ -13,8 +14,11 @@ using WordsmithHub.Domain.WorkOrderAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase;
 
-public class MainDbContext(DbContextOptions<MainDbContext> options) : DbContext(options)
+public class MainDbContext(DbContextOptions<MainDbContext> options) : DbContext(options), IDataProtectionKeyContext
 {
+    // Data Encryption
+    public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+
     // Aggregates
     public virtual DbSet<BankAccount> BankAccounts { get; set; }
     public virtual DbSet<DirectCustomer> DirectCustomers { get; set; }

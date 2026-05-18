@@ -1,6 +1,6 @@
-import type { Address } from "../../models/Address";
-import type { Service } from "../../models/Service";
-import type { TranslationLanguage } from "../../models/TranslationLanguage";
+import type { Address } from "../../types/Address";
+import type { Service } from "../../types/Service";
+import type { TranslationLanguage } from "../../types/TranslationLanguage";
 
 export default class ProfileDto {
     id: string;

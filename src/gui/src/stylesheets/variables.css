@@ -38,6 +38,9 @@
     /* TopBar Linear Gradient */
     --topbar-gradient: linear-gradient(90deg, var(--color-slate-900) 0%, var(--color-blue-dark) 100%);
 
+    /* Modal Backdrop */
+    --modal-backdrop: rgba(0, 0, 0, 0.4);
+
     /* Fonts */
     --font-sans: "Segoe UI", "Segoe UI Fallback", sans-serif;
 }

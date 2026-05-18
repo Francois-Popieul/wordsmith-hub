@@ -1,4 +1,5 @@
-﻿using WordsmithHub.Domain.FreelanceAggregate;
+﻿using Microsoft.AspNetCore.DataProtection;
+using WordsmithHub.Domain.FreelanceAggregate;
 
 namespace WordsmithHub.Domain.BankAccountAggregate;
 
@@ -18,5 +19,21 @@ public class BankAccount : BaseEntity, IBelongsToFreelance
     public void MarkAsDeleted()
     {
         StatusId = StatusIds.General.Inactive;
+    }
+
+    public void EncryptIban(IDataProtector protector)
+    {
+        Iban = protector.Protect(Iban);
+    }
+
+    public void DecryptIban(IDataProtector protector)
+    {
+        Iban = protector.Unprotect(Iban);
+    }
+
+    // Method displaying only the last 4 digits of the IBAN
+    public string DisplayIban()
+    {
+        return "********" + Iban[^4..];
     }
 }

@@ -10,8 +10,8 @@ public class LegalStatus : BaseEntity, IBelongsToFreelance
     public bool VatExemption { get; set; }
     public decimal? VatRate { get; set; }
     public bool TaxDeductionExemption { get; set; }
-    public required DateTime ValidFrom { get; set; }
-    public DateTime? ValidTo { get; set; }
+    public required DateTimeOffset ValidFrom { get; set; }
+    public DateTimeOffset? ValidTo { get; set; }
     public required Guid FreelanceId { get; set; }
     public Freelance? Freelance { get; set; }
     public required int StatusId { get; set; }
