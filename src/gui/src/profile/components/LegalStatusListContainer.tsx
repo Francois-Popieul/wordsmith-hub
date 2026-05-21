@@ -7,6 +7,7 @@ import Button from "../../components/ui/Button";
 import { OrdersIcon, PlusSignIcon } from "../../assets/icons/icons";
 import type LegalStatusDto from "../models/LegalStatusDto";
 import AddLegalStatusModal from "./AddLegalStatusModal";
+import LegalStatusDataTable from "./LegalStatusDataTable";
 
 function LegalStatusListContainer() {
     const token = localStorage.getItem("wshToken");
@@ -50,9 +51,7 @@ function LegalStatusListContainer() {
                 list_length={legalStatuses.length}
                 onClickAdd={handleAddLegalStatus}
             >
-                <div className="legal_status_list">
-                    {/* Render legal statuses here */}
-                </div>
+                <LegalStatusDataTable legalStatuses={legalStatuses} onEdit={(id) => addToast("information", `Modifier le statut juridique avec l’ID ${id}`, "top_right", 3000)} onDelete={(id) => addToast("information", `Supprimer le statut juridique avec l’ID ${id}`, "top_right", 3000)} />
             </ListContainer>
             <AddLegalStatusModal isVisible={isAddLegalStatusModalVisible} onClose={() => setIsAddLegalStatusModalVisible(false)} />
         </>

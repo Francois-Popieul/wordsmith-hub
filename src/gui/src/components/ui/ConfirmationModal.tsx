@@ -6,9 +6,11 @@ interface ConfirmationModalProps {
     message: string;
     onCancel: () => void;
     onConfirm: () => void;
+    isVisible: boolean;
 }
 
-function ConfirmationModal({ title, message, onCancel, onConfirm }: ConfirmationModalProps) {
+function ConfirmationModal({ title, message, onCancel, onConfirm, isVisible }: ConfirmationModalProps) {
+    if (!isVisible) return null;
     return (<>
         <div className="confirmation_modal_backdrop" onClick={onCancel} />
         <div className="confirmation_modal_container">

@@ -18,3 +18,6 @@ export { Pencil as PencilIcon } from "lucide-react";
 export { Trash as DeleteIcon } from "lucide-react";
 export { CreditCard as CreditCardIcon } from "lucide-react";
 export { X as CloseIcon } from "lucide-react";
+export { Phone as PhoneIcon } from "lucide-react";
+export { Mail as MailIcon } from "lucide-react";
+export { StarIcon as StarIcon } from "lucide-react";

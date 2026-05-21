@@ -1,0 +1,26 @@
+.row-separator td {
+    border-bottom: 1px solid var(--color-slate-400) !important;
+}
+
+.customer-table thead th {
+    border-bottom: 2px solid var(--color-slate-400) !important;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.no_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-slate-700);
+    font-size: 1.2em;
+    gap: 16px;
+    margin-top: 40px;
+    width: 100%;
+    border: 1px solid var(--color-slate-400);
+    padding: 40px 20px;
+    background-color: var(--color-slate-50);
+    box-sizing: border-box;
+    border-radius: 16px;
+}

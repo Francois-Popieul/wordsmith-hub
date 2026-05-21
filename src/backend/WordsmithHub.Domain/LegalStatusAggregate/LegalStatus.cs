@@ -20,5 +20,6 @@ public class LegalStatus : BaseEntity, IBelongsToFreelance
     public void MarkAsDeleted()
     {
         StatusId = StatusIds.General.Inactive;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

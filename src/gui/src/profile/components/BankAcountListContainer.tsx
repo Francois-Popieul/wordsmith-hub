@@ -1,19 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import ListContainer from "../../components/ui/ListContainer";
 import Button from "../../components/ui/Button";
-import type BankAccountDto from "../models/BankAccountDto";
 import { CreditCardIcon, PlusSignIcon } from "../../assets/icons/icons";
 import AddBankAccountModal from "./AddBankAccountModal";
+import * as zod from "zod";
+import BankAccountDataTables from "./BankAccountDataTables";
 
 function BankAcountListContainer() {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
-    const [bankAccounts, setBankAccounts] = useState<BankAccountDto[]>([]);
+    const [bankAccounts, setBankAccounts] = useState<zod.infer<typeof schemas.BankAccountDto>[]>([]);
     const { addToast } = useToast();
     const [isAddBankAccountModalVisible, setIsAddBankAccountModalVisible] = useState(false);
 
@@ -48,9 +49,7 @@ function BankAcountListContainer() {
             list_length={bankAccounts.length}
             onClickAdd={handleAddBankAccount}
         >
-            <div className="bank_account_list">
-                {/* Render bank accounts here */}
-            </div>
+            <BankAccountDataTables bankAccounts={bankAccounts} onDefaultBankChange={(id) => addToast("information", `Changer le compte bancaire par défaut avec l’ID ${id}`, "top_right", 3000)} onEdit={(id) => addToast("information", `Modifier le compte bancaire avec l’ID ${id}`, "top_right", 3000)} onDelete={(id) => addToast("information", `Supprimer le compte bancaire avec l’ID ${id}`, "top_right", 3000)} />
         </ListContainer>
         <AddBankAccountModal isVisible={isAddBankAccountModalVisible} onClose={() => setIsAddBankAccountModalVisible(false)} />
     </>

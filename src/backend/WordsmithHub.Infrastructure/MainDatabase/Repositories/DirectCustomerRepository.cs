@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WordsmithHub.Domain;
 using WordsmithHub.Domain.DirectCustomerAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
@@ -15,7 +16,8 @@ public class DirectCustomerRepository(MainDbContext context)
     public async Task<IReadOnlyList<DirectCustomer>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {
-        return await Context.DirectCustomers.AsNoTracking().Where(c => c.FreelanceId == freelanceId)
+        return await Context.DirectCustomers.AsNoTracking()
+            .Where(c => c.FreelanceId == freelanceId && c.StatusId != StatusIds.General.Inactive)
             .ToListAsync(cancellationToken);
     }
 
