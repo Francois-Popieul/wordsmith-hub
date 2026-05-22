@@ -78,6 +78,20 @@
     scale: 1.05;
 }
 
+.button_action {
+    background-color: transparent;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    margin: 0;
+    box-sizing: border-box;
+
+    &:hover {
+        background-color: var(--color-slate-200);
+        border-radius: 8px;
+    }
+}
+
 /* Width */
 .button_default {
     width: fit-content;

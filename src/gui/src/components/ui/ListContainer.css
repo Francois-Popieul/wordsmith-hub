@@ -51,10 +51,11 @@
 .list-container-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
     gap: 1rem;
     margin: 0 auto;
+    width: 100%;
 }
 
 .no_content_container {

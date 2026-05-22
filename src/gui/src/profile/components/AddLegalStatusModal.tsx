@@ -16,7 +16,9 @@ interface AddLegalStatusModalProps {
 
 const LegalStatusTypes = [
     { value: "author", name: "Artiste-auteur" },
-    { value: "self-employed", name: "Auto-entrepreneur" }
+    { value: "self-employed", name: "Auto-entrepreneur" },
+    { value: "wagePortage", name: "Portage salarial" },
+    { value: "llc", name: "SARL" }
 ];
 
 function AddLegalStatusModal({ isVisible, onClose }: AddLegalStatusModalProps) {
@@ -88,7 +90,7 @@ function AddLegalStatusModal({ isVisible, onClose }: AddLegalStatusModalProps) {
         <>
             {isVisible && (
                 <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" validateButtonText="Ajouter le statut" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={LegalStatusTypes.map(type => ({ value: type.value, name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
+                    <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={LegalStatusTypes.map(type => ({ value: type.value, name: type.name }))} onChange={(name) => setSelectedLegalStatusType(name)} />
                     <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
                     <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
                     <FormInputGroup name="vatRate" label="Taux de TVA (%)" type="text" placeholder="20" error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />

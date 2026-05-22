@@ -106,13 +106,16 @@ builder.Services.AddHttpLogging(options =>
 });
 
 // CORS
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>();
+
 builder.Services.AddCors(options =>
-{
     options.AddDefaultPolicy(policy =>
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(allowedOrigins!)
             .AllowAnyHeader()
-            .AllowAnyMethod());
-});
+            .AllowAnyMethod()
+            .AllowCredentials()));
 
 // API services
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -149,9 +152,9 @@ if (!app.Environment.IsEnvironment("IntegrationTest"))
     mainDb.Database.Migrate();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors();
+
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
