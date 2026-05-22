@@ -42,7 +42,7 @@ jobs:
           file: ./src/backend/Dockerfile
           push: true
           tags: |
-            ghcr.io/francois-popieul/wordsmithhub-api:1.1.5
+            ghcr.io/francois-popieul/wordsmithhub-api:1.1.6
             ghcr.io/francois-popieul/wordsmithhub-api:latest
 
       - name: Build and push Client image
@@ -52,7 +52,7 @@ jobs:
           file: ./src/gui/Dockerfile
           push: true
           tags: |
-            ghcr.io/francois-popieul/wordsmithhub-client:1.1.5
+            ghcr.io/francois-popieul/wordsmithhub-client:1.1.6
             ghcr.io/francois-popieul/wordsmithhub-client:latest
           build-args: |
             VITE_API_BASE_URL=${{ secrets.FRONTEND_VITE_API_BASE_URL }}

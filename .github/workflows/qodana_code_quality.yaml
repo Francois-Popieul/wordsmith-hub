@@ -5,6 +5,8 @@ on:
   push:
     branches: # Specify your branches here
       - main # The 'main' branch
+      - staging # The 'staging' branch
+      - dev # The 'dev' branch
       - "releases/*" # The release branches
 
 jobs:
