@@ -5,11 +5,11 @@ import { PlusSignIcon } from "../../assets/icons/icons";
 import { useEffect, useMemo, useState } from "react";
 import AddDirectCustomerModal from "../components/AddDirectCustomerModal";
 import { useNavigate } from "react-router";
-import DirectCustomerDataTable, { type DirectCustomer } from "../components/DirectCustomerDataTable";
+import DirectCustomerDataTable from "../components/DirectCustomerDataTable";
 import { useToast } from "../../hooks/useToast";
 import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import axios from "axios";
-import { z } from "zod";
+import * as zod from "zod";
 import UpdateDirectCustomerModal from "../components/UpdateDirectCustomerModal";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
 
@@ -19,9 +19,9 @@ function DirectCustomers() {
     const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const token = localStorage.getItem("wshToken");
-    const [directCustomers, setDirectCustomers] = useState<z.infer<typeof schemas.DirectCustomerDto>[]>([]);
-    const [customers, setCustomers] = useState<DirectCustomer[]>([]);
-    const [customerToUpdate, setCustomerToUpdate] = useState<z.infer<typeof schemas.DirectCustomerDto> | null>(null);
+    const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
+    const [customers, setCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
+    const [customerToUpdate, setCustomerToUpdate] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
     const [customerToDeleteId, setCustomerToDeleteId] = useState<string | null>(null);
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
@@ -34,9 +34,9 @@ function DirectCustomers() {
             try {
                 const response = await apiClient.GetAllDirectCustomersEndpoint();
                 setDirectCustomers(response);
-                setCustomers(response.map(c => ({ id: c.id, company: c.name, code: c.code, email: c.email, phone: c.phone })));
+                setCustomers(response);
             } catch (error) {
-                if (error instanceof z.ZodError) {
+                if (error instanceof zod.ZodError) {
                     // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
                 } else if (axios.isAxiosError(error) && error.response) {
                     addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
@@ -73,7 +73,7 @@ function DirectCustomers() {
                 setCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));
                 addToast("success", "Client direct supprimé !", "top_right", 3000);
             } catch (error) {
-                if (error instanceof z.ZodError) {
+                if (error instanceof zod.ZodError) {
                     // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
                     setDirectCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));
                     setCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));

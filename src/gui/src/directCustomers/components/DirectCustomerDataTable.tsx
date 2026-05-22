@@ -19,8 +19,8 @@ function DirectCustomerDataTable({ directCustomers, onAdd, onView, onEdit, onDel
 
     const contactBodyTemplate = (rowData: zod.infer<typeof schemas.DirectCustomerDto>) => (
         <div>
-            <div><MailIcon size={16} /> {rowData.email}</div>
-            {rowData.phone && <div><PhoneIcon size={16} /> {rowData.phone}</div>}
+            <div className="contact_info"><MailIcon size={16} /> <a href={`mailto:${rowData.email}`}>{rowData.email}</a></div>
+            {rowData.phone && <div className="contact_info"><PhoneIcon size={16} /> <a href={`tel:${rowData.phone}`}>{rowData.phone}</a></div>}
         </div>
     );
 
@@ -45,7 +45,7 @@ function DirectCustomerDataTable({ directCustomers, onAdd, onView, onEdit, onDel
                 <p>Aucun client direct pour le moment.</p>
                 <Button variant="light" name="Ajouter un premier client" width="default" type="button" onClick={() => onAdd()}><PlusIcon size={16} /></Button>
             </div> : <DataTable value={directCustomers} paginator rows={10} scrollable style={{ width: '100%' }} rowClassName={() => 'row-separator'} className="customer-table">
-                <Column field="company" header="Société" style={{ minWidth: '200px' }} />
+                <Column field="name" header="Nom" style={{ minWidth: '200px' }} />
                 <Column field="code" header="Code" style={{ minWidth: '100px' }} />
                 <Column body={contactBodyTemplate} header="Contact" style={{ minWidth: '200px' }} />
                 <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: '100px' }} bodyStyle={{ minWidth: '100px', display: 'flex', justifyContent: 'flex-end', marginRight: '1rem' }} pt={{ headerContent: { style: { justifyContent: 'flex-end', marginRight: '1rem' } } }} />
