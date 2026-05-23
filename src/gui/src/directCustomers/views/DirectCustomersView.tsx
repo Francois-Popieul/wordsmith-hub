@@ -23,6 +23,7 @@ function DirectCustomers() {
     const [customers, setCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [customerToUpdate, setCustomerToUpdate] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
     const [customerToDeleteId, setCustomerToDeleteId] = useState<string | null>(null);
+    const [refreshKey, setRefreshKey] = useState(0);
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
@@ -37,7 +38,7 @@ function DirectCustomers() {
                 setCustomers(response);
             } catch (error) {
                 if (error instanceof zod.ZodError) {
-                    // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
+                    // 204 No Content: HTTP succeeded but the auto-generated schema can’t parse an empty body
                 } else if (axios.isAxiosError(error) && error.response) {
                     addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 } else {
@@ -46,12 +47,13 @@ function DirectCustomers() {
             }
         };
         fetchDirectCustomers();
-    }, [apiClient, addToast, token]);
+    }, [apiClient, addToast, token, refreshKey]);
 
     if (!token) {
         navigate("/");
         return null;
     }
+
     function handleUpdate(id: string) {
         const customer = directCustomers.find(c => c.id === id) || null;
         setCustomerToUpdate(customer);
@@ -110,7 +112,7 @@ function DirectCustomers() {
                     onEdit={(id) => handleUpdate(id)}
                     onDelete={(id) => handleDelete(id)}
                 />
-                <AddDirectCustomerModal isVisible={isAddModalVisible} onClose={() => setIsAddModalVisible(false)} />
+                <AddDirectCustomerModal isVisible={isAddModalVisible} onClose={() => setIsAddModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
                 <UpdateDirectCustomerModal customer={customerToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} />
                 <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le client" message="Voulez-vous vraiment supprimer ce client ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
             </AppLayout>

@@ -8,8 +8,8 @@ export type DirectCustomer = {
     email: string;
     phone: string | null;
     address: Address;
-    siret: string | null;
-    paymentDelay: string;
+    siretOrSiren: string | null;
+    paymentDelay: number;
     currencyId: number;
 }
 
@@ -19,10 +19,11 @@ export const directCustomerSchema = zod.object({
     email: zod.email({ message: "L’email du client doit être valide" }),
     phone: zod.string().nullable(),
     address: addressSchema,
-    siret: zod.string().nullable(),
+    siretOrSiren: zod.string().nullable(),
     paymentDelay: zod
-        .string()
-        .refine((value) => /^\d+$/.test(value), { message: "Le délai de paiement doit être un nombre entier positif" }),
+        .number()
+        .int({ message: "Le délai de paiement doit être un nombre entier" })
+        .positive({ message: "Le délai de paiement doit être un nombre positif" }),
     currencyId: zod
         .number()
         .int({ message: "La devise doit être un nombre entier" })

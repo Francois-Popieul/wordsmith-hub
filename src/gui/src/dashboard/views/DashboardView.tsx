@@ -13,6 +13,7 @@ import { CustomersIcon, InvoicesIcon, OrdersIcon, ProjectsIcon } from "../../ass
 import QuickActionCard from "../components/QuickActionCard";
 import QuickActionContainer from "../components/QuickActionContainer";
 import AddDirectCustomerModal from "../../directCustomers/components/AddDirectCustomerModal";
+import AddProjectModal from "../../projects/components/AddProjectModal";
 
 function DashboardView() {
     const token = localStorage.getItem("wshToken");
@@ -26,6 +27,8 @@ function DashboardView() {
     const [orderNumber, setOrderNumber] = useState(0);
     const [earnings, setEarnings] = useState(0);
     const [isAddCustomerModalVisible, setIsAddCustomerModalVisible] = useState(false);
+    const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(false);
+    // const [isAddInvoiceModalVisible, setIsAddInvoiceModalVisible] = useState(false);
 
     useEffect(() => {
         if (!token) return;
@@ -76,16 +79,18 @@ function DashboardView() {
                     icon={<ProjectsIcon />}
                     title="Créer un projet"
                     description="Créer un nouveau projet pour un client"
-                    onClick={() => addToast("information", "Fonctionnalité de création de projet à venir !", "top_right", 3000)}
+                    onClick={() => setIsAddProjectModalVisible(true)}
                 />
                 <QuickActionCard
                     icon={<InvoicesIcon />}
                     title="Créer une facture"
                     description="Créer une nouvelle facture pour un client"
-                    onClick={() => addToast("information", "Fonctionnalité de création de facture à venir !", "top_right", 3000)}
+                    onClick={() => { /* setIsAddInvoiceModalVisible(true) */ }}
                 />
             </QuickActionContainer>
             <AddDirectCustomerModal isVisible={isAddCustomerModalVisible} onClose={() => setIsAddCustomerModalVisible(false)} />
+            <AddProjectModal isVisible={isAddProjectModalVisible} onClose={() => setIsAddProjectModalVisible(false)} />
+            {/* <AddInvoiceModal isVisible={isAddInvoiceModalVisible} onClose={() => setIsAddInvoiceModalVisible(false)} /> */}
         </AppLayout>
     ) : <p>Chargement des données en cours…</p>;
 }

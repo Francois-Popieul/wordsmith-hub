@@ -10,6 +10,8 @@ public class ProjectRepository(MainDbContext context) : Repository<Project>(cont
     {
         return await Context.Projects.AsNoTracking()
             .Where(p => p.FreelanceId == freelanceId)
+            .Include(p => p.DirectCustomers)
+            .Include(p => p.EndCustomer)
             .ToListAsync(cancellationToken);
     }
 

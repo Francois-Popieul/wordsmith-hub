@@ -20,4 +20,6 @@ export { CreditCard as CreditCardIcon } from "lucide-react";
 export { X as CloseIcon } from "lucide-react";
 export { Phone as PhoneIcon } from "lucide-react";
 export { Mail as MailIcon } from "lucide-react";
-export { StarIcon as StarIcon } from "lucide-react";
+export { Star as StarIcon } from "lucide-react";
+export { ChevronUp as ArrowUpIcon } from "lucide-react";
+export { ChevronDown as ArrowDownIcon } from "lucide-react";

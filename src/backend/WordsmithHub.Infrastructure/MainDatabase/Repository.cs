@@ -11,7 +11,7 @@ public class Repository<T>(MainDbContext context) : IRepository<T>
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await Context.Set<T>()
-            .AsNoTracking()
+
             .SingleOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
