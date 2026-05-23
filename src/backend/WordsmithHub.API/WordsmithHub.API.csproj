@@ -21,9 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\BankAccounts\Update\"/>
-        <Folder Include="Features\LegalStatuses\Delete\"/>
-        <Folder Include="Features\LegalStatuses\Update\"/>
+        <Folder Include="Features\Projects\GetAll\"/>
+        <Folder Include="Features\Projects\Get\"/>
+        <Folder Include="Features\Projects\Update\"/>
         <Folder Include="Features\Users\Add\"/>
         <Folder Include="Features\Users\Delete\"/>
         <Folder Include="Features\Users\GetAll\"/>

@@ -28,11 +28,8 @@ public class GetAllServicesHandler(
 
         var services = await repository.GetAllAsync(cancellationToken);
 
-        if (services.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<Service>>(OperationStatus.NotFound);
-        }
-
-        return new OperationResult<IReadOnlyList<Service>>(OperationStatus.Success, services);
+        return services.Count == 0
+            ? new OperationResult<IReadOnlyList<Service>>(OperationStatus.NotFound)
+            : new OperationResult<IReadOnlyList<Service>>(OperationStatus.Success, services);
     }
 }

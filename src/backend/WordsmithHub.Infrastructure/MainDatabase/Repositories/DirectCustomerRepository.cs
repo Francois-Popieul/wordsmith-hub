@@ -24,6 +24,7 @@ public class DirectCustomerRepository(MainDbContext context)
     public async Task ArchiveAsync(DirectCustomer customer, CancellationToken cancellationToken = default)
     {
         Context.Entry(customer).Property(x => x.StatusId).IsModified = true;
+        Context.Entry(customer).Property(x => x.UpdatedAt).IsModified = true;
         await Context.SaveChangesAsync(cancellationToken);
     }
 }

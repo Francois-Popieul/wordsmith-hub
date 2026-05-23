@@ -20,7 +20,7 @@ public static class FreelanceExtensions
                 Email = freelance.Email,
                 Phone = freelance.Phone ?? string.Empty,
                 Address = freelance.Address.ToDto(),
-                StatusId = freelance.StatusId,
+                StatusId = freelance.StatusId
             };
         }
 
@@ -32,7 +32,7 @@ public static class FreelanceExtensions
             Email = freelance.Email,
             Address = null,
             Phone = freelance.Phone ?? string.Empty,
-            StatusId = freelance.StatusId,
+            StatusId = freelance.StatusId
         };
     }
 
@@ -42,7 +42,7 @@ public static class FreelanceExtensions
 
         if (freelance.Address != null)
         {
-            return new ProfileDto()
+            return new ProfileDto
             {
                 Id = freelance.Id,
                 FirstName = freelance.FirstName ?? string.Empty,

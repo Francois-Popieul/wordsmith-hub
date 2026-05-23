@@ -12,4 +12,11 @@ public class ProjectRepository(MainDbContext context) : Repository<Project>(cont
             .Where(p => p.FreelanceId == freelanceId)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task ArchiveAsync(Project project, CancellationToken cancellationToken = default)
+    {
+        Context.Entry(project).Property(x => x.StatusId).IsModified = true;
+        Context.Entry(project).Property(x => x.UpdatedAt).IsModified = true;
+        await Context.SaveChangesAsync(cancellationToken);
+    }
 }
