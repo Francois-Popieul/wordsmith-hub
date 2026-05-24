@@ -17,6 +17,7 @@
     align-items: flex-start;
     gap: 2rem;
     flex: 1;
+    min-width: 0;
     margin: 1rem;
     background-color: var(--color-white);
     box-sizing: border-box;
