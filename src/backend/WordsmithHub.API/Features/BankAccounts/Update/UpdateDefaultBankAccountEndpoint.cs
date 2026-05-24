@@ -4,7 +4,7 @@ using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
 
 namespace WordsmithHub.API.Features.BankAccounts.Update;
 
-public class UpdateDefaultBankAccountEndpoint : ApiEndpoint<Guid, Guid>
+public class UpdateDefaultBankAccountEndpoint : ApiEndpointWithoutRequest<Guid>
 {
     public override void Configure()
     {
@@ -14,7 +14,7 @@ public class UpdateDefaultBankAccountEndpoint : ApiEndpoint<Guid, Guid>
             .Produces(StatusCodes.Status403Forbidden));
     }
 
-    public override async Task HandleAsync(Guid request, CancellationToken cancellationToken)
+    public override async Task HandleAsync(CancellationToken cancellationToken)
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 

@@ -20,8 +20,14 @@ public class BankAccountRepository(MainDbContext context, IDataProtectionProvide
         var protector = CreateProtector();
         return accounts.Any(a =>
         {
-            try { return protector.Unprotect(a.Iban) == iban; }
-            catch { return false; }
+            try
+            {
+                return protector.Unprotect(a.Iban) == iban;
+            }
+            catch
+            {
+                return false;
+            }
         });
     }
 
@@ -48,7 +54,8 @@ public class BankAccountRepository(MainDbContext context, IDataProtectionProvide
     public async Task<BankAccount?> GetDefaultForFreelanceAsync(Guid freelanceId,
         CancellationToken cancellationToken = default)
     {
-        return await Context.BankAccounts.SingleOrDefaultAsync(a => a.FreelanceId == freelanceId && a.IsDefault,
+        return await Context.BankAccounts.SingleOrDefaultAsync(
+            a => a.FreelanceId == freelanceId && a.StatusId == StatusIds.General.Active && a.IsDefault,
             cancellationToken);
     }
 
@@ -64,7 +71,15 @@ public class BankAccountRepository(MainDbContext context, IDataProtectionProvide
 
     public async Task ArchiveAsync(BankAccount bankAccount, CancellationToken cancellationToken = default)
     {
+        Context.Entry(bankAccount).Property(x => x.IsDefault).IsModified = true;
         Context.Entry(bankAccount).Property(x => x.StatusId).IsModified = true;
+        Context.Entry(bankAccount).Property(x => x.UpdatedAt).IsModified = true;
+        await Context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateIsDefaultAsync(BankAccount bankAccount, CancellationToken cancellationToken = default)
+    {
+        Context.Entry(bankAccount).Property(x => x.IsDefault).IsModified = true;
         Context.Entry(bankAccount).Property(x => x.UpdatedAt).IsModified = true;
         await Context.SaveChangesAsync(cancellationToken);
     }

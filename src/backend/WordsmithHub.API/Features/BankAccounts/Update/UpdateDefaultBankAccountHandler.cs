@@ -33,20 +33,27 @@ public class UpdateDefaultBankAccountHandler(
         }
 
         var bankAccount = await repository.GetByIdAsync(command.BankAccountId, cancellationToken);
-        var defaultBankAccount = await repository.GetDefaultForFreelanceAsync(freelance.Id, cancellationToken);
 
-        if (bankAccount == null || defaultBankAccount == null)
+        if (bankAccount == null)
         {
             return OperationResult.NotFound<Guid>();
         }
 
-        defaultBankAccount.IsDefault = false;
-        defaultBankAccount.UpdatedAt = DateTimeOffset.UtcNow;
-        bankAccount.IsDefault = true;
-        bankAccount.UpdatedAt = DateTimeOffset.UtcNow;
+        if (!bankAccount.IsDefault)
+        {
+            var defaultBankAccount = await repository.GetDefaultForFreelanceAsync(freelance.Id, cancellationToken);
 
-        await repository.UpdateAsync(defaultBankAccount, cancellationToken);
-        await repository.UpdateAsync(bankAccount, cancellationToken);
+            if (defaultBankAccount != null)
+            {
+                defaultBankAccount.IsDefault = false;
+                defaultBankAccount.UpdatedAt = DateTimeOffset.UtcNow;
+                await repository.UpdateIsDefaultAsync(defaultBankAccount, cancellationToken);
+            }
+
+            bankAccount.IsDefault = true;
+            bankAccount.UpdatedAt = DateTimeOffset.UtcNow;
+            await repository.UpdateIsDefaultAsync(bankAccount, cancellationToken);
+        }
 
         return OperationResult.Success(bankAccount.Id);
     }

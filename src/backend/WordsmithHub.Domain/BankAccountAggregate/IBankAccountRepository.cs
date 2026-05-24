@@ -19,4 +19,6 @@ public interface IBankAccountRepository : IRepository<BankAccount>
     Task<int> CountForFreelanceAsync(Guid freelanceId, CancellationToken cancellationToken = default);
 
     Task ArchiveAsync(BankAccount bankAccount, CancellationToken cancellationToken = default);
+
+    Task UpdateIsDefaultAsync(BankAccount bankAccount, CancellationToken cancellationToken = default);
 }

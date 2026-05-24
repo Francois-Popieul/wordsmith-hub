@@ -12,6 +12,7 @@ import FormSelectGroup from "../../components/ui/FormSelectGroup";
 interface AddLegalStatusModalProps {
     isVisible: boolean;
     onClose: () => void;
+    onSuccess?: () => void;
 }
 
 const LegalStatusTypes = [
@@ -21,7 +22,7 @@ const LegalStatusTypes = [
     { value: "llc", name: "SARL" }
 ];
 
-function AddLegalStatusModal({ isVisible, onClose }: AddLegalStatusModalProps) {
+function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusModalProps) {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
@@ -76,6 +77,7 @@ function AddLegalStatusModal({ isVisible, onClose }: AddLegalStatusModalProps) {
                 }
             });
             handleClose();
+            onSuccess?.();
             addToast("success", "Statut juridique ajouté !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -91,9 +93,9 @@ function AddLegalStatusModal({ isVisible, onClose }: AddLegalStatusModalProps) {
             {isVisible && (
                 <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" validateButtonText="Ajouter le statut" onCancel={handleClose} onSubmit={handleSubmit}>
                     <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={LegalStatusTypes.map(type => ({ value: type.value, name: type.name }))} onChange={(name) => setSelectedLegalStatusType(name)} />
-                    <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
-                    <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
-                    <FormInputGroup name="vatRate" label="Taux de TVA (%)" type="text" placeholder="20" error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
+                    <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" required={false} error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
+                    <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" required={false} error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
+                    <FormInputGroup name="vatRate" label="Taux de TVA (%)" type="text" placeholder="20" required={false} error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
                     <FormInputGroup name="validFrom" label="Début de validité" type="date" placeholder="" error={fieldErrors.validFrom ? fieldErrors.validFrom[0] : undefined} />
                     <FormInputGroup name="validTo" label="Fin de validité" type="date" placeholder="" required={false} error={fieldErrors.validTo ? fieldErrors.validTo[0] : undefined} />
                     <span className="checkbox_container">

@@ -2,7 +2,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import Button from "../../components/ui/Button";
 import { PencilIcon, DeleteIcon, StarIcon } from "../../assets/icons/icons";
-import type { schemas } from "../../infrastructure/openApi/client";
+import { type schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
 
 interface BankAccountProps {
@@ -12,13 +12,13 @@ interface BankAccountProps {
     onDelete: (id: string) => void;
 }
 
-function BankAccountDataTables({ bankAccounts, onDefaultBankChange: onDefaultChange, onEdit, onDelete }: BankAccountProps) {
-
+function BankAccountDataTable({ bankAccounts, onDefaultBankChange, onEdit, onDelete }: BankAccountProps) {
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.BankAccountDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
-            {!rowData.isDefault && <Button name="" variant="action" type="button" onClick={() => onDefaultChange(rowData.id)}>
-                <StarIcon size={16} color="var(--color-slate-500)" />
-            </Button>}
+            {!rowData.isDefault &&
+                <Button name="" variant="action" type="button" onClick={() => onDefaultBankChange(rowData.id)}>
+                    <StarIcon size={16} color="var(--color-slate-500)" />
+                </Button>}
             <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
@@ -28,7 +28,7 @@ function BankAccountDataTables({ bankAccounts, onDefaultBankChange: onDefaultCha
         </div>
     );
 
-    return <DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
+    return <><DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
         <Column field="label" header="Intitulé du compte" />
         <Column field="bankName" header="Banque" />
         <Column field="accountHolderName" header="Titulaire du compte" />
@@ -39,6 +39,7 @@ function BankAccountDataTables({ bankAccounts, onDefaultBankChange: onDefaultCha
         }} />
         <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />
     </DataTable>
+    </>
 }
 
-export default BankAccountDataTables;
+export default BankAccountDataTable;
