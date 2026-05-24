@@ -43,7 +43,7 @@ function DirectCustomerDataTable({ directCustomers, onAdd, onView, onEdit, onDel
                 <CustomersIcon size={32} color="var(--color-slate-400)" />
                 <p>Aucun client direct pour le moment.</p>
                 <Button variant="light" name="Ajouter un premier client" width="default" type="button" onClick={() => onAdd()}><PlusSignIcon size={16} /></Button>
-            </div> : <DataTable value={directCustomers} paginator rows={10} scrollable style={{ width: "100%" }} rowClassName={() => "row-separator"} className="customer-table">
+            </div> : <DataTable value={directCustomers} paginator rows={10} scrollable style={{ width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
                 <Column field="name" header="Nom" style={{ minWidth: "200px" }} />
                 <Column field="code" header="Code" style={{ minWidth: "100px" }} />
                 <Column body={contactBodyTemplate} header="Contact" style={{ minWidth: "200px" }} />

@@ -32,7 +32,7 @@ function ProjectDataTable({ projects, onAdd, onEdit, onDelete }: ProjectProps) {
                 <ProjectsIcon size={32} color="var(--color-slate-400)" />
                 <p>Aucun projet pour le moment.</p>
                 <Button variant="light" name="Ajouter un premier projet" width="default" type="button" onClick={() => onAdd()}><PlusSignIcon size={16} /></Button>
-            </div> : <DataTable value={projects} paginator rows={10} scrollable style={{ width: "100%" }} rowClassName={() => "row-separator"} className="customer-table">
+            </div> : <DataTable value={projects} paginator rows={10} scrollable style={{ width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
                 <Column field="name" header="Nom" style={{ minWidth: "200px" }} />
                 <Column field="directCustomer" header="Client direct" style={{ minWidth: "100px" }} body={(rowData: zod.infer<typeof schemas.ProjectDto>) => rowData.directCustomers ? rowData.directCustomers.map(dc => dc.name).join(", ") : ""} />
                 <Column field="endCustomer" header="Client final" style={{ minWidth: "100px" }} body={(rowData: zod.infer<typeof schemas.ProjectDto>) => rowData.endCustomer ? rowData.endCustomer.name : ""} />

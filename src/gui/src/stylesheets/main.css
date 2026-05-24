@@ -24,8 +24,12 @@ body {
     border-bottom: 1px solid var(--color-slate-400) !important;
 }
 
-.customer-table thead th {
+.data_table thead th {
     border-bottom: 2px solid var(--color-slate-400) !important;
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
+}
+
+input:focus::placeholder {
+    color: transparent;
 }

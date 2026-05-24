@@ -28,7 +28,7 @@ function BankAccountDataTables({ bankAccounts, onDefaultBankChange: onDefaultCha
         </div>
     );
 
-    return <DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="customer-table">
+    return <DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
         <Column field="label" header="Intitulé du compte" />
         <Column field="bankName" header="Banque" />
         <Column field="accountHolderName" header="Titulaire du compte" />

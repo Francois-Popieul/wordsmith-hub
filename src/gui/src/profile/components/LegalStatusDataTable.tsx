@@ -23,7 +23,7 @@ function LegalStatusDataTable({ legalStatuses, onEdit, onDelete }: LegalStatusPr
         </div>
     );
 
-    return <DataTable value={legalStatuses} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="customer-table">
+    return <DataTable value={legalStatuses} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
         <Column field="name" header="Type de statut" />
         <Column field="siret" header="SIRET" />
         <Column field="vatNumber" header="Numéro de TVA" />
