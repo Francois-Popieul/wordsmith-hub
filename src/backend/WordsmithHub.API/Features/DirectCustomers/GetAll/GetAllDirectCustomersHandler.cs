@@ -30,11 +30,6 @@ public class GetAllDirectCustomersHandler(
 
         var directCustomers = await repository.GetByFreelanceIdAsync(freelance.Id, cancellationToken);
 
-        if (directCustomers.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.NotFound);
-        }
-
         var customerDtoList = directCustomers.Select(directCustomer => directCustomer.ToDto()).ToList();
 
         return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.Success, customerDtoList);

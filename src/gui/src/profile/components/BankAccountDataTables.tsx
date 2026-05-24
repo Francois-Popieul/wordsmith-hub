@@ -28,7 +28,7 @@ function BankAccountDataTables({ bankAccounts, onDefaultBankChange: onDefaultCha
         </div>
     );
 
-    return <DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: '100%' }} rowClassName={() => 'row-separator'} className="customer-table">
+    return <DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="customer-table">
         <Column field="label" header="Intitulé du compte" />
         <Column field="bankName" header="Banque" />
         <Column field="accountHolderName" header="Titulaire du compte" />
@@ -37,7 +37,7 @@ function BankAccountDataTables({ bankAccounts, onDefaultBankChange: onDefaultCha
             const isDefault = rowData.isDefault;
             return <span style={{ color: isDefault ? "var(--color-blue-dark)" : "", backgroundColor: isDefault ? "var(--color-blue-light)" : "", fontWeight: 600, padding: "0.25rem 0.65rem", borderRadius: "999px" }}>{isDefault ? "★ Par défaut" : ""}</span>;
         }} />
-        <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: '100px' }} bodyStyle={{ minWidth: '100px', display: 'flex', justifyContent: 'flex-end', marginRight: '1rem' }} pt={{ headerContent: { style: { justifyContent: 'flex-end', marginRight: '1rem' } } }} />
+        <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />
     </DataTable>
 }
 

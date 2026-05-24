@@ -1,8 +1,8 @@
 import "./DirectCustomerDataTable.css";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import Button from '../../components/ui/Button';
-import { PencilIcon, DeleteIcon, EyeIcon, CustomersIcon, PlusSignIcon, PhoneIcon, MailIcon } from '../../assets/icons/icons';
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import Button from "../../components/ui/Button";
+import { PencilIcon, DeleteIcon, EyeIcon, CustomersIcon, PlusSignIcon, PhoneIcon, MailIcon } from "../../assets/icons/icons";
 import type { schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
 
@@ -43,11 +43,11 @@ function DirectCustomerDataTable({ directCustomers, onAdd, onView, onEdit, onDel
                 <CustomersIcon size={32} color="var(--color-slate-400)" />
                 <p>Aucun client direct pour le moment.</p>
                 <Button variant="light" name="Ajouter un premier client" width="default" type="button" onClick={() => onAdd()}><PlusSignIcon size={16} /></Button>
-            </div> : <DataTable value={directCustomers} paginator rows={10} scrollable style={{ width: '100%' }} rowClassName={() => 'row-separator'} className="customer-table">
-                <Column field="name" header="Nom" style={{ minWidth: '200px' }} />
-                <Column field="code" header="Code" style={{ minWidth: '100px' }} />
-                <Column body={contactBodyTemplate} header="Contact" style={{ minWidth: '200px' }} />
-                <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: '100px' }} bodyStyle={{ minWidth: '100px', display: 'flex', justifyContent: 'flex-end', marginRight: '1rem' }} pt={{ headerContent: { style: { justifyContent: 'flex-end', marginRight: '1rem' } } }} />
+            </div> : <DataTable value={directCustomers} paginator rows={10} scrollable style={{ width: "100%" }} rowClassName={() => "row-separator"} className="customer-table">
+                <Column field="name" header="Nom" style={{ minWidth: "200px" }} />
+                <Column field="code" header="Code" style={{ minWidth: "100px" }} />
+                <Column body={contactBodyTemplate} header="Contact" style={{ minWidth: "200px" }} />
+                <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />
             </DataTable>}
     </>;
 }

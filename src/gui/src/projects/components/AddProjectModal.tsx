@@ -103,7 +103,7 @@ function AddProjectModal({ isVisible, onClose, onSuccess }: AddProjectModalProps
                         onChange={(values) => setSelectedDirectCustomerIds(values)}
                     />
                     <FormInputGroup name="domain" label="Domaine" placeholder="ex. Marketing" type="text" required error={fieldErrors.domain} />
-                    <FormInputGroup name="endCustomerName" label="Client final" placeholder="ex. Société XYZ" type="text" required error={fieldErrors.endCustomerName} />
+                    <FormInputGroup name="endCustomerName" label="Client final" placeholder="ex. Société XYZ" type="text" required={false} error={fieldErrors.endCustomerName} />
                     <FormInputGroup name="description" label="Description" placeholder="ex. Description du projet" type="text" required={false} error={fieldErrors.description} />
                 </FormModal>
             )}

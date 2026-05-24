@@ -37,9 +37,7 @@ function DirectCustomers() {
                 setDirectCustomers(response);
                 setCustomers(response);
             } catch (error) {
-                if (error instanceof zod.ZodError) {
-                    // 204 No Content: HTTP succeeded but the auto-generated schema can’t parse an empty body
-                } else if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
                     addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des clients directs.", "top_right", 3000);

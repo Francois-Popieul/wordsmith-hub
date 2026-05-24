@@ -32,7 +32,6 @@ function LoginView() {
         }
 
         setFieldErrors({});
-        console.log("User Data:", userData);
 
         try {
             const response = await apiClient.LoginUserEndpoint({ body: { ...userData } });

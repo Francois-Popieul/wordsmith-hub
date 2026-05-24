@@ -2,8 +2,8 @@ using FastEndpoints;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Services.ResourceAccessService;
-using WordsmithHub.Domain.ProjectAggregate;
 using WordsmithHub.Domain.FreelanceAggregate;
+using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.API.Features.Projects.Delete;
 

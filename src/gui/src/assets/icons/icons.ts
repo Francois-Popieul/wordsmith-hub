@@ -23,3 +23,4 @@ export { Mail as MailIcon } from "lucide-react";
 export { Star as StarIcon } from "lucide-react";
 export { ChevronUp as ArrowUpIcon } from "lucide-react";
 export { ChevronDown as ArrowDownIcon } from "lucide-react";
+export { X as CrossIcon } from "lucide-react";
