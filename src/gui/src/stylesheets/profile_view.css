@@ -68,13 +68,9 @@
 }
 
 @media screen and (max-width: 950px) {
-
     .language_container {
         flex-direction: column;
     }
-}
-
-@media screen and (max-width: 768px) {
 
     .multiple_form_section {
         flex-direction: column;
