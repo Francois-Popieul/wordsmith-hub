@@ -95,7 +95,7 @@ function DirectCustomers() {
     }
 
     function handleView(id: string) {
-        // TODO: implement customer view page and navigate to it instead of just logging the id
+        navigate(`/direct-customer/${id}`);
         console.log("View customer with id:", id);
     }
 
