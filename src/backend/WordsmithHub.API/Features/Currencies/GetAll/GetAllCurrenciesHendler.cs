@@ -28,11 +28,8 @@ public class GetAllCurrenciesHandler(
 
         var currencies = await repository.GetAllAsync(cancellationToken);
 
-        if (currencies.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<Currency>>(OperationStatus.NotFound);
-        }
-
-        return new OperationResult<IReadOnlyList<Currency>>(OperationStatus.Success, currencies);
+        return currencies.Count == 0
+            ? new OperationResult<IReadOnlyList<Currency>>(OperationStatus.NotFound)
+            : new OperationResult<IReadOnlyList<Currency>>(OperationStatus.Success, currencies);
     }
 }

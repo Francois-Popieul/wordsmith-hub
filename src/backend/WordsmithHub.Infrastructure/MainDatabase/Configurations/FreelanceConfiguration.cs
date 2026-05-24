@@ -15,7 +15,7 @@ public class FreelanceConfiguration : IEntityTypeConfiguration<Freelance>
         builder.Property(f => f.FirstName).IsRequired().HasMaxLength(50);
         builder.Property(f => f.LastName).IsRequired().HasMaxLength(100);
         builder.Property(f => f.Email).IsRequired().HasMaxLength(255);
-        builder.Property(f => f.Phone).HasMaxLength(15);
+        builder.Property(f => f.Phone).HasMaxLength(20);
         builder.OwnsOne(f => f.Address, a =>
         {
             a.Property(p => p.StreetInfo).IsRequired().HasMaxLength(255).HasColumnName("Address_StreetInfo");

@@ -20,7 +20,7 @@
 }
 
 .link_color {
-    color: var(--color-blue-deep);
+    color: var(--color-white);
 
     &:hover {
         color: var(--color-blue-light);

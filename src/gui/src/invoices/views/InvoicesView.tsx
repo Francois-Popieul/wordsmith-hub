@@ -2,8 +2,15 @@ import { PlusSignIcon } from "../../assets/icons/icons";
 import PageHeader from "../../components/ui/PageHeader";
 import Button from "../../components/ui/Button";
 import AppLayout from "../../components/ui/AppLayout";
+import { Navigate } from "react-router";
 
 function Invoices() {
+    const token = localStorage.getItem("wshToken");
+
+    if (!token) {
+        return <Navigate to="/" />;
+    }
+
     return (
         <>
             <AppLayout>

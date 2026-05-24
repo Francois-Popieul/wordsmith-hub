@@ -17,5 +17,6 @@ public class Freelance : BaseEntity
     public void MarkAsDeleted()
     {
         StatusId = StatusIds.General.Inactive;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

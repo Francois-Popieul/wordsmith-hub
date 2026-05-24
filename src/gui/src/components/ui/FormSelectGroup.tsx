@@ -9,7 +9,7 @@ interface FormSelectGroupProps {
     onChange: (value: string, name: string) => void;
 }
 
-function FormSelectGroup({ label, name, placeholder, options, disabled, required, selected = "", onChange }: FormSelectGroupProps) {
+function FormSelectGroup({ label, name, placeholder, options, disabled, required = false, selected = "", onChange }: FormSelectGroupProps) {
     return <div className="form_group">
         <label htmlFor={name} className="form_label">{label}{required && <span className="form_required_field">*</span>}</label>
         <select

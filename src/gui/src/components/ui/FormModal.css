@@ -1,0 +1,91 @@
+.form_modal_backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: var(--modal-backdrop);
+    padding: 1rem 0;
+    z-index: 999;
+}
+
+.form_modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: var(--color-slate-50);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    z-index: 1000;
+    border: solid 1px var(--color-slate-400);
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.form_modal_content {
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.form_modal_header_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+}
+
+.form_modal_header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.form_modal_title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-slate-900);
+}
+
+.form_modal_presentation {
+    font-size: 1rem;
+    color: var(--color-slate-700);
+}
+
+.form_modal_header_button_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0;
+}
+
+.form_modal_header_close_button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-slate-700);
+}
+
+.form_modal_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    padding: 0 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+}

@@ -1,8 +1,9 @@
 name: CI-frontend
 
 on:
+  workflow_call:
   push:
-    branches: [main, staging, develop]
+    branches: [main, staging, dev]
   pull_request:
     branches: [main, staging]
 

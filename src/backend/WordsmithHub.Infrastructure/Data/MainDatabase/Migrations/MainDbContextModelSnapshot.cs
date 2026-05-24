@@ -67,6 +67,25 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.ToTable("FreelanceTargetLanguages");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FriendlyName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Xml")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataProtectionKeys");
+                });
+
             modelBuilder.Entity("ProjectDirectCustomers", b =>
                 {
                     b.Property<Guid>("DirectCustomerId")
@@ -110,8 +129,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Property<string>("Iban")
                         .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("character varying(34)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("boolean");
@@ -328,8 +346,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("SiretOrSiren")
                         .HasMaxLength(15)
@@ -405,8 +423,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
@@ -558,11 +576,11 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("ValidFrom")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("ValidTo")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset?>("ValidTo")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("VatExemption")
                         .HasColumnType("boolean");

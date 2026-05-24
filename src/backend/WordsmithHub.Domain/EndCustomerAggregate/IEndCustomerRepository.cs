@@ -15,4 +15,6 @@ public interface IEndCustomerRepository : IRepository<EndCustomer>
         Guid freelanceId,
         string query,
         CancellationToken cancellationToken = default);
+
+    Task<EndCustomer?> GetByNameAsync(string endCustomerName, CancellationToken cancellationToken = default);
 }

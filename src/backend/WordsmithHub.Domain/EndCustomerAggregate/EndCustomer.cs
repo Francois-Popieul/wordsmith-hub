@@ -9,5 +9,6 @@ public class EndCustomer : BaseEntity
     public void MarkAsDeleted()
     {
         StatusId = StatusIds.General.Inactive;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

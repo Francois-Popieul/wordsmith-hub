@@ -10,6 +10,11 @@ function AppBurgerMenu() {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    function handleLogout() {
+        localStorage.removeItem("wshToken");
+        navigate("/");
+    }
+
     return (
         <div className="app_burger_menu">
             <button
@@ -28,7 +33,7 @@ function AppBurgerMenu() {
                     <Button name="Commandes" variant="blue" width="medium" onClick={() => handleNav("/orders")}><OrdersIcon /></Button>
                     <Button name="Factures" variant="blue" width="medium" onClick={() => handleNav("/invoices")}><InvoicesIcon /></Button>
                     <Button name="Profil" variant="blue" width="medium" onClick={() => handleNav("/profile")}><ProfileIcon /></Button>
-                    <Button name="Déconnexion" variant="blue" width="medium" onClick={() => handleNav("/logout")}><LogoutIcon /></Button>
+                    <Button name="Déconnexion" variant="blue" width="medium" onClick={handleLogout}><LogoutIcon /></Button>
                 </div>
             )}
         </div>

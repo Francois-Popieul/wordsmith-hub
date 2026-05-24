@@ -40,4 +40,12 @@ public class EndCustomerRepository(MainDbContext context) : Repository<EndCustom
             .Distinct()
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<EndCustomer?> GetByNameAsync(string endCustomerName,
+        CancellationToken cancellationToken = default)
+    {
+        return await Context.EndCustomers.AsNoTracking()
+            .Where(c => c.Name == endCustomerName)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

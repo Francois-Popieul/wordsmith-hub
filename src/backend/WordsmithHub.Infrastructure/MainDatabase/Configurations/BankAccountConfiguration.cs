@@ -14,7 +14,7 @@ public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
         builder.Property(a => a.Label).IsRequired().HasMaxLength(50);
         builder.Property(a => a.BankName).IsRequired().HasMaxLength(100);
         builder.Property(a => a.AccountHolderName).IsRequired().HasMaxLength(150);
-        builder.Property(a => a.Iban).IsRequired().HasMaxLength(34);
+        builder.Property(a => a.Iban).IsRequired();
         builder.Property(a => a.Bic).IsRequired().HasMaxLength(11);
         builder.Property(a => a.IsDefault).IsRequired();
         builder.Property(a => a.CreatedAt).IsRequired();

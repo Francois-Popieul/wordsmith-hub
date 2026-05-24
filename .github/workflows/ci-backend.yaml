@@ -4,8 +4,9 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 on:
+  workflow_call:
   push:
-    branches: [main, staging]
+    branches: [main, staging, dev]
     paths:
       - "src/backend/**"
       - "WordsmithHub.sln"

@@ -19,3 +19,17 @@ body {
     white-space: nowrap;
     border: 0;
 }
+
+.row-separator td {
+    border-bottom: 1px solid var(--color-slate-400) !important;
+}
+
+.data_table thead th {
+    border-bottom: 2px solid var(--color-slate-400) !important;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}

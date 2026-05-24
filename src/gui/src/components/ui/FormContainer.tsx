@@ -16,6 +16,7 @@ interface FormContainerProps {
     isEditing: boolean;
     modifyDisabled?: boolean;
     onModify: () => void;
+    onModifyDisabled?: () => void;
     onCancel: () => void;
     onSubmit: React.ReactEventHandler<HTMLFormElement>;
 }
@@ -31,6 +32,7 @@ function FormContainer({
     isEditing,
     modifyDisabled,
     onModify,
+    onModifyDisabled,
     onCancel,
     onSubmit
 }: FormContainerProps) {
@@ -63,14 +65,16 @@ function FormContainer({
                             />
                         </>
                     ) : (
-                        <Button
-                            type="button"
-                            name={modify_button_name}
-                            variant="blue"
-                            width="medium"
-                            disabled={modifyDisabled}
-                            onClick={onModify}
-                        />
+                        <span style={{ display: "inline-block" }} onClick={modifyDisabled ? onModifyDisabled : undefined}>
+                            <Button
+                                type="button"
+                                name={modify_button_name}
+                                variant="blue"
+                                width="medium"
+                                disabled={modifyDisabled}
+                                onClick={onModify}
+                            />
+                        </span>
                     )}
                 </div>
             </section>

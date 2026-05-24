@@ -24,7 +24,7 @@ public class UpdateDirectCustomerRequestValidator : Validator<UpdateDirectCustom
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(150);
         RuleFor(x => x.Code).NotEmpty().MaximumLength(5);
-        RuleFor(x => x.Phone).MaximumLength(15);
+        RuleFor(x => x.Phone).MaximumLength(20);
         RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
         RuleFor(x => x.Address).NotNull();
         When(x => x.Address != null, () =>

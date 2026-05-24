@@ -1,11 +1,13 @@
 using FastEndpoints;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
 
@@ -35,6 +37,14 @@ public abstract class TestWebApplicationFactory(string roles) : WebApplicationFa
 
         builder.ConfigureServices(services =>
         {
+            services.RemoveAll<IConfigureOptions<CorsOptions>>();
+            services.AddCors(options =>
+                options.AddDefaultPolicy(policy =>
+                    policy.WithOrigins("http://localhost")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()));
+
             services.RemoveAll<DbContextOptions<MainDbContext>>();
             services.RemoveAll<MainDbContext>();
             services.RemoveAll<DbContextOptions<IdentityDbContext>>();

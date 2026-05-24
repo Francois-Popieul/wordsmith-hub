@@ -23,5 +23,6 @@ public class Rate : BaseEntity, IBelongsToFreelance
     public void MarkAsDeleted()
     {
         StatusId = StatusIds.General.Inactive;
+        UpdatedAt = DateTime.UtcNow;
     }
 }
