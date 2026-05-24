@@ -20,6 +20,7 @@ import { useToast } from "../../hooks/useToast";
 import LegalStatusListContainer from "../components/LegalStatusListContainer";
 import BankAcountListContainer from "../components/BankAcountListContainer";
 import { Navigate } from "react-router";
+import Label from "../components/Label";
 
 function ProfileView() {
     const token = localStorage.getItem("wshToken");
@@ -180,7 +181,6 @@ function ProfileView() {
             city: formData.get("city") as string,
             countryId: parseInt(formData.get("countryId") as string, 10),
         };
-        console.log("Submitted address data:", addressData);
 
         const validationResult = addressSchema.safeParse(addressData);
         if (!validationResult.success) {
@@ -448,58 +448,72 @@ function ProfileView() {
                             onSubmit={handleSubmitLanguages}>
                             <div className="language_container">
                                 <div className="source_language_container">
-                                    <h3 className="language_title">Langues source</h3>
-                                    <p></p>
-                                    <div className="language_list">{
-                                        languages.map(language => (
-                                            <CheckboxOption
-                                                key={language.id}
-                                                name={`source-language-${language.id}`}
-                                                label={language.name}
-                                                checked={profileData.sourceLanguages.some(l => l.id === language.id)}
-                                                disabled={editingForm !== "languages"}
-                                                onChange={() => {
-                                                    setProfileData(prev => {
-                                                        if (!prev) return prev;
-                                                        const isSelected = prev.sourceLanguages.some(l => l.id === language.id);
-                                                        return {
-                                                            ...prev,
-                                                            sourceLanguages: isSelected
-                                                                ? prev.sourceLanguages.filter(l => l.id !== language.id)
-                                                                : [...prev.sourceLanguages, language]
-                                                        };
-                                                    });
-                                                }}
-                                            />
-                                        ))
-                                    }</div>
+                                    <div>
+                                        <h3 className="language_title">Langues source</h3>
+                                        {profileData.sourceLanguages.length > 0 ? <div className="label_list">{profileData.sourceLanguages.map(language => (
+                                            <Label key={language.id} name={language.name} />
+                                        ))}</div> : (editingForm !== "languages" ? <p className="no_selection">Aucune langue sélectionnée</p> : null)}
+                                    </div>
+                                    {editingForm === "languages" &&
+                                        <div className="language_list">{
+                                            languages.map(language => (
+                                                <CheckboxOption
+                                                    key={language.id}
+                                                    name={`source-language-${language.id}`}
+                                                    label={language.name}
+                                                    checked={profileData.sourceLanguages.some(l => l.id === language.id)}
+                                                    disabled={editingForm !== "languages"}
+                                                    onChange={() => {
+                                                        setProfileData(prev => {
+                                                            if (!prev) return prev;
+                                                            const isSelected = prev.sourceLanguages.some(l => l.id === language.id);
+                                                            return {
+                                                                ...prev,
+                                                                sourceLanguages: isSelected
+                                                                    ? prev.sourceLanguages.filter(l => l.id !== language.id)
+                                                                    : [...prev.sourceLanguages, language]
+                                                            };
+                                                        });
+                                                    }}
+                                                />
+                                            ))
+                                        }
+                                        </div>
+                                    }
                                 </div>
                                 <div className="target_language_container">
-                                    <h3 className="language_title">Langues cible</h3>
-                                    <p></p>
-                                    <div className="language_list">{
-                                        languages.map(language => (
-                                            <CheckboxOption
-                                                key={language.id}
-                                                name={`target-language-${language.id}`}
-                                                label={language.name}
-                                                checked={profileData.targetLanguages.some(l => l.id === language.id)}
-                                                disabled={editingForm !== "languages"}
-                                                onChange={() => {
-                                                    setProfileData(prev => {
-                                                        if (!prev) return prev;
-                                                        const isSelected = prev.targetLanguages.some(l => l.id === language.id);
-                                                        return {
-                                                            ...prev,
-                                                            targetLanguages: isSelected
-                                                                ? prev.targetLanguages.filter(l => l.id !== language.id)
-                                                                : [...prev.targetLanguages, language]
-                                                        };
-                                                    });
-                                                }}
-                                            />
-                                        ))
-                                    }</div>
+                                    <div>
+                                        <h3 className="language_title">Langues cible</h3>
+                                        {profileData.targetLanguages.length > 0 ? <div className="label_list">{profileData.targetLanguages.map(language => (
+                                            <Label key={language.id} name={language.name} />
+                                        ))}</div> : (editingForm !== "languages" ? <p className="no_selection">Aucune langue sélectionnée</p> : null)}
+                                    </div>
+                                    {editingForm === "languages" &&
+                                        <div className="language_list">{
+                                            languages.map(language => (
+                                                <CheckboxOption
+                                                    key={language.id}
+                                                    name={`target-language-${language.id}`}
+                                                    label={language.name}
+                                                    checked={profileData.targetLanguages.some(l => l.id === language.id)}
+                                                    disabled={editingForm !== "languages"}
+                                                    onChange={() => {
+                                                        setProfileData(prev => {
+                                                            if (!prev) return prev;
+                                                            const isSelected = prev.targetLanguages.some(l => l.id === language.id);
+                                                            return {
+                                                                ...prev,
+                                                                targetLanguages: isSelected
+                                                                    ? prev.targetLanguages.filter(l => l.id !== language.id)
+                                                                    : [...prev.targetLanguages, language]
+                                                            };
+                                                        });
+                                                    }}
+                                                />
+                                            ))
+                                        }
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             {fieldErrors.languages && <p className="form_error_message">{fieldErrors.languages[0]}</p>}
@@ -519,9 +533,11 @@ function ProfileView() {
                             onCancel={handleCancelService}
                             onSubmit={handleSubmitServices}>
                             <div className="service_container">
-                                <h3 className="language_title">&nbsp;</h3>
-                                <p></p>
-                                <div className="service_list">{
+                                <div>
+                                    <h3 className="language_title">&nbsp;</h3>
+                                    {profileData.services.length > 0 ? <div className="label_list">{profileData.services.map(service => <Label key={service.id} name={service.name} />)}</div> : (editingForm !== "services" ? <p className="no_selection">Aucun service sélectionné</p> : null)}
+                                </div>
+                                {editingForm === "services" && <div className="service_list">{
                                     services.map(service => (
                                         <CheckboxOption
                                             key={service.id}
@@ -543,7 +559,7 @@ function ProfileView() {
                                             }}
                                         />
                                     ))
-                                }</div>
+                                }</div>}
                             </div>
                             {fieldErrors.services && <p className="form_error_message">{fieldErrors.services[0]}</p>}
                         </FormContainer>

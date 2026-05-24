@@ -28,11 +28,8 @@ public class GetAllCountriesHandler(
 
         var countries = await repository.GetAllAsync(cancellationToken);
 
-        if (countries.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<Country>>(OperationStatus.NotFound);
-        }
-
-        return new OperationResult<IReadOnlyList<Country>>(OperationStatus.Success, countries);
+        return countries.Count == 0
+            ? new OperationResult<IReadOnlyList<Country>>(OperationStatus.NotFound)
+            : new OperationResult<IReadOnlyList<Country>>(OperationStatus.Success, countries);
     }
 }

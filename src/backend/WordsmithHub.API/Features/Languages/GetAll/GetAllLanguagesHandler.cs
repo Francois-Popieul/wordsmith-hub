@@ -28,11 +28,8 @@ public class GetAllLanguagesHandler(
 
         var translationLanguages = await repository.GetAllAsync(cancellationToken);
 
-        if (translationLanguages.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<TranslationLanguage>>(OperationStatus.NotFound);
-        }
-
-        return new OperationResult<IReadOnlyList<TranslationLanguage>>(OperationStatus.Success, translationLanguages);
+        return translationLanguages.Count == 0
+            ? new OperationResult<IReadOnlyList<TranslationLanguage>>(OperationStatus.NotFound)
+            : new OperationResult<IReadOnlyList<TranslationLanguage>>(OperationStatus.Success, translationLanguages);
     }
 }

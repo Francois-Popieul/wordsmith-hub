@@ -32,7 +32,6 @@ function LoginView() {
         }
 
         setFieldErrors({});
-        console.log("User Data:", userData);
 
         try {
             const response = await apiClient.LoginUserEndpoint({ body: { ...userData } });
@@ -52,7 +51,7 @@ function LoginView() {
             <AuthFormContainer title="Bienvenue" presentation="Connectez-vous pour accéder à votre tableau de bord" button_name="Se connecter" link={{ link_message: "Pas encore de compte ?", link_destination: "/signup", link_text: "S’inscrire" }} onSubmit={handleSubmit}>
                 <FormInputGroup label="E-mail" type="email" name="email" placeholder="jean.dupont@exemple.com" error={fieldErrors.email?.[0]} />
                 <FormInputGroup label="Mot de passe" type="password" name="password" placeholder="************" error={fieldErrors.password?.[0]} />
-                <Link to="/forgot-password" className="button_link"><div className="forgotten_password_container"><p className="forgotten_password">Mot de passe oublié&nbsp;?</p></div></Link>
+                <div className="forgotten_password_container"><Link to="/forgot-password"><p>Mot de passe oublié&nbsp;?</p></Link></div>
             </AuthFormContainer>
         </main>
     );

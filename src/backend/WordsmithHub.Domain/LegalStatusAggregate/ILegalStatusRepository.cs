@@ -5,4 +5,6 @@ public interface ILegalStatusRepository : IRepository<LegalStatus>
     Task<IReadOnlyList<LegalStatus>> GetByFreelanceIdAsync(
         Guid freelanceId,
         CancellationToken cancellationToken = default);
+
+    Task ArchiveAsync(LegalStatus legalStatus, CancellationToken cancellationToken = default);
 }

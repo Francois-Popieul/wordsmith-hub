@@ -18,6 +18,7 @@ function LegalStatusListContainer() {
     const [legalStatuses, setLegalStatuses] = useState<LegalStatusDto[]>([]);
     const { addToast } = useToast();
     const [isAddLegalStatusModalVisible, setIsAddLegalStatusModalVisible] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         const fetchLegalStatuses = async () => {
@@ -33,7 +34,7 @@ function LegalStatusListContainer() {
             }
         };
         fetchLegalStatuses();
-    }, [apiClient, addToast]);
+    }, [apiClient, addToast, refreshKey]);
 
     async function handleAddLegalStatus() {
         setIsAddLegalStatusModalVisible(true);
@@ -53,7 +54,7 @@ function LegalStatusListContainer() {
             >
                 <LegalStatusDataTable legalStatuses={legalStatuses} onEdit={(id) => addToast("information", `Modifier le statut juridique avec l’ID ${id}`, "top_right", 3000)} onDelete={(id) => addToast("information", `Supprimer le statut juridique avec l’ID ${id}`, "top_right", 3000)} />
             </ListContainer>
-            <AddLegalStatusModal isVisible={isAddLegalStatusModalVisible} onClose={() => setIsAddLegalStatusModalVisible(false)} />
+            <AddLegalStatusModal isVisible={isAddLegalStatusModalVisible} onClose={() => setIsAddLegalStatusModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
         </>
     );
 }

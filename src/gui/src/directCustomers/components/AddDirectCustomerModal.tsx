@@ -13,9 +13,10 @@ import type { Country } from "../../types/Country";
 interface AddDirectCustomerModalProps {
     isVisible: boolean;
     onClose: () => void;
+    onSuccess?: () => void;
 }
 
-function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalProps) {
+function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCustomerModalProps) {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
@@ -90,8 +91,8 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
                 state: null,
                 countryId: selectedCountryId!,
             },
-            siret: formData.get("siret") as string || null,
-            paymentDelay: formData.get("paymentDelay") as string,
+            siretOrSiren: formData.get("siretOrSiren") as string || null,
+            paymentDelay: Number(formData.get("paymentDelay")),
             currencyId: selectedCurrency!,
         };
 
@@ -110,6 +111,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
                 }
             });
             handleClose();
+            onSuccess?.();
             addToast("success", "Client direct ajouté !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -141,7 +143,7 @@ function AddDirectCustomerModal({ isVisible, onClose }: AddDirectCustomerModalPr
                         <FormSelectGroup name="countryId" label="Pays" options={countries.map(country => ({ value: country.id.toString(), name: country.name }))} placeholder="-- Sélectionnez le pays --" selected={selectedCountryId?.toString() || ""} required={true} onChange={(value) => setSelectedCountryId(parseInt(value))} >
                         </FormSelectGroup>
                     </div>
-                    <FormInputGroup name="siret" label="SIRET" placeholder="ex. FR123456789012" type="text" required={false} error={fieldErrors.siret} />
+                    <FormInputGroup name="siretOrSiren" label="SIRET/SIREN" placeholder="ex. FR123456789012" type="text" required={false} error={fieldErrors.siretOrSiren} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="paymentDelay" label="Délai de paiement (jours)" placeholder="ex. 30" type="text" required error={fieldErrors.paymentDelay} />
                         <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="-- Sélectionnez la devise --" selected={selectedCurrency?.toString() || ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />

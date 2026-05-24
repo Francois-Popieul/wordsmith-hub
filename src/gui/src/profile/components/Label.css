@@ -1,0 +1,28 @@
+.label_container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-blue-light);
+    padding: 4px 8px;
+    border-radius: 16px;
+    width: fit-content;
+}
+
+.label_text {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-blue-dark);
+    font-size: 0.9rem;
+}
+
+.label_button {
+    background: none;
+    border: none;
+    color: var(--color-blue-dark);
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+}

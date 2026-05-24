@@ -10,9 +10,10 @@ import zod from "zod";
 interface AddBankAccountModalProps {
     isVisible: boolean;
     onClose: () => void;
+    onSuccess?: () => void;
 }
 
-function AddBankAccountModal({ isVisible, onClose }: AddBankAccountModalProps) {
+function AddBankAccountModal({ isVisible, onClose, onSuccess }: AddBankAccountModalProps) {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
@@ -55,6 +56,7 @@ function AddBankAccountModal({ isVisible, onClose }: AddBankAccountModalProps) {
                 }
             });
             handleClose();
+            onSuccess?.();
             addToast("success", "Compte bancaire ajouté !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {

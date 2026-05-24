@@ -18,6 +18,7 @@ public class BankAccount : BaseEntity, IBelongsToFreelance
 
     public void MarkAsDeleted()
     {
+        IsDefault = false;
         StatusId = StatusIds.General.Inactive;
         UpdatedAt = DateTime.UtcNow;
     }

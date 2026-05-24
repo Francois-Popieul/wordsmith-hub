@@ -20,7 +20,7 @@ public static class BankAccountExtensions
             AccountHolderName = bankAccount.AccountHolderName,
             Iban = bankAccount.DisplayIban(),
             Bic = bankAccount.Bic,
-            IsDefault = bankAccount.IsDefault,
+            IsDefault = bankAccount.IsDefault
         };
     }
 }

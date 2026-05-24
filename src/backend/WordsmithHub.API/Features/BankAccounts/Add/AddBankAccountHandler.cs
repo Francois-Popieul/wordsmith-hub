@@ -36,6 +36,11 @@ public class AddBankAccountHandler(
             return OperationResult.Forbidden<Guid>();
         }
 
+        if (await repository.ExistsWithIbanAsync(command.Iban, cancellationToken))
+        {
+            return OperationResult.Conflict<Guid>();
+        }
+
         var defaultBankAccount = await repository.GetDefaultForFreelanceAsync(freelance.Id, cancellationToken);
 
         var bankAccount = factory.CreateBankAccount(

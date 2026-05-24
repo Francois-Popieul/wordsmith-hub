@@ -91,8 +91,8 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                 state: null,
                 countryId: (selectedCountryId ?? customer?.address.countryId)!,
             },
-            siret: formData.get("siret") as string || null,
-            paymentDelay: formData.get("paymentDelay") as string,
+            siretOrSiren: formData.get("siretOrSiren") as string || null,
+            paymentDelay: Number(formData.get("paymentDelay")),
             currencyId: (selectedCurrency ?? customer?.currencyId)!,
         };
 
@@ -113,8 +113,8 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                     email: directCustomerData.email,
                     phone: directCustomerData.phone,
                     address: directCustomerData.address,
-                    siretOrSiren: directCustomerData.siret,
-                    paymentDelay: parseInt(directCustomerData.paymentDelay),
+                    siretOrSiren: directCustomerData.siretOrSiren,
+                    paymentDelay: directCustomerData.paymentDelay,
                     currencyId: directCustomerData.currencyId,
                 },
             });

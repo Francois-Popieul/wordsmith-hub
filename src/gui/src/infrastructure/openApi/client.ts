@@ -10,16 +10,58 @@ const AppUserDto = z.object({
   phoneNumber: z.string().nullable(),
 });
 const Service = z.object({ id: z.number().int(), name: z.string() });
-const LegalStatusDto = z.object({
+const EndCustomerDto = z.object({
   id: z.string(),
   name: z.string(),
-  siret: z.string().nullable(),
-  vatNumber: z.string().nullable(),
-  vatExemption: z.boolean(),
-  vatRate: z.number().nullable(),
-  taxDeductionExemption: z.boolean(),
-  validFrom: z.string().datetime({ offset: true }),
-  validTo: z.string().datetime({ offset: true }).nullable(),
+  statusId: z.number().int(),
+});
+const AddressDto = z.object({
+  streetInfo: z.string(),
+  addressComplement: z.string().nullable(),
+  postCode: z.string(),
+  city: z.string(),
+  state: z.string().nullable(),
+  countryId: z.number().int(),
+});
+const DirectCustomerDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  code: z.string(),
+  phone: z.string().nullable(),
+  email: z.string(),
+  address: AddressDto,
+  siretOrSiren: z.string().nullable(),
+  paymentDelay: z.number().int(),
+  currencyId: z.number().int(),
+  statusId: z.number().int(),
+});
+const ProjectDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  domain: z.string(),
+  description: z.string().nullable(),
+  endCustomer: EndCustomerDto.nullable(),
+  directCustomers: z.array(DirectCustomerDto),
+  statusId: z.number().int(),
+});
+const NoContent = z.object({});
+const AddProjectRequest = z.object({
+  name: z.string().min(0).max(150),
+  domain: z.string().min(0).max(100),
+  description: z.string().min(0).max(1000).nullish(),
+  directCustomerIds: z.array(z.string()),
+  endCustomerName: z.string().nullish(),
+});
+const UpdateLegalStatusRequest = z.object({
+  legalStatusId: z.string().min(1),
+  name: z.string().optional(),
+  siret: z.string().nullish(),
+  vatNumber: z.string().nullish(),
+  vatExemption: z.boolean().optional(),
+  vatRate: z.number().nullish(),
+  taxDeductionExemption: z.boolean().optional(),
+  validFrom: z.string().datetime({ offset: true }).optional(),
+  validTo: z.string().datetime({ offset: true }).nullish(),
 });
 const AddLegalStatusRequest = z.object({
   name: z.string().min(0).max(50),
@@ -30,6 +72,17 @@ const AddLegalStatusRequest = z.object({
   taxDeductionExemption: z.boolean().optional(),
   validFrom: z.string().datetime({ offset: true }).optional(),
   validTo: z.string().datetime({ offset: true }).nullish(),
+});
+const LegalStatusDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  siret: z.string().nullable(),
+  vatNumber: z.string().nullable(),
+  vatExemption: z.boolean(),
+  vatRate: z.number().nullable(),
+  taxDeductionExemption: z.boolean(),
+  validFrom: z.string().datetime({ offset: true }),
+  validTo: z.string().datetime({ offset: true }).nullable(),
 });
 const TranslationLanguage = z.object({
   id: z.number().int(),
@@ -57,7 +110,6 @@ const UpdateFreelanceRequest = z.object({
   phone: z.string().min(0).max(20).nullish(),
   address: Address,
 });
-const NoContent = z.object({});
 const UpdateFreelanceLanguagesRequest = z.object({
   sourceLanguageIds: z.array(z.number().int()),
   targetLanguageIds: z.array(z.number().int()),
@@ -75,14 +127,6 @@ const UpdateFreelancePersonalDataRequest = z.object({
 });
 const UpdateFreelanceServicesRequest = z.object({
   serviceIds: z.array(z.number().int()),
-});
-const AddressDto = z.object({
-  streetInfo: z.string(),
-  addressComplement: z.string().nullable(),
-  postCode: z.string(),
-  city: z.string(),
-  state: z.string().nullable(),
-  countryId: z.number().int(),
 });
 const ProfileDto = z.object({
   id: z.string(),
@@ -120,18 +164,6 @@ const UpdateDirectCustomerRequest = z.object({
   paymentDelay: z.number().int(),
   currencyId: z.number().int(),
 });
-const DirectCustomerDto = z.object({
-  id: z.string(),
-  name: z.string(),
-  code: z.string(),
-  phone: z.string().nullable(),
-  email: z.string(),
-  address: AddressDto,
-  siretOrSiren: z.string().nullable(),
-  paymentDelay: z.number().int(),
-  currencyId: z.number().int(),
-  statusId: z.number().int(),
-});
 const AddDirectCustomerRequest = z.object({
   name: z.string().min(0).max(150),
   code: z.string().min(0).max(5),
@@ -159,13 +191,13 @@ const Country = z.object({
   code: z.string(),
   isEuropeanUnionMember: z.boolean(),
 });
-const BankAccountDto = z.object({
-  id: z.string(),
-  label: z.string(),
-  bankName: z.string(),
-  accountHolderName: z.string(),
-  iban: z.string(),
-  bic: z.string(),
+const UpdateBankAccountRequest = z.object({
+  bankAccountId: z.string().min(1),
+  label: z.string().min(0).max(100),
+  bankName: z.string().min(0).max(100),
+  accountHolderName: z.string().min(0).max(100),
+  iban: z.string().min(0).max(34),
+  bic: z.string().min(0).max(11),
   isDefault: z.boolean(),
 });
 const AddBankAccountRequest = z.object({
@@ -174,6 +206,15 @@ const AddBankAccountRequest = z.object({
   accountHolderName: z.string(),
   iban: z.string(),
   bic: z.string(),
+});
+const BankAccountDto = z.object({
+  id: z.string(),
+  label: z.string(),
+  bankName: z.string(),
+  accountHolderName: z.string(),
+  iban: z.string(),
+  bic: z.string(),
+  isDefault: z.boolean(),
 });
 const LoginUserRequest = z.object({
   email: z
@@ -206,26 +247,31 @@ const RegisterUserRequest = z.object({
 export const schemas = {
   AppUserDto,
   Service,
-  LegalStatusDto,
+  EndCustomerDto,
+  AddressDto,
+  DirectCustomerDto,
+  ProjectDto,
+  NoContent,
+  AddProjectRequest,
+  UpdateLegalStatusRequest,
   AddLegalStatusRequest,
+  LegalStatusDto,
   TranslationLanguage,
   Address,
   UpdateFreelanceAddressRequest,
   UpdateFreelanceRequest,
-  NoContent,
   UpdateFreelanceLanguagesRequest,
   UpdateFreelancePersonalDataRequest,
   UpdateFreelanceServicesRequest,
-  AddressDto,
   ProfileDto,
   FreelanceDto,
   UpdateDirectCustomerRequest,
-  DirectCustomerDto,
   AddDirectCustomerRequest,
   Currency,
   Country,
-  BankAccountDto,
+  UpdateBankAccountRequest,
   AddBankAccountRequest,
+  BankAccountDto,
   LoginUserRequest,
   AccessTokenResponse,
   RegisterUserRequest,
@@ -293,6 +339,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/auth/register", params, z.string(), config),
+    UpdateBankAccountEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("put", "/bankaccount", params, z.string(), config),
     AddBankAccountEndpoint: (
       params: {
         body?: unknown;
@@ -301,6 +355,30 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/bankaccount", params, z.string(), config),
+    UpdateDefaultBankAccountEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("put", "/bankaccount/:bankAccountId", params, z.string(), config),
+    DeleteBankAccountEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "delete",
+        "/bankaccount/:bankAccountId",
+        params,
+        z.object({}),
+        config
+      ),
     GetAllBankAccountsEndpoint: (
       params: {
         body?: unknown;
@@ -508,6 +586,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.array(TranslationLanguage),
         config
       ),
+    UpdateLegalStatusEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("put", "/legalstatus", params, z.string(), config),
     AddLegalStatusEndpoint: (
       params: {
         body?: unknown;
@@ -516,6 +602,21 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/legalstatus", params, z.string(), config),
+    DeleteLegalStatusEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "delete",
+        "/legalstatus/:legalStatusId",
+        params,
+        z.object({}),
+        config
+      ),
     GetAllLegalStatusesEndpoint: (
       params: {
         body?: unknown;
@@ -525,6 +626,30 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       config?: AxiosRequestConfig
     ) =>
       request("get", "/legalstatuses", params, z.array(LegalStatusDto), config),
+    AddProjectEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("post", "/project", params, z.string(), config),
+    DeleteProjectEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("delete", "/project/:projectId", params, z.object({}), config),
+    GetAllProjectsEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/projects", params, z.array(ProjectDto), config),
     GetAllServicesEndpoint: (
       params: {
         body?: unknown;
@@ -549,7 +674,10 @@ export function getTagByAlias(alias: string): string | undefined {
   const endpointMap: Record<string, string | undefined> = {
     LoginUserEndpoint: "authentication",
     RegisterUserEndpoint: "authentication",
+    UpdateBankAccountEndpoint: "bankaccount",
     AddBankAccountEndpoint: "bankaccount",
+    UpdateDefaultBankAccountEndpoint: "bankaccount",
+    DeleteBankAccountEndpoint: "bankaccount",
     GetAllBankAccountsEndpoint: "bankaccount",
     GetAllCountriesEndpoint: "countries",
     GetAllCurrenciesEndpoint: "currencies",
@@ -567,8 +695,13 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateFreelanceServicesEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
     GetAllLanguagesEndpoint: "languages",
+    UpdateLegalStatusEndpoint: "legalstatus",
     AddLegalStatusEndpoint: "legalstatus",
+    DeleteLegalStatusEndpoint: "legalstatus",
     GetAllLegalStatusesEndpoint: "legalstatus",
+    AddProjectEndpoint: "project",
+    DeleteProjectEndpoint: "project",
+    GetAllProjectsEndpoint: "projects",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
   };
