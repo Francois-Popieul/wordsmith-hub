@@ -40,7 +40,7 @@ jobs:
           upload-result: true
           pr-mode: false
           use-caches: false
-          args: --image jetbrains/qodana-cdnet:2026.1‑eap
+          args: --image jetbrains/qodana-cdnet:2026.1
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_825887637 }}
           QODANA_ENDPOINT: "https://qodana.cloud"
