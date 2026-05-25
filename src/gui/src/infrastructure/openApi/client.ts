@@ -9,7 +9,15 @@ const AppUserDto = z.object({
   userName: z.string(),
   phoneNumber: z.string().nullable(),
 });
+const Status = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  category: z.string(),
+});
 const Service = z.object({ id: z.number().int(), name: z.string() });
+const UpdateProjectStatusRequest = z.object({
+  statusId: z.number().int().gt(30).lt(31),
+});
 const EndCustomerDto = z.object({
   id: z.string(),
   name: z.string(),
@@ -246,7 +254,9 @@ const RegisterUserRequest = z.object({
 
 export const schemas = {
   AppUserDto,
+  Status,
   Service,
+  UpdateProjectStatusRequest,
   EndCustomerDto,
   AddressDto,
   DirectCustomerDto,
@@ -571,6 +581,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/freelances", params, z.array(FreelanceDto), config),
+    GetAllInvoiceStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/invoice-statuses", params, z.array(Status), config),
     GetAllLanguagesEndpoint: (
       params: {
         body?: unknown;
@@ -634,6 +652,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/project", params, z.string(), config),
+    GetAllProjectStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/project-statuses", params, z.array(Status), config),
     DeleteProjectEndpoint: (
       params: {
         body?: unknown;
@@ -642,6 +668,15 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("delete", "/project/:projectId", params, z.object({}), config),
+    UpdateProjectStatusEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("put", "/project/:projectId/status", params, z.string(), config),
     GetAllProjectsEndpoint: (
       params: {
         body?: unknown;
@@ -666,6 +701,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/user/:userId", params, AppUserDto, config),
+    GetAllWorkOrderStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/workorder-statuses", params, z.array(Status), config),
   };
 }
 
@@ -694,16 +737,20 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateFreelancePersonalDataEndpoint: "freelance",
     UpdateFreelanceServicesEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
+    GetAllInvoiceStatusesEndpoint: "statuses",
     GetAllLanguagesEndpoint: "languages",
     UpdateLegalStatusEndpoint: "legalstatus",
     AddLegalStatusEndpoint: "legalstatus",
     DeleteLegalStatusEndpoint: "legalstatus",
     GetAllLegalStatusesEndpoint: "legalstatus",
     AddProjectEndpoint: "project",
+    GetAllProjectStatusesEndpoint: "statuses",
     DeleteProjectEndpoint: "project",
+    UpdateProjectStatusEndpoint: "project",
     GetAllProjectsEndpoint: "projects",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
+    GetAllWorkOrderStatusesEndpoint: "statuses",
   };
   return endpointMap[alias];
 }

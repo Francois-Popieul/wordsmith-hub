@@ -48,7 +48,9 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                 setCountries(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des pays.", "top_right", 3000);
                 }
@@ -66,7 +68,9 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                 setCurrencies(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des devises.", "top_right", 3000);
                 }

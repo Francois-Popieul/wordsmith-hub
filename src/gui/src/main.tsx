@@ -13,6 +13,7 @@ import InvoicesView from "./invoices/views/InvoicesView.tsx"
 import ProjectsView from "./projects/views/ProjectsView.tsx"
 import DirectCustomersView from "./directCustomers/views/DirectCustomersView.tsx"
 import { ToastProvider } from "./hooks/useToast.tsx"
+import DirectCustomerView from "./directCustomers/views/DirectCustomerView.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/login" element={<LoginView />} />
           <Route path="/dashboard" element={<DashboardView />} />
           <Route path="/direct-customers" element={<DirectCustomersView />} />
+          <Route path="/direct-customer/:id" element={<DirectCustomerView />} />
           <Route path="/projects" element={<ProjectsView />} />
           <Route path="/orders" element={<OrdersView />} />
           <Route path="/invoices" element={<InvoicesView />} />

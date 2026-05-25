@@ -32,6 +32,7 @@ public static class Bootstrap
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
             return services;
         }

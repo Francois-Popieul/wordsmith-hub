@@ -22,7 +22,6 @@
 
     <ItemGroup>
         <Folder Include="Features\Projects\Get\"/>
-        <Folder Include="Features\Projects\Update\"/>
         <Folder Include="Features\Users\Add\"/>
         <Folder Include="Features\Users\Delete\"/>
         <Folder Include="Features\Users\GetAll\"/>

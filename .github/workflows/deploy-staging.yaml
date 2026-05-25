@@ -37,7 +37,7 @@ jobs:
           file: ./src/backend/Dockerfile
           push: true
           tags: |
-            ghcr.io/francois-popieul/wordsmithhub-staging-api:1.1.6
+            ghcr.io/francois-popieul/wordsmithhub-staging-api:1.1.7
             ghcr.io/francois-popieul/wordsmithhub-staging-api:latest
 
       - name: Build and push Client image
@@ -47,7 +47,7 @@ jobs:
           file: ./src/gui/Dockerfile
           push: true
           tags: |
-            ghcr.io/francois-popieul/wordsmithhub-staging-client:1.1.6
+            ghcr.io/francois-popieul/wordsmithhub-staging-client:1.1.7
             ghcr.io/francois-popieul/wordsmithhub-staging-client:latest
           build-args: |
             VITE_API_BASE_URL=${{ secrets.FRONTEND_STAGING_VITE_API_BASE_URL }}
