@@ -1,6 +1,6 @@
 ﻿services:
   api:
-    image: ${BACKEND_REPO}
+    image: ${BACKEND_STAGING_REPO}
     restart: always
     depends_on:
       - maindb
@@ -72,7 +72,7 @@
   
   frontend:
     restart: always
-    image: ${FRONTEND_REPO}
+    image: ${FRONTEND_STAGING_REPO}
     networks:
       wordsmith_staging_network: {}
       wordsmith_shared_network:
