@@ -9,6 +9,11 @@ const AppUserDto = z.object({
   userName: z.string(),
   phoneNumber: z.string().nullable(),
 });
+const Status = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  category: z.string(),
+});
 const Service = z.object({ id: z.number().int(), name: z.string() });
 const EndCustomerDto = z.object({
   id: z.string(),
@@ -246,6 +251,7 @@ const RegisterUserRequest = z.object({
 
 export const schemas = {
   AppUserDto,
+  Status,
   Service,
   EndCustomerDto,
   AddressDto,
@@ -571,6 +577,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/freelances", params, z.array(FreelanceDto), config),
+    GetAllInvoiceStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/invoice-statuses", params, z.array(Status), config),
     GetAllLanguagesEndpoint: (
       params: {
         body?: unknown;
@@ -634,6 +648,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/project", params, z.string(), config),
+    GetAllProjectStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/project-statuses", params, z.array(Status), config),
     DeleteProjectEndpoint: (
       params: {
         body?: unknown;
@@ -666,6 +688,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/user/:userId", params, AppUserDto, config),
+    GetAllWorkOrderStatusesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/workorder-statuses", params, z.array(Status), config),
   };
 }
 
@@ -694,16 +724,19 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateFreelancePersonalDataEndpoint: "freelance",
     UpdateFreelanceServicesEndpoint: "freelance",
     GetAllFreelancesEndpoint: "freelance",
+    GetAllInvoiceStatusesEndpoint: "statuses",
     GetAllLanguagesEndpoint: "languages",
     UpdateLegalStatusEndpoint: "legalstatus",
     AddLegalStatusEndpoint: "legalstatus",
     DeleteLegalStatusEndpoint: "legalstatus",
     GetAllLegalStatusesEndpoint: "legalstatus",
     AddProjectEndpoint: "project",
+    GetAllProjectStatusesEndpoint: "statuses",
     DeleteProjectEndpoint: "project",
     GetAllProjectsEndpoint: "projects",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
+    GetAllWorkOrderStatusesEndpoint: "statuses",
   };
   return endpointMap[alias];
 }
