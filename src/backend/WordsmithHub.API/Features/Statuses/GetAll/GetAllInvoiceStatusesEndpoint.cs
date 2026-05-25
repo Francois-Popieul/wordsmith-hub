@@ -20,7 +20,7 @@ public class GetAllInvoiceStatusesEndpoint : ApiEndpointWithoutRequest<IReadOnly
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
-        var command = new GetAllProjectStatusesCommand(appUserId);
+        var command = new GetAllInvoiceStatusesCommand(appUserId);
 
         var result = await command.ExecuteAsync(cancellationToken);
 

@@ -20,7 +20,7 @@ public class GetAllWorkOrderStatusesEndpoint : ApiEndpointWithoutRequest<IReadOn
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
-        var command = new GetAllProjectStatusesCommand(appUserId);
+        var command = new GetAllWorkOrderStatusesCommand(appUserId);
 
         var result = await command.ExecuteAsync(cancellationToken);
 

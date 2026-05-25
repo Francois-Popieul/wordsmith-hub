@@ -15,6 +15,9 @@ const Status = z.object({
   category: z.string(),
 });
 const Service = z.object({ id: z.number().int(), name: z.string() });
+const UpdateProjectStatusRequest = z.object({
+  statusId: z.number().int().gt(30).lt(31),
+});
 const EndCustomerDto = z.object({
   id: z.string(),
   name: z.string(),
@@ -253,6 +256,7 @@ export const schemas = {
   AppUserDto,
   Status,
   Service,
+  UpdateProjectStatusRequest,
   EndCustomerDto,
   AddressDto,
   DirectCustomerDto,
@@ -664,6 +668,15 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("delete", "/project/:projectId", params, z.object({}), config),
+    UpdateProjectStatusEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("put", "/project/:projectId/status", params, z.string(), config),
     GetAllProjectsEndpoint: (
       params: {
         body?: unknown;
@@ -733,6 +746,7 @@ export function getTagByAlias(alias: string): string | undefined {
     AddProjectEndpoint: "project",
     GetAllProjectStatusesEndpoint: "statuses",
     DeleteProjectEndpoint: "project",
+    UpdateProjectStatusEndpoint: "project",
     GetAllProjectsEndpoint: "projects",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",

@@ -11,10 +11,10 @@ public record GetAllWorkOrderStatusesCommand(Guid AppUserId)
 public class GetAllWorkOrderStatusesHandler(
     IFreelanceRepository freelanceRepository,
     IStatusRepository statusRepository)
-    : ICommandHandler<GetAllProjectStatusesCommand, OperationResult<IReadOnlyList<Status>>>
+    : ICommandHandler<GetAllWorkOrderStatusesCommand, OperationResult<IReadOnlyList<Status>>>
 {
     public async Task<OperationResult<IReadOnlyList<Status>>> ExecuteAsync(
-        GetAllProjectStatusesCommand command,
+        GetAllWorkOrderStatusesCommand command,
         CancellationToken cancellationToken)
     {
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
@@ -24,10 +24,10 @@ public class GetAllWorkOrderStatusesHandler(
             return new OperationResult<IReadOnlyList<Status>>(OperationStatus.Forbidden);
         }
 
-        var projectStatuses = await statusRepository.GetAllWorkOrderStatusesAsync(cancellationToken);
+        var workOrderStatuses = await statusRepository.GetAllWorkOrderStatusesAsync(cancellationToken);
 
-        return projectStatuses.Count == 0
+        return workOrderStatuses.Count == 0
             ? new OperationResult<IReadOnlyList<Status>>(OperationStatus.NotFound)
-            : new OperationResult<IReadOnlyList<Status>>(OperationStatus.Success, projectStatuses);
+            : new OperationResult<IReadOnlyList<Status>>(OperationStatus.Success, workOrderStatuses);
     }
 }
