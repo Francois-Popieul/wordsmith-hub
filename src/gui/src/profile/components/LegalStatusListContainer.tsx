@@ -29,7 +29,7 @@ function LegalStatusListContainer() {
                 if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des statuts juridiques.", "top_right", 3000);
                 }

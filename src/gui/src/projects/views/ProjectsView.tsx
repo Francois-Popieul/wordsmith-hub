@@ -39,7 +39,7 @@ function ProjectsView() {
                 } else if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des projets.", "top_right", 3000);
                 }
@@ -60,7 +60,7 @@ function ProjectsView() {
                 } else if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des projets.", "top_right", 3000);
                 }
@@ -102,7 +102,7 @@ function ProjectsView() {
                 } else if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors de la suppression du projet.", "top_right", 3000);
                 }
@@ -129,7 +129,7 @@ function ProjectsView() {
             if (axios.isAxiosError(error) && error.response) {
                 const data = error.response.data;
                 const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour du statut du projet.", "top_right", 3000);
             }
