@@ -5,7 +5,7 @@ import { createApiClient } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import { bankAccountSchema, type BankAccount } from "../../types/BankAccount";
-import zod from "zod";
+import * as zod from "zod";
 
 interface AddBankAccountModalProps {
     isVisible: boolean;

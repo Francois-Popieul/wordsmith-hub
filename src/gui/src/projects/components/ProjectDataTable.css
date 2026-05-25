@@ -1,0 +1,23 @@
+.status_select_30 {
+    color: var(--color-blue-dark);
+    width: 100px;
+    padding: 0 8px;
+    border-radius: 4px;
+    border: 1px solid var(--color-blue-dark);
+    background-color: var(--color-blue-light);
+    border-radius: 16px;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+}
+
+.status_select_31 {
+    color: var(--color-green-dark);
+    width: 100px;
+    padding: 0 8px;
+    border-radius: 4px;
+    border: 1px solid var(--color-green-dark);
+    background-color: var(--color-green-light);
+    border-radius: 16px;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+}

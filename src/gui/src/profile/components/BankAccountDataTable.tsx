@@ -29,11 +29,11 @@ function BankAccountDataTable({ bankAccounts, onDefaultBankChange, onEdit, onDel
     );
 
     return <><DataTable value={bankAccounts} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
-        <Column field="label" header="Intitulé du compte" />
-        <Column field="bankName" header="Banque" />
-        <Column field="accountHolderName" header="Titulaire du compte" />
-        <Column field="iban" header="IBAN" />
-        <Column field="status" header="Statut" body={(rowData) => {
+        <Column field="label" header="Intitulé du compte" style={{ minWidth: "150px" }} />
+        <Column field="bankName" header="Banque" style={{ minWidth: "150px" }} />
+        <Column field="accountHolderName" header="Titulaire du compte" style={{ minWidth: "175px" }} />
+        <Column field="iban" header="IBAN" style={{ minWidth: "125px" }} />
+        <Column field="status" header="Statut" style={{ minWidth: "150px" }} body={(rowData) => {
             const isDefault = rowData.isDefault;
             return <span style={{ color: isDefault ? "var(--color-blue-dark)" : "", backgroundColor: isDefault ? "var(--color-blue-light)" : "", fontWeight: 600, padding: "0.25rem 0.65rem", borderRadius: "999px" }}>{isDefault ? "★ Par défaut" : ""}</span>;
         }} />

@@ -24,11 +24,11 @@ function LegalStatusDataTable({ legalStatuses, onEdit, onDelete }: LegalStatusPr
     );
 
     return <DataTable value={legalStatuses} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
-        <Column field="name" header="Type de statut" />
-        <Column field="siret" header="SIRET" />
-        <Column field="vatNumber" header="Numéro de TVA" />
-        <Column field="validFrom" header="Début de validité" body={(rowData) => new Date(rowData.validFrom).toLocaleDateString()} />
-        <Column field="status" header="Statut" body={(rowData) => {
+        <Column field="name" header="Type de statut" style={{ minWidth: "150px" }} />
+        <Column field="siret" header="SIRET" style={{ minWidth: "150px" }} />
+        <Column field="vatNumber" header="Numéro de TVA" style={{ minWidth: "150px" }} />
+        <Column field="validFrom" header="Début de validité" style={{ minWidth: "150px" }} body={(rowData) => new Date(rowData.validFrom).toLocaleDateString()} />
+        <Column field="status" header="Statut" style={{ minWidth: "150px" }} body={(rowData) => {
             const isInactive = rowData.validTo != null && new Date(rowData.validTo) < new Date();
             return <span style={{ color: isInactive ? "var(--color-red-dark)" : "var(--color-green-dark)", backgroundColor: isInactive ? "var(--color-red-light)" : "var(--color-green-light)", fontWeight: 600, padding: "0.25rem 0.65rem", borderRadius: "999px" }}>{isInactive ? "Inactif" : "★ Actif"}</span>;
         }} />

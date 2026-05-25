@@ -38,7 +38,9 @@ function DirectCustomers() {
                 setCustomers(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des clients directs.", "top_right", 3000);
                 }
@@ -79,7 +81,9 @@ function DirectCustomers() {
                     setCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));
                     addToast("success", "Client direct supprimé !", "top_right", 3000);
                 } else if (axios.isAxiosError(error) && error.response) {
-                    addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
                 } else {
                     addToast("error", "Une erreur inattendue s’est produite lors de la suppression du client direct.", "top_right", 3000);
                 }
@@ -95,7 +99,7 @@ function DirectCustomers() {
     }
 
     function handleView(id: string) {
-        // TODO: implement customer view page and navigate to it instead of just logging the id
+        navigate(`/direct-customer/${id}`);
         console.log("View customer with id:", id);
     }
 

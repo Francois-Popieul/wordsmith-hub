@@ -48,7 +48,9 @@ function SignupView() {
             navigate("/login");
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", error.response.data, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite.", "top_right", 3000);
             }
