@@ -1,4 +1,4 @@
-﻿services:
+services:
   staging-api:
     image: ${BACKEND_STAGING_REPO}
     restart: always
