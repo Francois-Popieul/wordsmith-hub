@@ -1,5 +1,5 @@
-﻿services:
-  api:
+services:
+  staging-api:
     image: ${BACKEND_STAGING_REPO}
     restart: always
     depends_on:
@@ -15,10 +15,8 @@
       Jwt__Audience: "${JWT_AUDIENCE}"
       Jwt__AccessTokenSeconds: "${JWT_ACCESSTOKENSECONDS}"
     networks:
-      wordsmith_staging_network: {}
-      wordsmith_shared_network:
-        aliases:
-          - staging-api
+      - wordsmith_staging_network
+      - wordsmith_shared_network
 
   certbot:
     image: certbot/dns-ovh:latest
@@ -70,14 +68,12 @@
     networks:
       - wordsmith_staging_network
   
-  frontend:
+  staging-frontend:
     restart: always
     image: ${FRONTEND_STAGING_REPO}
     networks:
-      wordsmith_staging_network: {}
-      wordsmith_shared_network:
-        aliases:
-          - staging-frontend
+      - wordsmith_staging_network
+      - wordsmith_shared_network
 
 volumes:
   db_data:

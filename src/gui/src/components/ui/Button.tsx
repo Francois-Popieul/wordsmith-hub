@@ -10,6 +10,7 @@ interface ButtonProps {
     disabled?: boolean;
     children?: React.ReactNode;
     onClick?: () => void;
+    ariaLabel?: string;
 }
 
 function Button(props: ButtonProps) {
@@ -23,6 +24,7 @@ function Button(props: ButtonProps) {
             type={props.type ?? "button"}
             disabled={props.disabled}
             onClick={props.onClick}
+            aria-label={props.ariaLabel}
         >
             {props.children} {props.name}
         </button>
