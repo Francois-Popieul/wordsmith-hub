@@ -77,4 +77,5 @@
     font-size: 1rem;
     color: var(--color-slate-700);
     font-style: italic;
+    text-align: center;
 }

@@ -15,8 +15,26 @@ const Status = z.object({
   category: z.string(),
 });
 const Service = z.object({ id: z.number().int(), name: z.string() });
+const RateDto = z.object({
+  id: z.string(),
+  unitPrice: z.number(),
+  unit: z.string(),
+  sourceLanguageId: z.number().int(),
+  targetLanguageId: z.number().int(),
+  serviceId: z.number().int(),
+  directCustomerId: z.string(),
+});
+const NoContent = z.object({});
+const AddRateRequest = z.object({
+  unitPrice: z.number().gt(0),
+  unit: z.string().min(0).max(20),
+  sourceLanguageId: z.number().int().gt(0),
+  targetLanguageId: z.number().int().gt(0),
+  serviceId: z.number().int().gt(0),
+  directCustomerId: z.string().optional(),
+});
 const UpdateProjectStatusRequest = z.object({
-  statusId: z.number().int().gt(30).lt(31),
+  statusId: z.number().int().gte(30).lte(31),
 });
 const EndCustomerDto = z.object({
   id: z.string(),
@@ -52,7 +70,6 @@ const ProjectDto = z.object({
   directCustomers: z.array(DirectCustomerDto),
   statusId: z.number().int(),
 });
-const NoContent = z.object({});
 const AddProjectRequest = z.object({
   name: z.string().min(0).max(150),
   domain: z.string().min(0).max(100),
@@ -256,12 +273,14 @@ export const schemas = {
   AppUserDto,
   Status,
   Service,
+  RateDto,
+  NoContent,
+  AddRateRequest,
   UpdateProjectStatusRequest,
   EndCustomerDto,
   AddressDto,
   DirectCustomerDto,
   ProjectDto,
-  NoContent,
   AddProjectRequest,
   UpdateLegalStatusRequest,
   AddLegalStatusRequest,
@@ -685,6 +704,45 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/projects", params, z.array(ProjectDto), config),
+    GetAllProjectsByDirectCustomerEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "get",
+        "/projects/directcustomer/:directCustomerId",
+        params,
+        z.array(ProjectDto),
+        config
+      ),
+    AddRateEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("post", "/rate", params, z.string(), config),
+    DeleteRateEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("delete", "/rate/:rateId", params, z.object({}), config),
+    GetAllRatesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/rates", params, z.array(RateDto), config),
     GetAllServicesEndpoint: (
       params: {
         body?: unknown;
@@ -748,6 +806,10 @@ export function getTagByAlias(alias: string): string | undefined {
     DeleteProjectEndpoint: "project",
     UpdateProjectStatusEndpoint: "project",
     GetAllProjectsEndpoint: "projects",
+    GetAllProjectsByDirectCustomerEndpoint: "projects",
+    AddRateEndpoint: "rate",
+    DeleteRateEndpoint: "rate",
+    GetAllRatesEndpoint: "rates",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
     GetAllWorkOrderStatusesEndpoint: "statuses",

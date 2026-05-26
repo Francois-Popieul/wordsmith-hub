@@ -37,7 +37,7 @@ public class GetAllBankAccountsHandler(
 
         if (bankAccounts.Count == 0)
         {
-            return new OperationResult<IReadOnlyList<BankAccountDto>>(OperationStatus.Success, new List<BankAccountDto>());
+            return new OperationResult<IReadOnlyList<BankAccountDto>>(OperationStatus.Success, []);
         }
 
         var bankAccountDtoList = bankAccounts.Select(bankAccount => bankAccount.ToDto(CreateProtector())).ToList();

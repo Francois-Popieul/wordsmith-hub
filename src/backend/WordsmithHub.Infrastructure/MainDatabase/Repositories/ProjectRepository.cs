@@ -15,6 +15,16 @@ public class ProjectRepository(MainDbContext context) : Repository<Project>(cont
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyList<Project>> GetByDirectCustomerIdAsync(Guid directCustomerId,
+        CancellationToken cancellationToken = default)
+    {
+        return await Context.Projects.AsNoTracking()
+            .Where(p => p.DirectCustomers.Any(dc => dc.Id == directCustomerId))
+            .Include(p => p.DirectCustomers)
+            .Include(p => p.EndCustomer)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task UpdateStatusAsync(Project project, CancellationToken cancellationToken = default)
     {
         Context.Entry(project).Property(x => x.StatusId).IsModified = true;

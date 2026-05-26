@@ -12,4 +12,11 @@ public class RateRepository(MainDbContext context) : Repository<Rate>(context), 
             .Where(r => r.FreelanceId == freelanceId)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task ArchiveAsync(Rate rate, CancellationToken cancellationToken = default)
+    {
+        Context.Entry(rate).Property(x => x.StatusId).IsModified = true;
+        Context.Entry(rate).Property(x => x.UpdatedAt).IsModified = true;
+        await Context.SaveChangesAsync(cancellationToken);
+    }
 }
