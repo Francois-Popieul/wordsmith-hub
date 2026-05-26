@@ -15,9 +15,10 @@ import type { TranslationLanguage } from "../../types/TranslationLanguage";
 
 interface RateListContainerProps {
     directCustomerId: string;
+    directCustomerCurrencySign: string;
 }
 
-function RateListContainer({ directCustomerId }: RateListContainerProps) {
+function RateListContainer({ directCustomerId, directCustomerCurrencySign }: RateListContainerProps) {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
@@ -96,7 +97,7 @@ function RateListContainer({ directCustomerId }: RateListContainerProps) {
         if (!token) return;
         const fetchRates = async () => {
             try {
-                const response = await apiClient.GetAllRatesEndpoint({ pathParams: { directCustomerId } });
+                const response = await apiClient.GetAllRatesByCustomerIdEndpoint({ pathParams: { directCustomerId } });
                 setRates(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
@@ -110,6 +111,7 @@ function RateListContainer({ directCustomerId }: RateListContainerProps) {
         };
         fetchRates();
     }, [apiClient, addToast, token, directCustomerId, refreshKey]);
+
 
     function handleAddRate() {
         setIsAddRateModalVisible(true);
@@ -164,9 +166,9 @@ function RateListContainer({ directCustomerId }: RateListContainerProps) {
             list_length={rates.length}
             onClickAdd={handleAddRate}
         >
-            <RateDataTable rates={rates} services={services} languages={languages} onEdit={handleEdit} onDelete={handleDelete} />
+            <RateDataTable rates={rates} directCustomerCurrencySign={directCustomerCurrencySign} services={services} languages={languages} onEdit={handleEdit} onDelete={handleDelete} />
         </ListContainer>
-        <AddRateModal directCustomerId={directCustomerId} freelanceProfile={profileData} isVisible={isAddRateModalVisible} onClose={() => setIsAddRateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
+        <AddRateModal directCustomerId={directCustomerId} directCustomerCurrencySign={directCustomerCurrencySign} freelanceProfile={profileData} isVisible={isAddRateModalVisible} onClose={() => setIsAddRateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
         {/* <UpdateRateModal isVisible={isUpdateModalVisible} rate={rateToUpdate} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} /> */}
         <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le tarif" message="Voulez-vous vraiment supprimer ce tarif ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
     </>

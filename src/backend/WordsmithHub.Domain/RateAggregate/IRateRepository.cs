@@ -6,5 +6,8 @@ public interface IRateRepository : IRepository<Rate>
         Guid freelanceId,
         CancellationToken cancellationToken = default);
 
+    Task<IReadOnlyList<Rate>> GetByDirectCustomerIdAsync(Guid directCustomerId,
+        CancellationToken cancellationToken = default);
+
     Task ArchiveAsync(Rate rate, CancellationToken cancellationToken = default);
 }

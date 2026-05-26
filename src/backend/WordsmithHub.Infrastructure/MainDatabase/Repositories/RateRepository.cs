@@ -13,6 +13,14 @@ public class RateRepository(MainDbContext context) : Repository<Rate>(context), 
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyList<Rate>> GetByDirectCustomerIdAsync(Guid directCustomerId,
+        CancellationToken cancellationToken = default)
+    {
+        return await Context.Rates.AsNoTracking()
+            .Where(r => r.DirectCustomerId == directCustomerId)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task ArchiveAsync(Rate rate, CancellationToken cancellationToken = default)
     {
         Context.Entry(rate).Property(x => x.StatusId).IsModified = true;

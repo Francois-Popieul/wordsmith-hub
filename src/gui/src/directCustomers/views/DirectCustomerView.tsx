@@ -20,6 +20,7 @@ function DirectCustomerView() {
     }), [token]);
     const { addToast } = useToast();
     const [directCustomer, setDirectCustomer] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
+    const [currencies, setCurrencies] = useState<zod.infer<typeof schemas.Currency>[]>([]);
 
     useEffect(() => {
         if (!token) return;
@@ -46,6 +47,25 @@ function DirectCustomerView() {
         fetchDirectCustomer();
     }, [apiClient, addToast, token, directCustomerId]);
 
+    useEffect(() => {
+        if (!token) return;
+        const fetchCurrencies = async () => {
+            try {
+                const response = await apiClient.GetAllCurrenciesEndpoint();
+                setCurrencies(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s'est produite lors du chargement des devises.", "top_right", 3000);
+                }
+            }
+        };
+        fetchCurrencies();
+    }, [apiClient, addToast, token, directCustomerId]);
+
     if (!token) {
         navigate("/");
     }
@@ -53,7 +73,7 @@ function DirectCustomerView() {
     return <AppLayout>
         <PageHeader pageTitle={directCustomer ? directCustomer.name : ""} pageSubtitle="Modifiez les informations du client et vos tarifs avec lui" ></PageHeader>
         {directCustomer ? <DirectCustomerDetails directCustomer={directCustomer} /> : <p>Chargement des informations du client...</p>}
-        <RateListContainer directCustomerId={directCustomerId!} />
+        <RateListContainer directCustomerId={directCustomerId!} directCustomerCurrencySign={directCustomer ? currencies.find(c => c.id === directCustomer.currencyId)?.symbol ?? "" : ""} />
         <ProjectListContainer directCustomerId={directCustomerId!} />
     </AppLayout>;
 }

@@ -13,13 +13,14 @@ import UnitTypes from "../types/Units";
 
 interface AddRateModalProps {
     directCustomerId: string;
+    directCustomerCurrencySign: string;
     freelanceProfile: ProfileDto | null;
     isVisible: boolean;
     onClose: () => void;
     onSuccess?: () => void;
 }
 
-function AddRateModal({ directCustomerId, freelanceProfile, isVisible, onClose, onSuccess }: AddRateModalProps) {
+function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceProfile, isVisible, onClose, onSuccess }: AddRateModalProps) {
     const token = localStorage.getItem("wshToken");
     const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
@@ -92,7 +93,7 @@ function AddRateModal({ directCustomerId, freelanceProfile, isVisible, onClose, 
                         <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="-- Sélectionnez la langue cible --" required onChange={(value) => setSelectedTargetLanguageId(value)} />
                     </div>
                     <div className="multiple_field_container">
-                        <FormInputGroup name="unitPrice" label="Tarif" type="text" placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
+                        <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
                         <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="-- Sélectionnez l’unité --" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
                     <FormInputGroup name="description" label="Description" type="text" placeholder="Détails sur le service" required={false} error={fieldErrors.description ? fieldErrors.description[0] : undefined} />

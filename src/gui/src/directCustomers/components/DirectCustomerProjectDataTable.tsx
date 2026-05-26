@@ -29,7 +29,6 @@ function DirectCustomerProjectDataTable({ projects, onEdit, onDelete }: DirectCu
             <Column field="domain" header="Domaine" style={{ minWidth: "150px" }} />
             <Column field="endCustomer" header="Client final" style={{ minWidth: "150px" }} />
             <Column field="description" header="Description" style={{ minWidth: "150px" }} />
-            <Column field="status" header="Statut" style={{ minWidth: "100px" }} />
             <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />
         </DataTable>
     );

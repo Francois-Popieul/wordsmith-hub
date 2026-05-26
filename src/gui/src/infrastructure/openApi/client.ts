@@ -743,6 +743,21 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/rates", params, z.array(RateDto), config),
+    GetAllRatesByCustomerIdEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "get",
+        "/rates/directcustomer/:directCustomerId",
+        params,
+        z.array(RateDto),
+        config
+      ),
     GetAllServicesEndpoint: (
       params: {
         body?: unknown;
@@ -810,6 +825,7 @@ export function getTagByAlias(alias: string): string | undefined {
     AddRateEndpoint: "rate",
     DeleteRateEndpoint: "rate",
     GetAllRatesEndpoint: "rates",
+    GetAllRatesByCustomerIdEndpoint: "rates",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
     GetAllWorkOrderStatusesEndpoint: "statuses",
