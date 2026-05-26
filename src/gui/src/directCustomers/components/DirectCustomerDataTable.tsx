@@ -25,13 +25,13 @@ function DirectCustomerDataTable({ directCustomers, onAdd, onView, onEdit, onDel
 
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.DirectCustomerDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
-            <Button name="" variant="action" type="button" onClick={() => onView(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onView(rowData.id)} ariaLabel="Voir le client">
                 <EyeIcon size={16} color="var(--color-blue-deep)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le client">
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)} ariaLabel="Supprimer le client">
                 <DeleteIcon size={16} color="var(--color-red-deep)" />
             </Button>
         </div>

@@ -14,10 +14,10 @@ interface LegalStatusProps {
 function LegalStatusDataTable({ legalStatuses, onEdit, onDelete }: LegalStatusProps) {
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.LegalStatusDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
-            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le statut legal">
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)} ariaLabel="Supprimer le statut legal">
                 <DeleteIcon size={16} color="var(--color-red-deep)" />
             </Button>
         </div>

@@ -20,10 +20,10 @@ interface RateProps {
 function RateDataTable({ rates, directCustomerCurrencySign, services, languages, onEdit, onDelete }: RateProps) {
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.RateDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
-            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le tarif">
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)} ariaLabel="Supprimer le tarif">
                 <DeleteIcon size={16} color="var(--color-red-deep)" />
             </Button>
         </div>
