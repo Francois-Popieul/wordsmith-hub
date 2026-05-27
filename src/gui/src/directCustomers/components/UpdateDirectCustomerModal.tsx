@@ -90,7 +90,7 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
             address: {
                 streetInfo: formData.get("streetInfo") as string,
                 addressComplement: formData.get("addressComplement") as string || null,
-                postCode: formData.get("postalCode") as string,
+                postCode: formData.get("postCode") as string,
                 city: formData.get("city") as string,
                 state: null,
                 countryId: (selectedCountryId ?? customer?.address.countryId)!,
@@ -102,7 +102,14 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
 
         const validationResult = directCustomerSchema.safeParse(directCustomerData);
         if (!validationResult.success) {
-            setFieldErrors(zod.flattenError(validationResult.error).fieldErrors);
+            const errors: Record<string, string[]> = {};
+            for (const issue of validationResult.error.issues) {
+                const key = issue.path[issue.path.length - 1]?.toString() ?? "";
+                if (key) {
+                    errors[key] = [...(errors[key] ?? []), issue.message];
+                }
+            }
+            setFieldErrors(errors);
             return;
         }
 
@@ -126,7 +133,9 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
             addToast("success", "Client direct mis à jour !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour du client direct.", "top_right", 3000);
             }
@@ -146,7 +155,7 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                     <FormInputGroup name="streetInfo" label="Numéro et nom de rue" placeholder="ex. 123 rue des Champs-Élysées" type="text" value={customer?.address.streetInfo} required error={fieldErrors.streetInfo} />
                     <FormInputGroup name="addressComplement" label="Complément d’adresse" placeholder="ex. Bâtiment B" type="text" value={customer?.address.addressComplement?.toString()} required={false} error={fieldErrors.addressComplement} />
                     <div className="multiple_field_container">
-                        <FormInputGroup name="postalCode" label="Code postal" placeholder="ex. 75008" type="text" value={customer?.address.postCode.toString()} required error={fieldErrors.postalCode} />
+                        <FormInputGroup name="postCode" label="Code postal" placeholder="ex. 75008" type="text" value={customer?.address.postCode.toString()} required error={fieldErrors.postCode} />
                         <FormInputGroup name="city" label="Ville" placeholder="ex. Paris" type="text" value={customer?.address.city} required error={fieldErrors.city} />
                     </div>
                     <div className="multiple_field_container">
@@ -154,7 +163,7 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                         <FormSelectGroup name="countryId" label="Pays" options={countries.map(country => ({ value: country.id.toString(), name: country.name }))} placeholder="-- Sélectionnez le pays --" selected={(selectedCountryId ?? customer?.address.countryId)?.toString() ?? ""} required={true} onChange={(value) => setSelectedCountryId(parseInt(value))} >
                         </FormSelectGroup>
                     </div>
-                    <FormInputGroup name="siret" label="SIRET" placeholder="ex. FR123456789012" type="text" value={customer?.siretOrSiren?.toString()} required={false} error={fieldErrors.siret} />
+                    <FormInputGroup name="siretOrSiren" label="Numéro d’immatriculation" placeholder="ex. FR123456789012" type="text" value={customer?.siretOrSiren?.toString()} required={false} error={fieldErrors.siretOrSiren} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="paymentDelay" label="Délai de paiement (jours)" placeholder="ex. 30" type="text" value={customer?.paymentDelay.toString()} required error={fieldErrors.paymentDelay} />
                         <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="-- Sélectionnez la devise --" selected={(selectedCurrency ?? customer?.currencyId)?.toString() ?? ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />

@@ -25,10 +25,13 @@ export const directCustomerSchema = zod.object({
         .min(1, { message: "Le code du client est requis" })
         .max(5, { message: "Le code du client ne doit pas dépasser 5 caractères" }),
     email: zod
-        .email({ message: "L’email du client doit être valide" }),
+        .email({ message: "L’email du client doit être valide" })
+        .trim()
+        .max(255, { message: "L’email du client ne doit pas dépasser 255 caractères" }),
     phone: zod
         .string()
         .trim()
+        .max(20, { message: "Le numéro de téléphone ne doit pas dépasser 20 caractères" })
         .nullable()
         .refine((value) => {
             if (value === null) return true;
@@ -46,7 +49,8 @@ export const directCustomerSchema = zod.object({
     paymentDelay: zod
         .number()
         .int({ message: "Le délai de paiement doit être un nombre entier" })
-        .positive({ message: "Le délai de paiement doit être un nombre positif" }),
+        .positive({ message: "Le délai de paiement doit être un nombre positif" })
+        .refine((value) => { return Number.isInteger(value) }, { message: "Le délai de paiement doit être un nombre entier" }),
     currencyId: zod
         .number()
         .int({ message: "La devise doit être un nombre entier" })

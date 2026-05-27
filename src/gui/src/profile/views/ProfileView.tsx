@@ -135,10 +135,10 @@ function ProfileView() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const personalData: PersonalData = {
-            firstName: formData.get("firstName") as string,
-            lastName: formData.get("lastName") as string,
-            email: formData.get("email") as string,
-            phone: formData.get("phone") as string | null
+            firstName: (formData.get("firstName") as string).trim(),
+            lastName: (formData.get("lastName") as string).trim(),
+            email: (formData.get("email") as string).trim(),
+            phone: (formData.get("phone") as string | null)?.trim() || null
         };
 
         const validationResult = personalDataSchema.safeParse(personalData);
@@ -155,8 +155,10 @@ function ProfileView() {
             addToast("success", "Données personnelles mises à jour.", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
-                setFieldErrors(error.response.data.errors || {});
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                setFieldErrors(data.errors || {});
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
             }
@@ -182,11 +184,11 @@ function ProfileView() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const addressData: Address = {
-            streetInfo: formData.get("streetInfo") as string,
-            addressComplement: formData.get("addressComplement") as string | null,
-            postCode: formData.get("postCode") as string,
-            state: formData.get("state") as string | null,
-            city: formData.get("city") as string,
+            streetInfo: (formData.get("streetInfo") as string).trim(),
+            addressComplement: (formData.get("addressComplement") as string | null)?.trim() || null,
+            postCode: (formData.get("postCode") as string).trim(),
+            state: (formData.get("state") as string | null)?.trim() || null,
+            city: (formData.get("city") as string).trim(),
             countryId: parseInt(formData.get("countryId") as string, 10),
         };
 
@@ -204,8 +206,10 @@ function ProfileView() {
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
-                setFieldErrors(error.response.data.errors || {});
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                setFieldErrors(data.errors || {});
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour de l’adresse.", "top_right", 3000);
             }
@@ -237,7 +241,9 @@ function ProfileView() {
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des langues.", "top_right", 3000);
             }
@@ -269,8 +275,10 @@ function ProfileView() {
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                setFieldErrors(error.response.data.errors || {});
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                setFieldErrors(data.errors || {});
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des services.", "top_right", 3000);
             }
