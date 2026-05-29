@@ -21,9 +21,9 @@ export function useCurrencies(): zod.infer<typeof schemas.Currency>[] {
                 if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement de la liste des devises.", "top_right", 3000);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des devises.", "top_right", 3000);
                 }
             }
         };
@@ -49,9 +49,9 @@ export function useCountries(): zod.infer<typeof schemas.Country>[] {
                 if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement de la liste des pays.", "top_right", 3000);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des pays.", "top_right", 3000);
                 }
             }
         };
@@ -77,9 +77,9 @@ export function useLanguages(): zod.infer<typeof schemas.TranslationLanguage>[] 
                 if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement de la liste des langues.", "top_right", 3000);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des langues.", "top_right", 3000);
                 }
             }
         };
@@ -105,9 +105,9 @@ export function useServices(): zod.infer<typeof schemas.Service>[] {
                 if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement de la liste des services.", "top_right", 3000);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des services.", "top_right", 3000);
                 }
             }
         };
