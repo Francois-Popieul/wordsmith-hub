@@ -2,13 +2,15 @@ import { PlusSignIcon } from "../assets/icons/icons";
 import AppLayout from "../components/ui/AppLayout";
 import PageHeader from "../components/ui/PageHeader";
 import Button from "../components/ui/Button";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 function OrdersView() {
     const token = localStorage.getItem("wshToken");
+    const navigate = useNavigate();
 
     if (!token) {
-        return <Navigate to="/" />;
+        navigate("/");
+        return null;
     }
 
     return (

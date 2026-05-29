@@ -2,18 +2,20 @@ import { PlusSignIcon } from "../../assets/icons/icons";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import Button from "../../components/ui/Button";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import AddProjectModal from "../components/AddProjectModal";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectDataTable from "../components/ProjectDataTable";
-import { createApiClient, schemas } from "../../infrastructure/openApi/client";
+import { schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import * as zod from "zod";
 import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function ProjectsView() {
-    const token = localStorage.getItem("wshToken");
+    const { token, apiClient } = useApiClient();
+    const navigate = useNavigate();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
     const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
@@ -22,9 +24,6 @@ function ProjectsView() {
     // const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
     const { addToast } = useToast();
 
     useEffect(() => {
@@ -70,7 +69,8 @@ function ProjectsView() {
     }, [apiClient, addToast, token]);
 
     if (!token) {
-        return <Navigate to="/" />;
+        navigate("/");
+        return null;
     }
 
     function handleUpdate(id: string) {

@@ -2,31 +2,29 @@ import AppLayout from "../../components/ui/AppLayout";
 import Button from "../../components/ui/Button";
 import PageHeader from "../../components/ui/PageHeader";
 import { PlusSignIcon } from "../../assets/icons/icons";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import AddDirectCustomerModal from "../components/AddDirectCustomerModal";
 import { useNavigate } from "react-router";
 import DirectCustomerDataTable from "../components/DirectCustomerDataTable";
 import { useToast } from "../../hooks/useToast";
-import { createApiClient, schemas } from "../../infrastructure/openApi/client";
+import { schemas } from "../../infrastructure/openApi/client";
 import axios from "axios";
 import * as zod from "zod";
 import UpdateDirectCustomerModal from "../components/UpdateDirectCustomerModal";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function DirectCustomers() {
+    const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-    const token = localStorage.getItem("wshToken");
     const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [customers, setCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [customerToUpdate, setCustomerToUpdate] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
     const [customerToDeleteId, setCustomerToDeleteId] = useState<string | null>(null);
     const [refreshKey, setRefreshKey] = useState(0);
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
     const { addToast } = useToast();
 
     useEffect(() => {

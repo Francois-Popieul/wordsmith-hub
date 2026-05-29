@@ -2,25 +2,24 @@ import { useLocation, useNavigate } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useToast } from "../../hooks/useToast";
-import { createApiClient, schemas } from "../../infrastructure/openApi/client";
-import { useEffect, useMemo, useState } from "react";
+import { schemas } from "../../infrastructure/openApi/client";
+import { useEffect, useState } from "react";
 import * as zod from "zod";
 import axios from "axios";
 import DirectCustomerDetails from "../components/DirectCustomerDetails";
+import { useCurrencies } from "../../hooks/useStaticData";
 import RateListContainer from "../components/RateListContainer";
 import ProjectListContainer from "../components/ProjectListContainer";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function DirectCustomerView() {
+    const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
     const location = useLocation();
-    const token = localStorage.getItem("wshToken");
     const directCustomerId: string | undefined = location.pathname.split("/").pop();
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
     const { addToast } = useToast();
     const [directCustomer, setDirectCustomer] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
-    const [currencies, setCurrencies] = useState<zod.infer<typeof schemas.Currency>[]>([]);
+    const currencies = useCurrencies();
 
     useEffect(() => {
         if (!token) return;
@@ -47,27 +46,9 @@ function DirectCustomerView() {
         fetchDirectCustomer();
     }, [apiClient, addToast, token, directCustomerId]);
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchCurrencies = async () => {
-            try {
-                const response = await apiClient.GetAllCurrenciesEndpoint();
-                setCurrencies(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement des devises.", "top_right", 3000);
-                }
-            }
-        };
-        fetchCurrencies();
-    }, [apiClient, addToast, token, directCustomerId]);
-
     if (!token) {
         navigate("/");
+        return null;
     }
 
     return <AppLayout>

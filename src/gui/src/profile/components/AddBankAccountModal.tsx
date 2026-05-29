@@ -60,7 +60,9 @@ function AddBankAccountModal({ isVisible, onClose, onSuccess }: AddBankAccountMo
             addToast("success", "Compte bancaire ajouté !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de l’ajout du compte bancaire.", "top_right", 3000);
             }

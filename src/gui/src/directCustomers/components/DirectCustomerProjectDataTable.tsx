@@ -27,7 +27,7 @@ function DirectCustomerProjectDataTable({ projects, onEdit, onDelete }: DirectCu
         <DataTable value={projects} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
             <Column field="name" header="Nom du projet" style={{ minWidth: "200px" }} />
             <Column field="domain" header="Domaine" style={{ minWidth: "150px" }} />
-            <Column field="endCustomer" header="Client final" style={{ minWidth: "150px" }} />
+            <Column field="endCustomer" header="Client final" style={{ minWidth: "150px" }} body={(rowData: zod.infer<typeof schemas.ProjectDto>) => rowData.endCustomer?.name ?? ""} />
             <Column field="description" header="Description" style={{ minWidth: "150px" }} />
             <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />
         </DataTable>

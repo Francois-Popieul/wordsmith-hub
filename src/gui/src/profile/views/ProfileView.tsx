@@ -1,16 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
-import { createApiClient } from "../../infrastructure/openApi/client";
 import axios from "axios";
 import ProfileDto from "../models/ProfileDto";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
 import { BriefcaseIcon, BuildingIcon, LanguageIcon, ProfileIcon } from "../../assets/icons/icons";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import type { Country } from "../../types/Country";
-import type { TranslationLanguage } from "../../types/TranslationLanguage";
-import type { Service } from "../../types/Service";
+import { useCountries, useLanguages, useServices } from "../../hooks/useStaticData";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import "../../stylesheets/profile_view.css";
 import { personalDataSchema, type PersonalData } from "../../types/PersonalData";
@@ -19,20 +16,19 @@ import { addressSchema, type Address } from "../../types/Address";
 import { useToast } from "../../hooks/useToast";
 import LegalStatusListContainer from "../components/LegalStatusListContainer";
 import BankAcountListContainer from "../components/BankAcountListContainer";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import Label from "../components/Label";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function ProfileView() {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
+    const navigate = useNavigate();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const [profileData, setProfileData] = useState<ProfileDto | void>();
     const [savedProfileData, setSavedProfileData] = useState<ProfileDto | void>();
-    const [countries, setCountries] = useState<Country[]>([]);
-    const [languages, setLanguages] = useState<TranslationLanguage[]>([]);
-    const [services, setServices] = useState<Service[]>([]);
+    const countries = useCountries();
+    const languages = useLanguages();
+    const services = useServices();
     const [editingForm, setEditingForm] = useState<string | null>(null);
     const { addToast } = useToast();
 
@@ -56,68 +52,11 @@ function ProfileView() {
         fetchProfileData();
     }, [apiClient, addToast, token]);
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchCountries = async () => {
-            try {
-                const response = await apiClient.GetAllCountriesEndpoint();
-                response.sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-                setCountries(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des pays.", "top_right", 3000);
-                }
-            }
-        };
-        fetchCountries();
-    }, [apiClient, addToast, token]);
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchLanguages = async () => {
-            try {
-                const response = await apiClient.GetAllLanguagesEndpoint();
-                response.sort((a: TranslationLanguage, b: TranslationLanguage) => a.name.localeCompare(b.name));
-                setLanguages(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des langues.", "top_right", 3000);
-                }
-            }
-        };
-        fetchLanguages();
-    }, [apiClient, addToast, token]);
-
-    useEffect(() => {
-        if (!token) return;
-        const fetchServices = async () => {
-            try {
-                const response = await apiClient.GetAllServicesEndpoint();
-                response.sort((a: Service, b: Service) => a.name.localeCompare(b.name));
-                setServices(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des services.", "top_right", 3000);
-                }
-            }
-        };
-        fetchServices();
-    }, [apiClient, addToast, token]);
 
     if (!token) {
-        return <Navigate to="/" />;
+        navigate("/");
+        return null;
     }
 
     function handleModifyPersonalData() {
@@ -135,10 +74,10 @@ function ProfileView() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const personalData: PersonalData = {
-            firstName: formData.get("firstName") as string,
-            lastName: formData.get("lastName") as string,
-            email: formData.get("email") as string,
-            phone: formData.get("phone") as string | null
+            firstName: (formData.get("firstName") as string).trim(),
+            lastName: (formData.get("lastName") as string).trim(),
+            email: (formData.get("email") as string).trim(),
+            phone: (formData.get("phone") as string | null)?.trim() || null
         };
 
         const validationResult = personalDataSchema.safeParse(personalData);
@@ -155,8 +94,10 @@ function ProfileView() {
             addToast("success", "Données personnelles mises à jour.", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
-                setFieldErrors(error.response.data.errors || {});
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                setFieldErrors(data.errors || {});
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des données personnelles.", "top_right", 3000);
             }
@@ -182,11 +123,11 @@ function ProfileView() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const addressData: Address = {
-            streetInfo: formData.get("streetInfo") as string,
-            addressComplement: formData.get("addressComplement") as string | null,
-            postCode: formData.get("postCode") as string,
-            state: formData.get("state") as string | null,
-            city: formData.get("city") as string,
+            streetInfo: (formData.get("streetInfo") as string).trim(),
+            addressComplement: (formData.get("addressComplement") as string | null)?.trim() || null,
+            postCode: (formData.get("postCode") as string).trim(),
+            state: (formData.get("state") as string | null)?.trim() || null,
+            city: (formData.get("city") as string).trim(),
             countryId: parseInt(formData.get("countryId") as string, 10),
         };
 
@@ -204,8 +145,10 @@ function ProfileView() {
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
-                setFieldErrors(error.response.data.errors || {});
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                setFieldErrors(data.errors || {});
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour de l’adresse.", "top_right", 3000);
             }
@@ -237,7 +180,9 @@ function ProfileView() {
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des langues.", "top_right", 3000);
             }
@@ -269,8 +214,10 @@ function ProfileView() {
             setEditingForm(null);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                setFieldErrors(error.response.data.errors || {});
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                setFieldErrors(data.errors || {});
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour des services.", "top_right", 3000);
             }

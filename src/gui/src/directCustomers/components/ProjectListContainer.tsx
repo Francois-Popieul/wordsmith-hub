@@ -34,9 +34,9 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
                 if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement des projets.", "top_right", 3000);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement des projets.", "top_right", 3000);
                 }
             }
         }
@@ -44,7 +44,7 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
     }, [apiClient, directCustomerId, token, addToast]);
 
     function handleAddProject() {
-        addToast("information", "La fonctionnalité d'ajout de projet est en cours de développement.", "top_right", 3000);
+        addToast("information", "La fonctionnalité d’ajout de projet est en cours de développement.", "top_right", 3000);
     }
 
     function handleEditProject(id: string) {
