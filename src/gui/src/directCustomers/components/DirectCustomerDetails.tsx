@@ -1,40 +1,15 @@
 import "./DirectCustomerDetails.css";
 import * as zod from "zod";
-import { createApiClient, type schemas } from "../../infrastructure/openApi/client";
+import { type schemas } from "../../infrastructure/openApi/client";
 import { BuildingIcon, CalendarIcon, InvoicesIcon, MailIcon, PhoneIcon } from "../../assets/icons/icons";
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { useToast } from "../../hooks/useToast";
+import { useCurrencies } from "../../hooks/useStaticData";
 
 interface DirectCustomerDetailsProps {
     directCustomer: zod.infer<typeof schemas.DirectCustomerDto>;
 }
 
 function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
-    const { addToast } = useToast();
-    const [currencies, setCurrencies] = useState<zod.infer<typeof schemas.Currency>[]>([]);
-
-    useEffect(() => {
-        const fetchCurrencies = async () => {
-            try {
-                const response = await apiClient.GetAllCurrenciesEndpoint();
-                setCurrencies(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des clients directs.", "top_right", 3000);
-                }
-            }
-        };
-        fetchCurrencies();
-    }, [apiClient, addToast]);
+    const currencies = useCurrencies();
 
     return <div className="direct_customer_details_container">
         <div className="details_inner_flex_container">

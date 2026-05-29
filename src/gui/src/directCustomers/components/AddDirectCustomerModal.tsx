@@ -1,5 +1,5 @@
 import "./AddDirectCustomerModal.css";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { createApiClient } from "../../infrastructure/openApi/client";
@@ -7,7 +7,7 @@ import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import { directCustomerSchema, type DirectCustomer } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import type { Country } from "../../types/Country";
+import { useCountries, useCurrencies } from "../../hooks/useStaticData";
 
 interface AddDirectCustomerModalProps {
     isVisible: boolean;
@@ -22,9 +22,9 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
     }), [token]);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const [countries, setCountries] = useState<{ id: number; name: string }[]>([]);
+    const countries = useCountries();
+    const currencies = useCurrencies();
     const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
-    const [currencies, setCurrencies] = useState<{ id: number; name: string; code: string }[]>([]);
     const [selectedCurrency, setSelectedCurrency] = useState<number | null>(null);
 
     function resetForm() {
@@ -38,45 +38,7 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
         onClose();
     }
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchCountries = async () => {
-            try {
-                const response = await apiClient.GetAllCountriesEndpoint();
-                response.sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-                setCountries(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des pays.", "top_right", 3000);
-                }
-            }
-        };
-        fetchCountries();
-    }, [apiClient, addToast, token]);
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchCurrencies = async () => {
-            try {
-                const response = await apiClient.GetAllCurrenciesEndpoint();
-                response.sort((a: { id: number; name: string; code: string }, b: { id: number; name: string; code: string }) => a.name.localeCompare(b.name));
-                setCurrencies(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des devises.", "top_right", 3000);
-                }
-            }
-        };
-        fetchCurrencies();
-    }, [apiClient, addToast, token]);
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();

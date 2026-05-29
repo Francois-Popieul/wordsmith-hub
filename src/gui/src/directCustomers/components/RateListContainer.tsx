@@ -10,8 +10,7 @@ import RateDataTable from "./RateDataTable";
 import AddRateModal from "./AddRateModal";
 import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
-import type { Service } from "../../types/Service";
-import type { TranslationLanguage } from "../../types/TranslationLanguage";
+import { useServices, useLanguages } from "../../hooks/useStaticData";
 
 interface RateListContainerProps {
     directCustomerId: string;
@@ -32,8 +31,8 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const [profileData, setProfileData] = useState<ProfileDto | null>(null);
-    const [services, setServices] = useState<Service[]>([]);
-    const [languages, setLanguages] = useState<TranslationLanguage[]>([]);
+    const services = useServices();
+    const languages = useLanguages();
 
     useEffect(() => {
         if (!token) return;
@@ -55,43 +54,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
         fetchProfileData();
     }, [apiClient, addToast, token]);
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchServices = async () => {
-            try {
-                const response = await apiClient.GetAllServicesEndpoint();
-                setServices(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement des services.", "top_right", 3000);
-                }
-            }
-        };
-        fetchServices();
-    }, [apiClient, addToast, token]);
 
-    useEffect(() => {
-        if (!token) return;
-        const fetchLanguages = async () => {
-            try {
-                const response = await apiClient.GetAllLanguagesEndpoint();
-                setLanguages(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l'API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s'est produite lors du chargement des langues.", "top_right", 3000);
-                }
-            }
-        };
-        fetchLanguages();
-    }, [apiClient, addToast, token]);
 
     useEffect(() => {
         if (!token) return;

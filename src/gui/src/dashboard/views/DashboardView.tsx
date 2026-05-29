@@ -1,10 +1,9 @@
 import "../components/Card.css";
 import "../components/QuickActionCard.css";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
-import { useEffect, useMemo, useState } from "react";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { useEffect, useState } from "react";
 import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
 import { useToast } from "../../hooks/useToast";
@@ -14,12 +13,11 @@ import QuickActionCard from "../components/QuickActionCard";
 import QuickActionContainer from "../components/QuickActionContainer";
 import AddDirectCustomerModal from "../../directCustomers/components/AddDirectCustomerModal";
 import AddProjectModal from "../../projects/components/AddProjectModal";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function DashboardView() {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
+    const navigate = useNavigate();
     const { addToast } = useToast();
     const [profileData, setProfileData] = useState<ProfileDto | void>();
     const [loading, setLoading] = useState(true);
@@ -55,7 +53,8 @@ function DashboardView() {
     }, [apiClient, addToast, token]);
 
     if (!token) {
-        return <Navigate to="/" />;
+        navigate("/");
+        return null;
     }
 
     return !loading ? (
