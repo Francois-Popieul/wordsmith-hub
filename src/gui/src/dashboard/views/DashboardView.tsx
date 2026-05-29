@@ -26,7 +26,6 @@ function DashboardView() {
     const [earnings, setEarnings] = useState(0);
     const [isAddCustomerModalVisible, setIsAddCustomerModalVisible] = useState(false);
     const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(false);
-    // const [isAddInvoiceModalVisible, setIsAddInvoiceModalVisible] = useState(false);
 
     useEffect(() => {
         if (!token) return;
@@ -91,9 +90,10 @@ function DashboardView() {
             </QuickActionContainer>
             <AddDirectCustomerModal isVisible={isAddCustomerModalVisible} onClose={() => setIsAddCustomerModalVisible(false)} />
             <AddProjectModal isVisible={isAddProjectModalVisible} onClose={() => setIsAddProjectModalVisible(false)} />
-            {/* <AddInvoiceModal isVisible={isAddInvoiceModalVisible} onClose={() => setIsAddInvoiceModalVisible(false)} /> */}
         </AppLayout>
-    ) : <p>Chargement des données en cours…</p>;
+    ) : <AppLayout>
+        <p>Chargement des données en cours…</p>
+    </AppLayout>;
 }
 
 export default DashboardView;

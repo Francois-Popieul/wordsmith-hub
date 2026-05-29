@@ -19,8 +19,6 @@ interface FormContainerProps {
 function AuthFormContainer({ title, presentation, children, button_name, onSubmit, link }: FormContainerProps) {
     return <form
         onSubmit={onSubmit}
-        action=""
-        method="post"
         className="auth_form">
         <p className="logo_container"><img className="form_logo" src="./logo.avif" alt="Logo de Wordsmith Hub" width={576} height={376} /></p>
         <h1 className="form_title">{title}</h1>

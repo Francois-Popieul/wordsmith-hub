@@ -2,7 +2,7 @@ import "./DirectCustomerDetails.css";
 import * as zod from "zod";
 import { type schemas } from "../../infrastructure/openApi/client";
 import { BuildingIcon, CalendarIcon, InvoicesIcon, MailIcon, PhoneIcon } from "../../assets/icons/icons";
-import { useCurrencies } from "../../hooks/useStaticData";
+import { useCountries, useCurrencies } from "../../hooks/useStaticData";
 
 interface DirectCustomerDetailsProps {
     directCustomer: zod.infer<typeof schemas.DirectCustomerDto>;
@@ -10,6 +10,7 @@ interface DirectCustomerDetailsProps {
 
 function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
     const currencies = useCurrencies();
+    const countries = useCountries();
 
     return <div className="direct_customer_details_container">
         <div className="details_inner_flex_container">
@@ -19,7 +20,7 @@ function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
             </div>
             <div className="details_section">
                 <p className="details_section_header"><BuildingIcon className="details_icon" />Adresse</p>
-                <p className="details_section_content">{`${directCustomer.address.streetInfo}, ${directCustomer.address.city}, ${directCustomer.address.postCode}, ${directCustomer.address.countryId}`}</p>
+                <p className="details_section_content">{`${directCustomer.address.streetInfo}, ${directCustomer.address.city}, ${directCustomer.address.postCode}, ${countries.find(c => c.id === directCustomer.address.countryId)?.name ?? directCustomer.address.countryId}`}</p>
             </div>
         </div>
         <div className="details_inner_flex_container">

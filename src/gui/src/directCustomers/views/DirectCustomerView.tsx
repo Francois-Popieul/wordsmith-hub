@@ -13,12 +13,13 @@ import ProjectListContainer from "../components/ProjectListContainer";
 import { useApiClient } from "../../hooks/useApiClient";
 
 function DirectCustomerView() {
+    const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
     const location = useLocation();
     const directCustomerId: string | undefined = location.pathname.split("/").pop();
-    const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
     const [directCustomer, setDirectCustomer] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
+    const currencies = useCurrencies();
 
     useEffect(() => {
         if (!token) return;
@@ -44,8 +45,6 @@ function DirectCustomerView() {
         };
         fetchDirectCustomer();
     }, [apiClient, addToast, token, directCustomerId]);
-
-    const currencies = useCurrencies();
 
     if (!token) {
         navigate("/");
