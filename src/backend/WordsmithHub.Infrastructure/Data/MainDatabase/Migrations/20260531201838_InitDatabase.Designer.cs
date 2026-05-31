@@ -12,7 +12,7 @@ using WordsmithHub.Infrastructure.MainDatabase;
 namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20260423135715_InitDatabase")]
+    [Migration("20260531201838_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -70,6 +70,25 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.ToTable("FreelanceTargetLanguages");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FriendlyName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Xml")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataProtectionKeys");
+                });
+
             modelBuilder.Entity("ProjectDirectCustomers", b =>
                 {
                     b.Property<Guid>("DirectCustomerId")
@@ -113,8 +132,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Property<string>("Iban")
                         .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("character varying(34)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("boolean");
@@ -286,7 +304,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         {
                             Id = 1,
                             Code = "USD",
-                            Name = "Dollar",
+                            Name = "Dollar américain",
                             Symbol = "$"
                         },
                         new
@@ -295,6 +313,237 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                             Code = "EUR",
                             Name = "Euro",
                             Symbol = "€"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "JPY",
+                            Name = "Yen japonais",
+                            Symbol = "¥"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "GBP",
+                            Name = "Livre sterling",
+                            Symbol = "£"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "AUD",
+                            Name = "Dollar australien",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "CAD",
+                            Name = "Dollar canadien",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "CHF",
+                            Name = "Franc suisse",
+                            Symbol = "CHF"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "CNY",
+                            Name = "Yuan renminbi chinois",
+                            Symbol = "¥"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "SEK",
+                            Name = "Couronne suédoise",
+                            Symbol = "kr"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "NZD",
+                            Name = "Dollar néo‑zélandais",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "MXN",
+                            Name = "Peso mexicain",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "SGD",
+                            Name = "Dollar de Singapour",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "HKD",
+                            Name = "Dollar de Hong Kong",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "NOK",
+                            Name = "Couronne norvégienne",
+                            Symbol = "kr"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "KRW",
+                            Name = "Won sud‑coréen",
+                            Symbol = "₩"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "TRY",
+                            Name = "Livre turque",
+                            Symbol = "₺"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "RUB",
+                            Name = "Rouble russe",
+                            Symbol = "₽"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "INR",
+                            Name = "Roupie indienne",
+                            Symbol = "₹"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "BRL",
+                            Name = "Real brésilien",
+                            Symbol = "R$"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "ZAR",
+                            Name = "Rand sud‑africain",
+                            Symbol = "R"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "DKK",
+                            Name = "Couronne danoise",
+                            Symbol = "kr"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "PLN",
+                            Name = "Zloty polonais",
+                            Symbol = "zł"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "THB",
+                            Name = "Baht thaïlandais",
+                            Symbol = "฿"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "HUF",
+                            Name = "Forint hongrois",
+                            Symbol = "Ft"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "CZK",
+                            Name = "Couronne tchèque",
+                            Symbol = "Kč"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "ILS",
+                            Name = "Shekel israélien",
+                            Symbol = "₪"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "PHP",
+                            Name = "Peso philippin",
+                            Symbol = "₱"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "MYR",
+                            Name = "Ringgit malaisien",
+                            Symbol = "RM"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "AED",
+                            Name = "Dirham des Émirats arabes unis",
+                            Symbol = "د.إ"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "SAR",
+                            Name = "Riyal saoudien",
+                            Symbol = "﷼"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "KWD",
+                            Name = "Dinar koweïtien",
+                            Symbol = "KD"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "BHD",
+                            Name = "Dinar bahreïni",
+                            Symbol = "BD"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "ARS",
+                            Name = "Peso argentin",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "NGN",
+                            Name = "Naira nigérian",
+                            Symbol = "₦"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "KES",
+                            Name = "Shilling kényan",
+                            Symbol = "KSh"
                         });
                 });
 
@@ -331,8 +580,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("SiretOrSiren")
                         .HasMaxLength(15)
@@ -408,8 +657,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
@@ -561,11 +810,11 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("ValidFrom")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("ValidTo")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset?>("ValidTo")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("VatExemption")
                         .HasColumnType("boolean");
@@ -743,8 +992,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -775,6 +1024,106 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         {
                             Id = 5,
                             Name = "Contrôle qualité"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Transcription"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Traduction certifiée"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Localisation"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Transcréation"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Révision bilingue"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Correction monolingue"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Alignement de documents"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Gestion terminologique"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Création de glossaire"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Traduction SEO"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Voix off"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Doublage"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Interprétation simultanée"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Interprétation consécutive"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Interprétation téléphonique"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Mise en page (DTP)"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "Formatage de fichiers"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "Extraction de texte"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Nettoyage de fichiers"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "Évaluation linguistique"
                         });
                 });
 
@@ -987,6 +1336,144 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                             Id = 15,
                             Code = "PL",
                             Name = "Polonais"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "HE",
+                            Name = "Hébreu"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "UR",
+                            Name = "Urdu"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "VI",
+                            Name = "Vietnamien"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "SV",
+                            Name = "Suédois"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "DA",
+                            Name = "Danois"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "FI",
+                            Name = "Finnois"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "NO",
+                            Name = "Norvégien"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "EL",
+                            Name = "Grec"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "CS",
+                            Name = "Tchèque"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "SK",
+                            Name = "Slovaque"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "HU",
+                            Name = "Hongrois"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "RO",
+                            Name = "Roumain"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "BG",
+                            Name = "Bulgare"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "UK",
+                            Name = "Ukrainien"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "SR",
+                            Name = "Serbe"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "HR",
+                            Name = "Croate"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "SL",
+                            Name = "Slovène"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "ID",
+                            Name = "Indonésien"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "MS",
+                            Name = "Malais"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "TH",
+                            Name = "Thaï"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Code = "BN",
+                            Name = "Bengali"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Code = "TA",
+                            Name = "Tamoul"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Code = "FA",
+                            Name = "Persan (Farsi)"
                         });
                 });
 

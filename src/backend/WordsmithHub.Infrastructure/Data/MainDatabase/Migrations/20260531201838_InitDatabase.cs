@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -39,6 +40,20 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DataProtectionKeys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FriendlyName = table.Column<string>(type: "text", nullable: true),
+                    Xml = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataProtectionKeys", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,7 +101,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,7 +163,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Phone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    Phone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Address_StreetInfo = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     Address_Complement = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     Address_PostCode = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
@@ -185,7 +200,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     Label = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     BankName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     AccountHolderName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    Iban = table.Column<string>(type: "character varying(34)", maxLength: 34, nullable: false),
+                    Iban = table.Column<string>(type: "text", nullable: false),
                     Bic = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
                     IsDefault = table.Column<bool>(type: "boolean", nullable: false),
                     FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -217,7 +232,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Code = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
-                    Phone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    Phone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Address_StreetInfo = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Address_Complement = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
@@ -345,8 +360,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     VatExemption = table.Column<bool>(type: "boolean", nullable: false),
                     VatRate = table.Column<decimal>(type: "numeric(4,2)", nullable: true),
                     TaxDeductionExemption = table.Column<bool>(type: "boolean", nullable: false),
-                    ValidFrom = table.Column<DateTime>(type: "date", nullable: false),
-                    ValidTo = table.Column<DateTime>(type: "date", nullable: true),
+                    ValidFrom = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ValidTo = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     FreelanceId = table.Column<Guid>(type: "uuid", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -609,8 +624,41 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 columns: new[] { "Id", "Code", "Name", "Symbol" },
                 values: new object[,]
                 {
-                    { 1, "USD", "Dollar", "$" },
-                    { 2, "EUR", "Euro", "€" }
+                    { 1, "USD", "Dollar américain", "$" },
+                    { 2, "EUR", "Euro", "€" },
+                    { 3, "JPY", "Yen japonais", "¥" },
+                    { 4, "GBP", "Livre sterling", "£" },
+                    { 5, "AUD", "Dollar australien", "$" },
+                    { 6, "CAD", "Dollar canadien", "$" },
+                    { 7, "CHF", "Franc suisse", "CHF" },
+                    { 8, "CNY", "Yuan renminbi chinois", "¥" },
+                    { 9, "SEK", "Couronne suédoise", "kr" },
+                    { 10, "NZD", "Dollar néo‑zélandais", "$" },
+                    { 11, "MXN", "Peso mexicain", "$" },
+                    { 12, "SGD", "Dollar de Singapour", "$" },
+                    { 13, "HKD", "Dollar de Hong Kong", "$" },
+                    { 14, "NOK", "Couronne norvégienne", "kr" },
+                    { 15, "KRW", "Won sud‑coréen", "₩" },
+                    { 16, "TRY", "Livre turque", "₺" },
+                    { 17, "RUB", "Rouble russe", "₽" },
+                    { 18, "INR", "Roupie indienne", "₹" },
+                    { 19, "BRL", "Real brésilien", "R$" },
+                    { 20, "ZAR", "Rand sud‑africain", "R" },
+                    { 21, "DKK", "Couronne danoise", "kr" },
+                    { 22, "PLN", "Zloty polonais", "zł" },
+                    { 23, "THB", "Baht thaïlandais", "฿" },
+                    { 24, "HUF", "Forint hongrois", "Ft" },
+                    { 25, "CZK", "Couronne tchèque", "Kč" },
+                    { 26, "ILS", "Shekel israélien", "₪" },
+                    { 27, "PHP", "Peso philippin", "₱" },
+                    { 28, "MYR", "Ringgit malaisien", "RM" },
+                    { 29, "AED", "Dirham des Émirats arabes unis", "د.إ" },
+                    { 30, "SAR", "Riyal saoudien", "﷼" },
+                    { 31, "KWD", "Dinar koweïtien", "KD" },
+                    { 32, "BHD", "Dinar bahreïni", "BD" },
+                    { 33, "ARS", "Peso argentin", "$" },
+                    { 34, "NGN", "Naira nigérian", "₦" },
+                    { 35, "KES", "Shilling kényan", "KSh" }
                 });
 
             migrationBuilder.InsertData(
@@ -622,7 +670,27 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     { 2, "Relecture" },
                     { 3, "Sous-titrage" },
                     { 4, "Post-édition" },
-                    { 5, "Contrôle qualité" }
+                    { 5, "Contrôle qualité" },
+                    { 6, "Transcription" },
+                    { 7, "Traduction certifiée" },
+                    { 8, "Localisation" },
+                    { 9, "Transcréation" },
+                    { 10, "Révision bilingue" },
+                    { 11, "Correction monolingue" },
+                    { 12, "Alignement de documents" },
+                    { 13, "Gestion terminologique" },
+                    { 14, "Création de glossaire" },
+                    { 15, "Traduction SEO" },
+                    { 16, "Voix off" },
+                    { 17, "Doublage" },
+                    { 18, "Interprétation simultanée" },
+                    { 19, "Interprétation consécutive" },
+                    { 20, "Interprétation téléphonique" },
+                    { 21, "Mise en page (DTP)" },
+                    { 22, "Formatage de fichiers" },
+                    { 23, "Extraction de texte" },
+                    { 24, "Nettoyage de fichiers" },
+                    { 25, "Évaluation linguistique" }
                 });
 
             migrationBuilder.InsertData(
@@ -664,7 +732,30 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     { 12, "HI", "Hindi" },
                     { 13, "KO", "Coréen" },
                     { 14, "TR", "Turc" },
-                    { 15, "PL", "Polonais" }
+                    { 15, "PL", "Polonais" },
+                    { 16, "HE", "Hébreu" },
+                    { 17, "UR", "Urdu" },
+                    { 18, "VI", "Vietnamien" },
+                    { 19, "SV", "Suédois" },
+                    { 20, "DA", "Danois" },
+                    { 21, "FI", "Finnois" },
+                    { 22, "NO", "Norvégien" },
+                    { 23, "EL", "Grec" },
+                    { 24, "CS", "Tchèque" },
+                    { 25, "SK", "Slovaque" },
+                    { 26, "HU", "Hongrois" },
+                    { 27, "RO", "Roumain" },
+                    { 28, "BG", "Bulgare" },
+                    { 29, "UK", "Ukrainien" },
+                    { 30, "SR", "Serbe" },
+                    { 31, "HR", "Croate" },
+                    { 32, "SL", "Slovène" },
+                    { 33, "ID", "Indonésien" },
+                    { 34, "MS", "Malais" },
+                    { 35, "TH", "Thaï" },
+                    { 36, "BN", "Bengali" },
+                    { 37, "TA", "Tamoul" },
+                    { 38, "FA", "Persan (Farsi)" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -840,6 +931,9 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
         {
             migrationBuilder.DropTable(
                 name: "BankAccounts");
+
+            migrationBuilder.DropTable(
+                name: "DataProtectionKeys");
 
             migrationBuilder.DropTable(
                 name: "FreelanceServices");
