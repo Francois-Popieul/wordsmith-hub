@@ -9,7 +9,7 @@ namespace WordsmithHub.API.Features.LegalStatuses.Update;
 [UsedImplicitly]
 public record UpdateLegalStatusRequest(
     Guid LegalStatusId,
-    string Name,
+    int LegalStatusTypeId,
     string? Siret,
     string? VatNumber,
     bool VatExemption,
@@ -43,7 +43,7 @@ public class UpdateLegalStatusEndpoint : ApiEndpoint<UpdateLegalStatusRequest, G
         var command = new UpdateLegalStatusCommand(
             appUserId,
             request.LegalStatusId,
-            request.Name,
+            request.LegalStatusTypeId,
             request.Siret ?? null,
             request.VatNumber ?? null,
             request.VatExemption,

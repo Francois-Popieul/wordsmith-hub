@@ -11,7 +11,6 @@ public class LegalStatusConfiguration : IEntityTypeConfiguration<LegalStatus>
         builder.ToTable("LegalStatuses");
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).ValueGeneratedNever();
-        builder.Property(s => s.Name).IsRequired().HasMaxLength(50);
         builder.Property(s => s.Siret).HasMaxLength(14);
         builder.Property(s => s.VatNumber).HasMaxLength(13);
         builder.Property(s => s.VatExemption).IsRequired();
@@ -21,6 +20,10 @@ public class LegalStatusConfiguration : IEntityTypeConfiguration<LegalStatus>
         builder.Property(s => s.ValidTo);
         builder.Property(s => s.CreatedAt).IsRequired();
         builder.Property(s => s.UpdatedAt).IsRequired();
+        builder.HasOne(s => s.LegalStatusType)
+            .WithMany()
+            .HasForeignKey(s => s.LegalStatusTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
         builder
             .HasOne(s => s.Freelance)
             .WithMany()

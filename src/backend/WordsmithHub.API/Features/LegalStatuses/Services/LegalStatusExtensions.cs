@@ -12,7 +12,7 @@ public static class LegalStatusExtensions
         return new LegalStatusDto
         {
             Id = legalStatus.Id,
-            Name = legalStatus.Name,
+            LegalStatusType = legalStatus.LegalStatusType,
             Siret = legalStatus.Siret ?? string.Empty,
             VatNumber = legalStatus.VatNumber ?? string.Empty,
             VatExemption = legalStatus.VatExemption,

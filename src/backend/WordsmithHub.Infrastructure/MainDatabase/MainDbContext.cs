@@ -34,6 +34,7 @@ public class MainDbContext(DbContextOptions<MainDbContext> options) : DbContext(
     // Static Data
     public virtual DbSet<Country> Countries { get; set; }
     public virtual DbSet<Currency> Currencies { get; set; }
+    public virtual DbSet<LegalStatusType> LegalStatusTypes { get; set; }
     public virtual DbSet<Service> Services { get; set; }
     public virtual DbSet<Status> Statuses { get; set; }
     public virtual DbSet<TranslationLanguage> TranslationLanguages { get; set; }

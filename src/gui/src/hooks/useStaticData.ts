@@ -116,3 +116,31 @@ export function useServices(): zod.infer<typeof schemas.Service>[] {
 
     return services;
 }
+
+export function useLegalStatusTypes(): zod.infer<typeof schemas.LegalStatusType>[] {
+    const { token, apiClient } = useApiClient();
+    const { addToast } = useToast();
+    const [legalStatusTypes, setLegalStatusTypes] = useState<zod.infer<typeof schemas.LegalStatusType>[]>([]);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchLegalStatusTypes = async () => {
+            try {
+                const response = await apiClient.GetAllLegalStatusTypesEndpoint();
+                response.sort((a, b) => a.name.localeCompare(b.name));
+                setLegalStatusTypes(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des types de statuts juridiques.", "top_right", 3000);
+                }
+            }
+        };
+        fetchLegalStatusTypes();
+    }, [apiClient, addToast, token]);
+
+    return legalStatusTypes;
+}

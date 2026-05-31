@@ -77,9 +77,14 @@ const AddProjectRequest = z.object({
   directCustomerIds: z.array(z.string()),
   endCustomerName: z.string().nullish(),
 });
+const LegalStatusType = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  code: z.string(),
+});
 const UpdateLegalStatusRequest = z.object({
   legalStatusId: z.string().min(1),
-  name: z.string().optional(),
+  legalStatusTypeId: z.number().int().optional(),
   siret: z.string().nullish(),
   vatNumber: z.string().nullish(),
   vatExemption: z.boolean().optional(),
@@ -89,7 +94,7 @@ const UpdateLegalStatusRequest = z.object({
   validTo: z.string().datetime({ offset: true }).nullish(),
 });
 const AddLegalStatusRequest = z.object({
-  name: z.string().min(0).max(50),
+  legalStatusTypeId: z.number().int(),
   siret: z.string().min(0).max(14).nullish(),
   vatNumber: z.string().min(0).max(13).nullish(),
   vatExemption: z.boolean().optional(),
@@ -100,7 +105,7 @@ const AddLegalStatusRequest = z.object({
 });
 const LegalStatusDto = z.object({
   id: z.string(),
-  name: z.string(),
+  legalStatusType: LegalStatusType.nullable(),
   siret: z.string().nullable(),
   vatNumber: z.string().nullable(),
   vatExemption: z.boolean(),
@@ -282,6 +287,7 @@ export const schemas = {
   DirectCustomerDto,
   ProjectDto,
   AddProjectRequest,
+  LegalStatusType,
   UpdateLegalStatusRequest,
   AddLegalStatusRequest,
   LegalStatusDto,
@@ -623,6 +629,21 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.array(TranslationLanguage),
         config
       ),
+    GetAllLegalStatusTypesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "get",
+        "/legal-status-types",
+        params,
+        z.array(LegalStatusType),
+        config
+      ),
     UpdateLegalStatusEndpoint: (
       params: {
         body?: unknown;
@@ -812,6 +833,7 @@ export function getTagByAlias(alias: string): string | undefined {
     GetAllFreelancesEndpoint: "freelance",
     GetAllInvoiceStatusesEndpoint: "statuses",
     GetAllLanguagesEndpoint: "languages",
+    GetAllLegalStatusTypesEndpoint: "legal-status-types",
     UpdateLegalStatusEndpoint: "legalstatus",
     AddLegalStatusEndpoint: "legalstatus",
     DeleteLegalStatusEndpoint: "legalstatus",

@@ -1,13 +1,14 @@
 import "./AddLegalStatusModal.css";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import zod from "zod";
-import { legalStatusSchema, type LegalStatus } from "../../types/LegalStatus";
+import { legalStatusSchema } from "../../types/LegalStatus";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
+import { useApiClient } from "../../hooks/useApiClient";
+import { useLegalStatusTypes } from "../../hooks/useStaticData";
 
 interface AddLegalStatusModalProps {
     isVisible: boolean;
@@ -15,18 +16,9 @@ interface AddLegalStatusModalProps {
     onSuccess?: () => void;
 }
 
-const LegalStatusTypes = [
-    { value: "author", name: "Artiste-auteur" },
-    { value: "self-employed", name: "Auto-entrepreneur" },
-    { value: "wagePortage", name: "Portage salarial" },
-    { value: "llc", name: "SARL" }
-];
-
 function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { apiClient } = useApiClient();
+    const legalStatusTypes = useLegalStatusTypes();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
     const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string>("");
@@ -48,8 +40,8 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const legalStatusData: LegalStatus = {
-            name: formData.get("name") as string,
+        const legalStatusData: zod.infer<typeof legalStatusSchema> = {
+            legalStatusTypeId: parseInt(formData.get("name") as string, 10),
             siret: formData.get("siret") as string || null,
             vatNumber: formData.get("vatNumber") as string || null,
             vatExemption: vatExemption,
@@ -92,10 +84,14 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
         <>
             {isVisible && (
                 <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" validateButtonText="Ajouter le statut" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={LegalStatusTypes.map(type => ({ value: type.value, name: type.name }))} onChange={(name) => setSelectedLegalStatusType(name)} />
+                    <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
                     <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" required={false} error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
-                    <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" required={false} error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
-                    <FormInputGroup name="vatRate" label="Taux de TVA (%)" type="text" placeholder="20" required={false} error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
+                    {!vatExemption && (
+                        <>
+                            <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" required={false} error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
+                            <FormInputGroup name="vatRate" label="Taux de TVA (%)" type="text" placeholder="20" required={false} error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
+                        </>
+                    )}
                     <FormInputGroup name="validFrom" label="Début de validité" type="date" placeholder="" error={fieldErrors.validFrom ? fieldErrors.validFrom[0] : undefined} />
                     <FormInputGroup name="validTo" label="Fin de validité" type="date" placeholder="" required={false} error={fieldErrors.validTo ? fieldErrors.validTo[0] : undefined} />
                     <span className="checkbox_container">
@@ -105,7 +101,7 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
                             <p>Cocher cette case si ce statut vous exonère de la TVA</p>
                         </div>
                     </span>
-                    {selectedLegalStatusType === "author" && (
+                    {selectedLegalStatusType === "1" && (
                         <span className="checkbox_container">
                             <input type="checkbox" id="taxDeductionExemption" name="taxDeductionExemption" checked={taxDeductionExemption} onChange={(e) => setTaxDeductionExemption(e.target.checked)} />
                             <div className="checkbox_text">

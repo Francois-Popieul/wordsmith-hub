@@ -7,7 +7,7 @@ using WordsmithHub.Domain.LegalStatusAggregate;
 namespace WordsmithHub.API.Features.LegalStatuses.Add;
 
 public record AddLegalStatusCommand(
-    string Name,
+    int LegalStatusTypeId,
     string? Siret,
     string? VatNumber,
     bool VatExemption,
@@ -34,7 +34,7 @@ public class AddLegalStatusHandler(
         }
 
         var legalStatus = factory.CreateLegalStatus(
-            command.Name,
+            command.LegalStatusTypeId,
             command.Siret,
             command.VatNumber,
             command.VatExemption,

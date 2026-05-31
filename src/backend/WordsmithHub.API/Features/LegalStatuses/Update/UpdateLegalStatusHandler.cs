@@ -10,7 +10,7 @@ namespace WordsmithHub.API.Features.LegalStatuses.Update;
 public record UpdateLegalStatusCommand(
     Guid AppUserId,
     Guid LegalStatusId,
-    string Name,
+    int LegalStatusTypeId,
     string? Siret,
     string? VatNumber,
     bool VatExemption,
@@ -47,7 +47,7 @@ public class UpdateLegalStatusHandler(
             return OperationResult.NotFound<Guid>();
         }
 
-        legalStatus.Name = command.Name;
+        legalStatus.LegalStatusTypeId = command.LegalStatusTypeId;
         legalStatus.Siret = command.Siret;
         legalStatus.VatNumber = command.VatNumber;
         legalStatus.VatExemption = command.VatExemption;

@@ -8,7 +8,7 @@ namespace WordsmithHub.API.Features.LegalStatuses.Add;
 
 [UsedImplicitly]
 public record AddLegalStatusRequest(
-    string Name,
+    int LegalStatusTypeId,
     string? Siret,
     string? VatNumber,
     bool VatExemption,
@@ -21,7 +21,7 @@ public class AddLegalStatusRequestValidator : Validator<AddLegalStatusRequest>
 {
     public AddLegalStatusRequestValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().MaximumLength(50);
+        RuleFor(x => x.LegalStatusTypeId).NotEmpty();
         RuleFor(x => x.Siret).MaximumLength(14);
         RuleFor(x => x.VatNumber).MaximumLength(13);
         RuleFor(x => x.VatRate).GreaterThanOrEqualTo(0);
@@ -45,7 +45,7 @@ public class AddLegalStatusEndpoint : ApiEndpoint<AddLegalStatusRequest, Guid>
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
         var command = new AddLegalStatusCommand(
-            request.Name,
+            request.LegalStatusTypeId,
             request.Siret ?? null,
             request.VatNumber ?? null,
             request.VatExemption,

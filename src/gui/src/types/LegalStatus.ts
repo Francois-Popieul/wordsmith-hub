@@ -1,7 +1,7 @@
 import * as zod from "zod";
 
 export type LegalStatus = {
-    name: string,
+    legalStatusTypeId: number,
     siret: string | null,
     vatNumber: string | null,
     vatExemption: boolean,
@@ -12,11 +12,10 @@ export type LegalStatus = {
 };
 
 export const legalStatusSchema = zod.object({
-    name: zod
-        .string()
-        .trim()
-        .min(1, "Le nom du statut juridique est requis")
-        .max(100, "Le nom du statut juridique ne peut pas dépasser 100 caractères."),
+    legalStatusTypeId: zod
+        .number()
+        .int()
+        .positive(),
     siret: zod
         .string()
         .trim()
