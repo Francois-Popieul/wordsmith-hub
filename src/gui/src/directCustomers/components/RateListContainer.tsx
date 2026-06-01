@@ -26,7 +26,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     const [isAddRateModalVisible, setIsAddRateModalVisible] = useState(false);
     // const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
     // const [rateToUpdate, setRateToUpdate] = useState<zod.infer<typeof schemas.RateDto>> | null>(null);
-    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+    const [isDeleteRateModalVisible, setIsDeleteRateModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const [profileData, setProfileData] = useState<ProfileDto | null>(null);
     const services = useServices();
@@ -79,12 +79,11 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     }
 
     function handleDelete(id: string) {
-        setIsDeleteModalVisible(true);
+        setIsDeleteRateModalVisible(true);
         setRateToDeleteId(id);
-        addToast("information", `Supprimer le tarif avec l'ID ${id}`, "top_right", 3000);
     }
 
-    async function handleConfirmDelete() {
+    async function handleConfirmRateDelete() {
         if (!rateToDeleteId) {
             addToast("error", "Aucun tarif à supprimer.", "top_right", 3000);
             return;
@@ -101,15 +100,14 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
             }
             return;
         }
-        setIsDeleteModalVisible(false);
+        setIsDeleteRateModalVisible(false);
         setRateToDeleteId(null);
         addToast("success", "Tarif supprimé !", "top_right", 3000);
     }
 
-    function handleCancelDelete() {
-        setIsDeleteModalVisible(false);
+    function handleCancelRateDelete() {
+        setIsDeleteRateModalVisible(false);
         setRateToDeleteId(null);
-        addToast("information", "Suppression du tarif annulée.", "top_right", 3000);
     }
 
     function handleEdit(id: string) {
@@ -131,7 +129,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
         </ListContainer>
         <AddRateModal directCustomerId={directCustomerId} directCustomerCurrencySign={directCustomerCurrencySign} freelanceProfile={profileData} isVisible={isAddRateModalVisible} onClose={() => setIsAddRateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
         {/* <UpdateRateModal isVisible={isUpdateModalVisible} rate={rateToUpdate} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} /> */}
-        <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le tarif" message="Voulez-vous vraiment supprimer ce tarif ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
+        <ConfirmationModal isVisible={isDeleteRateModalVisible} title="Supprimer le tarif" message="Voulez-vous vraiment supprimer ce tarif ?" onConfirm={handleConfirmRateDelete} onCancel={handleCancelRateDelete} />
     </>
 }
 

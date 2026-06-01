@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WordsmithHub.Domain;
 using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
@@ -19,7 +20,8 @@ public class ProjectRepository(MainDbContext context) : Repository<Project>(cont
         CancellationToken cancellationToken = default)
     {
         return await Context.Projects.AsNoTracking()
-            .Where(p => p.DirectCustomers.Any(dc => dc.Id == directCustomerId))
+            .Where(p => p.DirectCustomers.Any(dc =>
+                dc.Id == directCustomerId) && p.StatusId != StatusIds.General.Inactive)
             .Include(p => p.DirectCustomers)
             .Include(p => p.EndCustomer)
             .ToListAsync(cancellationToken);
