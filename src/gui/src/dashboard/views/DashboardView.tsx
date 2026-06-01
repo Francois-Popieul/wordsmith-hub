@@ -22,7 +22,6 @@ function DashboardView() {
     const { addToast } = useToast();
     const [profileData, setProfileData] = useState<ProfileDto | void>();
     const [loading, setLoading] = useState(true);
-    const [projectNumber, setProjectNumber] = useState(0);
     const [orderNumber, setOrderNumber] = useState(0);
     const [earnings, setEarnings] = useState(0);
     const [isAddCustomerModalVisible, setIsAddCustomerModalVisible] = useState(false);
@@ -37,7 +36,6 @@ function DashboardView() {
                 const response = await apiClient.GetFreelanceEndpoint();
                 const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
                 setProfileData(profileData);
-                setProjectNumber(0);
                 setOrderNumber(0);
                 setEarnings(0);
                 setLoading(false);
