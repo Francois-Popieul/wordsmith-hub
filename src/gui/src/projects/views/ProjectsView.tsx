@@ -19,6 +19,7 @@ function ProjectsView() {
     const navigate = useNavigate();
     const [refreshKey, setRefreshKey] = useState(0);
     const { addToast } = useToast();
+    const [directCustomerCount, setDirectCustomerCount] = useState<number>(0);
     const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
     const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
@@ -26,6 +27,25 @@ function ProjectsView() {
     const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchDirectCustomers = async () => {
+            try {
+                const response = await apiClient.GetAllDirectCustomersEndpoint();
+                setDirectCustomerCount(response.length);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des clients directs.", "top_right", 3000);
+                }
+            }
+        };
+        fetchDirectCustomers();
+    }, [apiClient, addToast, token]);
 
     useEffect(() => {
         if (!token) return;
@@ -127,10 +147,18 @@ function ProjectsView() {
         }
     }
 
+    function handleAddProject() {
+        if (directCustomerCount === 0) {
+            addToast("error", "Ajoutez un client direct pour pouvoir créer un projet.", "top_right", 3000);
+            return;
+        }
+        setIsAddModalVisible(true);
+    }
+
     return (
         <>
             <AppLayout>
-                <PageHeader pageTitle="Projets" pageSubtitle="Gérez vos projets de traduction" button={<Button variant="blue" name="Ajouter un projet" width="default" type="button" onClick={() => setIsAddModalVisible(true)}><PlusSignIcon /></Button>}></PageHeader>
+                <PageHeader pageTitle="Projets" pageSubtitle="Gérez vos projets de traduction" button={<Button variant="blue" name="Ajouter un projet" width="default" type="button" onClick={handleAddProject}><PlusSignIcon /></Button>}></PageHeader>
                 <ProjectDataTable projects={projects} projectStatuses={projectStatuses} onAdd={() => setIsAddModalVisible(true)} onEdit={(id) => handleUpdate(id)} onStatusChange={(projectId, statusId) => handleStatusChange(projectId, statusId)} onDelete={(id) => handleDelete(id)} />
                 <AddProjectModal isVisible={isAddModalVisible} onClose={() => setIsAddModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
                 <UpdateProjectModal project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
