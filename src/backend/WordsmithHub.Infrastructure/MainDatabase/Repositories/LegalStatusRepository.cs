@@ -10,6 +10,7 @@ public class LegalStatusRepository(MainDbContext context) : Repository<LegalStat
         CancellationToken cancellationToken = default)
     {
         return await Context.LegalStatuses.AsNoTracking()
+            .Include(s => s.LegalStatusType)
             .Where(s => s.FreelanceId == freelanceId && s.StatusId != StatusIds.General.Inactive)
             .ToListAsync(cancellationToken);
     }

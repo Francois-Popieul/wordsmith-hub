@@ -24,7 +24,7 @@ function LegalStatusDataTable({ legalStatuses, onEdit, onDelete }: LegalStatusPr
     );
 
     return <DataTable value={legalStatuses} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
-        <Column field="name" header="Type de statut" style={{ minWidth: "150px" }} />
+        <Column field="legalStatusType" header="Type de statut" style={{ minWidth: "150px" }} body={(rowData) => rowData.legalStatusType?.name ?? ""} />
         <Column field="siret" header="SIRET" style={{ minWidth: "150px" }} />
         <Column field="vatNumber" header="Numéro de TVA" style={{ minWidth: "150px" }} />
         <Column field="validFrom" header="Début de validité" style={{ minWidth: "150px" }} body={(rowData) => new Date(rowData.validFrom).toLocaleDateString()} />

@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import ListContainer from "../../components/ui/ListContainer";
 import Button from "../../components/ui/Button";
 import { OrdersIcon, PlusSignIcon } from "../../assets/icons/icons";
-import type LegalStatusDto from "../models/LegalStatusDto";
 import AddLegalStatusModal from "./AddLegalStatusModal";
 import LegalStatusDataTable from "./LegalStatusDataTable";
+import * as zod from "zod";
 
 function LegalStatusListContainer() {
     const token = localStorage.getItem("wshToken");
@@ -15,7 +15,7 @@ function LegalStatusListContainer() {
         axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
     }), [token]);
 
-    const [legalStatuses, setLegalStatuses] = useState<LegalStatusDto[]>([]);
+    const [legalStatuses, setLegalStatuses] = useState<zod.infer<typeof schemas.LegalStatusDto>[]>([]);
     const { addToast } = useToast();
     const [isAddLegalStatusModalVisible, setIsAddLegalStatusModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
