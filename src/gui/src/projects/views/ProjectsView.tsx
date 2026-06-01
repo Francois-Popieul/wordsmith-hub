@@ -13,13 +13,14 @@ import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import { useApiClient } from "../../hooks/useApiClient";
 import UpdateProjectModal from "../components/UpdateProjectModal";
+import { useDirectCustomerCount } from "../../hooks/useStats";
 
 function ProjectsView() {
     const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
     const [refreshKey, setRefreshKey] = useState(0);
     const { addToast } = useToast();
-    const [directCustomerCount, setDirectCustomerCount] = useState<number>(0);
+    const directCustomerCount = useDirectCustomerCount();
     const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
     const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
@@ -27,25 +28,6 @@ function ProjectsView() {
     const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-
-    useEffect(() => {
-        if (!token) return;
-        const fetchDirectCustomers = async () => {
-            try {
-                const response = await apiClient.GetAllDirectCustomersEndpoint();
-                setDirectCustomerCount(response.length);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des clients directs.", "top_right", 3000);
-                }
-            }
-        };
-        fetchDirectCustomers();
-    }, [apiClient, addToast, token]);
 
     useEffect(() => {
         if (!token) return;
