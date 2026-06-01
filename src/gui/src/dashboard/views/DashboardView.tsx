@@ -52,6 +52,14 @@ function DashboardView() {
         fetchProfileData();
     }, [apiClient, addToast, token]);
 
+    function handleAddProject() {
+        if (directCustomerCount === 0) {
+            addToast("information", "Ajoutez un client direct pour pouvoir créer un projet.", "top_right", 3000);
+            return;
+        }
+        setIsAddProjectModalVisible(true);
+    }
+
     if (!token) {
         navigate("/");
         return null;
@@ -80,7 +88,7 @@ function DashboardView() {
                     icon={<ProjectsIcon />}
                     title="Créer un projet"
                     description="Créer un nouveau projet pour un client"
-                    onClick={() => setIsAddProjectModalVisible(true)}
+                    onClick={handleAddProject}
                 />
                 <QuickActionCard
                     icon={<InvoicesIcon />}
