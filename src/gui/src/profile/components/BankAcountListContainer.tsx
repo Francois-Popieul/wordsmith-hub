@@ -86,11 +86,9 @@ function BankAcountListContainer() {
                 pathParams: { bankAccountId: bankAccountToDeleteId },
             });
             setBankAccounts(prev => prev.filter(c => c.id !== bankAccountToDeleteId));
+            addToast("success", "Compte bancaire supprimé !", "top_right", 3000);
         } catch (error) {
-            if (error instanceof zod.ZodError) {
-                // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
-                addToast("success", "Compte bancaire supprimé !", "top_right", 3000);
-            } else if (axios.isAxiosError(error) && error.response) {
+            if (axios.isAxiosError(error) && error.response) {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de la suppression du compte bancaire.", "top_right", 3000);

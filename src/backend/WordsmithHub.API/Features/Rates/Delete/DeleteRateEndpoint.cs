@@ -12,6 +12,8 @@ public class DeleteRateEndpoint : ApiEndpointWithoutRequest<NoContent>
         Delete("/rate/{rateId:guid}");
         Roles("user");
         Description(x => x.WithTags("rate")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

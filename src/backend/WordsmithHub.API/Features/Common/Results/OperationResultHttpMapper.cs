@@ -14,14 +14,10 @@ public static class OperationResultHttpMapper
         OperationResult<T> result,
         CancellationToken cancellationToken)
     {
-        if (typeof(T) == typeof(NoContent))
-        {
-            httpContext.Response.StatusCode = StatusCodes.Status204NoContent;
-            return;
-        }
-
         var (statusCode, body) = result.Status switch
         {
+            OperationStatus.Success when typeof(T) == typeof(NoContent) =>
+                (StatusCodes.Status204NoContent, null),
             OperationStatus.Success => (StatusCodes.Status200OK, (object?)result.Value),
             OperationStatus.NotFound => (StatusCodes.Status404NotFound, null),
             OperationStatus.Forbidden => (StatusCodes.Status403Forbidden, null),

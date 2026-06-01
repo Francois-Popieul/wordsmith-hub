@@ -24,7 +24,6 @@ const RateDto = z.object({
   serviceId: z.number().int(),
   directCustomerId: z.string(),
 });
-const NoContent = z.object({});
 const AddRateRequest = z.object({
   unitPrice: z.number().gt(0),
   unit: z.string().min(0).max(20),
@@ -279,7 +278,6 @@ export const schemas = {
   Status,
   Service,
   RateDto,
-  NoContent,
   AddRateRequest,
   UpdateProjectStatusRequest,
   EndCustomerDto,
@@ -353,7 +351,16 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       params: params.query,
       ...config,
     });
-    return responseSchema.parse(response.data);
+
+    // Axios can return an empty string for 204 responses in some environments.
+    // Normalize no-content payloads so z.void() schemas parse reliably.
+    const canBeVoid = responseSchema.safeParse(undefined).success;
+    const responseData =
+      response.status === 204 || (canBeVoid && response.data === "")
+        ? undefined
+        : response.data;
+
+    return responseSchema.parse(responseData);
   }
 
   return {
@@ -411,7 +418,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         "delete",
         "/bankaccount/:bankAccountId",
         params,
-        z.object({}),
+        z.void(),
         config
       ),
     GetAllBankAccountsEndpoint: (
@@ -489,7 +496,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         "delete",
         "/directcustomer/:directCustomerId",
         params,
-        z.object({}),
+        z.void(),
         config
       ),
     GetAllDirectCustomersEndpoint: (
@@ -530,14 +537,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         query?: Record<string, unknown>;
       } = {},
       config?: AxiosRequestConfig
-    ) =>
-      request(
-        "delete",
-        "/freelance/:freelanceId",
-        params,
-        z.object({}),
-        config
-      ),
+    ) => request("delete", "/freelance/:freelanceId", params, z.void(), config),
     UpdateFreelanceAddressEndpoint: (
       params: {
         body?: unknown;
@@ -672,7 +672,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         "delete",
         "/legalstatus/:legalStatusId",
         params,
-        z.object({}),
+        z.void(),
         config
       ),
     GetAllLegalStatusesEndpoint: (
@@ -707,7 +707,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         query?: Record<string, unknown>;
       } = {},
       config?: AxiosRequestConfig
-    ) => request("delete", "/project/:projectId", params, z.object({}), config),
+    ) => request("delete", "/project/:projectId", params, z.void(), config),
     UpdateProjectStatusEndpoint: (
       params: {
         body?: unknown;
@@ -755,7 +755,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         query?: Record<string, unknown>;
       } = {},
       config?: AxiosRequestConfig
-    ) => request("delete", "/rate/:rateId", params, z.object({}), config),
+    ) => request("delete", "/rate/:rateId", params, z.void(), config),
     GetAllRatesEndpoint: (
       params: {
         body?: unknown;

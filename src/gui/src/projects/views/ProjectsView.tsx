@@ -95,11 +95,7 @@ function ProjectsView() {
                 setProjects(prev => prev.filter(p => p.id !== projectToDeleteId));
                 addToast("success", "Projet supprimé !", "top_right", 3000);
             } catch (error) {
-                if (error instanceof zod.ZodError) {
-                    // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
-                    setProjects(prev => prev.filter(p => p.id !== projectToDeleteId));
-                    addToast("success", "Projet supprimé !", "top_right", 3000);
-                } else if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
                     addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);

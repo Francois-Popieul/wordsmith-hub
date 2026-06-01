@@ -12,6 +12,8 @@ public class DeleteDirectCustomerEndpoint : ApiEndpointWithoutRequest<NoContent>
         Delete("/directcustomer/{directCustomerId:guid}");
         Roles("user", "admin");
         Description(x => x.WithTags("directcustomer")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

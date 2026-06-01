@@ -12,6 +12,8 @@ public class DeleteFreelanceEndpoint : ApiEndpointWithoutRequest<NoContent>
         Delete("/freelance/{freelanceId:guid}");
         Roles("user", "admin");
         Description(x => x.WithTags("freelance")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

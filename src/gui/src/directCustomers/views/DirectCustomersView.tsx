@@ -73,12 +73,7 @@ function DirectCustomers() {
                 setCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));
                 addToast("success", "Client direct supprimé !", "top_right", 3000);
             } catch (error) {
-                if (error instanceof zod.ZodError) {
-                    // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
-                    setDirectCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));
-                    setCustomers(prev => prev.filter(c => c.id !== customerToDeleteId));
-                    addToast("success", "Client direct supprimé !", "top_right", 3000);
-                } else if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
                     addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
