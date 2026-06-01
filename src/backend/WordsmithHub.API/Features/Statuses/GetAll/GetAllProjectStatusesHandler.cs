@@ -27,7 +27,7 @@ public class GetAllProjectStatusesHandler(
         var projectStatuses = await statusRepository.GetAllProjectStatusesAsync(cancellationToken);
 
         return projectStatuses.Count == 0
-            ? new OperationResult<IReadOnlyList<Status>>(OperationStatus.NotFound)
+            ? new OperationResult<IReadOnlyList<Status>>(OperationStatus.Success, [])
             : new OperationResult<IReadOnlyList<Status>>(OperationStatus.Success, projectStatuses);
     }
 }

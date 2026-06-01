@@ -15,9 +15,10 @@ interface UpdateDirectCustomerModalProps {
     isVisible: boolean;
     customer: zod.infer<typeof schemas.DirectCustomerDto> | null;
     onClose: () => void;
+    onSuccess?: () => void;
 }
 
-function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirectCustomerModalProps) {
+function UpdateDirectCustomerModal({ isVisible, customer, onClose, onSuccess }: UpdateDirectCustomerModalProps) {
     const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
@@ -89,6 +90,7 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose }: UpdateDirec
                 },
             });
             handleClose();
+            onSuccess?.();
             addToast("success", "Client direct mis à jour !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {

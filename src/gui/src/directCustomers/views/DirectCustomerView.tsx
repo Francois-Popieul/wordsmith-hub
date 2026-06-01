@@ -24,7 +24,7 @@ function DirectCustomerView() {
     useEffect(() => {
         if (!token) return;
         if (!directCustomerId) {
-            addToast("error", "ID du client introuvable dans l'URL.", "top_right", 3000);
+            addToast("error", "ID du client introuvable dans l’URL.", "top_right", 3000);
             return;
         }
         const fetchDirectCustomer = async () => {
@@ -53,7 +53,7 @@ function DirectCustomerView() {
 
     return <AppLayout>
         <PageHeader pageTitle={directCustomer ? directCustomer.name : ""} pageSubtitle="Modifiez les informations du client et vos tarifs avec lui" ></PageHeader>
-        {directCustomer ? <DirectCustomerDetails directCustomer={directCustomer} /> : <p>Chargement des informations du client...</p>}
+        {directCustomer ? <DirectCustomerDetails directCustomer={directCustomer} /> : <p>Chargement des informations du client…</p>}
         <RateListContainer directCustomerId={directCustomerId!} directCustomerCurrencySign={directCustomer ? currencies.find(c => c.id === directCustomer.currencyId)?.symbol ?? "" : ""} />
         <ProjectListContainer directCustomerId={directCustomerId!} />
     </AppLayout>;

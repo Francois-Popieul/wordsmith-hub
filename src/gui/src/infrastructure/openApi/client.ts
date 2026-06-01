@@ -32,6 +32,13 @@ const AddRateRequest = z.object({
   serviceId: z.number().int().gt(0),
   directCustomerId: z.string().optional(),
 });
+const AddProjectRequest = z.object({
+  name: z.string().min(0).max(150),
+  domain: z.string().min(0).max(100),
+  description: z.string().min(0).max(1000).nullish(),
+  directCustomerIds: z.array(z.string()),
+  endCustomerName: z.string().nullish(),
+});
 const UpdateProjectStatusRequest = z.object({
   statusId: z.number().int().gte(30).lte(31),
 });
@@ -68,13 +75,6 @@ const ProjectDto = z.object({
   endCustomer: EndCustomerDto.nullable(),
   directCustomers: z.array(DirectCustomerDto),
   statusId: z.number().int(),
-});
-const AddProjectRequest = z.object({
-  name: z.string().min(0).max(150),
-  domain: z.string().min(0).max(100),
-  description: z.string().min(0).max(1000).nullish(),
-  directCustomerIds: z.array(z.string()),
-  endCustomerName: z.string().nullish(),
 });
 const LegalStatusType = z.object({
   id: z.number().int(),
@@ -279,12 +279,12 @@ export const schemas = {
   Service,
   RateDto,
   AddRateRequest,
+  AddProjectRequest,
   UpdateProjectStatusRequest,
   EndCustomerDto,
   AddressDto,
   DirectCustomerDto,
   ProjectDto,
-  AddProjectRequest,
   LegalStatusType,
   UpdateLegalStatusRequest,
   AddLegalStatusRequest,
@@ -700,6 +700,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/project-statuses", params, z.array(Status), config),
+    UpdateProjectEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("put", "/project/:projectId", params, z.string(), config),
     DeleteProjectEndpoint: (
       params: {
         body?: unknown;
@@ -840,6 +848,7 @@ export function getTagByAlias(alias: string): string | undefined {
     GetAllLegalStatusesEndpoint: "legalstatus",
     AddProjectEndpoint: "project",
     GetAllProjectStatusesEndpoint: "statuses",
+    UpdateProjectEndpoint: "project",
     DeleteProjectEndpoint: "project",
     UpdateProjectStatusEndpoint: "project",
     GetAllProjectsEndpoint: "projects",

@@ -67,14 +67,14 @@ function SignupView() {
                 <FormInputGroup label="Mot de passe" type="password" name="password" placeholder="************" error={fieldErrors.password?.[0]} />
                 <FormInputGroup label="Confirmation du mot de passe" type="password" name="password_confirmation" placeholder="************" error={fieldErrors.passwordConfirmation?.[0]} />
                 <CheckboxOption
-                    label={<>J'accepte les <a href="/terms_of_service">conditions d'utilisation</a></>}
+                    label={<>J’accepte les <a href="/terms_of_service">conditions d’utilisation</a></>}
                     name="conditions"
                     checked={conditionsIsChecked}
                     required={true}
                     onChange={setConditionsIsChecked}
                     error={fieldErrors.conditions?.[0]} />
                 <CheckboxOption
-                    label={<>J'accepte la <a href="/privacy_policy">politique de confidentialité</a></>}
+                    label={<>J’accepte la <a href="/privacy_policy">politique de confidentialité</a></>}
                     name="privacy"
                     checked={privacyIsChecked}
                     required={true}

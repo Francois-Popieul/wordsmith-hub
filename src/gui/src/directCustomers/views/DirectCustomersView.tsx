@@ -108,7 +108,7 @@ function DirectCustomers() {
                     onDelete={(id) => handleDelete(id)}
                 />
                 <AddDirectCustomerModal isVisible={isAddModalVisible} onClose={() => setIsAddModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
-                <UpdateDirectCustomerModal customer={customerToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} />
+                <UpdateDirectCustomerModal customer={customerToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
                 <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le client" message="Voulez-vous vraiment supprimer ce client ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
             </AppLayout>
         </>

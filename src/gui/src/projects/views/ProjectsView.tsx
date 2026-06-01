@@ -12,19 +12,20 @@ import * as zod from "zod";
 import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import { useApiClient } from "../../hooks/useApiClient";
+import UpdateProjectModal from "../components/UpdateProjectModal";
 
 function ProjectsView() {
     const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
-    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-    const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
-    const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
-    // const [projectToUpdate, setProjectToUpdate] = useState<zod.infer<typeof schemas.ProjectDto> | null>(null);
-    const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);
-    // const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const { addToast } = useToast();
+    const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
+    const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
+    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+    const [projectToUpdate, setProjectToUpdate] = useState<zod.infer<typeof schemas.ProjectDto> | null>(null);
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+    const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
     useEffect(() => {
         if (!token) return;
@@ -33,9 +34,7 @@ function ProjectsView() {
                 const response = await apiClient.GetAllProjectsEndpoint();
                 setProjects(response);
             } catch (error) {
-                if (error instanceof zod.ZodError) {
-                    // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
-                } else if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
                     addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
@@ -54,14 +53,12 @@ function ProjectsView() {
                 const response = await apiClient.GetAllProjectStatusesEndpoint();
                 setProjectStatuses(response);
             } catch (error) {
-                if (error instanceof zod.ZodError) {
-                    // 204 No Content: HTTP succeeded but the auto-generated schema can't parse an empty body
-                } else if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
                     const data = error.response.data;
                     const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
                     addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
                 } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des projets.", "top_right", 3000);
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des statuts de projets.", "top_right", 3000);
                 }
             }
         };
@@ -74,11 +71,9 @@ function ProjectsView() {
     }
 
     function handleUpdate(id: string) {
-        // const project = projects.find(p => p.id === id) || null;
-        // setProjectToUpdate(project);
-        // setIsUpdateModalVisible(true);
-        addToast("information", id, "top_right", 3000);
-        addToast("information", "La modification des projets n’est pas encore disponible.", "top_right", 3000);
+        const project = projects.find(p => p.id === id) || null;
+        setProjectToUpdate(project);
+        setIsUpdateModalVisible(true);
     }
 
     function handleDelete(id: string) {
@@ -87,21 +82,20 @@ function ProjectsView() {
     }
 
     async function handleConfirmDelete() {
-        if (projectToDeleteId) {
-            try {
-                await apiClient.DeleteProjectEndpoint({
-                    pathParams: { projectId: projectToDeleteId },
-                });
-                setProjects(prev => prev.filter(p => p.id !== projectToDeleteId));
-                addToast("success", "Projet supprimé !", "top_right", 3000);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors de la suppression du projet.", "top_right", 3000);
-                }
+        if (!token || !projectToDeleteId) return;
+        try {
+            await apiClient.DeleteProjectEndpoint({
+                pathParams: { projectId: projectToDeleteId },
+            });
+            setProjects(prev => prev.filter(p => p.id !== projectToDeleteId));
+            addToast("success", "Projet supprimé !", "top_right", 3000);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+            } else {
+                addToast("error", "Une erreur inattendue s’est produite lors de la suppression du projet.", "top_right", 3000);
             }
         }
         setProjectToDeleteId(null);
@@ -114,6 +108,7 @@ function ProjectsView() {
     }
 
     async function handleStatusChange(projectId: string, statusId: string) {
+        if (!token) return;
         try {
             await apiClient.UpdateProjectStatusEndpoint({
                 pathParams: { projectId },
@@ -138,6 +133,7 @@ function ProjectsView() {
                 <PageHeader pageTitle="Projets" pageSubtitle="Gérez vos projets de traduction" button={<Button variant="blue" name="Ajouter un projet" width="default" type="button" onClick={() => setIsAddModalVisible(true)}><PlusSignIcon /></Button>}></PageHeader>
                 <ProjectDataTable projects={projects} projectStatuses={projectStatuses} onAdd={() => setIsAddModalVisible(true)} onEdit={(id) => handleUpdate(id)} onStatusChange={(projectId, statusId) => handleStatusChange(projectId, statusId)} onDelete={(id) => handleDelete(id)} />
                 <AddProjectModal isVisible={isAddModalVisible} onClose={() => setIsAddModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
+                <UpdateProjectModal project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
                 <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le projet" message="Voulez-vous vraiment supprimer ce projet ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
             </AppLayout>
         </>

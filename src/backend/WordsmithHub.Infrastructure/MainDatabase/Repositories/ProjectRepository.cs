@@ -10,7 +10,7 @@ public class ProjectRepository(MainDbContext context) : Repository<Project>(cont
         CancellationToken cancellationToken = default)
     {
         return await Context.Projects.AsNoTracking()
-            .Where(p => p.FreelanceId == freelanceId)
+            .Where(p => p.FreelanceId == freelanceId && p.StatusId != StatusIds.General.Inactive)
             .Include(p => p.DirectCustomers)
             .Include(p => p.EndCustomer)
             .ToListAsync(cancellationToken);
@@ -25,6 +25,16 @@ public class ProjectRepository(MainDbContext context) : Repository<Project>(cont
             .Include(p => p.DirectCustomers)
             .Include(p => p.EndCustomer)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Guid> UpdateInformationAsync(Project project, CancellationToken cancellationToken = default)
+    {
+        project.DirectCustomers.Clear();
+        foreach (var directCustomer in project.DirectCustomers)
+            project.DirectCustomers.Add(directCustomer);
+        project.UpdatedAt = DateTime.UtcNow;
+        await Context.SaveChangesAsync(cancellationToken);
+        return project.Id;
     }
 
     public async Task UpdateStatusAsync(Project project, CancellationToken cancellationToken = default)

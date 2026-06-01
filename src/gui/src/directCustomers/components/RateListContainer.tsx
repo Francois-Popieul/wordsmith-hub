@@ -111,7 +111,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     }
 
     function handleEdit(id: string) {
-        addToast("information", `Modifier le tarif avec l'ID ${id}`, "top_right", 3000);
+        addToast("information", `Modifier le tarif avec l’ID ${id}`, "top_right", 3000);
     }
 
     return <>
