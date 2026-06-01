@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { createApiClient, schemas } from "../../infrastructure/openApi/client";
+import { schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import ListContainer from "../../components/ui/ListContainer";
 import Button from "../../components/ui/Button";
@@ -9,12 +9,10 @@ import AddBankAccountModal from "./AddBankAccountModal";
 import * as zod from "zod";
 import BankAccountDataTable from "./BankAccountDataTable";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function BankAcountListContainer() {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [bankAccounts, setBankAccounts] = useState<zod.infer<typeof schemas.BankAccountDto>[]>([]);
     const { addToast } = useToast();
     const [isAddBankAccountModalVisible, setIsAddBankAccountModalVisible] = useState(false);

@@ -3,9 +3,10 @@ import PageHeader from "../../components/ui/PageHeader";
 import Button from "../../components/ui/Button";
 import AppLayout from "../../components/ui/AppLayout";
 import { useNavigate } from "react-router";
+import { useApiClient } from "../../hooks/useApiClient";
 
 function Invoices() {
-    const token = localStorage.getItem("wshToken");
+    const { token } = useApiClient();
     const navigate = useNavigate();
 
     if (!token) {

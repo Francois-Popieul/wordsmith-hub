@@ -3,9 +3,10 @@ import AppLayout from "../components/ui/AppLayout";
 import PageHeader from "../components/ui/PageHeader";
 import Button from "../components/ui/Button";
 import { useNavigate } from "react-router";
+import { useApiClient } from "../hooks/useApiClient";
 
 function OrdersView() {
-    const token = localStorage.getItem("wshToken");
+    const { token } = useApiClient();
     const navigate = useNavigate();
 
     if (!token) {

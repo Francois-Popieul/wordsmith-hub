@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { useEffect, useState } from "react";
 import { useToast } from "../../hooks/useToast";
 import * as zod from "zod";
 import { schemas } from "../../infrastructure/openApi/client";
@@ -9,16 +8,14 @@ import Button from "../../components/ui/Button";
 import DirectCustomerProjectDataTable from "./DirectCustomerProjectDataTable";
 import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
+import { useApiClient } from "../../hooks/useApiClient";
 
 interface ProjectListContainerProps {
     directCustomerId: string;
 }
 
 function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
     const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
     const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);

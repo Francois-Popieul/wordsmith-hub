@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { createApiClient, schemas } from "../../infrastructure/openApi/client";
+import { useEffect, useState } from "react";
+import { schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import ListContainer from "../../components/ui/ListContainer";
 import Button from "../../components/ui/Button";
@@ -11,6 +11,7 @@ import AddRateModal from "./AddRateModal";
 import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
 import { useServices, useLanguages } from "../../hooks/useStaticData";
+import { useApiClient } from "../../hooks/useApiClient";
 
 interface RateListContainerProps {
     directCustomerId: string;
@@ -18,10 +19,7 @@ interface RateListContainerProps {
 }
 
 function RateListContainer({ directCustomerId, directCustomerCurrencySign }: RateListContainerProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
     const [rates, setRates] = useState<zod.infer<typeof schemas.RateDto>[]>([]);
     const [rateToDeleteId, setRateToDeleteId] = useState<string | null>(null);

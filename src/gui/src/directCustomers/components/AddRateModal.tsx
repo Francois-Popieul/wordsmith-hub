@@ -1,8 +1,7 @@
 import "./AddRateModal.css";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import * as zod from "zod";
@@ -10,6 +9,7 @@ import { rateSchema, type Rate } from "../../types/Rate";
 import type ProfileDto from "../../profile/models/ProfileDto";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import UnitTypes from "../types/Units";
+import { useApiClient } from "../../hooks/useApiClient";
 
 interface AddRateModalProps {
     directCustomerId: string;
@@ -21,10 +21,7 @@ interface AddRateModalProps {
 }
 
 function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceProfile, isVisible, onClose, onSuccess }: AddRateModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
     const [selectedServiceId, setSelectedServiceId] = useState<string>("");
@@ -46,6 +43,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
     }
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+        if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const rateData: Rate = {

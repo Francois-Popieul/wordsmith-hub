@@ -1,13 +1,13 @@
 import "./AddDirectCustomerModal.css";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import { directCustomerSchema, type DirectCustomer } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useCountries, useCurrencies } from "../../hooks/useStaticData";
+import { useApiClient } from "../../hooks/useApiClient";
 
 interface AddDirectCustomerModalProps {
     isVisible: boolean;
@@ -16,10 +16,7 @@ interface AddDirectCustomerModalProps {
 }
 
 function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCustomerModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
     const countries = useCountries();
@@ -41,6 +38,7 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
 
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+        if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const directCustomerData: DirectCustomer = {

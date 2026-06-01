@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient, schemas } from "../../infrastructure/openApi/client";
+import { schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import * as zod from "zod";
 import FormMultiSelectGroup from "../../components/ui/FormMultiSelectGroup";
+import { useApiClient } from "../../hooks/useApiClient";
 
 interface AddProjectModalProps {
     isVisible: boolean;
@@ -14,10 +15,7 @@ interface AddProjectModalProps {
 }
 
 function AddProjectModal({ isVisible, onClose, onSuccess }: AddProjectModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [selectedDirectCustomerIds, setSelectedDirectCustomerIds] = useState<string[]>([]);
     const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
@@ -53,6 +51,7 @@ function AddProjectModal({ isVisible, onClose, onSuccess }: AddProjectModalProps
     }
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+        if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const projectData = {
