@@ -15,6 +15,14 @@ const Status = z.object({
   category: z.string(),
 });
 const Service = z.object({ id: z.number().int(), name: z.string() });
+const UpdateRateRequest = z.object({
+  unitPrice: z.number().gt(0),
+  unit: z.string().min(0).max(20),
+  sourceLanguageId: z.number().int().gt(0),
+  targetLanguageId: z.number().int().gt(0),
+  serviceId: z.number().int().gt(0),
+  directCustomerId: z.string().optional(),
+});
 const RateDto = z.object({
   id: z.string(),
   unitPrice: z.number(),
@@ -277,6 +285,7 @@ export const schemas = {
   AppUserDto,
   Status,
   Service,
+  UpdateRateRequest,
   RateDto,
   AddRateRequest,
   AddProjectRequest,
@@ -756,6 +765,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/rate", params, z.string(), config),
+    UpdateRateEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("put", "/rate/:rateId", params, z.string(), config),
     DeleteRateEndpoint: (
       params: {
         body?: unknown;
@@ -854,6 +871,7 @@ export function getTagByAlias(alias: string): string | undefined {
     GetAllProjectsEndpoint: "projects",
     GetAllProjectsByDirectCustomerEndpoint: "projects",
     AddRateEndpoint: "rate",
+    UpdateRateEndpoint: "rate",
     DeleteRateEndpoint: "rate",
     GetAllRatesEndpoint: "rates",
     GetAllRatesByCustomerIdEndpoint: "rates",

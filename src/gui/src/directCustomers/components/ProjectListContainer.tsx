@@ -96,7 +96,7 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
                 title="Projets"
                 presentation="Liste des projets associés à ce client"
                 add_button_name="Ajouter un projet"
-                no_content_message="Aucun projet enregistré pour le moment. Cliquez sur le bouton ci-dessous afin de définir vos projets."
+                no_content_message="Aucun projet enregistré pour le moment."
                 no_content_button={<Button name="Ajouter votre premier projet" variant="light" width="default" type="button" onClick={handleAddProject}><PlusSignIcon /></Button>}
                 list_length={projects.length}
                 onClickAdd={handleAddProject}

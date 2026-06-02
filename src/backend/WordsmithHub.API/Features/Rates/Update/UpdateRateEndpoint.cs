@@ -3,22 +3,22 @@ using FluentValidation;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
+using WordsmithHub.API.Features.Rates.Add;
 
-namespace WordsmithHub.API.Features.Rates.Add;
+namespace WordsmithHub.API.Features.Rates.Update;
 
 [UsedImplicitly]
-public record AddRateRequest(
+public record UpdateRateRequest(
     decimal UnitPrice,
     string Unit,
     int SourceLanguageId,
     int TargetLanguageId,
     int ServiceId,
-    Guid DirectCustomerId
-);
+    Guid DirectCustomerId);
 
-public class AddRateRequestValidator : Validator<AddRateRequest>
+public class UpdateRateRequestValidator : Validator<UpdateRateRequest>
 {
-    public AddRateRequestValidator()
+    public UpdateRateRequestValidator()
     {
         RuleFor(x => x.DirectCustomerId.ToString()).NotEmpty().MaximumLength(36);
         RuleFor(x => x.ServiceId).NotEmpty().GreaterThan(0);
@@ -29,21 +29,24 @@ public class AddRateRequestValidator : Validator<AddRateRequest>
     }
 }
 
-public class AddRateEndpoint : ApiEndpoint<AddRateRequest, Guid>
+public class UpdateRateEndpoint : ApiEndpoint<UpdateRateRequest, Guid>
 {
     public override void Configure()
     {
-        Post("/rate");
+        Put("/rate/{rateId:guid}");
         Roles("user");
         Description(x => x.WithTags("rate")
             .Produces(StatusCodes.Status403Forbidden));
     }
 
-    public override async Task HandleAsync(AddRateRequest request, CancellationToken cancellationToken)
+    public override async Task HandleAsync(UpdateRateRequest request, CancellationToken cancellationToken)
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
-        var command = new AddRateCommand(
+        var rateId = Route<Guid>("rateId");
+
+        var command = new UpdateRateCommand(
+            rateId,
             request.UnitPrice,
             request.Unit,
             request.SourceLanguageId,

@@ -12,6 +12,7 @@ import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
 import { useServices, useLanguages } from "../../hooks/useStaticData";
 import { useApiClient } from "../../hooks/useApiClient";
+import UpdateRateModal from "./UpdateRateModal";
 
 interface RateListContainerProps {
     directCustomerId: string;
@@ -24,8 +25,8 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     const [rates, setRates] = useState<zod.infer<typeof schemas.RateDto>[]>([]);
     const [rateToDeleteId, setRateToDeleteId] = useState<string | null>(null);
     const [isAddRateModalVisible, setIsAddRateModalVisible] = useState(false);
-    // const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-    // const [rateToUpdate, setRateToUpdate] = useState<zod.infer<typeof schemas.RateDto>> | null>(null);
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+    const [rateToUpdate, setRateToUpdate] = useState<zod.infer<typeof schemas.RateDto> | null>(null);
     const [isDeleteRateModalVisible, setIsDeleteRateModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const [profileData, setProfileData] = useState<ProfileDto | null>(null);
@@ -83,8 +84,8 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     }
 
     function handleDelete(id: string) {
-        setIsDeleteRateModalVisible(true);
         setRateToDeleteId(id);
+        setIsDeleteRateModalVisible(true);
     }
 
     async function handleConfirmRateDelete() {
@@ -107,15 +108,27 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
         setIsDeleteRateModalVisible(false);
         setRateToDeleteId(null);
         addToast("success", "Tarif supprimé !", "top_right", 3000);
+        setRefreshKey(k => k + 1);
     }
 
     function handleCancelRateDelete() {
-        setIsDeleteRateModalVisible(false);
         setRateToDeleteId(null);
+        setIsDeleteRateModalVisible(false);
     }
 
     function handleEdit(id: string) {
-        addToast("information", `Modifier le tarif avec l’ID ${id}`, "top_right", 3000);
+        const rate = rates.find(r => r.id === id);
+        if (rate) {
+            setRateToUpdate(rate);
+            setIsUpdateModalVisible(true);
+        } else {
+            addToast("error", "Tarif introuvable.", "top_right", 3000);
+        }
+    }
+
+    function handleCloseUpdateModal() {
+        setIsUpdateModalVisible(false);
+        setRateToUpdate(null);
     }
 
     return <>
@@ -129,10 +142,12 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
             list_length={rates.length}
             onClickAdd={handleAddRate}
         >
-            <RateDataTable rates={rates} directCustomerCurrencySign={directCustomerCurrencySign} services={services} languages={languages} onEdit={handleEdit} onDelete={handleDelete} />
+            <RateDataTable rates={rates} directCustomerCurrencySign={directCustomerCurrencySign} services={services} languages={languages} onEdit={(id) => handleEdit(id)} onDelete={(id) => handleDelete(id)} />
         </ListContainer>
         <AddRateModal directCustomerId={directCustomerId} directCustomerCurrencySign={directCustomerCurrencySign} freelanceProfile={profileData} isVisible={isAddRateModalVisible} onClose={() => setIsAddRateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
-        {/* <UpdateRateModal isVisible={isUpdateModalVisible} rate={rateToUpdate} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} /> */}
+        {rateToUpdate && (
+            <UpdateRateModal isVisible={isUpdateModalVisible} rate={rateToUpdate} directCustomerId={directCustomerId} directCustomerCurrencySign={directCustomerCurrencySign} freelanceProfile={profileData} onClose={handleCloseUpdateModal} onSuccess={() => setRefreshKey(k => k + 1)} />
+        )}
         <ConfirmationModal isVisible={isDeleteRateModalVisible} title="Supprimer le tarif" message="Voulez-vous vraiment supprimer ce tarif ?" onConfirm={handleConfirmRateDelete} onCancel={handleCancelRateDelete} />
     </>
 }

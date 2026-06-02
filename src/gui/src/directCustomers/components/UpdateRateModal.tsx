@@ -10,8 +10,10 @@ import type ProfileDto from "../../profile/models/ProfileDto";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import UnitTypes from "../types/Units";
 import { useApiClient } from "../../hooks/useApiClient";
+import type { schemas } from "../../infrastructure/openApi/client";
 
-interface AddRateModalProps {
+interface UpdateRateModalProps {
+    rate: zod.infer<typeof schemas.RateDto>;
     directCustomerId: string;
     directCustomerCurrencySign: string;
     freelanceProfile: ProfileDto | null;
@@ -20,20 +22,22 @@ interface AddRateModalProps {
     onSuccess?: () => void;
 }
 
-function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceProfile, isVisible, onClose, onSuccess }: AddRateModalProps) {
+function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, freelanceProfile, isVisible, onClose, onSuccess }: UpdateRateModalProps) {
     const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const [selectedServiceId, setSelectedServiceId] = useState<string>("");
-    const [selectedSourceLanguageId, setSelectedSourceLanguageId] = useState<string>("");
-    const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>("");
-    const [selectedUnit, setSelectedUnit] = useState<string>("");
+    const [selectedServiceId, setSelectedServiceId] = useState<string>(rate.serviceId.toString());
+    const [selectedSourceLanguageId, setSelectedSourceLanguageId] = useState<string>(rate.sourceLanguageId.toString());
+    const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>(rate.targetLanguageId.toString());
+    const [selectedUnitPrice, setSelectedUnitPrice] = useState<string>(rate.unitPrice.toString());
+    const [selectedUnit, setSelectedUnit] = useState<string>(rate.unit);
 
     function resetForm() {
         setFieldErrors({});
         setSelectedServiceId("");
         setSelectedSourceLanguageId("");
         setSelectedTargetLanguageId("");
+        setSelectedUnitPrice("");
         setSelectedUnit("");
     }
 
@@ -64,19 +68,20 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
         setFieldErrors({});
 
         try {
-            await apiClient.AddRateEndpoint({
+            await apiClient.UpdateRateEndpoint({
+                pathParams: { rateId: rate.id },
                 body: rateData
             });
             handleClose();
             onSuccess?.();
-            addToast("success", "Tarif ajouté !", "top_right", 3000);
+            addToast("success", "Tarif mis à jour !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const data = error.response.data;
                 const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
                 addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s’est produite lors de l’ajout du tarif.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour du tarif.", "top_right", 3000);
             }
         }
     }
@@ -84,14 +89,14 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
     return (
         <>
             {isVisible && (
-                <FormModal title="Ajouter un tarif" presentation="Ajouter un nouveau tarif pour ce client" validateButtonText="Ajouter le tarif" onCancel={handleClose} onSubmit={handleSubmit}>
+                <FormModal title="Mettre à jour un tarif" presentation="Mettre à jour le tarif pour ce client" validateButtonText="Mettre à jour le tarif" onCancel={handleClose} onSubmit={handleSubmit}>
                     <FormSelectGroup name="serviceId" label="Nom du service" selected={selectedServiceId} options={freelanceProfile?.services.map(service => ({ value: service.id.toString(), name: service.name })) || []} placeholder="Sélectionnez le service" required onChange={(value) => setSelectedServiceId(value)} />
                     <div className="multiple_field_container">
                         <FormSelectGroup name="sourceLanguageId" label="Langue source" selected={selectedSourceLanguageId} options={freelanceProfile?.sourceLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue source" required onChange={(value) => setSelectedSourceLanguageId(value)} />
                         <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue cible" required onChange={(value) => setSelectedTargetLanguageId(value)} />
                     </div>
                     <div className="multiple_field_container">
-                        <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
+                        <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required value={selectedUnitPrice} onChange={(value) => setSelectedUnitPrice(value)} error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
                         <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
                 </FormModal>
@@ -100,4 +105,4 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
     );
 }
 
-export default AddRateModal;
+export default UpdateRateModal;
