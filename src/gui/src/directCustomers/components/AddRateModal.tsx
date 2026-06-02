@@ -1,6 +1,5 @@
 import "./AddRateModal.css";
 import { useState } from "react";
-import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
@@ -10,6 +9,7 @@ import type ProfileDto from "../../profile/models/ProfileDto";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import UnitTypes from "../types/Units";
 import { useApiClient } from "../../hooks/useApiClient";
+import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
 
 interface AddRateModalProps {
     directCustomerId: string;
@@ -27,6 +27,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
     const [selectedServiceId, setSelectedServiceId] = useState<string>("");
     const [selectedSourceLanguageId, setSelectedSourceLanguageId] = useState<string>("");
     const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>("");
+    const [unitPrice, setUnitPrice] = useState<number | null>(null);
     const [selectedUnit, setSelectedUnit] = useState<string>("");
 
     function resetForm() {
@@ -35,6 +36,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
         setSelectedSourceLanguageId("");
         setSelectedTargetLanguageId("");
         setSelectedUnit("");
+        setUnitPrice(null);
     }
 
     function handleClose() {
@@ -47,7 +49,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const rateData: Rate = {
-            unitPrice: formData.get("unitPrice") ? parseFloat(formData.get("unitPrice") as string) : 0,
+            unitPrice: unitPrice !== null ? unitPrice : 0,
             unit: formData.get("unit") as string,
             sourceLanguageId: formData.get("sourceLanguageId") ? parseInt(formData.get("sourceLanguageId") as string) : 0,
             targetLanguageId: formData.get("targetLanguageId") ? parseInt(formData.get("targetLanguageId") as string) : 0,
@@ -91,7 +93,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
                         <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue cible" required onChange={(value) => setSelectedTargetLanguageId(value)} />
                     </div>
                     <div className="multiple_field_container">
-                        <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
+                        <FormNumberInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} value={unitPrice !== null ? unitPrice.toString() : ""} onChange={(value) => setUnitPrice(value ? parseFloat(value) : null)} placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
                         <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
                 </FormModal>

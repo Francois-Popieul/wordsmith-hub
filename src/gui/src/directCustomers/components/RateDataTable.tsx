@@ -32,8 +32,7 @@ function RateDataTable({ rates, directCustomerCurrencySign, services, languages,
     return <DataTable value={rates} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
         <Column field="serviceId" header="Service" style={{ minWidth: "150px" }} body={(rowData) => services.find(s => s.id === rowData.serviceId)?.name ?? rowData.serviceId} />
         <Column field="languages" header="Paire de langues" style={{ minWidth: "150px" }} body={(rowData) => `${languages.find(l => l.id === rowData.sourceLanguageId)?.name ?? rowData.sourceLanguageId} \u2192 ${languages.find(l => l.id === rowData.targetLanguageId)?.name ?? rowData.targetLanguageId}`} />
-        <Column field="unitPrice" header="Tarif" style={{ minWidth: "150px" }} body={(rowData) => `${rowData.unitPrice.toFixed(4)} ${directCustomerCurrencySign} ${UnitTypes.find(unit => unit.value === rowData.unit)?.name ?? rowData.unit}`} />
-        <Column field="description" header="Description" style={{ minWidth: "200px" }} />
+        <Column field="unitPrice" header="Tarif" style={{ minWidth: "150px" }} body={(rowData) => `${new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 0, maximumFractionDigits: 6 }).format(Number(rowData.unitPrice))} ${directCustomerCurrencySign} ${UnitTypes.find(unit => unit.value === rowData.unit)?.name ?? rowData.unit}`} />
         <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />
     </DataTable>
 }

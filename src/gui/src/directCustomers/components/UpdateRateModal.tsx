@@ -1,6 +1,5 @@
 import "./AddRateModal.css";
 import { useState } from "react";
-import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
@@ -11,6 +10,7 @@ import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import UnitTypes from "../types/Units";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
+import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
 
 interface UpdateRateModalProps {
     rate: zod.infer<typeof schemas.RateDto>;
@@ -29,7 +29,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
     const [selectedServiceId, setSelectedServiceId] = useState<string>(rate.serviceId.toString());
     const [selectedSourceLanguageId, setSelectedSourceLanguageId] = useState<string>(rate.sourceLanguageId.toString());
     const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>(rate.targetLanguageId.toString());
-    const [selectedUnitPrice, setSelectedUnitPrice] = useState<string>(rate.unitPrice.toString());
+    const [unitPrice, setUnitPrice] = useState<number | null>(rate.unitPrice);
     const [selectedUnit, setSelectedUnit] = useState<string>(rate.unit);
 
     function resetForm() {
@@ -37,7 +37,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
         setSelectedServiceId("");
         setSelectedSourceLanguageId("");
         setSelectedTargetLanguageId("");
-        setSelectedUnitPrice("");
+        setUnitPrice(null);
         setSelectedUnit("");
     }
 
@@ -96,7 +96,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
                         <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue cible" required onChange={(value) => setSelectedTargetLanguageId(value)} />
                     </div>
                     <div className="multiple_field_container">
-                        <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required value={selectedUnitPrice} onChange={(value) => setSelectedUnitPrice(value)} error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
+                        <FormNumberInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} value={unitPrice !== null ? unitPrice.toString() : ""} onChange={(value) => setUnitPrice(value ? parseFloat(value) : null)} placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
                         <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
                 </FormModal>
