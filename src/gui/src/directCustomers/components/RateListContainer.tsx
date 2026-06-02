@@ -120,7 +120,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
             title="Tarifs des services"
             presentation="Tarifs acceptés pour les différents services"
             add_button_name="Ajouter un tarif"
-            no_content_message="Aucun tarif enregistré pour le moment. Cliquez sur le bouton ci-dessous afin de définir vos tarifs pour les services que vous proposez."
+            no_content_message="Aucun tarif enregistré pour le moment."
             no_content_button={<Button name="Ajouter votre premier tarif" variant="light" width="default" type="button" onClick={handleAddRate}><PlusSignIcon /></Button>}
             list_length={rates.length}
             onClickAdd={handleAddRate}
