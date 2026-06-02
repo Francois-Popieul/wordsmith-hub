@@ -84,7 +84,7 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
         <>
             {isVisible && (
                 <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" validateButtonText="Ajouter le statut" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="name" label="Type de statut" placeholder="-- Sélectionnez un type --" selected={selectedLegalStatusType} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
+                    <FormSelectGroup name="name" label="Type de statut" placeholder="Sélectionnez un type" selected={selectedLegalStatusType} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
                     <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" required={false} error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
                     {!vatExemption && (
                         <>

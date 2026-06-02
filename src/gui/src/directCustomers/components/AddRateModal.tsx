@@ -85,14 +85,14 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
         <>
             {isVisible && (
                 <FormModal title="Ajouter un tarif" presentation="Ajouter un nouveau tarif pour ce client" validateButtonText="Ajouter le tarif" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="serviceId" label="Nom du service" selected={selectedServiceId} options={freelanceProfile?.services.map(service => ({ value: service.id.toString(), name: service.name })) || []} placeholder="-- Sélectionnez le service --" required onChange={(value) => setSelectedServiceId(value)} />
+                    <FormSelectGroup name="serviceId" label="Nom du service" selected={selectedServiceId} options={freelanceProfile?.services.map(service => ({ value: service.id.toString(), name: service.name })) || []} placeholder="Sélectionnez le service" required onChange={(value) => setSelectedServiceId(value)} />
                     <div className="multiple_field_container">
-                        <FormSelectGroup name="sourceLanguageId" label="Langue source" selected={selectedSourceLanguageId} options={freelanceProfile?.sourceLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="-- Sélectionnez la langue source --" required onChange={(value) => setSelectedSourceLanguageId(value)} />
-                        <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="-- Sélectionnez la langue cible --" required onChange={(value) => setSelectedTargetLanguageId(value)} />
+                        <FormSelectGroup name="sourceLanguageId" label="Langue source" selected={selectedSourceLanguageId} options={freelanceProfile?.sourceLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue source" required onChange={(value) => setSelectedSourceLanguageId(value)} />
+                        <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue cible" required onChange={(value) => setSelectedTargetLanguageId(value)} />
                     </div>
                     <div className="multiple_field_container">
                         <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
-                        <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="-- Sélectionnez l’unité --" required onChange={(value) => setSelectedUnit(value)} />
+                        <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
                     <FormInputGroup name="description" label="Description" type="text" placeholder="Détails sur le service" required={false} error={fieldErrors.description ? fieldErrors.description[0] : undefined} />
                 </FormModal>

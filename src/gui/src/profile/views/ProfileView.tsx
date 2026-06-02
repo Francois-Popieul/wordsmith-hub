@@ -369,7 +369,7 @@ function ProfileView() {
                                 label="Pays"
                                 name="countryId"
                                 options={countries.map(country => ({ value: country.id.toString(), name: country.name }))}
-                                placeholder="-- Sélectionnez le pays --"
+                                placeholder="Sélectionnez le pays"
                                 selected={profileData.address?.countryId ? profileData.address.countryId.toString() : ""}
                                 disabled={editingForm !== "address"}
                                 required={true}

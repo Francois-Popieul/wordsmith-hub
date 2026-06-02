@@ -10,6 +10,7 @@ import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import { useApiClient } from "../../hooks/useApiClient";
 import AddProjectModal from "../../projects/components/AddProjectModal";
+import UpdateProjectModal from "../../projects/components/UpdateProjectModal";
 
 interface ProjectListContainerProps {
     directCustomerId: string;
@@ -23,6 +24,8 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
     const [isDeleteProjectModalVisible, setIsDeleteProjectModalVisible] = useState(false);
     const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
+    const [projectToUpdate, setProjectToUpdate] = useState<zod.infer<typeof schemas.ProjectDto> | null>(null);
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
 
     useEffect(() => {
         if (!token) return;
@@ -48,7 +51,9 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
     }
 
     function handleEditProject(id: string) {
-        console.log("Edit project with id:", id);
+        const project = projects.find(p => p.id === id) || null;
+        setProjectToUpdate(project);
+        setIsUpdateModalVisible(true);
     }
 
     function handleDeleteProject(id: string) {
@@ -99,6 +104,7 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
                 <DirectCustomerProjectDataTable projects={projects} onEdit={handleEditProject} onDelete={handleDeleteProject} />
             </ListContainer>
             <AddProjectModal isVisible={isAddProjectModalVisible} onClose={() => setIsAddProjectModalVisible(false)} onSuccess={() => setRefreshKey(prev => prev + 1)} />
+            <UpdateProjectModal project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
             <ConfirmationModal isVisible={isDeleteProjectModalVisible} title="Supprimer le projet" message="Voulez-vous vraiment supprimer ce projet ?" onConfirm={handleConfirmProjectDelete} onCancel={handleCancelProjectDelete} />
         </>
     );

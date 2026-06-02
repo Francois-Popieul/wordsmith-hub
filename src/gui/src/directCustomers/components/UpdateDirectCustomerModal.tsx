@@ -121,13 +121,13 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose, onSuccess }: 
                     </div>
                     <div className="multiple_field_container">
                         <FormInputGroup name="state" label="Région/État" placeholder="ex. Île-de-France" type="text" value={customer?.address.state?.toString()} required={false} error={fieldErrors.state} />
-                        <FormSelectGroup name="countryId" label="Pays" options={countries.map(country => ({ value: country.id.toString(), name: country.name }))} placeholder="-- Sélectionnez le pays --" selected={(selectedCountryId ?? customer?.address.countryId)?.toString() ?? ""} required={true} onChange={(value) => setSelectedCountryId(parseInt(value))} >
+                        <FormSelectGroup name="countryId" label="Pays" options={countries.map(country => ({ value: country.id.toString(), name: country.name }))} placeholder="Sélectionnez le pays" selected={(selectedCountryId ?? customer?.address.countryId)?.toString() ?? ""} required={true} onChange={(value) => setSelectedCountryId(parseInt(value))} >
                         </FormSelectGroup>
                     </div>
                     <FormInputGroup name="siretOrSiren" label="Numéro d’immatriculation" placeholder="ex. FR123456789012" type="text" value={customer?.siretOrSiren?.toString()} required={false} error={fieldErrors.siretOrSiren} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="paymentDelay" label="Délai de paiement (jours)" placeholder="ex. 30" type="text" value={customer?.paymentDelay.toString()} required error={fieldErrors.paymentDelay} />
-                        <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="-- Sélectionnez la devise --" selected={(selectedCurrency ?? customer?.currencyId)?.toString() ?? ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />
+                        <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="Sélectionnez la devise" selected={(selectedCurrency ?? customer?.currencyId)?.toString() ?? ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />
                     </div>
                 </FormModal>
             )}

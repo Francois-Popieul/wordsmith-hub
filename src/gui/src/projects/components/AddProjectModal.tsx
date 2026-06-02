@@ -98,7 +98,7 @@ function AddProjectModal({ isVisible, onClose, onSuccess }: AddProjectModalProps
                     <FormMultiSelectGroup
                         name="directCustomerIds"
                         label="Clients"
-                        placeholder="-- Sélectionnez les clients --"
+                        placeholder="Sélectionnez les clients"
                         options={directCustomers.map(c => ({ value: c.id, name: c.name }))}
                         selected={selectedDirectCustomerIds}
                         required
