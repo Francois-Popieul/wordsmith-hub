@@ -16,7 +16,7 @@ function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
         <div className="details_inner_flex_container">
             <div className="details_section">
                 <p className="details_section_header"><MailIcon className="details_icon" />Email</p>
-                <p className="details_section_content">{directCustomer.email}</p>
+                <p className="details_section_content"><a href={`mailto:${directCustomer.email}`}>{directCustomer.email}</a></p>
             </div>
             <div className="details_section">
                 <p className="details_section_header"><BuildingIcon className="details_icon" />Adresse</p>
@@ -26,7 +26,7 @@ function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
         <div className="details_inner_flex_container">
             <div className="details_section">
                 <p className="details_section_header"><PhoneIcon className="details_icon" />Numéro de téléphone</p>
-                <p className="details_section_content">{directCustomer.phone ? directCustomer.phone : ""}</p>
+                <p className="details_section_content">{directCustomer.phone ? <a href={`tel:${directCustomer.phone}`}>{directCustomer.phone}</a> : ""}</p>
             </div>
             <div className="details_section">
                 <p className="details_section_header"><CalendarIcon className="details_icon" />Début de la collaboration</p>
