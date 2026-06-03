@@ -36,16 +36,12 @@ public class UpdateLegalStatusHandler(
             !await resourceAuthorizationService.CanAccessAsync<LegalStatus>(command.AppUserId,
                 command.LegalStatusId,
                 cancellationToken))
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var legalStatus = await repository.GetByIdAsync(command.LegalStatusId, cancellationToken);
 
         if (legalStatus == null)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         legalStatus.LegalStatusTypeId = command.LegalStatusTypeId;
         legalStatus.Siret = command.Siret;

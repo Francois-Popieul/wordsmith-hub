@@ -10,12 +10,15 @@ import LegalStatusDataTable from "./LegalStatusDataTable";
 import * as zod from "zod";
 import { useApiClient } from "../../hooks/useApiClient";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
+import UpdateLegalStatusModal from "./UpdateLegalStatusModal";
 
 function LegalStatusListContainer() {
     const { token, apiClient } = useApiClient();
     const [legalStatuses, setLegalStatuses] = useState<zod.infer<typeof schemas.LegalStatusDto>[]>([]);
     const { addToast } = useToast();
     const [isAddLegalStatusModalVisible, setIsAddLegalStatusModalVisible] = useState(false);
+    const [isUpdateLegalStatusModalVisible, setIsUpdateLegalStatusModalVisible] = useState(false);
+    const [legalStatusToUpdate, setLegalStatusToUpdate] = useState<zod.infer<typeof schemas.LegalStatusDto> | null>(null);
     const [isDeleteConfirmationModalVisible, setIsDeleteConfirmationModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const [legalStatusToDeleteId, setLegalStatusToDeleteId] = useState<string | null>(null);
@@ -44,7 +47,13 @@ function LegalStatusListContainer() {
     }
 
     async function handleEditLegalStatus(id: string) {
-        addToast("information", `Modifier le statut juridique avec l’ID ${id}`, "top_right", 3000);
+        const legalStatus = legalStatuses.find(status => status.id === id);
+        if (legalStatus) {
+            setLegalStatusToUpdate(legalStatus);
+            setIsUpdateLegalStatusModalVisible(true);
+        } else {
+            addToast("error", `Statut juridique avec l’ID ${id} introuvable.`, "top_right", 3000);
+        }
     }
 
     async function handleDeleteLegalStatus(id: string) {
@@ -86,6 +95,7 @@ function LegalStatusListContainer() {
                 <LegalStatusDataTable legalStatuses={legalStatuses} onEdit={(id) => handleEditLegalStatus(id)} onDelete={(id) => handleDeleteLegalStatus(id)} />
             </ListContainer>
             <AddLegalStatusModal isVisible={isAddLegalStatusModalVisible} onClose={() => setIsAddLegalStatusModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
+            {legalStatusToUpdate && <UpdateLegalStatusModal legalStatus={legalStatusToUpdate} isVisible={isUpdateLegalStatusModalVisible} onClose={() => setIsUpdateLegalStatusModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />}
             <ConfirmationModal title="Supprimer le statut juridique"
                 message="Voulez-vous vraiment supprimer ce statut juridique ?"
                 onConfirm={confirmDeleteLegalStatus} onCancel={() => setIsDeleteConfirmationModalVisible(false)} isVisible={isDeleteConfirmationModalVisible} />

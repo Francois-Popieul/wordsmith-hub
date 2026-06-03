@@ -8,25 +8,21 @@ namespace WordsmithHub.API.Features.BankAccounts.Update;
 
 [UsedImplicitly]
 public record UpdateBankAccountRequest(
-    Guid BankAccountId,
     string Label,
     string BankName,
     string AccountHolderName,
     string Iban,
-    string Bic,
-    bool IsDefault);
+    string Bic);
 
 public class UpdateBankAccountRequestValidator : Validator<UpdateBankAccountRequest>
 {
     public UpdateBankAccountRequestValidator()
     {
-        RuleFor(x => x.BankAccountId).NotEmpty();
         RuleFor(x => x.Label).NotEmpty().MaximumLength(100);
         RuleFor(x => x.BankName).NotEmpty().MaximumLength(100);
         RuleFor(x => x.AccountHolderName).NotEmpty().MaximumLength(100);
         RuleFor(x => x.Iban).NotEmpty().MaximumLength(34);
         RuleFor(x => x.Bic).NotEmpty().MaximumLength(11);
-        RuleFor(x => x.IsDefault).NotNull();
     }
 }
 
@@ -34,7 +30,7 @@ public class UpdateBankAccountEndpoint : ApiEndpoint<UpdateBankAccountRequest, G
 {
     public override void Configure()
     {
-        Put("/bankaccount");
+        Put("/bankaccount/{bankAccountId:guid}");
         Roles("user");
         Description(x => x.WithTags("bankaccount")
             .Produces(StatusCodes.Status403Forbidden));
@@ -44,15 +40,16 @@ public class UpdateBankAccountEndpoint : ApiEndpoint<UpdateBankAccountRequest, G
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
+        var bankAccountId = Route<Guid>("bankAccountId");
+
         var command = new UpdateBankAccountCommand(
             appUserId,
-            request.BankAccountId,
+            bankAccountId,
             request.Label,
             request.BankName,
             request.AccountHolderName,
             request.Iban,
-            request.Bic,
-            request.IsDefault);
+            request.Bic);
 
         var result = await command.ExecuteAsync(cancellationToken);
 

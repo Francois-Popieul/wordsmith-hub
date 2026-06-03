@@ -90,17 +90,6 @@ const LegalStatusType = z.object({
   code: z.string(),
 });
 const UpdateLegalStatusRequest = z.object({
-  legalStatusId: z.string().min(1),
-  legalStatusTypeId: z.number().int().optional(),
-  siret: z.string().nullish(),
-  vatNumber: z.string().nullish(),
-  vatExemption: z.boolean().optional(),
-  vatRate: z.number().nullish(),
-  taxDeductionExemption: z.boolean().optional(),
-  validFrom: z.string().datetime({ offset: true }).optional(),
-  validTo: z.string().datetime({ offset: true }).nullish(),
-});
-const AddLegalStatusRequest = z.object({
   legalStatusTypeId: z.number().int(),
   siret: z.string().min(0).max(14).nullish(),
   vatNumber: z.string().min(0).max(13).nullish(),
@@ -120,6 +109,16 @@ const LegalStatusDto = z.object({
   taxDeductionExemption: z.boolean(),
   validFrom: z.string().datetime({ offset: true }),
   validTo: z.string().datetime({ offset: true }).nullable(),
+});
+const AddLegalStatusRequest = z.object({
+  legalStatusTypeId: z.number().int(),
+  siret: z.string().min(0).max(14).nullish(),
+  vatNumber: z.string().min(0).max(13).nullish(),
+  vatExemption: z.boolean().optional(),
+  vatRate: z.number().gte(0).nullish(),
+  taxDeductionExemption: z.boolean().optional(),
+  validFrom: z.string().datetime({ offset: true }).optional(),
+  validTo: z.string().datetime({ offset: true }).nullish(),
 });
 const TranslationLanguage = z.object({
   id: z.number().int(),
@@ -229,20 +228,11 @@ const Country = z.object({
   isEuropeanUnionMember: z.boolean(),
 });
 const UpdateBankAccountRequest = z.object({
-  bankAccountId: z.string().min(1),
   label: z.string().min(0).max(100),
   bankName: z.string().min(0).max(100),
   accountHolderName: z.string().min(0).max(100),
   iban: z.string().min(0).max(34),
   bic: z.string().min(0).max(11),
-  isDefault: z.boolean(),
-});
-const AddBankAccountRequest = z.object({
-  label: z.string(),
-  bankName: z.string(),
-  accountHolderName: z.string(),
-  iban: z.string(),
-  bic: z.string(),
 });
 const BankAccountDto = z.object({
   id: z.string(),
@@ -252,6 +242,13 @@ const BankAccountDto = z.object({
   iban: z.string(),
   bic: z.string(),
   isDefault: z.boolean(),
+});
+const AddBankAccountRequest = z.object({
+  label: z.string(),
+  bankName: z.string(),
+  accountHolderName: z.string(),
+  iban: z.string(),
+  bic: z.string(),
 });
 const LoginUserRequest = z.object({
   email: z
@@ -296,8 +293,8 @@ export const schemas = {
   ProjectDto,
   LegalStatusType,
   UpdateLegalStatusRequest,
-  AddLegalStatusRequest,
   LegalStatusDto,
+  AddLegalStatusRequest,
   TranslationLanguage,
   Address,
   UpdateFreelanceAddressRequest,
@@ -312,8 +309,8 @@ export const schemas = {
   Currency,
   Country,
   UpdateBankAccountRequest,
-  AddBankAccountRequest,
   BankAccountDto,
+  AddBankAccountRequest,
   LoginUserRequest,
   AccessTokenResponse,
   RegisterUserRequest,
@@ -390,14 +387,6 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/auth/register", params, z.string(), config),
-    UpdateBankAccountEndpoint: (
-      params: {
-        body?: unknown;
-        pathParams?: Record<string, string | number>;
-        query?: Record<string, unknown>;
-      } = {},
-      config?: AxiosRequestConfig
-    ) => request("put", "/bankaccount", params, z.string(), config),
     AddBankAccountEndpoint: (
       params: {
         body?: unknown;
@@ -406,7 +395,7 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/bankaccount", params, z.string(), config),
-    UpdateDefaultBankAccountEndpoint: (
+    UpdateBankAccountEndpoint: (
       params: {
         body?: unknown;
         pathParams?: Record<string, string | number>;
@@ -428,6 +417,21 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         "/bankaccount/:bankAccountId",
         params,
         z.void(),
+        config
+      ),
+    UpdateDefaultBankAccountEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "put",
+        "/bankaccount/default/:bankAccountId",
+        params,
+        z.string(),
         config
       ),
     GetAllBankAccountsEndpoint: (
@@ -653,14 +657,6 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.array(LegalStatusType),
         config
       ),
-    UpdateLegalStatusEndpoint: (
-      params: {
-        body?: unknown;
-        pathParams?: Record<string, string | number>;
-        query?: Record<string, unknown>;
-      } = {},
-      config?: AxiosRequestConfig
-    ) => request("put", "/legalstatus", params, z.string(), config),
     AddLegalStatusEndpoint: (
       params: {
         body?: unknown;
@@ -669,6 +665,15 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("post", "/legalstatus", params, z.string(), config),
+    UpdateLegalStatusEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("put", "/legalstatus/:legalStatusId", params, z.string(), config),
     DeleteLegalStatusEndpoint: (
       params: {
         body?: unknown;
@@ -836,10 +841,10 @@ export function getTagByAlias(alias: string): string | undefined {
   const endpointMap: Record<string, string | undefined> = {
     LoginUserEndpoint: "authentication",
     RegisterUserEndpoint: "authentication",
-    UpdateBankAccountEndpoint: "bankaccount",
     AddBankAccountEndpoint: "bankaccount",
-    UpdateDefaultBankAccountEndpoint: "bankaccount",
+    UpdateBankAccountEndpoint: "bankaccount",
     DeleteBankAccountEndpoint: "bankaccount",
+    UpdateDefaultBankAccountEndpoint: "bankaccount",
     GetAllBankAccountsEndpoint: "bankaccount",
     GetAllCountriesEndpoint: "countries",
     GetAllCurrenciesEndpoint: "currencies",
@@ -859,8 +864,8 @@ export function getTagByAlias(alias: string): string | undefined {
     GetAllInvoiceStatusesEndpoint: "statuses",
     GetAllLanguagesEndpoint: "languages",
     GetAllLegalStatusTypesEndpoint: "legal-status-types",
-    UpdateLegalStatusEndpoint: "legalstatus",
     AddLegalStatusEndpoint: "legalstatus",
+    UpdateLegalStatusEndpoint: "legalstatus",
     DeleteLegalStatusEndpoint: "legalstatus",
     GetAllLegalStatusesEndpoint: "legalstatus",
     AddProjectEndpoint: "project",

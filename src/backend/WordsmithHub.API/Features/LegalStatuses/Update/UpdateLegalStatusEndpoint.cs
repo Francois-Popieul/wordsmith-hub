@@ -8,7 +8,6 @@ namespace WordsmithHub.API.Features.LegalStatuses.Update;
 
 [UsedImplicitly]
 public record UpdateLegalStatusRequest(
-    Guid LegalStatusId,
     int LegalStatusTypeId,
     string? Siret,
     string? VatNumber,
@@ -22,7 +21,11 @@ public class UpdateLegalStatusRequestValidator : Validator<UpdateLegalStatusRequ
 {
     public UpdateLegalStatusRequestValidator()
     {
-        RuleFor(x => x.LegalStatusId).NotEmpty();
+        RuleFor(x => x.LegalStatusTypeId).NotEmpty();
+        RuleFor(x => x.Siret).MaximumLength(14);
+        RuleFor(x => x.VatNumber).MaximumLength(13);
+        RuleFor(x => x.VatRate).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.ValidFrom).LessThanOrEqualTo(DateTimeOffset.UtcNow);
     }
 }
 
@@ -30,7 +33,7 @@ public class UpdateLegalStatusEndpoint : ApiEndpoint<UpdateLegalStatusRequest, G
 {
     public override void Configure()
     {
-        Put("/legalstatus");
+        Put("/legalstatus/{legalStatusId:guid}");
         Roles("user");
         Description(x => x.WithTags("legalstatus")
             .Produces(StatusCodes.Status403Forbidden));
@@ -40,9 +43,11 @@ public class UpdateLegalStatusEndpoint : ApiEndpoint<UpdateLegalStatusRequest, G
     {
         var appUserId = (Guid)HttpContext.Items[HttpContextItemKeys.AppUserId]!;
 
+        var legalStatusId = Route<Guid>("legalStatusId");
+
         var command = new UpdateLegalStatusCommand(
             appUserId,
-            request.LegalStatusId,
+            legalStatusId,
             request.LegalStatusTypeId,
             request.Siret ?? null,
             request.VatNumber ?? null,

@@ -9,30 +9,32 @@ import { legalStatusSchema } from "../../types/LegalStatus";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import { useLegalStatusTypes } from "../../hooks/useStaticData";
+import type { schemas } from "../../infrastructure/openApi/client";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
 
-interface AddLegalStatusModalProps {
+interface UpdateLegalStatusModalProps {
+    legalStatus: zod.infer<typeof schemas.LegalStatusDto>;
     isVisible: boolean;
     onClose: () => void;
     onSuccess?: () => void;
 }
 
-function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusModalProps) {
+function UpdateLegalStatusModal({ legalStatus, isVisible, onClose, onSuccess }: UpdateLegalStatusModalProps) {
     const { apiClient } = useApiClient();
     const legalStatusTypes = useLegalStatusTypes();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string>("");
-    const [vatExemption, setVatExemption] = useState<boolean>(false);
-    const [vatRate, setVatRate] = useState<string | null>(null);
-    const [taxDeductionExemption, setTaxDeductionExemption] = useState<boolean>(false);
+    const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string | null>(legalStatus.legalStatusType?.id.toString() || null);
+    const [vatExemption, setVatExemption] = useState<boolean>(legalStatus.vatExemption);
+    const [taxDeductionExemption, setTaxDeductionExemption] = useState<boolean>(legalStatus.taxDeductionExemption);
+    const [vatRate, setVatRate] = useState<string | null>(legalStatus.vatRate?.toString() || null);
 
     function resetForm() {
-        setSelectedLegalStatusType("");
-        setVatExemption(false);
-        setVatRate(null);
-        setTaxDeductionExemption(false);
         setFieldErrors({});
+        setSelectedLegalStatusType(null);
+        setVatExemption(false);
+        setTaxDeductionExemption(false);
+        setVatRate(null);
     }
 
     function handleClose() {
@@ -64,7 +66,8 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
         setFieldErrors({});
 
         try {
-            await apiClient.AddLegalStatusEndpoint({
+            await apiClient.UpdateLegalStatusEndpoint({
+                pathParams: { legalStatusId: legalStatus.id },
                 body: {
                     ...legalStatusData,
                     validFrom: `${legalStatusData.validFrom}T00:00:00Z`,
@@ -73,12 +76,12 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
             });
             handleClose();
             onSuccess?.();
-            addToast("success", "Statut juridique ajouté !", "top_right", 3000);
+            addToast("success", "Statut juridique mis à jour !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
             } else {
-                addToast("error", "Une erreur inattendue s’est produite lors de l’ajout du statut juridique.", "top_right", 3000);
+                addToast("error", "Une erreur inattendue s’est produite lors de la mise à jour du statut juridique.", "top_right", 3000);
             }
         }
     }
@@ -86,17 +89,17 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
     return (
         <>
             {isVisible && (
-                <FormModal title="Ajouter un statut juridique" presentation="Ajouter un nouveau statut juridique" validateButtonText="Ajouter le statut" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="name" label="Type de statut" placeholder="Sélectionnez un type" selected={selectedLegalStatusType} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
-                    <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" required={false} error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
+                <FormModal title="Mettre à jour le statut juridique" presentation="Mettre à jour les informations du statut juridique" validateButtonText="Mettre à jour le statut" onCancel={handleClose} onSubmit={handleSubmit}>
+                    <FormSelectGroup name="name" label="Type de statut" placeholder="Sélectionnez un type" selected={selectedLegalStatusType ?? undefined} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
+                    <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" value={legalStatus.siret?.toString() ?? ""} required={false} error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
                     {!vatExemption && (
                         <>
-                            <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" required={false} error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
+                            <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" value={legalStatus.vatNumber?.toString() ?? ""} required={false} error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
                             <FormNumberInputGroup name="vatRate" label="Taux de TVA (%)" value={vatRate ?? ""} placeholder="20" required={false} onChange={(value) => setVatRate(value)} error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
                         </>
                     )}
-                    <FormInputGroup name="validFrom" label="Début de validité" type="date" placeholder="" error={fieldErrors.validFrom ? fieldErrors.validFrom[0] : undefined} />
-                    <FormInputGroup name="validTo" label="Fin de validité" type="date" placeholder="" required={false} error={fieldErrors.validTo ? fieldErrors.validTo[0] : undefined} />
+                    <FormInputGroup name="validFrom" label="Début de validité" type="date" placeholder="" value={legalStatus.validFrom ? new Date(legalStatus.validFrom).toISOString().split("T")[0] : ""} error={fieldErrors.validFrom ? fieldErrors.validFrom[0] : undefined} />
+                    <FormInputGroup name="validTo" label="Fin de validité" type="date" placeholder="" value={legalStatus.validTo ? new Date(legalStatus.validTo).toISOString().split("T")[0] : ""} required={false} error={fieldErrors.validTo ? fieldErrors.validTo[0] : undefined} />
                     <span className="checkbox_container">
                         <input type="checkbox" id="vatExemption" name="vatExemption" checked={vatExemption} onChange={(e) => setVatExemption(e.target.checked)} />
                         <div className="checkbox_text">
@@ -119,4 +122,4 @@ function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusMo
     );
 }
 
-export default AddLegalStatusModal;
+export default UpdateLegalStatusModal;

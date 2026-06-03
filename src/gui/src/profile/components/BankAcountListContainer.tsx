@@ -10,6 +10,7 @@ import * as zod from "zod";
 import BankAccountDataTable from "./BankAccountDataTable";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import { useApiClient } from "../../hooks/useApiClient";
+import UpdateBankAccountModal from "./UpdateBankAccountModal";
 
 function BankAcountListContainer() {
     const { token, apiClient } = useApiClient();
@@ -19,8 +20,8 @@ function BankAcountListContainer() {
     const [refreshKey, setRefreshKey] = useState(0);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const [bankAccountToDeleteId, setBankAccountToDeleteId] = useState<string | null>(null);
-    // const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-    // const [bankAccountToUpdate, setBankAccountToUpdate] = useState<zod.infer<typeof schemas.BankAccountDto> | null>(null);
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+    const [bankAccountToUpdate, setBankAccountToUpdate] = useState<zod.infer<typeof schemas.BankAccountDto> | null>(null);
 
     useEffect(() => {
         const fetchBankAccounts = async () => {
@@ -44,11 +45,11 @@ function BankAcountListContainer() {
         setIsAddBankAccountModalVisible(true);
     }
 
-    /* function handleUpdate(id: string) {
+    function handleUpdate(id: string) {
         const bankAccount = bankAccounts.find(c => c.id === id) || null;
         setBankAccountToUpdate(bankAccount);
         setIsUpdateModalVisible(true);
-    } */
+    }
 
     function handleDelete(id: string) {
         setBankAccountToDeleteId(id);
@@ -110,12 +111,12 @@ function BankAcountListContainer() {
         >
             <BankAccountDataTable bankAccounts={bankAccounts}
                 onDefaultBankChange={(id) => handleDefaultBankChange(id)}
-                onEdit={(id) => addToast("information", `Modifier le compte bancaire avec l’ID ${id}`, "top_right", 3000)}
+                onEdit={(id) => handleUpdate(id)}
                 onDelete={(id) => handleDelete(id)}
             />
         </ListContainer>
         <AddBankAccountModal isVisible={isAddBankAccountModalVisible} onClose={() => setIsAddBankAccountModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
-        {/* <UpdateBankAccountModal isVisible={isUpdateModalVisible} bankAccount={bankAccountToUpdate} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} /> */}
+        <UpdateBankAccountModal isVisible={isUpdateModalVisible} bankAccount={bankAccountToUpdate} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
         <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le compte" message="Voulez-vous vraiment supprimer ce compte ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
     </>
 }
