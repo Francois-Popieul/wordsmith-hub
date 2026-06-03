@@ -51,7 +51,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const rateData: Rate = {
-            unitPrice: formData.get("unitPrice") ? parseFloat(formData.get("unitPrice") as string) : 0,
+            unitPrice: unitPrice !== null ? unitPrice : 0,
             unit: formData.get("unit") as string,
             sourceLanguageId: formData.get("sourceLanguageId") ? parseInt(formData.get("sourceLanguageId") as string) : 0,
             targetLanguageId: formData.get("targetLanguageId") ? parseInt(formData.get("targetLanguageId") as string) : 0,
@@ -89,7 +89,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
     return (
         <>
             {isVisible && (
-                <FormModal title="Mettre à jour un tarif" presentation="Mettre à jour le tarif pour ce client" validateButtonText="Mettre à jour le tarif" onCancel={handleClose} onSubmit={handleSubmit}>
+                <FormModal title="Mettre à jour le tarif" presentation="Mettre à jour le tarif pour ce client" validateButtonText="Mettre à jour le tarif" onCancel={handleClose} onSubmit={handleSubmit}>
                     <FormSelectGroup name="serviceId" label="Nom du service" selected={selectedServiceId} options={freelanceProfile?.services.map(service => ({ value: service.id.toString(), name: service.name })) || []} placeholder="Sélectionnez le service" required onChange={(value) => setSelectedServiceId(value)} />
                     <div className="multiple_field_container">
                         <FormSelectGroup name="sourceLanguageId" label="Langue source" selected={selectedSourceLanguageId} options={freelanceProfile?.sourceLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue source" required onChange={(value) => setSelectedSourceLanguageId(value)} />

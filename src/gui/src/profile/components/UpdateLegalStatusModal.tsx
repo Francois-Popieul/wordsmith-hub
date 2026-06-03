@@ -24,17 +24,17 @@ function UpdateLegalStatusModal({ legalStatus, isVisible, onClose, onSuccess }: 
     const legalStatusTypes = useLegalStatusTypes();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string | null>(legalStatus.legalStatusType?.id.toString() || null);
+    const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string>(legalStatus.legalStatusType?.id.toString() || "");
     const [vatExemption, setVatExemption] = useState<boolean>(legalStatus.vatExemption);
     const [taxDeductionExemption, setTaxDeductionExemption] = useState<boolean>(legalStatus.taxDeductionExemption);
-    const [vatRate, setVatRate] = useState<string | null>(legalStatus.vatRate?.toString() || null);
+    const [vatRate, setVatRate] = useState<string>(legalStatus.vatRate?.toString() || "");
 
     function resetForm() {
         setFieldErrors({});
-        setSelectedLegalStatusType(null);
+        setSelectedLegalStatusType("");
         setVatExemption(false);
         setTaxDeductionExemption(false);
-        setVatRate(null);
+        setVatRate("");
     }
 
     function handleClose() {
@@ -50,7 +50,7 @@ function UpdateLegalStatusModal({ legalStatus, isVisible, onClose, onSuccess }: 
             siret: formData.get("siret") as string || null,
             vatNumber: formData.get("vatNumber") as string || null,
             vatExemption: vatExemption,
-            vatRate: vatRate,
+            vatRate: vatRate || null,
             taxDeductionExemption: taxDeductionExemption,
             validFrom: formData.get("validFrom") as string,
             validTo: formData.get("validTo") as string || null,
@@ -90,12 +90,12 @@ function UpdateLegalStatusModal({ legalStatus, isVisible, onClose, onSuccess }: 
         <>
             {isVisible && (
                 <FormModal title="Mettre à jour le statut juridique" presentation="Mettre à jour les informations du statut juridique" validateButtonText="Mettre à jour le statut" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="name" label="Type de statut" placeholder="Sélectionnez un type" selected={selectedLegalStatusType ?? undefined} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
+                    <FormSelectGroup name="name" label="Type de statut" placeholder="Sélectionnez un type" selected={selectedLegalStatusType} required options={legalStatusTypes.map(type => ({ value: type.id.toString(), name: type.name }))} onChange={(value) => setSelectedLegalStatusType(value)} />
                     <FormInputGroup name="siret" label="SIRET" type="text" placeholder="12345678901234" value={legalStatus.siret?.toString() ?? ""} required={false} error={fieldErrors.siret ? fieldErrors.siret[0] : undefined} />
                     {!vatExemption && (
                         <>
                             <FormInputGroup name="vatNumber" label="Numéro de TVA" type="text" placeholder="FR12345678901" value={legalStatus.vatNumber?.toString() ?? ""} required={false} error={fieldErrors.vatNumber ? fieldErrors.vatNumber[0] : undefined} />
-                            <FormNumberInputGroup name="vatRate" label="Taux de TVA (%)" value={vatRate ?? ""} placeholder="20" required={false} onChange={(value) => setVatRate(value)} error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
+                            <FormNumberInputGroup name="vatRate" label="Taux de TVA (%)" value={vatRate} placeholder="20" required={false} onChange={(value) => setVatRate(value)} error={fieldErrors.vatRate ? fieldErrors.vatRate[0] : undefined} />
                         </>
                     )}
                     <FormInputGroup name="validFrom" label="Début de validité" type="date" placeholder="" value={legalStatus.validFrom ? new Date(legalStatus.validFrom).toISOString().split("T")[0] : ""} error={fieldErrors.validFrom ? fieldErrors.validFrom[0] : undefined} />

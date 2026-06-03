@@ -61,6 +61,11 @@ function LegalStatusListContainer() {
         setIsDeleteConfirmationModalVisible(true);
     }
 
+    function handleCloseUpdateModal() {
+        setIsUpdateLegalStatusModalVisible(false);
+        setLegalStatusToUpdate(null);
+    }
+
     async function confirmDeleteLegalStatus() {
         if (!legalStatusToDeleteId) return;
         try {
@@ -95,7 +100,7 @@ function LegalStatusListContainer() {
                 <LegalStatusDataTable legalStatuses={legalStatuses} onEdit={(id) => handleEditLegalStatus(id)} onDelete={(id) => handleDeleteLegalStatus(id)} />
             </ListContainer>
             <AddLegalStatusModal isVisible={isAddLegalStatusModalVisible} onClose={() => setIsAddLegalStatusModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
-            {legalStatusToUpdate && <UpdateLegalStatusModal legalStatus={legalStatusToUpdate} isVisible={isUpdateLegalStatusModalVisible} onClose={() => setIsUpdateLegalStatusModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />}
+            {legalStatusToUpdate && <UpdateLegalStatusModal key={legalStatusToUpdate.id} legalStatus={legalStatusToUpdate} isVisible={isUpdateLegalStatusModalVisible} onClose={handleCloseUpdateModal} onSuccess={() => setRefreshKey(k => k + 1)} />}
             <ConfirmationModal title="Supprimer le statut juridique"
                 message="Voulez-vous vraiment supprimer ce statut juridique ?"
                 onConfirm={confirmDeleteLegalStatus} onCancel={() => setIsDeleteConfirmationModalVisible(false)} isVisible={isDeleteConfirmationModalVisible} />
