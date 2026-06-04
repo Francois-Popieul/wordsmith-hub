@@ -9,7 +9,7 @@ import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
-import { usePricingUnits } from "../../hooks/useStaticData";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface UpdateRateModalProps {
     rate: zod.infer<typeof schemas.RateDto>;
@@ -30,7 +30,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
     const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>(rate.targetLanguageId.toString());
     const [unitPrice, setUnitPrice] = useState<number | null>(rate.unitPrice);
     const [selectedUnit, setSelectedUnit] = useState<string>(rate.unit);
-    const pricingUnits = usePricingUnits();
+    const pricingUnits = useStaticTables().pricingUnits;
 
     function resetForm() {
         setFieldErrors({});

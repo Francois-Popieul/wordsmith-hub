@@ -2,15 +2,14 @@ import "./DirectCustomerDetails.css";
 import * as zod from "zod";
 import { type schemas } from "../../infrastructure/openApi/client";
 import { BuildingIcon, CalendarIcon, InvoicesIcon, MailIcon, PhoneIcon } from "../../assets/icons/icons";
-import { useCountries, useCurrencies } from "../../hooks/useStaticData";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface DirectCustomerDetailsProps {
     directCustomer: zod.infer<typeof schemas.DirectCustomerDto>;
 }
 
 function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
-    const currencies = useCurrencies();
-    const countries = useCountries();
+    const { currencies, countries } = useStaticTables();
 
     return <div className="direct_customer_details_container">
         <div className="details_inner_flex_container">

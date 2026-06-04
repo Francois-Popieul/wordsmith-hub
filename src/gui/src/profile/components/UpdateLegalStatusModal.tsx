@@ -8,9 +8,9 @@ import zod from "zod";
 import { legalStatusSchema } from "../../types/LegalStatus";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
-import { useLegalStatusTypes } from "../../hooks/useStaticData";
 import type { schemas } from "../../infrastructure/openApi/client";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface UpdateLegalStatusModalProps {
     legalStatus: zod.infer<typeof schemas.LegalStatusDto>;
@@ -21,7 +21,7 @@ interface UpdateLegalStatusModalProps {
 
 function UpdateLegalStatusModal({ legalStatus, isVisible, onClose, onSuccess }: UpdateLegalStatusModalProps) {
     const { apiClient } = useApiClient();
-    const legalStatusTypes = useLegalStatusTypes();
+    const legalStatusTypes = useStaticTables().legalStatusTypes;
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
     const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string>(legalStatus.legalStatusType?.id.toString() || "");

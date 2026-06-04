@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button";
 import { type schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
 import { Column } from "primereact/column";
-import { usePricingUnits } from "../../hooks/useStaticData";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface RateProps {
     rates: zod.infer<typeof schemas.RateDto>[];
@@ -16,7 +16,7 @@ interface RateProps {
 }
 
 function RateDataTable({ rates, directCustomerCurrencySign, services, languages, onEdit, onDelete }: RateProps) {
-    const pricingUnits = usePricingUnits();
+    const pricingUnits = useStaticTables().pricingUnits;
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.RateDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
             <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le tarif">

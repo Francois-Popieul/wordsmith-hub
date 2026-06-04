@@ -6,7 +6,6 @@ import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
 import { BriefcaseIcon, BuildingIcon, LanguageIcon, ProfileIcon } from "../../assets/icons/icons";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import { useCountries, useLanguages, useServices } from "../../hooks/useStaticData";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import "../../stylesheets/profile_view.css";
 import { personalDataSchema } from "../../types/PersonalData";
@@ -19,6 +18,7 @@ import { useNavigate } from "react-router";
 import Label from "../components/Label";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 function ProfileView() {
     const { token, apiClient } = useApiClient();
@@ -26,9 +26,7 @@ function ProfileView() {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
     const [savedProfileData, setSavedProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
-    const countries = useCountries();
-    const languages = useLanguages();
-    const services = useServices();
+    const {countries, languages, services} = useStaticTables();
     const [editingForm, setEditingForm] = useState<string | null>(null);
     const { addToast } = useToast();
 

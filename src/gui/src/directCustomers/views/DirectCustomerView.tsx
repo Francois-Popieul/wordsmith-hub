@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 import * as zod from "zod";
 import axios from "axios";
 import DirectCustomerDetails from "../components/DirectCustomerDetails";
-import { useCurrencies } from "../../hooks/useStaticData";
 import RateListContainer from "../components/RateListContainer";
 import ProjectListContainer from "../components/ProjectListContainer";
 import { useApiClient } from "../../hooks/useApiClient";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 function DirectCustomerView() {
     const { token, apiClient } = useApiClient();
@@ -19,7 +19,7 @@ function DirectCustomerView() {
     const directCustomerId: string | undefined = location.pathname.split("/").pop();
     const { addToast } = useToast();
     const [directCustomer, setDirectCustomer] = useState<zod.infer<typeof schemas.DirectCustomerDto> | null>(null);
-    const currencies = useCurrencies();
+    const currencies = useStaticTables().currencies;
 
     useEffect(() => {
         if (!token) return;

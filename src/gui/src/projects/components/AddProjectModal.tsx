@@ -7,8 +7,8 @@ import axios from "axios";
 import * as zod from "zod";
 import FormMultiSelectGroup from "../../components/ui/FormMultiSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
-import { useDomainTypes } from "../../hooks/useStaticData";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface AddProjectModalProps {
     isVisible: boolean;
@@ -19,7 +19,7 @@ interface AddProjectModalProps {
 function AddProjectModal({ isVisible, onClose, onSuccess }: AddProjectModalProps) {
     const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
-    const domainTypes = useDomainTypes();
+    const domainTypes = useStaticTables().domainTypes;
     const [selectedDirectCustomerIds, setSelectedDirectCustomerIds] = useState<string[]>([]);
     const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});

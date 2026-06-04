@@ -8,8 +8,8 @@ import axios from "axios";
 import * as zod from "zod";
 import { directCustomerSchema } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import { useCountries, useCurrencies } from "../../hooks/useStaticData";
 import { useApiClient } from "../../hooks/useApiClient";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface UpdateDirectCustomerModalProps {
     isVisible: boolean;
@@ -22,8 +22,7 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose, onSuccess }: 
     const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const countries = useCountries();
-    const currencies = useCurrencies();
+    const {countries, currencies } = useStaticTables();
     const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
     const [selectedCurrency, setSelectedCurrency] = useState<number | null>(null);
 

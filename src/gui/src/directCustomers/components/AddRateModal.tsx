@@ -9,7 +9,7 @@ import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
 import type { schemas } from "../../infrastructure/openApi/client";
-import { usePricingUnits } from "../../hooks/useStaticData";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface AddRateModalProps {
     directCustomerId: string;
@@ -29,7 +29,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
     const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>("");
     const [unitPrice, setUnitPrice] = useState<number | null>(null);
     const [selectedUnit, setSelectedUnit] = useState<string>("");
-    const pricingUnits = usePricingUnits();
+    const pricingUnits = useStaticTables().pricingUnits;
 
     function resetForm() {
         setFieldErrors({});

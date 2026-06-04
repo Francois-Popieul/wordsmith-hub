@@ -8,8 +8,8 @@ import zod from "zod";
 import { legalStatusSchema } from "../../types/LegalStatus";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
-import { useLegalStatusTypes } from "../../hooks/useStaticData";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface AddLegalStatusModalProps {
     isVisible: boolean;
@@ -19,7 +19,7 @@ interface AddLegalStatusModalProps {
 
 function AddLegalStatusModal({ isVisible, onClose, onSuccess }: AddLegalStatusModalProps) {
     const { apiClient } = useApiClient();
-    const legalStatusTypes = useLegalStatusTypes();
+    const legalStatusTypes = useStaticTables().legalStatusTypes;
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
     const [selectedLegalStatusType, setSelectedLegalStatusType] = useState<string>("");

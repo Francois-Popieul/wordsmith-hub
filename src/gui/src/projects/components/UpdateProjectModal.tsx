@@ -7,8 +7,8 @@ import axios from "axios";
 import * as zod from "zod";
 import FormMultiSelectGroup from "../../components/ui/FormMultiSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
-import { useDomainTypes } from "../../hooks/useStaticData";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface UpdateProjectModalProps {
     isVisible: boolean;
@@ -24,7 +24,7 @@ function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdatePr
     const [selectedDomain, setSelectedDomain] = useState<string | null>(project?.domain ?? "");
     const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
-    const domainTypes = useDomainTypes();
+    const domainTypes = useStaticTables().domainTypes;
 
     useEffect(() => {
         if (!token) return;

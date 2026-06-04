@@ -9,9 +9,9 @@ import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import RateDataTable from "./RateDataTable";
 import AddRateModal from "./AddRateModal";
 import axios from "axios";
-import { useServices, useLanguages } from "../../hooks/useStaticData";
 import { useApiClient } from "../../hooks/useApiClient";
 import UpdateRateModal from "./UpdateRateModal";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface RateListContainerProps {
     directCustomerId: string;
@@ -29,8 +29,8 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     const [isDeleteRateModalVisible, setIsDeleteRateModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | null>(null);
-    const services = useServices();
-    const languages = useLanguages();
+    const services = useStaticTables().services;
+    const languages = useStaticTables().languages;
 
     useEffect(() => {
         if (!token) return;

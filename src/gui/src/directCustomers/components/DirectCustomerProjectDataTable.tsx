@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button";
 import { DeleteIcon, PencilIcon } from "../../assets/icons/icons";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { useDomainTypes } from "../../hooks/useStaticData";
+import { useStaticTables } from "../../hooks/useStaticTables";
 
 interface DirectCustomerProjectDataTableProps {
     projects: zod.infer<typeof schemas.ProjectDto>[];
@@ -13,7 +13,7 @@ interface DirectCustomerProjectDataTableProps {
 }
 
 function DirectCustomerProjectDataTable({ projects, onEdit, onDelete }: DirectCustomerProjectDataTableProps) {
-    const domainTypes = useDomainTypes();
+    const domainTypes = useStaticTables().domainTypes;
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.ProjectDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
             <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le projet">
