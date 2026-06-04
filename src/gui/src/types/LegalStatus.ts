@@ -1,16 +1,5 @@
 import * as zod from "zod";
 
-export type LegalStatus = {
-    legalStatusTypeId: number,
-    siret: string | null,
-    vatNumber: string | null,
-    vatExemption: boolean,
-    vatRate: string | null,
-    taxDeductionExemption: boolean,
-    validFrom: string,
-    validTo: string | null,
-};
-
 export const legalStatusSchema = zod.object({
     legalStatusTypeId: zod
         .number()

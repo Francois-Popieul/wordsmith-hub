@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import axios from "axios";
-import ProfileDto from "../models/ProfileDto";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormContainer from "../../components/ui/FormContainer";
 import { BriefcaseIcon, BuildingIcon, LanguageIcon, ProfileIcon } from "../../assets/icons/icons";
@@ -10,22 +9,23 @@ import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useCountries, useLanguages, useServices } from "../../hooks/useStaticData";
 import CheckboxOption from "../../components/ui/CheckboxOption";
 import "../../stylesheets/profile_view.css";
-import { personalDataSchema, type PersonalData } from "../../types/PersonalData";
+import { personalDataSchema } from "../../types/PersonalData";
 import * as zod from "zod";
-import { addressSchema, type Address } from "../../types/Address";
+import { addressSchema } from "../../types/Address";
 import { useToast } from "../../hooks/useToast";
 import LegalStatusListContainer from "../components/LegalStatusListContainer";
 import BankAcountListContainer from "../components/BankAcountListContainer";
 import { useNavigate } from "react-router";
 import Label from "../components/Label";
 import { useApiClient } from "../../hooks/useApiClient";
+import type { schemas } from "../../infrastructure/openApi/client";
 
 function ProfileView() {
     const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
-    const [profileData, setProfileData] = useState<ProfileDto | void>();
-    const [savedProfileData, setSavedProfileData] = useState<ProfileDto | void>();
+    const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
+    const [savedProfileData, setSavedProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
     const countries = useCountries();
     const languages = useLanguages();
     const services = useServices();
@@ -37,7 +37,7 @@ function ProfileView() {
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
-                const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
+                const profileData: zod.infer<typeof schemas.ProfileDto> = response;
                 setProfileData(profileData);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
@@ -73,7 +73,7 @@ function ProfileView() {
     async function handleSubmitPersonalData(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const personalData: PersonalData = {
+        const personalData: zod.infer<typeof schemas.UpdateFreelancePersonalDataRequest> = {
             firstName: (formData.get("firstName") as string).trim(),
             lastName: (formData.get("lastName") as string).trim(),
             email: (formData.get("email") as string).trim(),
@@ -122,7 +122,7 @@ function ProfileView() {
     async function handleSubmitAddressData(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const addressData: Address = {
+        const addressData: zod.infer<typeof schemas.AddressDto> = {
             streetInfo: (formData.get("streetInfo") as string).trim(),
             addressComplement: (formData.get("addressComplement") as string | null)?.trim() || null,
             postCode: (formData.get("postCode") as string).trim(),

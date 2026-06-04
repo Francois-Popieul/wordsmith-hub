@@ -3,9 +3,8 @@ import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../components/ui/AuthFormContainer.css";
 import { useState } from "react";
-import LoginUser from "../models/LoginUser";
 import { loginSchema } from "../zod/authenticationSchemas";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { useToast } from "../../hooks/useToast";
@@ -20,10 +19,10 @@ function LoginView() {
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const userData: LoginUser = new LoginUser(
-            formData.get("email") as string,
-            formData.get("password") as string
-        );
+        const userData: zod.infer<typeof schemas.LoginUserRequest> = {
+            email: formData.get("email") as string,
+            password: formData.get("password") as string
+        };
 
         const validationResult = loginSchema.safeParse(userData);
         if (!validationResult.success) {

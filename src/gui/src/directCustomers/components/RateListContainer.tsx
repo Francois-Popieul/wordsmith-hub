@@ -8,7 +8,6 @@ import * as zod from "zod";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import RateDataTable from "./RateDataTable";
 import AddRateModal from "./AddRateModal";
-import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
 import { useServices, useLanguages } from "../../hooks/useStaticData";
 import { useApiClient } from "../../hooks/useApiClient";
@@ -29,7 +28,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
     const [rateToUpdate, setRateToUpdate] = useState<zod.infer<typeof schemas.RateDto> | null>(null);
     const [isDeleteRateModalVisible, setIsDeleteRateModalVisible] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
-    const [profileData, setProfileData] = useState<ProfileDto | null>(null);
+    const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | null>(null);
     const services = useServices();
     const languages = useLanguages();
 
@@ -38,7 +37,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
-                const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
+                const profileData: zod.infer<typeof schemas.ProfileDto> = response;
                 setProfileData(profileData);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {

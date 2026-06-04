@@ -3,7 +3,7 @@ import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
-import { bankAccountSchema, type BankAccount } from "../../types/BankAccount";
+import { bankAccountSchema } from "../../types/BankAccount";
 import * as zod from "zod";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
@@ -33,7 +33,7 @@ function UpdateBankAccountModal({ bankAccount, isVisible, onClose, onSuccess }: 
         if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const bankAccountData: BankAccount = {
+        const bankAccountData: zod.infer<typeof schemas.UpdateBankAccountRequest> = {
             label: formData.get("label") as string,
             bankName: formData.get("bankName") as string,
             accountHolderName: formData.get("accountHolderName") as string,

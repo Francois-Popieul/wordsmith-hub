@@ -4,10 +4,9 @@ import CheckboxOption from "../../components/ui/CheckboxOption";
 import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../components/ui/AuthFormContainer.css";
-import SignupUser from "../models/SignupUser";
 import { signupSchema } from "../zod/authenticationSchemas";
 import axios from "axios";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { useNavigate } from "react-router";
 import { useToast } from "../../hooks/useToast";
 
@@ -22,13 +21,13 @@ function SignupView() {
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const userData = new SignupUser(
-            formData.get("email") as string,
-            formData.get("password") as string,
-            formData.get("password_confirmation") as string,
-            formData.get("firstname") as string,
-            formData.get("lastname") as string
-        );
+        const userData: zod.infer<typeof schemas.RegisterUserRequest> = {
+            firstName: formData.get("firstname") as string,
+            lastName: formData.get("lastname") as string,
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+            passwordConfirmation: formData.get("password_confirmation") as string
+        };
 
         const validationResult = signupSchema.safeParse({
             ...userData,

@@ -1,12 +1,5 @@
 import * as zod from "zod";
 
-export type PersonalData = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string | null;
-};
-
 export const personalDataSchema = zod.object({
     firstName: zod
         .string()

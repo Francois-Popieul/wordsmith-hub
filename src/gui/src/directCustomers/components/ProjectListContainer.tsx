@@ -56,6 +56,12 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
         setIsUpdateModalVisible(true);
     }
 
+    function handleConfirmProjectUpdate() {
+        setIsAddProjectModalVisible(false);
+        setProjectToUpdate(null);
+        setRefreshKey(prev => prev + 1);
+    }
+
     function handleDeleteProject(id: string) {
         setProjectToDeleteId(id);
         setIsDeleteProjectModalVisible(true);
@@ -104,7 +110,9 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
                 <DirectCustomerProjectDataTable projects={projects} onEdit={handleEditProject} onDelete={handleDeleteProject} />
             </ListContainer>
             <AddProjectModal isVisible={isAddProjectModalVisible} onClose={() => setIsAddProjectModalVisible(false)} onSuccess={() => setRefreshKey(prev => prev + 1)} />
-            <UpdateProjectModal project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
+            {projectToUpdate && (
+                <UpdateProjectModal key={projectToUpdate?.id} project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={handleConfirmProjectUpdate} />
+            )}
             <ConfirmationModal isVisible={isDeleteProjectModalVisible} title="Supprimer le projet" message="Voulez-vous vraiment supprimer ce projet ?" onConfirm={handleConfirmProjectDelete} onCancel={handleCancelProjectDelete} />
         </>
     );

@@ -5,8 +5,8 @@ import FormModal from "../../components/ui/FormModal";
 import { schemas } from "../../infrastructure/openApi/client";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
-import zod from "zod";
-import { directCustomerSchema, type DirectCustomer } from "../../types/DirectCustomer";
+import * as zod from "zod";
+import { directCustomerSchema } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useCountries, useCurrencies } from "../../hooks/useStaticData";
 import { useApiClient } from "../../hooks/useApiClient";
@@ -42,11 +42,11 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose, onSuccess }: 
         if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const directCustomerData: DirectCustomer = {
+        const directCustomerData: zod.infer<typeof schemas.UpdateDirectCustomerRequest> = {
             name: formData.get("name") as string,
             code: formData.get("code") as string,
-            email: formData.get("email") as string,
             phone: formData.get("phone") as string || null,
+            email: formData.get("email") as string,
             address: {
                 streetInfo: formData.get("streetInfo") as string,
                 addressComplement: formData.get("addressComplement") as string || null,

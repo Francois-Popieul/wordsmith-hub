@@ -5,7 +5,6 @@ import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import * as zod from "zod";
 import { rateSchema } from "../../types/Rate";
-import type ProfileDto from "../../profile/models/ProfileDto";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
@@ -15,7 +14,7 @@ import { usePricingUnits } from "../../hooks/useStaticData";
 interface AddRateModalProps {
     directCustomerId: string;
     directCustomerCurrencySign: string;
-    freelanceProfile: ProfileDto | null;
+    freelanceProfile: zod.infer<typeof schemas.ProfileDto> | null;
     isVisible: boolean;
     onClose: () => void;
     onSuccess?: () => void;

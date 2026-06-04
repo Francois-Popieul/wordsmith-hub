@@ -4,15 +4,13 @@ import Button from "../../components/ui/Button";
 import { type schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
 import { Column } from "primereact/column";
-import type { Service } from "../../types/Service";
-import type { TranslationLanguage } from "../../types/TranslationLanguage";
 import { usePricingUnits } from "../../hooks/useStaticData";
 
 interface RateProps {
     rates: zod.infer<typeof schemas.RateDto>[];
     directCustomerCurrencySign: string;
-    services: Service[];
-    languages: TranslationLanguage[];
+    services: zod.infer<typeof schemas.Service>[];
+    languages: zod.infer<typeof schemas.TranslationLanguage>[];
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
 }

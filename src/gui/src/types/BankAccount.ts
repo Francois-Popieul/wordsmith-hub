@@ -1,13 +1,5 @@
 import * as zod from "zod";
 
-export type BankAccount = {
-    label: string;
-    bankName: string;
-    accountHolderName: string;
-    iban: string;
-    bic: string;
-};
-
 export const bankAccountSchema = zod
     .object({
         label: zod

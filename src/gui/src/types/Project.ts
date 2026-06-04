@@ -1,14 +1,5 @@
 import * as zod from "zod";
 
-export type Project = {
-    name: string;
-    directCustomerId: string;
-    domain: string;
-    endCustomerName: string;
-    description: string | null;
-
-}
-
 export const projectSchema = zod.object({
     name: zod
         .string()

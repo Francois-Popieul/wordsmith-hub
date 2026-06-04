@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useEffect, useState } from "react";
-import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
 import { useToast } from "../../hooks/useToast";
 import Card from "../components/Card";
@@ -15,12 +14,14 @@ import AddDirectCustomerModal from "../../directCustomers/components/AddDirectCu
 import AddProjectModal from "../../projects/components/AddProjectModal";
 import { useApiClient } from "../../hooks/useApiClient";
 import { useDirectCustomerCount, useProjectCount } from "../../hooks/useStats";
+import type { schemas } from "../../infrastructure/openApi/client";
+import type zod from "zod";
 
 function DashboardView() {
     const { token, apiClient } = useApiClient();
     const navigate = useNavigate();
     const { addToast } = useToast();
-    const [profileData, setProfileData] = useState<ProfileDto | void>();
+    const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
     const [loading, setLoading] = useState(true);
     const [orderNumber, setOrderNumber] = useState(0);
     const [earnings, setEarnings] = useState(0);
@@ -34,7 +35,7 @@ function DashboardView() {
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
-                const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
+                const profileData: zod.infer<typeof schemas.ProfileDto> = response;
                 setProfileData(profileData);
                 setOrderNumber(0);
                 setEarnings(0);
