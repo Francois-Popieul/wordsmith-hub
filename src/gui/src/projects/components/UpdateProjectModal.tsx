@@ -20,12 +20,10 @@ interface UpdateProjectModalProps {
 function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdateProjectModalProps) {
     const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
-    const [selectedDirectCustomerIdsOverride, setSelectedDirectCustomerIdsOverride] = useState<string[] | null>(null);
-    const [selectedDomainOverride, setSelectedDomainOverride] = useState<string | null>(null);
+    const [selectedDirectCustomerIds, setSelectedDirectCustomerIds] = useState<string[] | null>(project?.directCustomers?.map(c => c.id) ?? []);
+    const [selectedDomain, setSelectedDomain] = useState<string | null>(project?.domain ?? "");
     const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
-    const selectedDirectCustomerIds = selectedDirectCustomerIdsOverride ?? (project?.directCustomers?.map(c => c.id) ?? []);
-    const selectedDomain = selectedDomainOverride ?? (project?.domain ?? "");
     const domainTypes = useDomainTypes();
 
     useEffect(() => {
@@ -49,13 +47,13 @@ function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdatePr
 
 
     function resetForm() {
-        setSelectedDomainOverride(null);
+        setSelectedDomain(null);
+        setSelectedDirectCustomerIds([]);
         setFieldErrors({});
     }
 
     function handleClose() {
         resetForm();
-        setSelectedDirectCustomerIdsOverride(null);
         onClose();
     }
 
@@ -110,12 +108,12 @@ function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdatePr
                         label="Clients"
                         placeholder="Sélectionnez les clients"
                         options={directCustomers.map(c => ({ value: c.id, name: c.name }))}
-                        selected={selectedDirectCustomerIds}
+                        selected={selectedDirectCustomerIds ?? []}
                         required
                         error={fieldErrors.directCustomerIds}
-                        onChange={(values) => setSelectedDirectCustomerIdsOverride(values)}
+                        onChange={(values) => setSelectedDirectCustomerIds(values)}
                     />
-                    <FormSelectGroup name="domain" label="Domaine" placeholder="Sélectionnez le domaine" selected={selectedDomain ? domainTypes.find(domain => domain.code === selectedDomain)?.code : ""} options={domainTypes.map(domain => ({ value: domain.code, name: domain.name }))} required onChange={(value) => setSelectedDomainOverride(value)} />
+                    <FormSelectGroup name="domain" label="Domaine" placeholder="Sélectionnez le domaine" selected={selectedDomain ? domainTypes.find(domain => domain.code === selectedDomain)?.code : ""} options={domainTypes.map(domain => ({ value: domain.code, name: domain.name }))} required onChange={(value) => setSelectedDomain(value)} />
                     <FormInputGroup name="endCustomerName" label="Client final" placeholder="ex. Société XYZ" type="text" value={project?.endCustomer?.name ?? ""} required={false} error={fieldErrors.endCustomerName} />
                     <FormInputGroup name="description" label="Description" placeholder="ex. Description du projet" value={project?.description ?? ""} type="text" required={false} error={fieldErrors.description} />
                 </FormModal>
