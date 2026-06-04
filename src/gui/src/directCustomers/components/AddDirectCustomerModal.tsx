@@ -4,10 +4,12 @@ import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
-import { directCustomerSchema, type DirectCustomer } from "../../types/DirectCustomer";
+import { directCustomerSchema } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useCountries, useCurrencies } from "../../hooks/useStaticData";
 import { useApiClient } from "../../hooks/useApiClient";
+import type { schemas } from "../../infrastructure/openApi/client";
+import * as zod from "zod";
 
 interface AddDirectCustomerModalProps {
     isVisible: boolean;
@@ -41,11 +43,11 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
         if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const directCustomerData: DirectCustomer = {
+        const directCustomerData: zod.infer<typeof schemas.AddDirectCustomerRequest> = {
             name: (formData.get("name") as string).trim(),
             code: (formData.get("code") as string).trim(),
-            email: (formData.get("email") as string).trim(),
             phone: (formData.get("phone") as string)?.trim() || null,
+            email: (formData.get("email") as string).trim(),
             address: {
                 streetInfo: (formData.get("streetInfo") as string).trim(),
                 addressComplement: (formData.get("addressComplement") as string)?.trim() || null,

@@ -1,6 +1,6 @@
 namespace WordsmithHub.Domain;
 
-public interface IPricingUnit
+public interface IPricingUnitRepository
 {
     Task<IReadOnlyList<PricingUnit>> GetAllAsync(CancellationToken cancellationToken = default);
 }

@@ -78,6 +78,12 @@ function ProjectsView() {
         setIsUpdateModalVisible(true);
     }
 
+    function handleConfirmUpdate() {
+        setProjectToUpdate(null);
+        setIsUpdateModalVisible(false);
+        setRefreshKey(k => k + 1);
+    }
+
     function handleDelete(id: string) {
         setProjectToDeleteId(id);
         setIsDeleteModalVisible(true);
@@ -143,7 +149,7 @@ function ProjectsView() {
                 <PageHeader pageTitle="Projets" pageSubtitle="Gérez vos projets de traduction" button={<Button variant="blue" name="Ajouter un projet" width="default" type="button" onClick={handleAddProject}><PlusSignIcon /></Button>}></PageHeader>
                 <ProjectDataTable projects={projects} projectStatuses={projectStatuses} onAdd={() => setIsAddModalVisible(true)} onEdit={(id) => handleUpdate(id)} onStatusChange={(projectId, statusId) => handleStatusChange(projectId, statusId)} onDelete={(id) => handleDelete(id)} />
                 <AddProjectModal isVisible={isAddModalVisible} onClose={() => setIsAddModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
-                <UpdateProjectModal project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={() => setRefreshKey(k => k + 1)} />
+                <UpdateProjectModal project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={handleConfirmUpdate} />
                 <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le projet" message="Voulez-vous vraiment supprimer ce projet ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
             </AppLayout>
         </>

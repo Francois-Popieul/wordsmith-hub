@@ -84,6 +84,11 @@ const ProjectDto = z.object({
   directCustomers: z.array(DirectCustomerDto),
   statusId: z.number().int(),
 });
+const PricingUnit = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  code: z.string(),
+});
 const LegalStatusType = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -184,6 +189,11 @@ const FreelanceDto = z.object({
   email: z.string(),
   address: AddressDto.nullable(),
   statusId: z.number().int(),
+});
+const DomainType = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  code: z.string(),
 });
 const UpdateDirectCustomerRequest = z.object({
   name: z.string().min(0).max(150),
@@ -291,6 +301,7 @@ export const schemas = {
   AddressDto,
   DirectCustomerDto,
   ProjectDto,
+  PricingUnit,
   LegalStatusType,
   UpdateLegalStatusRequest,
   LegalStatusDto,
@@ -304,6 +315,7 @@ export const schemas = {
   UpdateFreelanceServicesRequest,
   ProfileDto,
   FreelanceDto,
+  DomainType,
   UpdateDirectCustomerRequest,
   AddDirectCustomerRequest,
   Currency,
@@ -527,6 +539,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         z.array(DirectCustomerDto),
         config
       ),
+    GetAllDomainTypesEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/domain-types", params, z.array(DomainType), config),
     GetFreelanceEndpoint: (
       params: {
         body?: unknown;
@@ -698,6 +718,14 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       config?: AxiosRequestConfig
     ) =>
       request("get", "/legalstatuses", params, z.array(LegalStatusDto), config),
+    GetAllPricingUnitsEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/pricing-units", params, z.array(PricingUnit), config),
     AddProjectEndpoint: (
       params: {
         body?: unknown;
@@ -853,6 +881,7 @@ export function getTagByAlias(alias: string): string | undefined {
     GetDirectCustomerEndpoint: "directcustomer",
     DeleteDirectCustomerEndpoint: "directcustomer",
     GetAllDirectCustomersEndpoint: "directcustomer",
+    GetAllDomainTypesEndpoint: "domain-types",
     GetFreelanceEndpoint: "freelance",
     UpdateFreelanceEndpoint: "freelance",
     DeleteFreelanceEndpoint: "freelance",
@@ -868,6 +897,7 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateLegalStatusEndpoint: "legalstatus",
     DeleteLegalStatusEndpoint: "legalstatus",
     GetAllLegalStatusesEndpoint: "legalstatus",
+    GetAllPricingUnitsEndpoint: "pricing-units",
     AddProjectEndpoint: "project",
     GetAllProjectStatusesEndpoint: "statuses",
     UpdateProjectEndpoint: "project",

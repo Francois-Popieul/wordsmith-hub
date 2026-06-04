@@ -144,3 +144,57 @@ export function useLegalStatusTypes(): zod.infer<typeof schemas.LegalStatusType>
 
     return legalStatusTypes;
 }
+
+export function usePricingUnits(): zod.infer<typeof schemas.PricingUnit>[] {
+    const { token, apiClient } = useApiClient();
+    const { addToast } = useToast();
+    const [pricingUnits, setPricingUnits] = useState<zod.infer<typeof schemas.PricingUnit>[]>([]);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchPricingUnits = async () => {
+            try {
+                const response = await apiClient.GetAllPricingUnitsEndpoint();
+                setPricingUnits(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des unités de tarification.", "top_right", 3000);
+                }
+            }
+        };
+        fetchPricingUnits();
+    }, [apiClient, addToast, token]);
+
+    return pricingUnits;
+}
+
+export function useDomainTypes(): zod.infer<typeof schemas.DomainType>[] {
+    const { token, apiClient } = useApiClient();
+    const { addToast } = useToast();
+    const [domainTypes, setDomainTypes] = useState<zod.infer<typeof schemas.DomainType>[]>([]);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchDomainTypes = async () => {
+            try {
+                const response = await apiClient.GetAllDomainTypesEndpoint();
+                setDomainTypes(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des types de domaines.", "top_right", 3000);
+                }
+            }
+        };
+        fetchDomainTypes();
+    }, [apiClient, addToast, token]);
+
+    return domainTypes;
+}

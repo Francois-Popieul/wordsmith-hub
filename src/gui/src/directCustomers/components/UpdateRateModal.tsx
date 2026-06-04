@@ -4,13 +4,13 @@ import FormModal from "../../components/ui/FormModal";
 import { useToast } from "../../hooks/useToast";
 import axios from "axios";
 import * as zod from "zod";
-import { rateSchema, type Rate } from "../../types/Rate";
+import { rateSchema } from "../../types/Rate";
 import type ProfileDto from "../../profile/models/ProfileDto";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import UnitTypes from "../types/Units";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
+import { usePricingUnits } from "../../hooks/useStaticData";
 
 interface UpdateRateModalProps {
     rate: zod.infer<typeof schemas.RateDto>;
@@ -31,6 +31,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
     const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>(rate.targetLanguageId.toString());
     const [unitPrice, setUnitPrice] = useState<number | null>(rate.unitPrice);
     const [selectedUnit, setSelectedUnit] = useState<string>(rate.unit);
+    const pricingUnits = usePricingUnits();
 
     function resetForm() {
         setFieldErrors({});
@@ -50,7 +51,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
         if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const rateData: Rate = {
+        const rateData: zod.infer<typeof schemas.UpdateRateRequest> = {
             unitPrice: unitPrice !== null ? unitPrice : 0,
             unit: formData.get("unit") as string,
             sourceLanguageId: formData.get("sourceLanguageId") ? parseInt(formData.get("sourceLanguageId") as string) : 0,
@@ -97,7 +98,7 @@ function UpdateRateModal({ rate, directCustomerId, directCustomerCurrencySign, f
                     </div>
                     <div className="multiple_field_container">
                         <FormNumberInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} value={unitPrice !== null ? unitPrice.toString() : ""} onChange={(value) => setUnitPrice(value ? parseFloat(value) : null)} placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
-                        <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
+                        <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={pricingUnits.map(unit => ({ value: unit.code, name: unit.name }))} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
                 </FormModal>
             )}

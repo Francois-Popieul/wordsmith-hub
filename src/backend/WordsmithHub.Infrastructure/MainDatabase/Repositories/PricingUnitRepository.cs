@@ -3,7 +3,7 @@ using WordsmithHub.Domain;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
-public class PricingUnitRepository(MainDbContext context) : IPricingUnit
+public class PricingUnitRepository(MainDbContext context) : IPricingUnitRepository
 {
     public async Task<IReadOnlyList<PricingUnit>> GetAllAsync(CancellationToken cancellationToken = default)
     {

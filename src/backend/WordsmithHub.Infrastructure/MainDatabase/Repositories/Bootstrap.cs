@@ -31,6 +31,7 @@ public static class Bootstrap
             services.AddScoped<ILegalStatusRepository, LegalStatusRepository>();
             services.AddScoped<ILegalStatusTypeRepository, LegalStatusTypeRepository>();
             services.AddScoped<IOrderLineRepository, OrderLineRepository>();
+            services.AddScoped<IPricingUnitRepository, PricingUnitRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();

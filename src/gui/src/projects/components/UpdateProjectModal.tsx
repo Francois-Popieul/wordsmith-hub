@@ -7,6 +7,8 @@ import axios from "axios";
 import * as zod from "zod";
 import FormMultiSelectGroup from "../../components/ui/FormMultiSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
+import { useDomainTypes } from "../../hooks/useStaticData";
+import FormSelectGroup from "../../components/ui/FormSelectGroup";
 
 interface UpdateProjectModalProps {
     isVisible: boolean;
@@ -19,9 +21,12 @@ function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdatePr
     const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
     const [selectedDirectCustomerIdsOverride, setSelectedDirectCustomerIdsOverride] = useState<string[] | null>(null);
+    const [selectedDomainOverride, setSelectedDomainOverride] = useState<string | null>(null);
     const [directCustomers, setDirectCustomers] = useState<zod.infer<typeof schemas.DirectCustomerDto>[]>([]);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const selectedDirectCustomerIds = selectedDirectCustomerIdsOverride ?? (project?.directCustomers?.map(c => c.id) ?? []);
+    const selectedDomain = selectedDomainOverride ?? (project?.domain ?? "");
+    const domainTypes = useDomainTypes();
 
     useEffect(() => {
         if (!token) return;
@@ -44,6 +49,7 @@ function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdatePr
 
 
     function resetForm() {
+        setSelectedDomainOverride(null);
         setFieldErrors({});
     }
 
@@ -109,7 +115,7 @@ function UpdateProjectModal({ isVisible, project, onClose, onSuccess }: UpdatePr
                         error={fieldErrors.directCustomerIds}
                         onChange={(values) => setSelectedDirectCustomerIdsOverride(values)}
                     />
-                    <FormInputGroup name="domain" label="Domaine" placeholder="ex. Marketing" type="text" value={project?.domain ?? ""} required error={fieldErrors.domain} />
+                    <FormSelectGroup name="domain" label="Domaine" placeholder="Sélectionnez le domaine" selected={selectedDomain ? domainTypes.find(domain => domain.code === selectedDomain)?.code : ""} options={domainTypes.map(domain => ({ value: domain.code, name: domain.name }))} required onChange={(value) => setSelectedDomainOverride(value)} />
                     <FormInputGroup name="endCustomerName" label="Client final" placeholder="ex. Société XYZ" type="text" value={project?.endCustomer?.name ?? ""} required={false} error={fieldErrors.endCustomerName} />
                     <FormInputGroup name="description" label="Description" placeholder="ex. Description du projet" value={project?.description ?? ""} type="text" required={false} error={fieldErrors.description} />
                 </FormModal>

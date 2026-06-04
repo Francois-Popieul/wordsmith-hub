@@ -4,15 +4,15 @@ using WordsmithHub.Domain;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Configurations;
 
-public class DomainTypeConfiguration
+public class DomainTypeConfiguration : IEntityTypeConfiguration<DomainType>
 {
     public void Configure(EntityTypeBuilder<DomainType> builder)
     {
         builder.ToTable("DomainTypes");
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).IsRequired().ValueGeneratedNever();
-        builder.Property(c => c.Name).IsRequired().HasMaxLength(30);
-        builder.Property(c => c.Code).IsRequired().HasMaxLength(25);
+        builder.Property(c => c.Name).IsRequired().HasMaxLength(50);
+        builder.Property(c => c.Code).IsRequired().HasMaxLength(40);
         // Seed data
         builder.HasData(
             new DomainType { Id = 1, Name = "Administration", Code = "administration" },
