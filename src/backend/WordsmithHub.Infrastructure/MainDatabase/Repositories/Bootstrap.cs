@@ -23,6 +23,7 @@ public static class Bootstrap
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IDirectCustomerRepository, DirectCustomerRepository>();
+            services.AddScoped<IDomainTypeRepository, DomainTypeRepository>();
             services.AddScoped<IEndCustomerRepository, EndCustomerRepository>();
             services.AddScoped<IFreelanceRepository, FreelanceRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
