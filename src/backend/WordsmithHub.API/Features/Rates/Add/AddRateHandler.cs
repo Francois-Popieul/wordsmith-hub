@@ -27,21 +27,15 @@ public class AddRateHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var directCustomer = await directCustomerRepository.GetByIdAsync(command.DirectCustomerId, cancellationToken);
 
         if (directCustomer == null)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         if (directCustomer.FreelanceId != freelance.Id)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var rate = rateFactory.CreateRate(
             command.UnitPrice,

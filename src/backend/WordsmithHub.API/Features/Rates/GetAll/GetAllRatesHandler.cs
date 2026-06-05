@@ -23,17 +23,13 @@ public class GetAllRatesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<RateDto>>(OperationStatus.Forbidden);
-        }
 
         var rates
             = await repository.GetByFreelanceIdAsync(freelance.Id, cancellationToken);
 
         if (rates.Count == 0)
-        {
             return new OperationResult<IReadOnlyList<RateDto>>(OperationStatus.Success, []);
-        }
 
         var rateDtoList = rates.Select(rate => rate.ToDto()).ToList();
 

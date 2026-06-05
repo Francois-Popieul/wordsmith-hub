@@ -24,16 +24,12 @@ public class DeleteRateHandler(
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<Rate>(command.AppUserId,
                 command.RateId, cancellationToken))
-        {
             return OperationResult.Forbidden<NoContent>();
-        }
 
         var rate = await rateRepository.GetByIdAsync(command.RateId, cancellationToken);
 
         if (rate == null)
-        {
             return OperationResult.NotFound<NoContent>();
-        }
 
         rate.MarkAsDeleted();
 

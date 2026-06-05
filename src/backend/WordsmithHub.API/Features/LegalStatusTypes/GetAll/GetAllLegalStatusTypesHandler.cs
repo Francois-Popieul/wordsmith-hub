@@ -21,9 +21,7 @@ public class GetAllLegalStatusTypesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<LegalStatusType>>(OperationStatus.Forbidden);
-        }
 
         var legalStatusTypes = await repository.GetAllAsync(cancellationToken);
 

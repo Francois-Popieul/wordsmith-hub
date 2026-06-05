@@ -18,15 +18,12 @@ public class UpdateProjectStatusHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
+
         if (project == null)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         project.StatusId = command.StatusId;
         project.UpdatedAt = DateTime.UtcNow;

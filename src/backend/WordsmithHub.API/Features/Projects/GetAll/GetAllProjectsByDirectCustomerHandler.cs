@@ -26,16 +26,12 @@ public class GetAllProjectsByDirectCustomerHandler(
 
         if (freelance == null || !await resourceAuthorizationService
                 .CanAccessAsync<DirectCustomer>(command.AppUserId, command.DirectCustomerId, cancellationToken))
-        {
             return new OperationResult<IReadOnlyList<ProjectDto>>(OperationStatus.Forbidden);
-        }
 
         var projects = await projectRepository.GetByDirectCustomerIdAsync(command.DirectCustomerId, cancellationToken);
 
         if (projects.Count == 0)
-        {
             return new OperationResult<IReadOnlyList<ProjectDto>>(OperationStatus.Success, []);
-        }
 
         var projectDtoList = projects.Select(project => project.ToDto()).ToList();
 

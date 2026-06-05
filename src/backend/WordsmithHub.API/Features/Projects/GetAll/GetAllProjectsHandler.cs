@@ -21,16 +21,12 @@ public class GetAllProjectsHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<ProjectDto>>(OperationStatus.Forbidden);
-        }
 
         var projects = await projectRepository.GetByFreelanceIdAsync(freelance.Id, cancellationToken);
 
         if (projects.Count == 0)
-        {
             return new OperationResult<IReadOnlyList<ProjectDto>>(OperationStatus.Success, []);
-        }
 
         var projectDtoList = projects.Select(project => project.ToDto()).ToList();
 

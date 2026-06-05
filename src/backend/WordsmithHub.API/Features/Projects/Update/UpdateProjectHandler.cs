@@ -31,12 +31,10 @@ public class UpdateProjectHandler(
     {
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
-        if (freelance == null || !await resourceAuthorizationService.CanAccessAsync<Project>(command.AppUserId,
-                command.ProjectId,
+        if (freelance == null ||
+            !await resourceAuthorizationService.CanAccessAsync<Project>(command.AppUserId, command.ProjectId,
                 cancellationToken))
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         List<DirectCustomer> directCustomers = [];
 
@@ -47,9 +45,7 @@ public class UpdateProjectHandler(
         }
 
         if (directCustomers.Count == 0)
-        {
             return OperationResult.Error<Guid>();
-        }
 
         EndCustomer? endCustomer = null;
 
@@ -73,9 +69,7 @@ public class UpdateProjectHandler(
         var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
 
         if (project is null)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         project.Name = command.Name;
         project.Domain = command.Domain;

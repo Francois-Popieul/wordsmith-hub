@@ -29,9 +29,7 @@ public class AddLegalStatusHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var legalStatus = factory.CreateLegalStatus(
             command.LegalStatusTypeId,

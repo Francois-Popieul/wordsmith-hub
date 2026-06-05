@@ -20,9 +20,7 @@ public class GetAllWorkOrderStatusesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<Status>>(OperationStatus.Forbidden);
-        }
 
         var workOrderStatuses = await statusRepository.GetAllWorkOrderStatusesAsync(cancellationToken);
 
