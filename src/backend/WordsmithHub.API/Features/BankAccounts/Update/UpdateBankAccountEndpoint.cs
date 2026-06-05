@@ -18,11 +18,21 @@ public class UpdateBankAccountRequestValidator : Validator<UpdateBankAccountRequ
 {
     public UpdateBankAccountRequestValidator()
     {
-        RuleFor(x => x.Label).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.BankName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.AccountHolderName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Iban).NotEmpty().MaximumLength(34);
-        RuleFor(x => x.Bic).NotEmpty().MaximumLength(11);
+        RuleFor(x => x.Label)
+            .NotEmpty().WithMessage("L’intitulé est requis.")
+            .MaximumLength(100).WithMessage("L’intitulé ne doit pas dépasser 100 caractères.");
+        RuleFor(x => x.BankName)
+            .NotEmpty().WithMessage("Le nom de la banque est requis.")
+            .MaximumLength(100).WithMessage("Le nom de la banque ne doit pas dépasser 100 caractères.");
+        RuleFor(x => x.AccountHolderName)
+            .NotEmpty().WithMessage("Le nom du titulaire est requis.")
+            .MaximumLength(100).WithMessage("Le nom du titulaire ne doit pas dépasser 100 caractères.");
+        RuleFor(x => x.Iban)
+            .NotEmpty().WithMessage("L’IBAN est requis.")
+            .Length(34).WithMessage("L’IBAN doit comporter 34 caractères.");
+        RuleFor(x => x.Bic)
+            .NotEmpty().WithMessage("Le code BIC est requis.")
+            .Length(11).WithMessage("Le code BIC doit comporter 11 caractères.");
     }
 }
 

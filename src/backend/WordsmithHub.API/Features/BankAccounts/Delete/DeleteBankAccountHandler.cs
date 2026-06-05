@@ -24,16 +24,12 @@ public class DeleteBankAccountHandler(
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<BankAccount>(command.AppUserId,
                 command.BankAccountId, cancellationToken))
-        {
             return OperationResult.Forbidden<NoContent>();
-        }
 
         var bankAccount = await repository.GetByIdAsync(command.BankAccountId, cancellationToken);
 
         if (bankAccount == null)
-        {
             return OperationResult.NotFound<NoContent>();
-        }
 
         bankAccount.MarkAsDeleted();
 

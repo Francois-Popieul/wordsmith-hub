@@ -22,9 +22,7 @@ public class GetAllCurrenciesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<Currency>>(OperationStatus.Forbidden);
-        }
 
         var currencies = await repository.GetAllAsync(cancellationToken);
 
