@@ -1,4 +1,5 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain.FreelanceAggregate;
 using WordsmithHub.Domain.ProjectAggregate;
@@ -8,6 +9,7 @@ namespace WordsmithHub.API.Features.Projects.Update;
 public record UpdateProjectStatusCommand(Guid AppUserId, Guid ProjectId, int StatusId)
     : ICommand<OperationResult<Guid>>;
 
+[UsedImplicitly]
 public class UpdateProjectStatusHandler(
     IFreelanceRepository freelanceRepository,
     IProjectRepository projectRepository) : ICommandHandler<UpdateProjectStatusCommand, OperationResult<Guid>>

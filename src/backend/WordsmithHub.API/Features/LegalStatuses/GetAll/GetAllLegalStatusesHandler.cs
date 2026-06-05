@@ -11,6 +11,7 @@ namespace WordsmithHub.API.Features.LegalStatuses.GetAll;
 [UsedImplicitly]
 public record GetAllLegalStatusesCommand(Guid AppUserId) : ICommand<OperationResult<IReadOnlyList<LegalStatusDto>>>;
 
+[UsedImplicitly]
 public class GetAllLegalStatusesHandler(
     IFreelanceRepository freelanceRepository,
     ILegalStatusRepository repository)

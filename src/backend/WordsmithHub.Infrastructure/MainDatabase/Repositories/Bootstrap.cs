@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using JetBrains.Annotations;
+using Microsoft.Extensions.DependencyInjection;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.BankAccountAggregate;
 using WordsmithHub.Domain.DirectCustomerAggregate;
@@ -17,6 +18,7 @@ public static class Bootstrap
 {
     extension(IServiceCollection services)
     {
+        [UsedImplicitly]
         public IServiceCollection AddRepositories()
         {
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();

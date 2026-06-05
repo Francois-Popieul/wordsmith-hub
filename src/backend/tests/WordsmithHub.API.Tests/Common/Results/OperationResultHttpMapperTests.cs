@@ -32,8 +32,13 @@ public class OperationResultHttpMapperTests
     public async Task MapToHttpAsync_ShouldPreserveForbiddenStatus_WhenNoContentResultIsForbidden()
     {
         // Arrange
-        var httpContext = new DefaultHttpContext();
-        httpContext.Response.Body = new MemoryStream();
+        var httpContext = new DefaultHttpContext
+        {
+            Response =
+            {
+                Body = new MemoryStream()
+            }
+        };
         var result = OperationResult.Forbidden<NoContent>();
 
         // Act

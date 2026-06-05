@@ -1,4 +1,5 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Features.Projects.Models;
 using WordsmithHub.API.Features.Projects.Services;
@@ -12,6 +13,7 @@ namespace WordsmithHub.API.Features.Projects.GetAll;
 public record GetAllProjectsByDirectCustomerCommand(Guid AppUserId, Guid DirectCustomerId)
     : ICommand<OperationResult<IReadOnlyList<ProjectDto>>>;
 
+[UsedImplicitly]
 public class GetAllProjectsByDirectCustomerHandler(
     IResourceAuthorizationService resourceAuthorizationService,
     IFreelanceRepository freelanceRepository,
