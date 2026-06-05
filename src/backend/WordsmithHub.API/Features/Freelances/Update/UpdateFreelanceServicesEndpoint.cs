@@ -13,7 +13,9 @@ public class UpdateFreelanceServicesRequestValidator : Validator<UpdateFreelance
 {
     public UpdateFreelanceServicesRequestValidator()
     {
-        RuleFor(x => x.ServiceIds).NotEmpty().Must(ids => ids.Count is > 0 and <= 25);
+        RuleFor(x => x.ServiceIds)
+            .NotEmpty().WithMessage("Veuillez renseigner au moins un service.")
+            .Must(ids => ids.Count is > 0 and <= 25);
     }
 }
 

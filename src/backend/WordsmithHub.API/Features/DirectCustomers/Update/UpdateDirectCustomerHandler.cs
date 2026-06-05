@@ -36,18 +36,13 @@ public class UpdateDirectCustomerHandler(
 
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(command.AppUserId,
-                command.DirectCustomerId,
-                cancellationToken))
-        {
+                command.DirectCustomerId, cancellationToken))
             return OperationResult.Forbidden<Guid>();
-        }
 
         var directCustomer = await repository.GetByIdAsync(command.DirectCustomerId, cancellationToken);
 
         if (directCustomer == null)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         directCustomer.Name = command.Name;
         directCustomer.Code = command.Code;

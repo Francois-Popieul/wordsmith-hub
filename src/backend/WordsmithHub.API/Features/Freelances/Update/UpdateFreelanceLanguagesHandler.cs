@@ -21,9 +21,7 @@ public class UpdateFreelanceLanguagesHandler(IFreelanceRepository repository)
             await repository.GetFreelanceWithLanguagesByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || freelance.Id != command.FreelanceId)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         await repository.UpdateLanguagesAsync(freelance, command.SourceLanguageIds, command.TargetLanguageIds,
             cancellationToken);

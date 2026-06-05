@@ -139,18 +139,6 @@ const Address = z.object({
   countryId: z.number().int(),
 });
 const UpdateFreelanceAddressRequest = z.object({ address: Address });
-const UpdateFreelanceRequest = z.object({
-  firstName: z.string().min(0).max(50),
-  lastName: z.string().min(0).max(100),
-  email: z
-    .string()
-    .min(0)
-    .max(255)
-    .regex(/^[^@]+@[^@]+$/)
-    .email(),
-  phone: z.string().min(0).max(20).nullish(),
-  address: Address,
-});
 const UpdateFreelanceLanguagesRequest = z.object({
   sourceLanguageIds: z.array(z.number().int()),
   targetLanguageIds: z.array(z.number().int()),
@@ -241,8 +229,8 @@ const UpdateBankAccountRequest = z.object({
   label: z.string().min(0).max(100),
   bankName: z.string().min(0).max(100),
   accountHolderName: z.string().min(0).max(100),
-  iban: z.string().min(0).max(34),
-  bic: z.string().min(0).max(11),
+  iban: z.string().min(34).max(34),
+  bic: z.string().min(11).max(11),
 });
 const BankAccountDto = z.object({
   id: z.string(),
@@ -254,11 +242,11 @@ const BankAccountDto = z.object({
   isDefault: z.boolean(),
 });
 const AddBankAccountRequest = z.object({
-  label: z.string(),
-  bankName: z.string(),
-  accountHolderName: z.string(),
-  iban: z.string(),
-  bic: z.string(),
+  label: z.string().min(0).max(100),
+  bankName: z.string().min(0).max(100),
+  accountHolderName: z.string().min(0).max(100),
+  iban: z.string().min(34).max(34),
+  bic: z.string().min(11).max(11),
 });
 const LoginUserRequest = z.object({
   email: z
@@ -309,7 +297,6 @@ export const schemas = {
   TranslationLanguage,
   Address,
   UpdateFreelanceAddressRequest,
-  UpdateFreelanceRequest,
   UpdateFreelanceLanguagesRequest,
   UpdateFreelancePersonalDataRequest,
   UpdateFreelanceServicesRequest,
@@ -555,14 +542,6 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/freelance", params, ProfileDto, config),
-    UpdateFreelanceEndpoint: (
-      params: {
-        body?: unknown;
-        pathParams?: Record<string, string | number>;
-        query?: Record<string, unknown>;
-      } = {},
-      config?: AxiosRequestConfig
-    ) => request("put", "/freelance/:freelanceId", params, z.string(), config),
     DeleteFreelanceEndpoint: (
       params: {
         body?: unknown;
@@ -883,7 +862,6 @@ export function getTagByAlias(alias: string): string | undefined {
     GetAllDirectCustomersEndpoint: "directcustomer",
     GetAllDomainTypesEndpoint: "domain-types",
     GetFreelanceEndpoint: "freelance",
-    UpdateFreelanceEndpoint: "freelance",
     DeleteFreelanceEndpoint: "freelance",
     UpdateFreelanceAddressEndpoint: "freelance",
     UpdateFreelanceLanguagesEndpoint: "freelance",

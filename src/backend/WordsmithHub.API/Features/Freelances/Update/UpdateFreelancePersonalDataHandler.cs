@@ -24,9 +24,7 @@ public class UpdateFreelancePersonalDataHandler(IFreelanceRepository repository)
         var freelance = await repository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || freelance.Id != command.FreelanceId)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         freelance.FirstName = command.FirstName;
         freelance.LastName = command.LastName;

@@ -19,9 +19,7 @@ public class UpdateFreelanceServicesHandler(IFreelanceRepository repository)
         var freelance = await repository.GetFreelanceWithServicesByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || freelance.Id != command.FreelanceId)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         await repository.UpdateServicesAsync(freelance, command.ServiceIds, cancellationToken);
 
