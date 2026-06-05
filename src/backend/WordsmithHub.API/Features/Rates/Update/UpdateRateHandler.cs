@@ -1,4 +1,5 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.API.Services.ResourceAccessService;
 using WordsmithHub.Domain.DirectCustomerAggregate;
@@ -17,6 +18,7 @@ public record UpdateRateCommand(
     Guid DirectCustomerId,
     Guid AppUserId) : ICommand<OperationResult<Guid>>;
 
+[UsedImplicitly]
 public class UpdateRateHandler(
     IFreelanceRepository freelanceRepository,
     IRateRepository rateRepository,

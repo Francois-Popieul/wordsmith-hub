@@ -1,4 +1,5 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain.FreelanceAggregate;
 
@@ -11,6 +12,7 @@ public record UpdateFreelanceLanguagesCommand(
     Guid FreelanceId)
     : ICommand<OperationResult<Guid>>;
 
+[UsedImplicitly]
 public class UpdateFreelanceLanguagesHandler(IFreelanceRepository repository)
     : ICommandHandler<UpdateFreelanceLanguagesCommand, OperationResult<Guid>>
 {

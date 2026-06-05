@@ -1,4 +1,5 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.FreelanceAggregate;
@@ -8,6 +9,7 @@ namespace WordsmithHub.API.Features.Statuses.GetAll;
 public record GetAllProjectStatusesCommand(Guid AppUserId)
     : ICommand<OperationResult<IReadOnlyList<Status>>>;
 
+[UsedImplicitly]
 public class GetAllProjectStatusesHandler(
     IFreelanceRepository freelanceRepository,
     IStatusRepository statusRepository)

@@ -10,8 +10,13 @@ public class OperationResultHttpMapperTests
     public async Task MapToHttpAsync_ShouldReturn204AndNoBody_WhenSuccessfulNoContentResult()
     {
         // Arrange
-        var httpContext = new DefaultHttpContext();
-        httpContext.Response.Body = new MemoryStream();
+        var httpContext = new DefaultHttpContext
+        {
+            Response =
+            {
+                Body = new MemoryStream()
+            }
+        };
         var result = OperationResult.Success(new NoContent());
 
         // Act
