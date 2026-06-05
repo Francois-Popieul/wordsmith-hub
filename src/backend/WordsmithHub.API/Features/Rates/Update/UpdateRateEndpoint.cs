@@ -3,7 +3,6 @@ using FluentValidation;
 using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common;
 using WordsmithHub.API.Features.Common.AppUserIdPreprocessing;
-using WordsmithHub.API.Features.Rates.Add;
 
 namespace WordsmithHub.API.Features.Rates.Update;
 
