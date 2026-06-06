@@ -2,14 +2,14 @@ import "./AddDirectCustomerModal.css";
 import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
 import { directCustomerSchema } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface AddDirectCustomerModalProps {
     isVisible: boolean;

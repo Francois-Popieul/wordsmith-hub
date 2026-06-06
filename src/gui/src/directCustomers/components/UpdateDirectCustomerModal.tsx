@@ -3,13 +3,13 @@ import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { schemas } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
 import * as zod from "zod";
 import { directCustomerSchema } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface UpdateDirectCustomerModalProps {
     isVisible: boolean;
@@ -22,7 +22,7 @@ function UpdateDirectCustomerModal({ isVisible, customer, onClose, onSuccess }: 
     const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const {countries, currencies } = useStaticTables();
+    const { countries, currencies } = useStaticTables();
     const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
     const [selectedCurrency, setSelectedCurrency] = useState<number | null>(null);
 

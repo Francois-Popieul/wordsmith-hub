@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import AddDirectCustomerModal from "../components/AddDirectCustomerModal";
 import { useNavigate } from "react-router";
 import DirectCustomerDataTable from "../components/DirectCustomerDataTable";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import { schemas } from "../../infrastructure/openApi/client";
 import axios from "axios";
 import * as zod from "zod";

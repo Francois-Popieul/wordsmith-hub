@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { schemas } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import ListContainer from "../../components/ui/ListContainer";
 import Button from "../../components/ui/Button";
 import { InvoicesIcon, PlusSignIcon } from "../../assets/icons/icons";
@@ -11,7 +11,7 @@ import AddRateModal from "./AddRateModal";
 import axios from "axios";
 import { useApiClient } from "../../hooks/useApiClient";
 import UpdateRateModal from "./UpdateRateModal";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface RateListContainerProps {
     directCustomerId: string;

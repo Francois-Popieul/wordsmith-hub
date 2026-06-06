@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
 import { schemas } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
 import * as zod from "zod";
 import FormMultiSelectGroup from "../../components/ui/FormMultiSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface AddProjectModalProps {
     isVisible: boolean;

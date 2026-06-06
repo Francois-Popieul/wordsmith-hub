@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useApiClient } from "./useApiClient";
-import { useToast } from "./useToast";
+import { useToast } from "./useToast/useToast";
 import axios from "axios";
 
 export function useDirectCustomerCount(): number {

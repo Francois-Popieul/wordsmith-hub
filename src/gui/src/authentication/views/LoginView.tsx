@@ -7,7 +7,7 @@ import { loginSchema } from "../zod/authenticationSchemas";
 import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 
 
 function LoginView() {

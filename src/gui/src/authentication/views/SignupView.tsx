@@ -8,7 +8,7 @@ import { signupSchema } from "../zod/authenticationSchemas";
 import axios from "axios";
 import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { useNavigate } from "react-router";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 
 function SignupView() {
     const [conditionsIsChecked, setConditionsIsChecked] = useState(false);

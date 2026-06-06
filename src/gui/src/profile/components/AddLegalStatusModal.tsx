@@ -2,14 +2,14 @@ import "./AddLegalStatusModal.css";
 import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
 import zod from "zod";
 import { legalStatusSchema } from "../../types/LegalStatus";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
 import { useApiClient } from "../../hooks/useApiClient";
 import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface AddLegalStatusModalProps {
     isVisible: boolean;

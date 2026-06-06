@@ -2,7 +2,7 @@ import "./DirectCustomerDetails.css";
 import * as zod from "zod";
 import { type schemas } from "../../infrastructure/openApi/client";
 import { BuildingIcon, CalendarIcon, InvoicesIcon, MailIcon, PhoneIcon } from "../../assets/icons/icons";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface DirectCustomerDetailsProps {
     directCustomer: zod.infer<typeof schemas.DirectCustomerDto>;

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import { schemas } from "../../infrastructure/openApi/client";
 import { useEffect, useState } from "react";
 import * as zod from "zod";
@@ -10,7 +10,7 @@ import DirectCustomerDetails from "../components/DirectCustomerDetails";
 import RateListContainer from "../components/RateListContainer";
 import ProjectListContainer from "../components/ProjectListContainer";
 import { useApiClient } from "../../hooks/useApiClient";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 function DirectCustomerView() {
     const { token, apiClient } = useApiClient();

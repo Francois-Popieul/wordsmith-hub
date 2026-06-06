@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import * as zod from "zod";
 import { schemas } from "../../infrastructure/openApi/client";
 import ListContainer from "../../components/ui/ListContainer";

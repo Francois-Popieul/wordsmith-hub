@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button";
 import { type schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
 import { Column } from "primereact/column";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface RateProps {
     rates: zod.infer<typeof schemas.RateDto>[];

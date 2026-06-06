@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { schemas } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import ListContainer from "../../components/ui/ListContainer";
 import Button from "../../components/ui/Button";
 import { OrdersIcon, PlusSignIcon } from "../../assets/icons/icons";

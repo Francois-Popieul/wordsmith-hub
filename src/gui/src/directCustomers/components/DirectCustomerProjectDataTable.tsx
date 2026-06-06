@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button";
 import { DeleteIcon, PencilIcon } from "../../assets/icons/icons";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface DirectCustomerProjectDataTableProps {
     projects: zod.infer<typeof schemas.ProjectDto>[];

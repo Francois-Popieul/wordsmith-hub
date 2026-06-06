@@ -5,7 +5,7 @@ import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import Card from "../components/Card";
 import { CustomersIcon, InvoicesIcon, OrdersIcon, ProjectsIcon } from "../../assets/icons/icons";
 import QuickActionCard from "../components/QuickActionCard";

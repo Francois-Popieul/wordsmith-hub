@@ -11,14 +11,14 @@ import "../../stylesheets/profile_view.css";
 import { personalDataSchema } from "../../types/PersonalData";
 import * as zod from "zod";
 import { addressSchema } from "../../types/Address";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import LegalStatusListContainer from "../components/LegalStatusListContainer";
 import BankAcountListContainer from "../components/BankAcountListContainer";
 import { useNavigate } from "react-router";
 import Label from "../components/Label";
 import { useApiClient } from "../../hooks/useApiClient";
 import type { schemas } from "../../infrastructure/openApi/client";
-import { useStaticTables } from "../../hooks/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 function ProfileView() {
     const { token, apiClient } = useApiClient();
@@ -26,7 +26,7 @@ function ProfileView() {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
     const [savedProfileData, setSavedProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
-    const {countries, languages, services} = useStaticTables();
+    const { countries, languages, services } = useStaticTables();
     const [editingForm, setEditingForm] = useState<string | null>(null);
     const { addToast } = useToast();
 

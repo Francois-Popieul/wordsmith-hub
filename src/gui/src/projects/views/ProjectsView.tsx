@@ -7,7 +7,7 @@ import AddProjectModal from "../components/AddProjectModal";
 import { useEffect, useState } from "react";
 import ProjectDataTable from "../components/ProjectDataTable";
 import { schemas } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import * as zod from "zod";
 import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";

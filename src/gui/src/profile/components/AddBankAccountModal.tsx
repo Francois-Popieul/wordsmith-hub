@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
 import { bankAccountSchema } from "../../types/BankAccount";
 import * as zod from "zod";

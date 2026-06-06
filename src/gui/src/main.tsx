@@ -12,9 +12,9 @@ import PrivacyPolicy from "./privacy_policy/views/PrivacyPolicy.tsx"
 import InvoicesView from "./invoices/views/InvoicesView.tsx"
 import ProjectsView from "./projects/views/ProjectsView.tsx"
 import DirectCustomersView from "./directCustomers/views/DirectCustomersView.tsx"
-import { ToastProvider } from "./hooks/useToast.tsx"
 import DirectCustomerView from "./directCustomers/views/DirectCustomerView.tsx"
-import { StaticDataProvider } from "./hooks/StaticDataProvider.tsx"
+import { ToastProvider } from "./hooks/useToast/ToastProvider.tsx"
+import { StaticDataProvider } from "./hooks/useStaticTables/StaticDataProvider.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

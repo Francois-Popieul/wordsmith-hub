@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import * as zod from "zod";
-import type { schemas } from "../infrastructure/openApi/client";
+import type { schemas } from "../../infrastructure/openApi/client";
 
 export interface StaticDataContextValue {
     currencies: zod.infer<typeof schemas.Currency>[];
