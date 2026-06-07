@@ -1,6 +1,58 @@
 import { z } from "zod";
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
+const AddressDto = z.object({
+  streetInfo: z.string(),
+  addressComplement: z.string().nullable(),
+  postCode: z.string(),
+  city: z.string(),
+  state: z.string().nullable(),
+  countryId: z.number().int(),
+});
+const DirectCustomerDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  code: z.string(),
+  phone: z.string().nullable(),
+  email: z.string(),
+  address: AddressDto,
+  siretOrSiren: z.string().nullable(),
+  paymentDelay: z.number().int(),
+  currencyId: z.number().int(),
+  statusId: z.number().int(),
+});
+const EndCustomerDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  statusId: z.number().int(),
+});
+const ProjectDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  domain: z.string(),
+  description: z.string().nullable(),
+  endCustomer: EndCustomerDto.nullable(),
+  directCustomers: z.array(DirectCustomerDto),
+  statusId: z.number().int(),
+});
+const WorkOrderDto = z.object({
+  id: z.string(),
+  reference: z.string(),
+  directCustomer: DirectCustomerDto,
+  project: ProjectDto,
+  startDate: z.string().datetime({ offset: true }),
+  deliveryDate: z.string().datetime({ offset: true }),
+  statusId: z.number().int(),
+});
+const AddWorkOrderRequest = z.object({
+  reference: z.string().min(0).max(50),
+  projectId: z.string().min(1),
+  freelanceId: z.string().min(1),
+  directCustomerId: z.string().min(1),
+  startDate: z.string().min(1).datetime({ offset: true }),
+  deliveryDate: z.string().min(1).datetime({ offset: true }),
+  description: z.string().min(0).max(1000).nullish(),
+});
 const AppUserDto = z.object({
   id: z.string(),
   firstName: z.string().nullable(),
@@ -49,40 +101,6 @@ const AddProjectRequest = z.object({
 });
 const UpdateProjectStatusRequest = z.object({
   statusId: z.number().int().gte(30).lte(31),
-});
-const EndCustomerDto = z.object({
-  id: z.string(),
-  name: z.string(),
-  statusId: z.number().int(),
-});
-const AddressDto = z.object({
-  streetInfo: z.string(),
-  addressComplement: z.string().nullable(),
-  postCode: z.string(),
-  city: z.string(),
-  state: z.string().nullable(),
-  countryId: z.number().int(),
-});
-const DirectCustomerDto = z.object({
-  id: z.string(),
-  name: z.string(),
-  code: z.string(),
-  phone: z.string().nullable(),
-  email: z.string(),
-  address: AddressDto,
-  siretOrSiren: z.string().nullable(),
-  paymentDelay: z.number().int(),
-  currencyId: z.number().int(),
-  statusId: z.number().int(),
-});
-const ProjectDto = z.object({
-  id: z.string(),
-  name: z.string(),
-  domain: z.string(),
-  description: z.string().nullable(),
-  endCustomer: EndCustomerDto.nullable(),
-  directCustomers: z.array(DirectCustomerDto),
-  statusId: z.number().int(),
 });
 const PricingUnit = z.object({
   id: z.number().int(),
@@ -277,6 +295,12 @@ const RegisterUserRequest = z.object({
 });
 
 export const schemas = {
+  AddressDto,
+  DirectCustomerDto,
+  EndCustomerDto,
+  ProjectDto,
+  WorkOrderDto,
+  AddWorkOrderRequest,
   AppUserDto,
   Status,
   Service,
@@ -285,10 +309,6 @@ export const schemas = {
   AddRateRequest,
   AddProjectRequest,
   UpdateProjectStatusRequest,
-  EndCustomerDto,
-  AddressDto,
-  DirectCustomerDto,
-  ProjectDto,
   PricingUnit,
   LegalStatusType,
   UpdateLegalStatusRequest,
@@ -832,6 +852,31 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       } = {},
       config?: AxiosRequestConfig
     ) => request("get", "/user/:userId", params, AppUserDto, config),
+    AddWorkOrderEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("post", "/work-order", params, z.string(), config),
+    GetWorkOrderEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request("get", "/work-order/:workOrderId", params, WorkOrderDto, config),
+    GetAllWorkOrdersEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) => request("get", "/work-orders", params, z.array(WorkOrderDto), config),
     GetAllWorkOrderStatusesEndpoint: (
       params: {
         body?: unknown;
@@ -890,6 +935,9 @@ export function getTagByAlias(alias: string): string | undefined {
     GetAllRatesByCustomerIdEndpoint: "rates",
     GetAllServicesEndpoint: "services",
     GetUserEndpoint: "user",
+    AddWorkOrderEndpoint: "work-order",
+    GetWorkOrderEndpoint: "work-order",
+    GetAllWorkOrdersEndpoint: "work-orders",
     GetAllWorkOrderStatusesEndpoint: "statuses",
   };
   return endpointMap[alias];
