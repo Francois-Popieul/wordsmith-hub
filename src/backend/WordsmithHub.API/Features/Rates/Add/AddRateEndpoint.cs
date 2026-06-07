@@ -20,12 +20,24 @@ public class AddRateRequestValidator : Validator<AddRateRequest>
 {
     public AddRateRequestValidator()
     {
-        RuleFor(x => x.DirectCustomerId.ToString()).NotEmpty().MaximumLength(36);
-        RuleFor(x => x.ServiceId).NotEmpty().GreaterThan(0);
-        RuleFor(x => x.SourceLanguageId).NotEmpty().GreaterThan(0);
-        RuleFor(x => x.TargetLanguageId).NotEmpty().GreaterThan(0);
-        RuleFor(x => x.UnitPrice).NotEmpty().GreaterThan(0);
-        RuleFor(x => x.Unit).NotEmpty().MaximumLength(20);
+        RuleFor(x => x.DirectCustomerId.ToString())
+            .NotEmpty()
+            .MaximumLength(36);
+        RuleFor(x => x.ServiceId)
+            .NotEmpty()
+            .GreaterThan(0);
+        RuleFor(x => x.SourceLanguageId)
+            .NotEmpty()
+            .GreaterThan(0);
+        RuleFor(x => x.TargetLanguageId)
+            .NotEmpty()
+            .GreaterThan(0);
+        RuleFor(x => x.UnitPrice)
+            .NotEmpty()
+            .GreaterThan(0);
+        RuleFor(x => x.Unit)
+            .NotEmpty()
+            .MaximumLength(20);
     }
 }
 

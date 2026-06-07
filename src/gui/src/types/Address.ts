@@ -1,14 +1,5 @@
 import * as zod from "zod";
 
-export type Address = {
-    streetInfo: string;
-    addressComplement: string | null;
-    postCode: string;
-    city: string;
-    state: string | null;
-    countryId: number;
-}
-
 export const addressSchema = zod
     .object({
         streetInfo: zod

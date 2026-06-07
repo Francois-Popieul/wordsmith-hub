@@ -1,10 +1,12 @@
 ﻿using Ardalis.GuardClauses;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 namespace WordsmithHub.Infrastructure.MainDatabase;
 
+[UsedImplicitly]
 public class MainDbContextDesignTimeFactory : IDesignTimeDbContextFactory<MainDbContext>
 {
     public MainDbContext CreateDbContext(string[] args)

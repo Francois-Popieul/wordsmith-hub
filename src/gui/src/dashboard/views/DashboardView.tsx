@@ -1,12 +1,10 @@
 import "../components/Card.css";
 import "../components/QuickActionCard.css";
-import { useNavigate } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useEffect, useState } from "react";
-import ProfileDto from "../../profile/models/ProfileDto";
 import axios from "axios";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import Card from "../components/Card";
 import { CustomersIcon, InvoicesIcon, OrdersIcon, ProjectsIcon } from "../../assets/icons/icons";
 import QuickActionCard from "../components/QuickActionCard";
@@ -14,27 +12,29 @@ import QuickActionContainer from "../components/QuickActionContainer";
 import AddDirectCustomerModal from "../../directCustomers/components/AddDirectCustomerModal";
 import AddProjectModal from "../../projects/components/AddProjectModal";
 import { useApiClient } from "../../hooks/useApiClient";
+import { useDirectCustomerCount, useProjectCount } from "../../hooks/useStats";
+import type { schemas } from "../../infrastructure/openApi/client";
+import type zod from "zod";
 
 function DashboardView() {
     const { token, apiClient } = useApiClient();
-    const navigate = useNavigate();
     const { addToast } = useToast();
-    const [profileData, setProfileData] = useState<ProfileDto | void>();
+    const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
     const [loading, setLoading] = useState(true);
-    const [projectNumber, setProjectNumber] = useState(0);
     const [orderNumber, setOrderNumber] = useState(0);
     const [earnings, setEarnings] = useState(0);
     const [isAddCustomerModalVisible, setIsAddCustomerModalVisible] = useState(false);
     const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(false);
+    const directCustomerCount = useDirectCustomerCount();
+    const projectCount = useProjectCount();
 
     useEffect(() => {
         if (!token) return;
         const fetchProfileData = async () => {
             try {
                 const response = await apiClient.GetFreelanceEndpoint();
-                const profileData = new ProfileDto(response.id, response.firstName, response.lastName, response.email, response.phone, response.address, response.statusId, response.sourceLanguages, response.targetLanguages, response.services);
+                const profileData: zod.infer<typeof schemas.ProfileDto> = response;
                 setProfileData(profileData);
-                setProjectNumber(0);
                 setOrderNumber(0);
                 setEarnings(0);
                 setLoading(false);
@@ -51,17 +51,21 @@ function DashboardView() {
         fetchProfileData();
     }, [apiClient, addToast, token]);
 
-    if (!token) {
-        navigate("/");
-        return null;
+    function handleAddProject() {
+        if (directCustomerCount === 0) {
+            addToast("information", "Ajoutez un client direct pour pouvoir créer un projet.", "top_right", 3000);
+            return;
+        }
+        setIsAddProjectModalVisible(true);
     }
+
 
     return !loading ? (
         <AppLayout>
             <PageHeader pageTitle="Tableau de bord" pageSubtitle={profileData?.firstName ? `Bienvenue, ${profileData.firstName}\u00A0! Retrouvez ici un résumé de votre activité.` : "Bienvenue\u00A0! Retrouvez ici un résumé de votre activité."}></PageHeader>
             <div className="card_container">
-                <Card title="Total de clients" icon={<CustomersIcon />} value="0" statistics="Collaborations en cours" />
-                <Card title="Projets actifs" icon={<ProjectsIcon />} value="0" statistics={projectNumber > 0 ? "Projets en cours" : "Projet en cours"} />
+                <Card title="Total de clients" icon={<CustomersIcon />} value={directCustomerCount.toString()} statistics={directCustomerCount <= 1 ? "Collaboration en cours" : "Collaborations en cours"} />
+                <Card title="Projets actifs" icon={<ProjectsIcon />} value={projectCount.toString()} statistics={projectCount <= 1 ? "Projet en cours" : "Projets en cours"} />
                 <Card title="Commandes en attente" icon={<OrdersIcon />} value="0" statistics={orderNumber > 0 ? "Commandes non terminées" : "Commande en attente"} />
                 <Card title="Total des revenus" icon={<InvoicesIcon />} value="0" statistics={earnings > 0 ? "Revenus perçus" : "Aucun revenu"} />
             </div>
@@ -79,7 +83,7 @@ function DashboardView() {
                     icon={<ProjectsIcon />}
                     title="Créer un projet"
                     description="Créer un nouveau projet pour un client"
-                    onClick={() => setIsAddProjectModalVisible(true)}
+                    onClick={handleAddProject}
                 />
                 <QuickActionCard
                     icon={<InvoicesIcon />}

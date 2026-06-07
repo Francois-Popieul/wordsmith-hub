@@ -24,11 +24,12 @@ public class GetAllDirectCustomersHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.Forbidden);
-        }
 
         var directCustomers = await repository.GetByFreelanceIdAsync(freelance.Id, cancellationToken);
+
+        if (directCustomers.Count == 0)
+            return new OperationResult<IReadOnlyList<DirectCustomerDto>>(OperationStatus.Success, []);
 
         var customerDtoList = directCustomers.Select(directCustomer => directCustomer.ToDto()).ToList();
 

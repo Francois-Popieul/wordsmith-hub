@@ -33,9 +33,9 @@ public class BankAccount : BaseEntity, IBelongsToFreelance
         Iban = protector.Unprotect(Iban);
     }
 
-    // Method displaying only the last 4 digits of the IBAN
+    // Method displaying only the first 4 and last 4 digits of the IBAN
     public string DisplayIban()
     {
-        return "********" + Iban[^4..];
+        return Iban[..4] + "********" + Iban[^4..];
     }
 }

@@ -45,7 +45,16 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
       params: params.query,
       ...config,
     });
-    return responseSchema.parse(response.data);
+
+    // Axios can return an empty string for 204 responses in some environments.
+    // Normalize no-content payloads so z.void() schemas parse reliably.
+    const canBeVoid = responseSchema.safeParse(undefined).success;
+    const responseData =
+      response.status === 204 || (canBeVoid && response.data === "")
+        ? undefined
+        : response.data;
+
+    return responseSchema.parse(responseData);
   }
 
   return {

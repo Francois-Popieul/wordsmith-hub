@@ -269,6 +269,286 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                             Code = "JPN",
                             IsEuropeanUnionMember = false,
                             Name = "Japon"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "AUT",
+                            IsEuropeanUnionMember = true,
+                            Name = "Autriche"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "BGR",
+                            IsEuropeanUnionMember = true,
+                            Name = "Bulgarie"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "HRV",
+                            IsEuropeanUnionMember = true,
+                            Name = "Croatie"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "CYP",
+                            IsEuropeanUnionMember = true,
+                            Name = "Chypre"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "CZE",
+                            IsEuropeanUnionMember = true,
+                            Name = "Tchéquie"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "DNK",
+                            IsEuropeanUnionMember = true,
+                            Name = "Danemark"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "EST",
+                            IsEuropeanUnionMember = true,
+                            Name = "Estonie"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "FIN",
+                            IsEuropeanUnionMember = true,
+                            Name = "Finlande"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "GRC",
+                            IsEuropeanUnionMember = true,
+                            Name = "Grèce"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "HUN",
+                            IsEuropeanUnionMember = true,
+                            Name = "Hongrie"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "IRL",
+                            IsEuropeanUnionMember = true,
+                            Name = "Irlande"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "LVA",
+                            IsEuropeanUnionMember = true,
+                            Name = "Lettonie"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "LTU",
+                            IsEuropeanUnionMember = true,
+                            Name = "Lituanie"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "LUX",
+                            IsEuropeanUnionMember = true,
+                            Name = "Luxembourg"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "MLT",
+                            IsEuropeanUnionMember = true,
+                            Name = "Malte"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "POL",
+                            IsEuropeanUnionMember = true,
+                            Name = "Pologne"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "ROU",
+                            IsEuropeanUnionMember = true,
+                            Name = "Roumanie"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "SVK",
+                            IsEuropeanUnionMember = true,
+                            Name = "Slovaquie"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "SVN",
+                            IsEuropeanUnionMember = true,
+                            Name = "Slovénie"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "SWE",
+                            IsEuropeanUnionMember = true,
+                            Name = "Suède"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "BRA",
+                            IsEuropeanUnionMember = false,
+                            Name = "Brésil"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "MEX",
+                            IsEuropeanUnionMember = false,
+                            Name = "Mexique"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Code = "ARG",
+                            IsEuropeanUnionMember = false,
+                            Name = "Argentine"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Code = "CHL",
+                            IsEuropeanUnionMember = false,
+                            Name = "Chili"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Code = "CHN",
+                            IsEuropeanUnionMember = false,
+                            Name = "Chine"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Code = "KOR",
+                            IsEuropeanUnionMember = false,
+                            Name = "Corée du Sud"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Code = "IND",
+                            IsEuropeanUnionMember = false,
+                            Name = "Inde"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Code = "IDN",
+                            IsEuropeanUnionMember = false,
+                            Name = "Indonésie"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Code = "RUS",
+                            IsEuropeanUnionMember = false,
+                            Name = "Russie"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Code = "TUR",
+                            IsEuropeanUnionMember = false,
+                            Name = "Turquie"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Code = "SAU",
+                            IsEuropeanUnionMember = false,
+                            Name = "Arabie saoudite"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Code = "ZAF",
+                            IsEuropeanUnionMember = false,
+                            Name = "Afrique du Sud"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Code = "NOR",
+                            IsEuropeanUnionMember = false,
+                            Name = "Norvège"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Code = "ISL",
+                            IsEuropeanUnionMember = false,
+                            Name = "Islande"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Code = "UKR",
+                            IsEuropeanUnionMember = false,
+                            Name = "Ukraine"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Code = "SRB",
+                            IsEuropeanUnionMember = false,
+                            Name = "Serbie"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Code = "MAR",
+                            IsEuropeanUnionMember = false,
+                            Name = "Maroc"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Code = "TUN",
+                            IsEuropeanUnionMember = false,
+                            Name = "Tunisie"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Code = "EGY",
+                            IsEuropeanUnionMember = false,
+                            Name = "Égypte"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Code = "DZA",
+                            IsEuropeanUnionMember = false,
+                            Name = "Algérie"
                         });
                 });
 
@@ -301,7 +581,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         {
                             Id = 1,
                             Code = "USD",
-                            Name = "Dollar",
+                            Name = "Dollar américain",
                             Symbol = "$"
                         },
                         new
@@ -310,6 +590,237 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                             Code = "EUR",
                             Name = "Euro",
                             Symbol = "€"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "JPY",
+                            Name = "Yen japonais",
+                            Symbol = "¥"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "GBP",
+                            Name = "Livre sterling",
+                            Symbol = "£"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "AUD",
+                            Name = "Dollar australien",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "CAD",
+                            Name = "Dollar canadien",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "CHF",
+                            Name = "Franc suisse",
+                            Symbol = "CHF"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "CNY",
+                            Name = "Yuan renminbi chinois",
+                            Symbol = "¥"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "SEK",
+                            Name = "Couronne suédoise",
+                            Symbol = "kr"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "NZD",
+                            Name = "Dollar néo‑zélandais",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "MXN",
+                            Name = "Peso mexicain",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "SGD",
+                            Name = "Dollar de Singapour",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "HKD",
+                            Name = "Dollar de Hong Kong",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "NOK",
+                            Name = "Couronne norvégienne",
+                            Symbol = "kr"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "KRW",
+                            Name = "Won sud‑coréen",
+                            Symbol = "₩"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "TRY",
+                            Name = "Livre turque",
+                            Symbol = "₺"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "RUB",
+                            Name = "Rouble russe",
+                            Symbol = "₽"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "INR",
+                            Name = "Roupie indienne",
+                            Symbol = "₹"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "BRL",
+                            Name = "Real brésilien",
+                            Symbol = "R$"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "ZAR",
+                            Name = "Rand sud‑africain",
+                            Symbol = "R"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "DKK",
+                            Name = "Couronne danoise",
+                            Symbol = "kr"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "PLN",
+                            Name = "Zloty polonais",
+                            Symbol = "zł"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "THB",
+                            Name = "Baht thaïlandais",
+                            Symbol = "฿"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "HUF",
+                            Name = "Forint hongrois",
+                            Symbol = "Ft"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "CZK",
+                            Name = "Couronne tchèque",
+                            Symbol = "Kč"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "ILS",
+                            Name = "Shekel israélien",
+                            Symbol = "₪"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "PHP",
+                            Name = "Peso philippin",
+                            Symbol = "₱"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "MYR",
+                            Name = "Ringgit malaisien",
+                            Symbol = "RM"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "AED",
+                            Name = "Dirham des Émirats arabes unis",
+                            Symbol = "د.إ"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "SAR",
+                            Name = "Riyal saoudien",
+                            Symbol = "﷼"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "KWD",
+                            Name = "Dinar koweïtien",
+                            Symbol = "KD"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "BHD",
+                            Name = "Dinar bahreïni",
+                            Symbol = "BD"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "ARS",
+                            Name = "Peso argentin",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "NGN",
+                            Name = "Naira nigérian",
+                            Symbol = "₦"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "KES",
+                            Name = "Shilling kényan",
+                            Symbol = "KSh"
                         });
                 });
 
@@ -368,6 +879,922 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("DirectCustomers", (string)null);
+                });
+
+            modelBuilder.Entity("WordsmithHub.Domain.DomainType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DomainTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "administration",
+                            Name = "Administration"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "publicAdministration",
+                            Name = "Administration publique"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "aeronautics",
+                            Name = "Aéronautique"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "agriculture",
+                            Name = "Agriculture"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "architecture",
+                            Name = "Architecture"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "arts",
+                            Name = "Arts"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "appliedArts",
+                            Name = "Arts appliqués"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "performingArts",
+                            Name = "Arts du spectacle"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "visualArts",
+                            Name = "Arts plastiques"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "insurance",
+                            Name = "Assurances"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "astronautics",
+                            Name = "Astronautique"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "astronomy",
+                            Name = "Astronomie"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "audiovisual",
+                            Name = "Audiovisuel"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "automotive",
+                            Name = "Automobile"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "banking",
+                            Name = "Banque"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "comicsManga",
+                            Name = "BD et manga"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "fineArts",
+                            Name = "Beaux-arts"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "biology",
+                            Name = "Biologie"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "botany",
+                            Name = "Botanique"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "quarrying",
+                            Name = "Carrières"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "boilermaking",
+                            Name = "Chaudronnerie"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "chemistry",
+                            Name = "Chimie"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "petrochemistry",
+                            Name = "Chimie du pétrole"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "surgery",
+                            Name = "Chirurgie"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "cinema",
+                            Name = "Cinéma"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "commerce",
+                            Name = "Commerce"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "accounting",
+                            Name = "Comptabilité"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "construction",
+                            Name = "Construction"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "crypto",
+                            Name = "Cryptomonnaies"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "gastronomy",
+                            Name = "Cuisine et gastronomie"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "culture",
+                            Name = "Culture"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "cybernetics",
+                            Name = "Cybernétique"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "cybersecurity",
+                            Name = "Cybersécurité"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "demography",
+                            Name = "Démographie"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "dentistry",
+                            Name = "Dentisterie"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Code = "administrativeLaw",
+                            Name = "Droit administratif"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Code = "commercialLaw",
+                            Name = "Droit commercial"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Code = "constitutionalLaw",
+                            Name = "Droit constitutionnel"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Code = "lawJustice",
+                            Name = "Droit et justice"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Code = "internationalLaw",
+                            Name = "Droit international"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Code = "judicialLaw",
+                            Name = "Droit judiciaire"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Code = "miningLaw",
+                            Name = "Droit minier"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Code = "criminalLaw",
+                            Name = "Droit pénal"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Code = "privateLaw",
+                            Name = "Droit privé"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Code = "socialLaw",
+                            Name = "Droit social"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Code = "ecology",
+                            Name = "Écologie"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Code = "economics",
+                            Name = "Économie"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Code = "education",
+                            Name = "Éducation"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Code = "physicalEducation",
+                            Name = "Éducation physique et sportive"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Code = "electricity",
+                            Name = "Électricité"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Code = "electronics",
+                            Name = "Électronique"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Code = "animalFarming",
+                            Name = "Élevage"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Code = "packaging",
+                            Name = "Emballages"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Code = "energies",
+                            Name = "Énergies"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Code = "renewableEnergy",
+                            Name = "Énergies renouvelables"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Code = "environment",
+                            Name = "Environnement"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Code = "medicalEquipment",
+                            Name = "Équipement médico-chirurgical"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Code = "mining",
+                            Name = "Exploitation minière"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Code = "oilGasExtraction",
+                            Name = "Extraction du pétrole et du gaz naturel"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Code = "finance",
+                            Name = "Finances"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Code = "geography",
+                            Name = "Géographie"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Code = "geology",
+                            Name = "Géologie"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Code = "businessManagement",
+                            Name = "Gestion de l'entreprise"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Code = "hrManagement",
+                            Name = "Gestion du personnel"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Code = "history",
+                            Name = "Histoire"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Code = "hospitality",
+                            Name = "Hôtellerie"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Code = "medicalImaging",
+                            Name = "Imagerie médicale"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Code = "realEstate",
+                            Name = "Immobilier"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            Code = "industry",
+                            Name = "Industrie"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            Code = "it",
+                            Name = "Informatique"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            Code = "engineering",
+                            Name = "Ingénierie"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            Code = "ai",
+                            Name = "Intelligence artificielle"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            Code = "videoGame",
+                            Name = "Jeu vidéo"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            Code = "toysGames",
+                            Name = "Jeux et jouets"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            Code = "jewelry",
+                            Name = "Joaillerie"
+                        },
+                        new
+                        {
+                            Id = 76,
+                            Code = "lifting",
+                            Name = "Levage"
+                        },
+                        new
+                        {
+                            Id = 77,
+                            Code = "linguistics",
+                            Name = "Linguistique"
+                        },
+                        new
+                        {
+                            Id = 78,
+                            Code = "literature",
+                            Name = "Littérature"
+                        },
+                        new
+                        {
+                            Id = 79,
+                            Code = "logistics",
+                            Name = "Logistique"
+                        },
+                        new
+                        {
+                            Id = 80,
+                            Code = "legalDocuments",
+                            Name = "Lois et documents juridiques"
+                        },
+                        new
+                        {
+                            Id = 81,
+                            Code = "leisure",
+                            Name = "Loisirs"
+                        },
+                        new
+                        {
+                            Id = 82,
+                            Code = "handling",
+                            Name = "Manutention"
+                        },
+                        new
+                        {
+                            Id = 83,
+                            Code = "marketing",
+                            Name = "Marketing"
+                        },
+                        new
+                        {
+                            Id = 84,
+                            Code = "militaryEquipment",
+                            Name = "Matériel militaire"
+                        },
+                        new
+                        {
+                            Id = 85,
+                            Code = "mathematics",
+                            Name = "Mathématiques"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            Code = "mechanics",
+                            Name = "Mécanique"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            Code = "medicine",
+                            Name = "Médecine"
+                        },
+                        new
+                        {
+                            Id = 88,
+                            Code = "veterinaryMedicine",
+                            Name = "Médecine vétérinaire"
+                        },
+                        new
+                        {
+                            Id = 89,
+                            Code = "metallurgy",
+                            Name = "Métallurgie"
+                        },
+                        new
+                        {
+                            Id = 90,
+                            Code = "meteorology",
+                            Name = "Météorologie"
+                        },
+                        new
+                        {
+                            Id = 91,
+                            Code = "defense",
+                            Name = "Militaire et défense"
+                        },
+                        new
+                        {
+                            Id = 92,
+                            Code = "minesQuarries",
+                            Name = "Mines et carrières"
+                        },
+                        new
+                        {
+                            Id = 93,
+                            Code = "metalMining",
+                            Name = "Mines métalliques"
+                        },
+                        new
+                        {
+                            Id = 94,
+                            Code = "fashionBeauty",
+                            Name = "Mode et beauté"
+                        },
+                        new
+                        {
+                            Id = 95,
+                            Code = "museology",
+                            Name = "Muséologie et patrimoine"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            Code = "music",
+                            Name = "Musique"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            Code = "nuclear",
+                            Name = "Nucléaire"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            Code = "oenology",
+                            Name = "Œnologie"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Code = "ophthalmology",
+                            Name = "Ophtalmologie"
+                        },
+                        new
+                        {
+                            Id = 100,
+                            Code = "paperIndustry",
+                            Name = "Papeterie"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            Code = "paramilitary",
+                            Name = "Paramilitaire"
+                        },
+                        new
+                        {
+                            Id = 102,
+                            Code = "pedagogy",
+                            Name = "Pédagogie"
+                        },
+                        new
+                        {
+                            Id = 103,
+                            Code = "oil",
+                            Name = "Pétrole"
+                        },
+                        new
+                        {
+                            Id = 104,
+                            Code = "crudeOilProducts",
+                            Name = "Pétrole brut et dérivés"
+                        },
+                        new
+                        {
+                            Id = 105,
+                            Code = "pharmacology",
+                            Name = "Pharmacologie"
+                        },
+                        new
+                        {
+                            Id = 106,
+                            Code = "philosophyReligion",
+                            Name = "Philosophie et religion"
+                        },
+                        new
+                        {
+                            Id = 107,
+                            Code = "photography",
+                            Name = "Photographie"
+                        },
+                        new
+                        {
+                            Id = 108,
+                            Code = "physics",
+                            Name = "Physique"
+                        },
+                        new
+                        {
+                            Id = 109,
+                            Code = "plumbing",
+                            Name = "Plomberie"
+                        },
+                        new
+                        {
+                            Id = 110,
+                            Code = "politics",
+                            Name = "Politique"
+                        },
+                        new
+                        {
+                            Id = 111,
+                            Code = "socialPolicies",
+                            Name = "Politiques sociales"
+                        },
+                        new
+                        {
+                            Id = 112,
+                            Code = "postalServices",
+                            Name = "Postes"
+                        },
+                        new
+                        {
+                            Id = 113,
+                            Code = "mineralProspecting",
+                            Name = "Prospection minière"
+                        },
+                        new
+                        {
+                            Id = 114,
+                            Code = "robotics",
+                            Name = "Robotique"
+                        },
+                        new
+                        {
+                            Id = 115,
+                            Code = "psychology",
+                            Name = "Psychologie"
+                        },
+                        new
+                        {
+                            Id = 116,
+                            Code = "advertising",
+                            Name = "Publicité"
+                        },
+                        new
+                        {
+                            Id = 117,
+                            Code = "oilRefining",
+                            Name = "Raffinage du pétrole"
+                        },
+                        new
+                        {
+                            Id = 118,
+                            Code = "scientificResearch",
+                            Name = "Recherche scientifique"
+                        },
+                        new
+                        {
+                            Id = 119,
+                            Code = "publicRelations",
+                            Name = "Relations publiques"
+                        },
+                        new
+                        {
+                            Id = 120,
+                            Code = "restaurantIndustry",
+                            Name = "Restauration"
+                        },
+                        new
+                        {
+                            Id = 121,
+                            Code = "health",
+                            Name = "Santé"
+                        },
+                        new
+                        {
+                            Id = 122,
+                            Code = "science",
+                            Name = "Sciences"
+                        },
+                        new
+                        {
+                            Id = 123,
+                            Code = "humanities",
+                            Name = "Sciences humaines"
+                        },
+                        new
+                        {
+                            Id = 124,
+                            Code = "naturalSciences",
+                            Name = "Sciences naturelles"
+                        },
+                        new
+                        {
+                            Id = 125,
+                            Code = "politicalScience",
+                            Name = "Sciences politiques"
+                        },
+                        new
+                        {
+                            Id = 126,
+                            Code = "security",
+                            Name = "Sécurité"
+                        },
+                        new
+                        {
+                            Id = 127,
+                            Code = "fireSafety",
+                            Name = "Sécurité incendie"
+                        },
+                        new
+                        {
+                            Id = 128,
+                            Code = "steelIndustry",
+                            Name = "Sidérurgie"
+                        },
+                        new
+                        {
+                            Id = 129,
+                            Code = "sociology",
+                            Name = "Sociologie"
+                        },
+                        new
+                        {
+                            Id = 130,
+                            Code = "sports",
+                            Name = "Sports"
+                        },
+                        new
+                        {
+                            Id = 131,
+                            Code = "combatSports",
+                            Name = "Sports de combat"
+                        },
+                        new
+                        {
+                            Id = 132,
+                            Code = "teamSports",
+                            Name = "Sports d'équipe"
+                        },
+                        new
+                        {
+                            Id = 133,
+                            Code = "waterSports",
+                            Name = "Sports nautiques"
+                        },
+                        new
+                        {
+                            Id = 134,
+                            Code = "storage",
+                            Name = "Stockage"
+                        },
+                        new
+                        {
+                            Id = 135,
+                            Code = "weaponSystems",
+                            Name = "Systèmes d'armes"
+                        },
+                        new
+                        {
+                            Id = 136,
+                            Code = "petroleumTech",
+                            Name = "Technologies pétrolières"
+                        },
+                        new
+                        {
+                            Id = 137,
+                            Code = "telecom",
+                            Name = "Télécommunications"
+                        },
+                        new
+                        {
+                            Id = 138,
+                            Code = "remoteSensing",
+                            Name = "Télédétection"
+                        },
+                        new
+                        {
+                            Id = 139,
+                            Code = "telegraphy",
+                            Name = "Télégraphie"
+                        },
+                        new
+                        {
+                            Id = 140,
+                            Code = "telephony",
+                            Name = "Téléphonie"
+                        },
+                        new
+                        {
+                            Id = 141,
+                            Code = "tourism",
+                            Name = "Tourisme"
+                        },
+                        new
+                        {
+                            Id = 142,
+                            Code = "airTransport",
+                            Name = "Transport aérien"
+                        },
+                        new
+                        {
+                            Id = 143,
+                            Code = "waterTransport",
+                            Name = "Transport par eau"
+                        },
+                        new
+                        {
+                            Id = 144,
+                            Code = "railTransport",
+                            Name = "Transport par rail"
+                        },
+                        new
+                        {
+                            Id = 145,
+                            Code = "roadTransport",
+                            Name = "Transport routier"
+                        },
+                        new
+                        {
+                            Id = 146,
+                            Code = "transport",
+                            Name = "Transports"
+                        },
+                        new
+                        {
+                            Id = 147,
+                            Code = "urbanPlanning",
+                            Name = "Urbanisme"
+                        },
+                        new
+                        {
+                            Id = 148,
+                            Code = "zoology",
+                            Name = "Zoologie"
+                        },
+                        new
+                        {
+                            Id = 200,
+                            Code = "other",
+                            Name = "Autre"
+                        });
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.EndCustomerAggregate.EndCustomer", b =>
@@ -558,10 +1985,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.Property<Guid>("FreelanceId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<int>("LegalStatusTypeId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Siret")
                         .HasMaxLength(14)
@@ -596,9 +2021,75 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.HasIndex("FreelanceId");
 
+                    b.HasIndex("LegalStatusTypeId");
+
                     b.HasIndex("StatusId");
 
                     b.ToTable("LegalStatuses", (string)null);
+                });
+
+            modelBuilder.Entity("WordsmithHub.Domain.LegalStatusType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LegalStatusTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "author",
+                            Name = "Artiste-auteur"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "self-employed",
+                            Name = "Auto-entrepreneur"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "wagePortage",
+                            Name = "Portage salarial"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "llc",
+                            Name = "SARL"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "eurl",
+                            Name = "EURL"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "sasu",
+                            Name = "SASU"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "ei",
+                            Name = "Entreprise individuelle"
+                        });
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.OrderLineAggregate.OrderLine", b =>
@@ -650,6 +2141,58 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     b.HasIndex("WorkOrderId");
 
                     b.ToTable("OrderLines", (string)null);
+                });
+
+            modelBuilder.Entity("WordsmithHub.Domain.PricingUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PricingUnits", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "perWord",
+                            Name = "par mot"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "perMinute",
+                            Name = "par minute"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "perHour",
+                            Name = "par heure"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "perDay",
+                            Name = "par jour"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "flatRate",
+                            Name = "forfait"
+                        });
                 });
 
             modelBuilder.Entity("WordsmithHub.Domain.ProjectAggregate.Project", b =>
@@ -758,8 +2301,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -790,6 +2333,106 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         {
                             Id = 5,
                             Name = "Contrôle qualité"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Transcription"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Traduction certifiée"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Localisation"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Transcréation"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Révision bilingue"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Correction monolingue"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Alignement de documents"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Gestion terminologique"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Création de glossaire"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Traduction SEO"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Voix off"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Doublage"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Interprétation simultanée"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Interprétation consécutive"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Interprétation téléphonique"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Mise en page (DTP)"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "Formatage de fichiers"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "Extraction de texte"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Nettoyage de fichiers"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "Évaluation linguistique"
                         });
                 });
 
@@ -1002,6 +2645,144 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                             Id = 15,
                             Code = "PL",
                             Name = "Polonais"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "HE",
+                            Name = "Hébreu"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "UR",
+                            Name = "Urdu"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "VI",
+                            Name = "Vietnamien"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "SV",
+                            Name = "Suédois"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "DA",
+                            Name = "Danois"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "FI",
+                            Name = "Finnois"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "NO",
+                            Name = "Norvégien"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "EL",
+                            Name = "Grec"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "CS",
+                            Name = "Tchèque"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "SK",
+                            Name = "Slovaque"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "HU",
+                            Name = "Hongrois"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "RO",
+                            Name = "Roumain"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "BG",
+                            Name = "Bulgare"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "UK",
+                            Name = "Ukrainien"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "SR",
+                            Name = "Serbe"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "HR",
+                            Name = "Croate"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "SL",
+                            Name = "Slovène"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "ID",
+                            Name = "Indonésien"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "MS",
+                            Name = "Malais"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "TH",
+                            Name = "Thaï"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Code = "BN",
+                            Name = "Bengali"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Code = "TA",
+                            Name = "Tamoul"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Code = "FA",
+                            Name = "Persan (Farsi)"
                         });
                 });
 
@@ -1310,6 +3091,12 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("WordsmithHub.Domain.LegalStatusType", "LegalStatusType")
+                        .WithMany()
+                        .HasForeignKey("LegalStatusTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WordsmithHub.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -1317,6 +3104,8 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         .IsRequired();
 
                     b.Navigation("Freelance");
+
+                    b.Navigation("LegalStatusType");
 
                     b.Navigation("Status");
                 });

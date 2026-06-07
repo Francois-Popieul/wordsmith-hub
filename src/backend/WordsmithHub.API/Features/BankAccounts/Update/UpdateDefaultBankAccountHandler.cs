@@ -28,16 +28,12 @@ public class UpdateDefaultBankAccountHandler(
             !await resourceAuthorizationService.CanAccessAsync<BankAccount>(command.AppUserId,
                 command.BankAccountId,
                 cancellationToken))
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var bankAccount = await repository.GetByIdAsync(command.BankAccountId, cancellationToken);
 
         if (bankAccount == null)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         if (!bankAccount.IsDefault)
         {

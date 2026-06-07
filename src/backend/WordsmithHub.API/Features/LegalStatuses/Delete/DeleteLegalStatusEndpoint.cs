@@ -12,6 +12,8 @@ public class DeleteLegalStatusEndpoint : ApiEndpointWithoutRequest<NoContent>
         Delete("/legalstatus/{legalStatusId:guid}");
         Roles("user");
         Description(x => x.WithTags("legalstatus")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

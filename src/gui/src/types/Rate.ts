@@ -1,14 +1,5 @@
 import * as zod from "zod";
 
-export type Rate = {
-    unitPrice: number;
-    unit: string;
-    sourceLanguageId: number;
-    targetLanguageId: number;
-    serviceId: number;
-    directCustomerId: string;
-}
-
 export const rateSchema = zod.object({
     unitPrice: zod
         .number({ message: "Le prix unitaire doit être un nombre" })

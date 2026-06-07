@@ -4,6 +4,7 @@ import Button from "../../components/ui/Button";
 import { DeleteIcon, PencilIcon } from "../../assets/icons/icons";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface DirectCustomerProjectDataTableProps {
     projects: zod.infer<typeof schemas.ProjectDto>[];
@@ -12,6 +13,7 @@ interface DirectCustomerProjectDataTableProps {
 }
 
 function DirectCustomerProjectDataTable({ projects, onEdit, onDelete }: DirectCustomerProjectDataTableProps) {
+    const domainTypes = useStaticTables().domainTypes;
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.ProjectDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
             <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le projet">
@@ -26,7 +28,7 @@ function DirectCustomerProjectDataTable({ projects, onEdit, onDelete }: DirectCu
     return (
         <DataTable value={projects} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
             <Column field="name" header="Nom du projet" style={{ minWidth: "200px" }} />
-            <Column field="domain" header="Domaine" style={{ minWidth: "150px" }} />
+            <Column field="domain" header="Domaine" style={{ minWidth: "150px" }} body={(rowData: zod.infer<typeof schemas.ProjectDto>) => domainTypes.find(type => type.code === rowData.domain)?.name ?? ""} />
             <Column field="endCustomer" header="Client final" style={{ minWidth: "150px" }} body={(rowData: zod.infer<typeof schemas.ProjectDto>) => rowData.endCustomer?.name ?? ""} />
             <Column field="description" header="Description" style={{ minWidth: "150px" }} />
             <Column body={actionsBodyTemplate} header="Actions" headerStyle={{ minWidth: "100px" }} bodyStyle={{ minWidth: "100px", display: "flex", justifyContent: "flex-end", marginRight: "1rem" }} pt={{ headerContent: { style: { justifyContent: "flex-end", marginRight: "1rem" } } }} />

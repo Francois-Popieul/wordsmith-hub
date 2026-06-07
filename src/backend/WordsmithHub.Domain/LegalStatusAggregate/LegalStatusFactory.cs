@@ -3,7 +3,7 @@
 public interface ILegalStatusFactory
 {
     LegalStatus CreateLegalStatus(
-        string name,
+        int legalStatusTypeId,
         string? siret,
         string? vatNumber,
         bool vatExemption,
@@ -17,7 +17,7 @@ public interface ILegalStatusFactory
 public class LegalStatusFactory : ILegalStatusFactory
 {
     public LegalStatus CreateLegalStatus(
-        string name,
+        int legalStatusTypeId,
         string? siret,
         string? vatNumber,
         bool vatExemption,
@@ -30,7 +30,7 @@ public class LegalStatusFactory : ILegalStatusFactory
         var legalStatus = new LegalStatus
         {
             Id = Guid.NewGuid(),
-            Name = name,
+            LegalStatusTypeId = legalStatusTypeId,
             Siret = siret ?? string.Empty,
             VatNumber = vatNumber ?? string.Empty,
             VatExemption = vatExemption,

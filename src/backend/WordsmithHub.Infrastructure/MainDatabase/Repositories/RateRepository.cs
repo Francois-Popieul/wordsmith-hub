@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WordsmithHub.Domain;
 using WordsmithHub.Domain.RateAggregate;
 
 namespace WordsmithHub.Infrastructure.MainDatabase.Repositories;
@@ -17,7 +18,7 @@ public class RateRepository(MainDbContext context) : Repository<Rate>(context), 
         CancellationToken cancellationToken = default)
     {
         return await Context.Rates.AsNoTracking()
-            .Where(r => r.DirectCustomerId == directCustomerId)
+            .Where(r => r.DirectCustomerId == directCustomerId && r.StatusId != StatusIds.General.Inactive)
             .ToListAsync(cancellationToken);
     }
 

@@ -19,10 +19,9 @@ public class LoginUserHandler(
     public async Task<LoginResult> ExecuteAsync(LoginUserCommand command, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByEmailAsync(command.Email);
+
         if (user == null || !await userManager.CheckPasswordAsync(user, command.Password))
-        {
             return new LoginResult(false, null);
-        }
 
         var token = await tokenService.CreateAccessTokenAsync(user);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using JetBrains.Annotations;
+using Microsoft.Extensions.DependencyInjection;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.BankAccountAggregate;
 using WordsmithHub.Domain.DirectCustomerAggregate;
@@ -17,18 +18,22 @@ public static class Bootstrap
 {
     extension(IServiceCollection services)
     {
+        [UsedImplicitly]
         public IServiceCollection AddRepositories()
         {
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IDirectCustomerRepository, DirectCustomerRepository>();
+            services.AddScoped<IDomainTypeRepository, DomainTypeRepository>();
             services.AddScoped<IEndCustomerRepository, EndCustomerRepository>();
             services.AddScoped<IFreelanceRepository, FreelanceRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<ILegalStatusRepository, LegalStatusRepository>();
+            services.AddScoped<ILegalStatusTypeRepository, LegalStatusTypeRepository>();
             services.AddScoped<IOrderLineRepository, OrderLineRepository>();
+            services.AddScoped<IPricingUnitRepository, PricingUnitRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();

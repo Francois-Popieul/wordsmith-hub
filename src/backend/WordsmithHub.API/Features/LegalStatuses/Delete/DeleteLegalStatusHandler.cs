@@ -24,16 +24,12 @@ public class DeleteLegalStatusHandler(
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<LegalStatus>(command.AppUserId,
                 command.LegalStatusId, cancellationToken))
-        {
             return OperationResult.Forbidden<NoContent>();
-        }
 
         var legalStatus = await repository.GetByIdAsync(command.LegalStatusId, cancellationToken);
 
         if (legalStatus == null)
-        {
             return OperationResult.NotFound<NoContent>();
-        }
 
         legalStatus.MarkAsDeleted();
 

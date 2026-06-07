@@ -23,9 +23,7 @@ public class UpdateFreelanceAddressHandler(
         var freelance = await repository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null || freelance.Id != command.FreelanceId)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         freelance.Address = command.Address;
 

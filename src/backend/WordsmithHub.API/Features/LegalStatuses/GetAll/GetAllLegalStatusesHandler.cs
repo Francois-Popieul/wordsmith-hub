@@ -11,6 +11,7 @@ namespace WordsmithHub.API.Features.LegalStatuses.GetAll;
 [UsedImplicitly]
 public record GetAllLegalStatusesCommand(Guid AppUserId) : ICommand<OperationResult<IReadOnlyList<LegalStatusDto>>>;
 
+[UsedImplicitly]
 public class GetAllLegalStatusesHandler(
     IFreelanceRepository freelanceRepository,
     ILegalStatusRepository repository)
@@ -23,16 +24,12 @@ public class GetAllLegalStatusesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<LegalStatusDto>>(OperationStatus.Forbidden);
-        }
 
         var legalStatuses = await repository.GetByFreelanceIdAsync(freelance.Id, cancellationToken);
 
         if (legalStatuses.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<LegalStatusDto>>(OperationStatus.Success, new List<LegalStatusDto>());
-        }
+            return new OperationResult<IReadOnlyList<LegalStatusDto>>(OperationStatus.Success, []);
 
         var customerDtoList = legalStatuses.Select(legalStatus => legalStatus.ToDto()).ToList();
 

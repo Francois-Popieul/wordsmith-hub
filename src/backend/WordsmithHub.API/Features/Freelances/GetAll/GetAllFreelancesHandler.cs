@@ -19,9 +19,7 @@ public class GetAllFreelancesHandler(IFreelanceRepository freelanceRepository)
         var freelances = await freelanceRepository.GetAllAsync(cancellationToken);
 
         if (freelances.Count == 0)
-        {
-            return OperationResult.NotFound<IReadOnlyList<FreelanceDto>>();
-        }
+            return new OperationResult<IReadOnlyList<FreelanceDto>>(OperationStatus.Success, []);
 
         var freelanceDtoList = freelances.Select(freelance => freelance.ToDto()).ToList();
 

@@ -1,6 +1,8 @@
 ﻿services:
   api:
-    build: .
+    build:
+      context: src/backend
+      dockerfile: Dockerfile
     restart: on-failure
     ports:
       - "8080:8080"

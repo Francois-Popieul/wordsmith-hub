@@ -1,17 +1,5 @@
-import type { Address } from "./Address";
 import { addressSchema } from "./Address";
 import * as zod from "zod";
-
-export type DirectCustomer = {
-    name: string;
-    code: string;
-    email: string;
-    phone: string | null;
-    address: Address;
-    siretOrSiren: string | null;
-    paymentDelay: number;
-    currencyId: number;
-}
 
 export const directCustomerSchema = zod.object({
     name: zod

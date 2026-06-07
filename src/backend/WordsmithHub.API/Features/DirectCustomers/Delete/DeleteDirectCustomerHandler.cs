@@ -25,16 +25,12 @@ public class DeleteDirectCustomerHandler(
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(command.AppUserId,
                 command.DirectCustomerId, cancellationToken))
-        {
             return OperationResult.Forbidden<NoContent>();
-        }
 
         var directCustomer = await repository.GetByIdAsync(command.DirectCustomerId, cancellationToken);
 
         if (directCustomer == null)
-        {
             return OperationResult.NotFound<NoContent>();
-        }
 
         directCustomer.MarkAsDeleted();
 

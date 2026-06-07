@@ -22,9 +22,7 @@ public class GetAllCountriesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<Country>>(OperationStatus.Forbidden);
-        }
 
         var countries = await repository.GetAllAsync(cancellationToken);
 

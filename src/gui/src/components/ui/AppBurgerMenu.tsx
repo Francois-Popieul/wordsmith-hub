@@ -3,15 +3,17 @@ import { BurgerIcon, CustomersIcon, DashboardIcon, InvoicesIcon, LogoutIcon, Ord
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "../../components/ui/Button";
+import { useAuth } from "../../hooks/useAuth/useAuth";
 
 function AppBurgerMenu() {
+    const logout = useAuth().logout;
     const navigate = useNavigate();
     const handleNav = (route: string) => { navigate(route); };
 
     const [isOpen, setIsOpen] = useState(false);
 
     function handleLogout() {
-        localStorage.removeItem("wshToken");
+        logout();
         navigate("/");
     }
 

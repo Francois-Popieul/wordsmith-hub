@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { createApiClient } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useEffect, useState } from "react";
+import { useToast } from "../../hooks/useToast/useToast";
 import * as zod from "zod";
 import { schemas } from "../../infrastructure/openApi/client";
 import ListContainer from "../../components/ui/ListContainer";
@@ -9,20 +8,24 @@ import Button from "../../components/ui/Button";
 import DirectCustomerProjectDataTable from "./DirectCustomerProjectDataTable";
 import axios from "axios";
 import ConfirmationModal from "../../components/ui/ConfirmationModal";
+import { useApiClient } from "../../hooks/useApiClient";
+import AddProjectModal from "../../projects/components/AddProjectModal";
+import UpdateProjectModal from "../../projects/components/UpdateProjectModal";
 
 interface ProjectListContainerProps {
     directCustomerId: string;
 }
 
 function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const { addToast } = useToast();
     const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
     const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);
-    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+    const [isDeleteProjectModalVisible, setIsDeleteProjectModalVisible] = useState(false);
+    const [isAddProjectModalVisible, setIsAddProjectModalVisible] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+    const [projectToUpdate, setProjectToUpdate] = useState<zod.infer<typeof schemas.ProjectDto> | null>(null);
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
 
     useEffect(() => {
         if (!token) return;
@@ -41,31 +44,55 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
             }
         }
         fetchProjects();
-    }, [apiClient, directCustomerId, token, addToast]);
+    }, [apiClient, directCustomerId, token, addToast, refreshKey]);
 
     function handleAddProject() {
-        addToast("information", "La fonctionnalité d’ajout de projet est en cours de développement.", "top_right", 3000);
+        setIsAddProjectModalVisible(true);
     }
 
     function handleEditProject(id: string) {
-        console.log("Edit project with id:", id);
+        const project = projects.find(p => p.id === id) || null;
+        setProjectToUpdate(project);
+        setIsUpdateModalVisible(true);
+    }
+
+    function handleConfirmProjectUpdate() {
+        setIsAddProjectModalVisible(false);
+        setProjectToUpdate(null);
+        setRefreshKey(prev => prev + 1);
     }
 
     function handleDeleteProject(id: string) {
         setProjectToDeleteId(id);
-        setIsDeleteModalVisible(true);
+        setIsDeleteProjectModalVisible(true);
     }
-    function handleConfirmDelete() {
+    function handleConfirmProjectDelete() {
         if (!projectToDeleteId) {
             addToast("error", "Aucun projet à supprimer.", "top_right", 3000);
             return;
         }
+
+        try {
+            apiClient.DeleteProjectEndpoint({ pathParams: { projectId: projectToDeleteId } });
+            addToast("success", "Projet supprimé.", "top_right", 3000);
+            setRefreshKey(prev => prev + 1);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+            } else {
+                addToast("error", "Une erreur inattendue s’est produite lors de la suppression du projet.", "top_right", 3000);
+            }
+        }
+        setIsDeleteProjectModalVisible(false);
+        setProjectToDeleteId(null);
+        setRefreshKey(prev => prev + 1);
     }
 
-    function handleCancelDelete() {
-        setIsDeleteModalVisible(false);
+    function handleCancelProjectDelete() {
+        setIsDeleteProjectModalVisible(false);
         setProjectToDeleteId(null);
-        addToast("information", "Suppression du projet annulée.", "top_right", 3000);
     }
 
     return (
@@ -75,14 +102,18 @@ function ProjectListContainer({ directCustomerId }: ProjectListContainerProps) {
                 title="Projets"
                 presentation="Liste des projets associés à ce client"
                 add_button_name="Ajouter un projet"
-                no_content_message="Aucun projet enregistré pour le moment. Cliquez sur le bouton ci-dessous afin de définir vos projets."
+                no_content_message="Aucun projet enregistré pour le moment."
                 no_content_button={<Button name="Ajouter votre premier projet" variant="light" width="default" type="button" onClick={handleAddProject}><PlusSignIcon /></Button>}
                 list_length={projects.length}
                 onClickAdd={handleAddProject}
             >
                 <DirectCustomerProjectDataTable projects={projects} onEdit={handleEditProject} onDelete={handleDeleteProject} />
             </ListContainer>
-            <ConfirmationModal isVisible={isDeleteModalVisible} title="Supprimer le projet" message="Voulez-vous vraiment supprimer ce projet ?" onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
+            <AddProjectModal isVisible={isAddProjectModalVisible} onClose={() => setIsAddProjectModalVisible(false)} onSuccess={() => setRefreshKey(prev => prev + 1)} />
+            {projectToUpdate && (
+                <UpdateProjectModal key={projectToUpdate?.id} project={projectToUpdate} isVisible={isUpdateModalVisible} onClose={() => setIsUpdateModalVisible(false)} onSuccess={handleConfirmProjectUpdate} />
+            )}
+            <ConfirmationModal isVisible={isDeleteProjectModalVisible} title="Supprimer le projet" message="Voulez-vous vraiment supprimer ce projet ?" onConfirm={handleConfirmProjectDelete} onCancel={handleCancelProjectDelete} />
         </>
     );
 }

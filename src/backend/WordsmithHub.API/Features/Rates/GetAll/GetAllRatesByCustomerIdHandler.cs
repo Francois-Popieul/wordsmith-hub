@@ -29,17 +29,13 @@ public class GetAllRatesByCustomerIdHandler(
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<DirectCustomer>(command.AppUserId,
                 command.DirectCustomerId, cancellationToken))
-        {
             return new OperationResult<IReadOnlyList<RateDto>>(OperationStatus.Forbidden);
-        }
 
         var rates
             = await rateRepository.GetByDirectCustomerIdAsync(command.DirectCustomerId, cancellationToken);
 
         if (rates.Count == 0)
-        {
             return new OperationResult<IReadOnlyList<RateDto>>(OperationStatus.Success, []);
-        }
 
         var rateDtoList = rates.Select(rate => rate.ToDto()).ToList();
 

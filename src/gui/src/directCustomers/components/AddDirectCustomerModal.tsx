@@ -1,13 +1,15 @@
 import "./AddDirectCustomerModal.css";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
-import { directCustomerSchema, type DirectCustomer } from "../../types/DirectCustomer";
+import { directCustomerSchema } from "../../types/DirectCustomer";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import { useCountries, useCurrencies } from "../../hooks/useStaticData";
+import { useApiClient } from "../../hooks/useApiClient";
+import type { schemas } from "../../infrastructure/openApi/client";
+import * as zod from "zod";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface AddDirectCustomerModalProps {
     isVisible: boolean;
@@ -16,14 +18,10 @@ interface AddDirectCustomerModalProps {
 }
 
 function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCustomerModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
-    const countries = useCountries();
-    const currencies = useCurrencies();
+    const { countries, currencies } = useStaticTables();
     const [selectedCountryId, setSelectedCountryId] = useState<number | null>(null);
     const [selectedCurrency, setSelectedCurrency] = useState<number | null>(null);
 
@@ -41,13 +39,14 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
 
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+        if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const directCustomerData: DirectCustomer = {
+        const directCustomerData: zod.infer<typeof schemas.AddDirectCustomerRequest> = {
             name: (formData.get("name") as string).trim(),
             code: (formData.get("code") as string).trim(),
-            email: (formData.get("email") as string).trim(),
             phone: (formData.get("phone") as string)?.trim() || null,
+            email: (formData.get("email") as string).trim(),
             address: {
                 streetInfo: (formData.get("streetInfo") as string).trim(),
                 addressComplement: (formData.get("addressComplement") as string)?.trim() || null,
@@ -114,13 +113,13 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
                     </div>
                     <div className="multiple_field_container">
                         <FormInputGroup name="state" label="Région/État" placeholder="ex. Île-de-France" type="text" required={false} error={fieldErrors.state} />
-                        <FormSelectGroup name="countryId" label="Pays" options={countries.map(country => ({ value: country.id.toString(), name: country.name }))} placeholder="-- Sélectionnez le pays --" selected={selectedCountryId?.toString() || ""} required={true} onChange={(value) => setSelectedCountryId(parseInt(value))} >
+                        <FormSelectGroup name="countryId" label="Pays" options={countries.map(country => ({ value: country.id.toString(), name: country.name }))} placeholder="Sélectionnez le pays" selected={selectedCountryId?.toString() || ""} required={true} onChange={(value) => setSelectedCountryId(parseInt(value))} >
                         </FormSelectGroup>
                     </div>
                     <FormInputGroup name="siretOrSiren" label="Numéro d’immatriculation" placeholder="ex. FR123456789012" type="text" required={false} error={fieldErrors.siretOrSiren} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="paymentDelay" label="Délai de paiement (jours)" placeholder="ex. 30" type="text" required error={fieldErrors.paymentDelay} />
-                        <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="-- Sélectionnez la devise --" selected={selectedCurrency?.toString() || ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />
+                        <FormSelectGroup name="currency" label="Devise" options={currencies.map(currency => ({ value: currency.id.toString(), name: `${currency.name} (${currency.code})` }))} placeholder="Sélectionnez la devise" selected={selectedCurrency?.toString() || ""} required onChange={(value) => setSelectedCurrency(parseInt(value))} />
                     </div>
                 </FormModal>
             )}

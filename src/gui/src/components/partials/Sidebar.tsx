@@ -3,8 +3,10 @@ import Button from "../ui/Button";
 import "./Sidebar.css";
 import Brand from "./Brand";
 import { CustomersIcon, DashboardIcon, InvoicesIcon, LogoutIcon, OrdersIcon, ProfileIcon, ProjectsIcon } from "../../assets/icons/icons.ts";
+import { useAuth } from "../../hooks/useAuth/useAuth.ts";
 
 function Sidebar() {
+    const logout = useAuth().logout;
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -15,7 +17,7 @@ function Sidebar() {
     const variant = (route: string) => location.pathname === route ? "sidebar_selected" : "sidebar";
 
     function handleLogout() {
-        localStorage.removeItem("wshToken");
+        logout();
         navigate("/");
     }
 

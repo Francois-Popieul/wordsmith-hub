@@ -32,14 +32,10 @@ public class AddBankAccountHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         if (await repository.ExistsWithIbanAsync(command.Iban, cancellationToken))
-        {
             return OperationResult.Conflict<Guid>();
-        }
 
         var defaultBankAccount = await repository.GetDefaultForFreelanceAsync(freelance.Id, cancellationToken);
 

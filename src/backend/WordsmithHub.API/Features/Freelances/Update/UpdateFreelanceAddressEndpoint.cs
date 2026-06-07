@@ -14,14 +14,22 @@ public class UpdateFreelanceAddressRequestValidator : Validator<UpdateFreelanceA
 {
     public UpdateFreelanceAddressRequestValidator()
     {
-        RuleFor(x => x.Address).NotNull();
+        RuleFor(x => x.Address)
+            .NotNull().WithMessage("L'adresse est requise.");
         When(x => x.Address != null, () =>
         {
-            RuleFor(x => x.Address!.StreetInfo).MaximumLength(255);
-            RuleFor(x => x.Address!.AddressComplement).MaximumLength(255);
-            RuleFor(x => x.Address!.PostCode).MaximumLength(10);
-            RuleFor(x => x.Address!.State).MaximumLength(50);
-            RuleFor(x => x.Address!.City).MaximumLength(100);
+            RuleFor(x => x.Address!.StreetInfo)
+                .MaximumLength(255)
+                .WithMessage("Le numéro et le nom de rue ne doivent pas faire plus de 255 caractères.");
+            RuleFor(x => x.Address!.AddressComplement)
+                .MaximumLength(255).WithMessage("Le complément d’adresse ne doit pas faire plus de 255 caractères.");
+            RuleFor(x => x.Address!.PostCode)
+                .MaximumLength(10).WithMessage("Le code postal ne doit pas faire plus de 10 caractères.");
+            RuleFor(x => x.Address!.State)
+                .MaximumLength(50)
+                .WithMessage("Le nom de l’État ou de la région ne doit pas faire plus de 50 caractères.");
+            RuleFor(x => x.Address!.City)
+                .MaximumLength(100).WithMessage("Le nom de la ville ne doit pas faire plus de 100 caractères.");
         });
     }
 }

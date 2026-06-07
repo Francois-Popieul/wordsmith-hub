@@ -1,36 +1,35 @@
 import "./AddRateModal.css";
-import { useMemo, useState } from "react";
-import FormInputGroup from "../../components/ui/FormInputGroup";
+import { useState } from "react";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
 import * as zod from "zod";
-import { rateSchema, type Rate } from "../../types/Rate";
-import type ProfileDto from "../../profile/models/ProfileDto";
+import { rateSchema } from "../../types/Rate";
 import FormSelectGroup from "../../components/ui/FormSelectGroup";
-import UnitTypes from "../types/Units";
+import { useApiClient } from "../../hooks/useApiClient";
+import FormNumberInputGroup from "../../components/ui/FormNumberInputGroup";
+import type { schemas } from "../../infrastructure/openApi/client";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 interface AddRateModalProps {
     directCustomerId: string;
     directCustomerCurrencySign: string;
-    freelanceProfile: ProfileDto | null;
+    freelanceProfile: zod.infer<typeof schemas.ProfileDto> | null;
     isVisible: boolean;
     onClose: () => void;
     onSuccess?: () => void;
 }
 
 function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceProfile, isVisible, onClose, onSuccess }: AddRateModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
     const [selectedServiceId, setSelectedServiceId] = useState<string>("");
     const [selectedSourceLanguageId, setSelectedSourceLanguageId] = useState<string>("");
     const [selectedTargetLanguageId, setSelectedTargetLanguageId] = useState<string>("");
+    const [unitPrice, setUnitPrice] = useState<number | null>(null);
     const [selectedUnit, setSelectedUnit] = useState<string>("");
+    const pricingUnits = useStaticTables().pricingUnits;
 
     function resetForm() {
         setFieldErrors({});
@@ -38,6 +37,7 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
         setSelectedSourceLanguageId("");
         setSelectedTargetLanguageId("");
         setSelectedUnit("");
+        setUnitPrice(null);
     }
 
     function handleClose() {
@@ -46,10 +46,11 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
     }
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+        if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const rateData: Rate = {
-            unitPrice: formData.get("unitPrice") ? parseFloat(formData.get("unitPrice") as string) : 0,
+        const rateData: zod.infer<typeof schemas.AddRateRequest> = {
+            unitPrice: unitPrice !== null ? unitPrice : 0,
             unit: formData.get("unit") as string,
             sourceLanguageId: formData.get("sourceLanguageId") ? parseInt(formData.get("sourceLanguageId") as string) : 0,
             targetLanguageId: formData.get("targetLanguageId") ? parseInt(formData.get("targetLanguageId") as string) : 0,
@@ -87,16 +88,15 @@ function AddRateModal({ directCustomerId, directCustomerCurrencySign, freelanceP
         <>
             {isVisible && (
                 <FormModal title="Ajouter un tarif" presentation="Ajouter un nouveau tarif pour ce client" validateButtonText="Ajouter le tarif" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormSelectGroup name="serviceId" label="Nom du service" selected={selectedServiceId} options={freelanceProfile?.services.map(service => ({ value: service.id.toString(), name: service.name })) || []} placeholder="-- Sélectionnez le service --" required onChange={(value) => setSelectedServiceId(value)} />
+                    <FormSelectGroup name="serviceId" label="Nom du service" selected={selectedServiceId} options={freelanceProfile?.services.map(service => ({ value: service.id.toString(), name: service.name })) || []} placeholder="Sélectionnez le service" required onChange={(value) => setSelectedServiceId(value)} />
                     <div className="multiple_field_container">
-                        <FormSelectGroup name="sourceLanguageId" label="Langue source" selected={selectedSourceLanguageId} options={freelanceProfile?.sourceLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="-- Sélectionnez la langue source --" required onChange={(value) => setSelectedSourceLanguageId(value)} />
-                        <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="-- Sélectionnez la langue cible --" required onChange={(value) => setSelectedTargetLanguageId(value)} />
+                        <FormSelectGroup name="sourceLanguageId" label="Langue source" selected={selectedSourceLanguageId} options={freelanceProfile?.sourceLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue source" required onChange={(value) => setSelectedSourceLanguageId(value)} />
+                        <FormSelectGroup name="targetLanguageId" label="Langue cible" selected={selectedTargetLanguageId} options={freelanceProfile?.targetLanguages.map(language => ({ value: language.id.toString(), name: language.name })) || []} placeholder="Sélectionnez la langue cible" required onChange={(value) => setSelectedTargetLanguageId(value)} />
                     </div>
                     <div className="multiple_field_container">
-                        <FormInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} type="text" placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
-                        <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={UnitTypes} placeholder="-- Sélectionnez l’unité --" required onChange={(value) => setSelectedUnit(value)} />
+                        <FormNumberInputGroup name="unitPrice" label={`Tarif (${directCustomerCurrencySign})`} value={unitPrice !== null ? unitPrice.toString() : ""} onChange={(value) => setUnitPrice(value ? parseFloat(value) : null)} placeholder="0,0000" required error={fieldErrors.unitPrice ? fieldErrors.unitPrice[0] : undefined} />
+                        <FormSelectGroup name="unit" label="Unité" selected={selectedUnit} options={pricingUnits.map(unit => ({ value: unit.code, name: unit.name }))} placeholder="Sélectionnez l’unité" required onChange={(value) => setSelectedUnit(value)} />
                     </div>
-                    <FormInputGroup name="description" label="Description" type="text" placeholder="Détails sur le service" required={false} error={fieldErrors.description ? fieldErrors.description[0] : undefined} />
                 </FormModal>
             )}
         </>

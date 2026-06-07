@@ -1,9 +1,11 @@
+using WordsmithHub.Domain;
+
 namespace WordsmithHub.API.Features.LegalStatuses.Models;
 
 public record LegalStatusDto
 {
     public required Guid Id { get; set; }
-    public required string Name { get; set; }
+    public LegalStatusType? LegalStatusType { get; set; }
     public string? Siret { get; set; }
     public string? VatNumber { get; set; }
     public bool VatExemption { get; set; }

@@ -3,15 +3,16 @@ import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../components/ui/AuthFormContainer.css";
 import { useState } from "react";
-import LoginUser from "../models/LoginUser";
 import { loginSchema } from "../zod/authenticationSchemas";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
+import { useAuth } from "../../hooks/useAuth/useAuth";
 
 
 function LoginView() {
+    const login = useAuth().login;
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL);
     const navigate = useNavigate();
@@ -20,10 +21,10 @@ function LoginView() {
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const userData: LoginUser = new LoginUser(
-            formData.get("email") as string,
-            formData.get("password") as string
-        );
+        const userData: zod.infer<typeof schemas.LoginUserRequest> = {
+            email: formData.get("email") as string,
+            password: formData.get("password") as string
+        };
 
         const validationResult = loginSchema.safeParse(userData);
         if (!validationResult.success) {
@@ -35,7 +36,7 @@ function LoginView() {
 
         try {
             const response = await apiClient.LoginUserEndpoint({ body: { ...userData } });
-            localStorage.setItem("wshToken", response.accessToken);
+            login(response.accessToken);
             navigate("/dashboard");
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 401) {
