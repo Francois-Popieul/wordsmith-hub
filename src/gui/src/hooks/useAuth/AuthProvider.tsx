@@ -6,22 +6,19 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-    const [userId, setUserId] = useState<string | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(() => localStorage.getItem("wshToken"));
 
-    const login = useCallback((newUserId: string, newToken: string) => {
-        setUserId(newUserId);
+    const login = useCallback((newToken: string) => {
+        localStorage.setItem("wshToken", newToken);
         setToken(newToken);
     }, []);
 
     const logout = useCallback(() => {
-        setUserId(null);
+        localStorage.removeItem("wshToken");
         setToken(null);
     }, []);
 
-    const isAuthenticated = Boolean(userId && token);
-
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userId, token, login, logout }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>
     );
 }

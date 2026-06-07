@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useToast } from "../../hooks/useToast/useToast";
@@ -14,7 +14,6 @@ import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 function DirectCustomerView() {
     const { token, apiClient } = useApiClient();
-    const navigate = useNavigate();
     const location = useLocation();
     const directCustomerId: string | undefined = location.pathname.split("/").pop();
     const { addToast } = useToast();
@@ -46,10 +45,6 @@ function DirectCustomerView() {
         fetchDirectCustomer();
     }, [apiClient, addToast, token, directCustomerId]);
 
-    if (!token) {
-        navigate("/");
-        return null;
-    }
 
     return <AppLayout>
         <PageHeader pageTitle={directCustomer ? directCustomer.name : ""} pageSubtitle="Modifiez les informations du client et vos tarifs avec lui" ></PageHeader>

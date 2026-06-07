@@ -2,7 +2,6 @@ import { PlusSignIcon } from "../../assets/icons/icons";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import Button from "../../components/ui/Button";
-import { useNavigate } from "react-router";
 import AddProjectModal from "../components/AddProjectModal";
 import { useEffect, useState } from "react";
 import ProjectDataTable from "../components/ProjectDataTable";
@@ -17,7 +16,6 @@ import { useDirectCustomerCount } from "../../hooks/useStats";
 
 function ProjectsView() {
     const { token, apiClient } = useApiClient();
-    const navigate = useNavigate();
     const [refreshKey, setRefreshKey] = useState(0);
     const { addToast } = useToast();
     const directCustomerCount = useDirectCustomerCount();
@@ -67,10 +65,6 @@ function ProjectsView() {
         fetchProjectStatuses();
     }, [apiClient, addToast, token]);
 
-    if (!token) {
-        navigate("/");
-        return null;
-    }
 
     function handleUpdate(id: string) {
         const project = projects.find(p => p.id === id) || null;

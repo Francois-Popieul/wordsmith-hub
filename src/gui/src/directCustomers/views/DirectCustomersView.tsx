@@ -47,10 +47,6 @@ function DirectCustomers() {
         fetchDirectCustomers();
     }, [apiClient, addToast, token, refreshKey]);
 
-    if (!token) {
-        navigate("/");
-        return null;
-    }
 
     function handleUpdate(id: string) {
         const customer = directCustomers.find(c => c.id === id) || null;

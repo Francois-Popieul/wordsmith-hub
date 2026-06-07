@@ -1,6 +1,5 @@
 import "../components/Card.css";
 import "../components/QuickActionCard.css";
-import { useNavigate } from "react-router";
 import AppLayout from "../../components/ui/AppLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useEffect, useState } from "react";
@@ -19,7 +18,6 @@ import type zod from "zod";
 
 function DashboardView() {
     const { token, apiClient } = useApiClient();
-    const navigate = useNavigate();
     const { addToast } = useToast();
     const [profileData, setProfileData] = useState<zod.infer<typeof schemas.ProfileDto> | void>();
     const [loading, setLoading] = useState(true);
@@ -61,10 +59,6 @@ function DashboardView() {
         setIsAddProjectModalVisible(true);
     }
 
-    if (!token) {
-        navigate("/");
-        return null;
-    }
 
     return !loading ? (
         <AppLayout>

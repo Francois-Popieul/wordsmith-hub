@@ -8,9 +8,11 @@ import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { useToast } from "../../hooks/useToast/useToast";
+import { useAuth } from "../../hooks/useAuth/useAuth";
 
 
 function LoginView() {
+    const login = useAuth().login;
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const apiClient = createApiClient(import.meta.env.VITE_API_BASE_URL);
     const navigate = useNavigate();
@@ -34,7 +36,7 @@ function LoginView() {
 
         try {
             const response = await apiClient.LoginUserEndpoint({ body: { ...userData } });
-            localStorage.setItem("wshToken", response.accessToken);
+            login(response.accessToken);
             navigate("/dashboard");
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 401) {
