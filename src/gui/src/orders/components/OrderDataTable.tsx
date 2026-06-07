@@ -5,6 +5,7 @@ import { Column } from "primereact/column";
 import Button from "../../components/ui/Button";
 import { DeleteIcon, OrdersIcon, PencilIcon, PlusSignIcon } from "../../assets/icons/icons";
 import clsx from "clsx";
+import "./OrderDataTable.css";
 
 interface OrderProps {
     workOrders: zod.infer<typeof schemas.WorkOrderDto>[];
