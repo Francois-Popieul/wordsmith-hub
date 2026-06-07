@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import * as zod from "zod";
 import axios from "axios";
 import { schemas } from "../infrastructure/openApi/client";
-import { useToast } from "./useToast";
 import { useApiClient } from "./useApiClient";
+import { useToast } from "./useToast/useToast";
 
 export function useCurrencies(): zod.infer<typeof schemas.Currency>[] {
     const { token, apiClient } = useApiClient();

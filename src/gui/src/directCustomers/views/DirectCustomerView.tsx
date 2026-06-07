@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import * as zod from "zod";
 import axios from "axios";
 import DirectCustomerDetails from "../components/DirectCustomerDetails";
-import { useCurrencies } from "../../hooks/useStaticData";
 import RateListContainer from "../components/RateListContainer";
 import ProjectListContainer from "../components/ProjectListContainer";
 import { useApiClient } from "../../hooks/useApiClient";
