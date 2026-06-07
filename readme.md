@@ -59,6 +59,7 @@ WordSmith Hub follows a clean, maintainable architecture inspired by:
 
 - Domain‑Driven Design (DDD)
 - Vertical Slice Architecture
+- Clean Architecture principles
 - EF Core for ORM
 - FastEndpoints for API endpoints
 - FluentValidation for validation

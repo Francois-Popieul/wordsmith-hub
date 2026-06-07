@@ -57,6 +57,19 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DomainTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Code = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DomainTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -94,6 +107,32 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LegalStatusTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
+                    Code = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LegalStatusTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PricingUnits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PricingUnits", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -354,7 +393,7 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    LegalStatusTypeId = table.Column<int>(type: "integer", nullable: false),
                     Siret = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: true),
                     VatNumber = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: true),
                     VatExemption = table.Column<bool>(type: "boolean", nullable: false),
@@ -374,6 +413,12 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                         name: "FK_LegalStatuses_Freelances_FreelanceId",
                         column: x => x.FreelanceId,
                         principalTable: "Freelances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LegalStatuses_LegalStatusTypes_LegalStatusTypeId",
+                        column: x => x.LegalStatusTypeId,
+                        principalTable: "LegalStatusTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -616,7 +661,47 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     { 10, "USA", false, "États-Unis d’Amérique" },
                     { 11, "CAN", false, "Canada" },
                     { 12, "AUS", false, "Australie" },
-                    { 13, "JPN", false, "Japon" }
+                    { 13, "JPN", false, "Japon" },
+                    { 14, "AUT", true, "Autriche" },
+                    { 15, "BGR", true, "Bulgarie" },
+                    { 16, "HRV", true, "Croatie" },
+                    { 17, "CYP", true, "Chypre" },
+                    { 18, "CZE", true, "Tchéquie" },
+                    { 19, "DNK", true, "Danemark" },
+                    { 20, "EST", true, "Estonie" },
+                    { 21, "FIN", true, "Finlande" },
+                    { 22, "GRC", true, "Grèce" },
+                    { 23, "HUN", true, "Hongrie" },
+                    { 24, "IRL", true, "Irlande" },
+                    { 25, "LVA", true, "Lettonie" },
+                    { 26, "LTU", true, "Lituanie" },
+                    { 27, "LUX", true, "Luxembourg" },
+                    { 28, "MLT", true, "Malte" },
+                    { 29, "POL", true, "Pologne" },
+                    { 30, "ROU", true, "Roumanie" },
+                    { 31, "SVK", true, "Slovaquie" },
+                    { 32, "SVN", true, "Slovénie" },
+                    { 33, "SWE", true, "Suède" },
+                    { 34, "BRA", false, "Brésil" },
+                    { 35, "MEX", false, "Mexique" },
+                    { 36, "ARG", false, "Argentine" },
+                    { 37, "CHL", false, "Chili" },
+                    { 38, "CHN", false, "Chine" },
+                    { 39, "KOR", false, "Corée du Sud" },
+                    { 40, "IND", false, "Inde" },
+                    { 41, "IDN", false, "Indonésie" },
+                    { 42, "RUS", false, "Russie" },
+                    { 43, "TUR", false, "Turquie" },
+                    { 44, "SAU", false, "Arabie saoudite" },
+                    { 45, "ZAF", false, "Afrique du Sud" },
+                    { 46, "NOR", false, "Norvège" },
+                    { 47, "ISL", false, "Islande" },
+                    { 48, "UKR", false, "Ukraine" },
+                    { 49, "SRB", false, "Serbie" },
+                    { 50, "MAR", false, "Maroc" },
+                    { 51, "TUN", false, "Tunisie" },
+                    { 52, "EGY", false, "Égypte" },
+                    { 53, "DZA", false, "Algérie" }
                 });
 
             migrationBuilder.InsertData(
@@ -659,6 +744,188 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                     { 33, "ARS", "Peso argentin", "$" },
                     { 34, "NGN", "Naira nigérian", "₦" },
                     { 35, "KES", "Shilling kényan", "KSh" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DomainTypes",
+                columns: new[] { "Id", "Code", "Name" },
+                values: new object[,]
+                {
+                    { 1, "administration", "Administration" },
+                    { 2, "publicAdministration", "Administration publique" },
+                    { 3, "aeronautics", "Aéronautique" },
+                    { 4, "agriculture", "Agriculture" },
+                    { 5, "architecture", "Architecture" },
+                    { 6, "arts", "Arts" },
+                    { 7, "appliedArts", "Arts appliqués" },
+                    { 8, "performingArts", "Arts du spectacle" },
+                    { 9, "visualArts", "Arts plastiques" },
+                    { 10, "insurance", "Assurances" },
+                    { 11, "astronautics", "Astronautique" },
+                    { 12, "astronomy", "Astronomie" },
+                    { 13, "audiovisual", "Audiovisuel" },
+                    { 14, "automotive", "Automobile" },
+                    { 15, "banking", "Banque" },
+                    { 16, "comicsManga", "BD et manga" },
+                    { 17, "fineArts", "Beaux-arts" },
+                    { 18, "biology", "Biologie" },
+                    { 19, "botany", "Botanique" },
+                    { 20, "quarrying", "Carrières" },
+                    { 21, "boilermaking", "Chaudronnerie" },
+                    { 22, "chemistry", "Chimie" },
+                    { 23, "petrochemistry", "Chimie du pétrole" },
+                    { 24, "surgery", "Chirurgie" },
+                    { 25, "cinema", "Cinéma" },
+                    { 26, "commerce", "Commerce" },
+                    { 27, "accounting", "Comptabilité" },
+                    { 28, "construction", "Construction" },
+                    { 29, "crypto", "Cryptomonnaies" },
+                    { 30, "gastronomy", "Cuisine et gastronomie" },
+                    { 31, "culture", "Culture" },
+                    { 32, "cybernetics", "Cybernétique" },
+                    { 33, "cybersecurity", "Cybersécurité" },
+                    { 34, "demography", "Démographie" },
+                    { 35, "dentistry", "Dentisterie" },
+                    { 36, "administrativeLaw", "Droit administratif" },
+                    { 37, "commercialLaw", "Droit commercial" },
+                    { 38, "constitutionalLaw", "Droit constitutionnel" },
+                    { 39, "lawJustice", "Droit et justice" },
+                    { 40, "internationalLaw", "Droit international" },
+                    { 41, "judicialLaw", "Droit judiciaire" },
+                    { 42, "miningLaw", "Droit minier" },
+                    { 43, "criminalLaw", "Droit pénal" },
+                    { 44, "privateLaw", "Droit privé" },
+                    { 45, "socialLaw", "Droit social" },
+                    { 46, "ecology", "Écologie" },
+                    { 47, "economics", "Économie" },
+                    { 48, "education", "Éducation" },
+                    { 49, "physicalEducation", "Éducation physique et sportive" },
+                    { 50, "electricity", "Électricité" },
+                    { 51, "electronics", "Électronique" },
+                    { 52, "animalFarming", "Élevage" },
+                    { 53, "packaging", "Emballages" },
+                    { 54, "energies", "Énergies" },
+                    { 55, "renewableEnergy", "Énergies renouvelables" },
+                    { 56, "environment", "Environnement" },
+                    { 57, "medicalEquipment", "Équipement médico-chirurgical" },
+                    { 58, "mining", "Exploitation minière" },
+                    { 59, "oilGasExtraction", "Extraction du pétrole et du gaz naturel" },
+                    { 60, "finance", "Finances" },
+                    { 61, "geography", "Géographie" },
+                    { 62, "geology", "Géologie" },
+                    { 63, "businessManagement", "Gestion de l'entreprise" },
+                    { 64, "hrManagement", "Gestion du personnel" },
+                    { 65, "history", "Histoire" },
+                    { 66, "hospitality", "Hôtellerie" },
+                    { 67, "medicalImaging", "Imagerie médicale" },
+                    { 68, "realEstate", "Immobilier" },
+                    { 69, "industry", "Industrie" },
+                    { 70, "it", "Informatique" },
+                    { 71, "engineering", "Ingénierie" },
+                    { 72, "ai", "Intelligence artificielle" },
+                    { 73, "videoGame", "Jeu vidéo" },
+                    { 74, "toysGames", "Jeux et jouets" },
+                    { 75, "jewelry", "Joaillerie" },
+                    { 76, "lifting", "Levage" },
+                    { 77, "linguistics", "Linguistique" },
+                    { 78, "literature", "Littérature" },
+                    { 79, "logistics", "Logistique" },
+                    { 80, "legalDocuments", "Lois et documents juridiques" },
+                    { 81, "leisure", "Loisirs" },
+                    { 82, "handling", "Manutention" },
+                    { 83, "marketing", "Marketing" },
+                    { 84, "militaryEquipment", "Matériel militaire" },
+                    { 85, "mathematics", "Mathématiques" },
+                    { 86, "mechanics", "Mécanique" },
+                    { 87, "medicine", "Médecine" },
+                    { 88, "veterinaryMedicine", "Médecine vétérinaire" },
+                    { 89, "metallurgy", "Métallurgie" },
+                    { 90, "meteorology", "Météorologie" },
+                    { 91, "defense", "Militaire et défense" },
+                    { 92, "minesQuarries", "Mines et carrières" },
+                    { 93, "metalMining", "Mines métalliques" },
+                    { 94, "fashionBeauty", "Mode et beauté" },
+                    { 95, "museology", "Muséologie et patrimoine" },
+                    { 96, "music", "Musique" },
+                    { 97, "nuclear", "Nucléaire" },
+                    { 98, "oenology", "Œnologie" },
+                    { 99, "ophthalmology", "Ophtalmologie" },
+                    { 100, "paperIndustry", "Papeterie" },
+                    { 101, "paramilitary", "Paramilitaire" },
+                    { 102, "pedagogy", "Pédagogie" },
+                    { 103, "oil", "Pétrole" },
+                    { 104, "crudeOilProducts", "Pétrole brut et dérivés" },
+                    { 105, "pharmacology", "Pharmacologie" },
+                    { 106, "philosophyReligion", "Philosophie et religion" },
+                    { 107, "photography", "Photographie" },
+                    { 108, "physics", "Physique" },
+                    { 109, "plumbing", "Plomberie" },
+                    { 110, "politics", "Politique" },
+                    { 111, "socialPolicies", "Politiques sociales" },
+                    { 112, "postalServices", "Postes" },
+                    { 113, "mineralProspecting", "Prospection minière" },
+                    { 114, "robotics", "Robotique" },
+                    { 115, "psychology", "Psychologie" },
+                    { 116, "advertising", "Publicité" },
+                    { 117, "oilRefining", "Raffinage du pétrole" },
+                    { 118, "scientificResearch", "Recherche scientifique" },
+                    { 119, "publicRelations", "Relations publiques" },
+                    { 120, "restaurantIndustry", "Restauration" },
+                    { 121, "health", "Santé" },
+                    { 122, "science", "Sciences" },
+                    { 123, "humanities", "Sciences humaines" },
+                    { 124, "naturalSciences", "Sciences naturelles" },
+                    { 125, "politicalScience", "Sciences politiques" },
+                    { 126, "security", "Sécurité" },
+                    { 127, "fireSafety", "Sécurité incendie" },
+                    { 128, "steelIndustry", "Sidérurgie" },
+                    { 129, "sociology", "Sociologie" },
+                    { 130, "sports", "Sports" },
+                    { 131, "combatSports", "Sports de combat" },
+                    { 132, "teamSports", "Sports d'équipe" },
+                    { 133, "waterSports", "Sports nautiques" },
+                    { 134, "storage", "Stockage" },
+                    { 135, "weaponSystems", "Systèmes d'armes" },
+                    { 136, "petroleumTech", "Technologies pétrolières" },
+                    { 137, "telecom", "Télécommunications" },
+                    { 138, "remoteSensing", "Télédétection" },
+                    { 139, "telegraphy", "Télégraphie" },
+                    { 140, "telephony", "Téléphonie" },
+                    { 141, "tourism", "Tourisme" },
+                    { 142, "airTransport", "Transport aérien" },
+                    { 143, "waterTransport", "Transport par eau" },
+                    { 144, "railTransport", "Transport par rail" },
+                    { 145, "roadTransport", "Transport routier" },
+                    { 146, "transport", "Transports" },
+                    { 147, "urbanPlanning", "Urbanisme" },
+                    { 148, "zoology", "Zoologie" },
+                    { 200, "other", "Autre" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LegalStatusTypes",
+                columns: new[] { "Id", "Code", "Name" },
+                values: new object[,]
+                {
+                    { 1, "author", "Artiste-auteur" },
+                    { 2, "self-employed", "Auto-entrepreneur" },
+                    { 3, "wagePortage", "Portage salarial" },
+                    { 4, "llc", "SARL" },
+                    { 5, "eurl", "EURL" },
+                    { 6, "sasu", "SASU" },
+                    { 7, "ei", "Entreprise individuelle" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PricingUnits",
+                columns: new[] { "Id", "Code", "Name" },
+                values: new object[,]
+                {
+                    { 1, "perWord", "par mot" },
+                    { 2, "perMinute", "par minute" },
+                    { 3, "perHour", "par heure" },
+                    { 4, "perDay", "par jour" },
+                    { 5, "flatRate", "forfait" }
                 });
 
             migrationBuilder.InsertData(
@@ -826,6 +1093,11 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 column: "FreelanceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LegalStatuses_LegalStatusTypeId",
+                table: "LegalStatuses",
+                column: "LegalStatusTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LegalStatuses_StatusId",
                 table: "LegalStatuses",
                 column: "StatusId");
@@ -936,6 +1208,9 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 name: "DataProtectionKeys");
 
             migrationBuilder.DropTable(
+                name: "DomainTypes");
+
+            migrationBuilder.DropTable(
                 name: "FreelanceServices");
 
             migrationBuilder.DropTable(
@@ -951,10 +1226,16 @@ namespace WordsmithHub.Infrastructure.Data.MainDatabase.Migrations
                 name: "OrderLines");
 
             migrationBuilder.DropTable(
+                name: "PricingUnits");
+
+            migrationBuilder.DropTable(
                 name: "ProjectDirectCustomers");
 
             migrationBuilder.DropTable(
                 name: "Rates");
+
+            migrationBuilder.DropTable(
+                name: "LegalStatusTypes");
 
             migrationBuilder.DropTable(
                 name: "WorkOrders");

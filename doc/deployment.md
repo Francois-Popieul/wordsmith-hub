@@ -33,7 +33,7 @@ Upload the complete nginx.conf file including SSL blocks and restart nginx using
 docker compose -f compose.prod.yaml --env-file .env.prod restart nginx
 ```
 
-Your site should be accessible from th client url.
+Your site should be accessible from the client url.
 
 ### Database Access
 
