@@ -89,7 +89,11 @@ function DashboardView() {
                     icon={<InvoicesIcon />}
                     title="Créer une facture"
                     description="Créer une nouvelle facture pour un client"
-                    onClick={() => { /* setIsAddInvoiceModalVisible(true) */ }}
+                    onClick={() => {
+                        // TODO: implémenter la création de facture
+                        /* setIsAddInvoiceModalVisible(true) */
+                        addToast("information", "Cette fonctionnalité n’est pas encore disponible.", "top_right", 3000);
+                    }}
                 />
             </QuickActionContainer>
             <AddDirectCustomerModal isVisible={isAddCustomerModalVisible} onClose={() => setIsAddCustomerModalVisible(false)} />
