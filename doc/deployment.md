@@ -1,5 +1,14 @@
 ﻿# Deployment Guide
 
+## Staging Setup (compose.staging.yaml)
+
+To reset the staging environment, run the following commands:
+
+```bash
+docker compose --env-file .env.staging -f compose.staging.yaml down -v
+docker compose --env-file .env.staging -f compose.staging.yaml up -d
+```
+
 ## Production Setup (compose.prod.yaml)
 
 ### First-Time Setup
