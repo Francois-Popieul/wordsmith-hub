@@ -1,0 +1,27 @@
+.faq {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.faq .accordion {
+    margin-bottom: 16px;
+}
+
+.faq_title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+    .faq_title {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .faq {
+        padding: 0 12px;
+    }
+}

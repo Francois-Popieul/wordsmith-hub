@@ -18,6 +18,7 @@ import { StaticDataProvider } from "./hooks/useStaticTables/StaticDataProvider.t
 import { AuthProvider } from "./hooks/useAuth/AuthProvider.tsx"
 import ProtectedRoute from "./components/partials/ProtectedRoute.tsx"
 import ForgotPasswordView from "./authentication/views/ForgotPasswordView.tsx"
+import Faq from "./faq/views/Faq.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -40,6 +41,7 @@ createRoot(document.getElementById("root")!).render(
             </Route>
             <Route path="/terms_of_service" element={<TermsOfService />} />
             <Route path="/privacy_policy" element={<PrivacyPolicy />} />
+            <Route path="/faq" element={<Faq />} />
           </Routes>
         </BrowserRouter>
       </ToastProvider>
