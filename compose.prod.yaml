@@ -1,6 +1,7 @@
 ﻿services:
   api:
     image: ${BACKEND_REPO}
+    pull_policy: always
     restart: always
     depends_on:
       - maindb
@@ -86,8 +87,9 @@
       - wordsmith_network
 
   frontend:
-    restart: always
     image: ${FRONTEND_REPO}
+    pull_policy: always
+    restart: always
     networks:
       - wordsmith_network
 
