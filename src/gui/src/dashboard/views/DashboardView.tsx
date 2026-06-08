@@ -14,7 +14,7 @@ import AddProjectModal from "../../projects/components/AddProjectModal";
 import { useApiClient } from "../../hooks/useApiClient";
 import { useDirectCustomerCount, useProjectCount } from "../../hooks/useStats";
 import type { schemas } from "../../infrastructure/openApi/client";
-import type zod from "zod";
+import * as zod from "zod";
 
 function DashboardView() {
     const { token, apiClient } = useApiClient();

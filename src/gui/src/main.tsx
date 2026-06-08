@@ -17,6 +17,7 @@ import { ToastProvider } from "./hooks/useToast/ToastProvider.tsx"
 import { StaticDataProvider } from "./hooks/useStaticTables/StaticDataProvider.tsx"
 import { AuthProvider } from "./hooks/useAuth/AuthProvider.tsx"
 import ProtectedRoute from "./components/partials/ProtectedRoute.tsx"
+import ForgotPasswordView from "./authentication/views/ForgotPasswordView.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -27,6 +28,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/" element={<HomepageView />} />
             <Route path="/signup" element={<SignupView />} />
             <Route path="/login" element={<LoginView />} />
+            <Route path="/forgot-password" element={<ForgotPasswordView />} />
             <Route element={<StaticDataProvider><ProtectedRoute><Outlet /></ProtectedRoute></StaticDataProvider>}>
               <Route path="/dashboard" element={<DashboardView />} />
               <Route path="/direct-customers" element={<DirectCustomersView />} />

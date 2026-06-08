@@ -47,7 +47,6 @@ const WorkOrderDto = z.object({
 const AddWorkOrderRequest = z.object({
   reference: z.string().min(0).max(50),
   projectId: z.string().min(1),
-  freelanceId: z.string().min(1),
   directCustomerId: z.string().min(1),
   startDate: z.string().min(1).datetime({ offset: true }),
   deliveryDate: z.string().min(1).datetime({ offset: true }),

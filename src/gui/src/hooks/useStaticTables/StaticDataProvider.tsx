@@ -1,4 +1,4 @@
-import { useCountries, useCurrencies, useDomainTypes, useLanguages, useLegalStatusTypes, usePricingUnits, useServices } from "./useStaticData";
+import { useCountries, useCurrencies, useDomainTypes, useLanguages, useLegalStatusTypes, usePricingUnits, useProjectStatuses, useServices, useWorkOrderStatuses } from "./useStaticData";
 import { type ReactNode } from "react";
 import { StaticDataContext } from "./StaticDataContext";
 
@@ -10,7 +10,9 @@ export function StaticDataProvider({ children }: { children: ReactNode }) {
     const legalStatusTypes = useLegalStatusTypes();
     const pricingUnits = usePricingUnits();
     const domainTypes = useDomainTypes();
-    const value = { currencies, countries, languages, services, legalStatusTypes, pricingUnits, domainTypes };
+    const workOrderStatuses = useWorkOrderStatuses();
+    const projectStatuses = useProjectStatuses();
+    const value = { currencies, countries, languages, services, legalStatusTypes, pricingUnits, domainTypes, workOrderStatuses, projectStatuses };
 
     return <StaticDataContext.Provider value={value}>{children}</StaticDataContext.Provider>;
 }
