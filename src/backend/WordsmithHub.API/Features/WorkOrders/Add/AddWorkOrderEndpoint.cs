@@ -10,7 +10,6 @@ namespace WordsmithHub.API.Features.WorkOrders.Add;
 public record AddWorkOrderRequest(
     string Reference,
     Guid ProjectId,
-    Guid FreelanceId,
     Guid DirectCustomerId,
     DateTime StartDate,
     DateTime DeliveryDate,
@@ -24,7 +23,6 @@ public class AddWorkOrderRequestValidator : Validator<AddWorkOrderRequest>
             .NotEmpty()
             .MaximumLength(50);
         RuleFor(x => x.ProjectId).NotEmpty();
-        RuleFor(x => x.FreelanceId).NotEmpty();
         RuleFor(x => x.DirectCustomerId).NotEmpty();
         RuleFor(x => x.StartDate).NotEmpty();
         RuleFor(x => x.DeliveryDate).NotEmpty();
@@ -50,7 +48,6 @@ public class AddWorkOrderEndpoint : ApiEndpoint<AddWorkOrderRequest, Guid>
         var command = new AddWorkOrderCommand(
             request.Reference,
             request.ProjectId,
-            request.FreelanceId,
             request.DirectCustomerId,
             request.StartDate,
             request.DeliveryDate,

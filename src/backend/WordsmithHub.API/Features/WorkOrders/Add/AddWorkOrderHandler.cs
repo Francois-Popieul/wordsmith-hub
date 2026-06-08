@@ -11,7 +11,6 @@ namespace WordsmithHub.API.Features.WorkOrders.Add;
 public record AddWorkOrderCommand(
     string Reference,
     Guid ProjectId,
-    Guid FreelanceId,
     Guid DirectCustomerId,
     DateTime StartDate,
     DateTime DeliveryDate,
