@@ -13,6 +13,7 @@ import ConfirmationModal from "../../components/ui/ConfirmationModal";
 import { useApiClient } from "../../hooks/useApiClient";
 import UpdateProjectModal from "../components/UpdateProjectModal";
 import { useDirectCustomerCount } from "../../hooks/useStats";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 
 function ProjectsView() {
     const { token, apiClient } = useApiClient();
@@ -20,7 +21,7 @@ function ProjectsView() {
     const { addToast } = useToast();
     const directCustomerCount = useDirectCustomerCount();
     const [projects, setProjects] = useState<zod.infer<typeof schemas.ProjectDto>[]>([]);
-    const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
+    const projectStatuses = useStaticTables().projectStatuses;
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [projectToUpdate, setProjectToUpdate] = useState<zod.infer<typeof schemas.ProjectDto> | null>(null);
     const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
@@ -45,25 +46,6 @@ function ProjectsView() {
         };
         fetchProjects();
     }, [apiClient, addToast, token, refreshKey]);
-
-    useEffect(() => {
-        if (!token) return;
-        const fetchProjectStatuses = async () => {
-            try {
-                const response = await apiClient.GetAllProjectStatusesEndpoint();
-                setProjectStatuses(response);
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    const data = error.response.data;
-                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
-                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
-                } else {
-                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des statuts de projets.", "top_right", 3000);
-                }
-            }
-        };
-        fetchProjectStatuses();
-    }, [apiClient, addToast, token]);
 
 
     function handleUpdate(id: string) {

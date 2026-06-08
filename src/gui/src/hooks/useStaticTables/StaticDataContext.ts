@@ -10,6 +10,8 @@ export interface StaticDataContextValue {
     legalStatusTypes: zod.infer<typeof schemas.LegalStatusType>[];
     pricingUnits: zod.infer<typeof schemas.PricingUnit>[];
     domainTypes: zod.infer<typeof schemas.DomainType>[];
+    workOrderStatuses: zod.infer<typeof schemas.Status>[];
+    projectStatuses: zod.infer<typeof schemas.Status>[];
 }
 
 export const StaticDataContext = createContext<StaticDataContextValue | null>(null);

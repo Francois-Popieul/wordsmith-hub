@@ -198,3 +198,57 @@ export function useDomainTypes(): zod.infer<typeof schemas.DomainType>[] {
 
     return domainTypes;
 }
+
+export function useWorkOrderStatuses(): zod.infer<typeof schemas.Status>[] {
+    const { token, apiClient } = useApiClient();
+    const { addToast } = useToast();
+    const [workOrderStatuses, setWorkOrderStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchWorkOrderStatuses = async () => {
+            try {
+                const response = await apiClient.GetAllWorkOrderStatusesEndpoint();
+                setWorkOrderStatuses(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des statuts de commandes.", "top_right", 3000);
+                }
+            }
+        };
+        fetchWorkOrderStatuses();
+    }, [apiClient, addToast, token]);
+
+    return workOrderStatuses;
+}
+
+export function useProjectStatuses(): zod.infer<typeof schemas.Status>[] {
+    const { token, apiClient } = useApiClient();
+    const { addToast } = useToast();
+    const [projectStatuses, setProjectStatuses] = useState<zod.infer<typeof schemas.Status>[]>([]);
+
+    useEffect(() => {
+        if (!token) return;
+        const fetchProjectStatuses = async () => {
+            try {
+                const response = await apiClient.GetAllProjectStatusesEndpoint();
+                setProjectStatuses(response);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const data = error.response.data;
+                    const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                    addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+                } else {
+                    addToast("error", "Une erreur inattendue s’est produite lors du chargement de la liste des statuts de projets.", "top_right", 3000);
+                }
+            }
+        };
+        fetchProjectStatuses();
+    }, [apiClient, addToast, token]);
+
+    return projectStatuses;
+}
