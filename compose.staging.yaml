@@ -1,6 +1,7 @@
 services:
   staging-api:
     image: ${BACKEND_STAGING_REPO}
+    pull_policy: always
     restart: always
     depends_on:
       - maindb
@@ -71,6 +72,7 @@ services:
   staging-frontend:
     restart: always
     image: ${FRONTEND_STAGING_REPO}
+    pull_policy: always
     networks:
       - wordsmith_staging_network
       - wordsmith_shared_network

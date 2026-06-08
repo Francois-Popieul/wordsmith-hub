@@ -1,7 +1,5 @@
 using WordsmithHub.API.Features.DirectCustomers.Models;
 using WordsmithHub.API.Features.Projects.Models;
-using WordsmithHub.Domain.DirectCustomerAggregate;
-using WordsmithHub.Domain.ProjectAggregate;
 
 namespace WordsmithHub.API.Features.WorkOrders.Models;
 

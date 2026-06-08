@@ -1,6 +1,6 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
-using WordsmithHub.API.Features.Freelances.Services;
 using WordsmithHub.API.Features.WorkOrders.Models;
 using WordsmithHub.API.Features.WorkOrders.Services;
 using WordsmithHub.API.Services.ResourceAccessService;
@@ -11,6 +11,7 @@ namespace WordsmithHub.API.Features.WorkOrders.Get;
 
 public record GetWorkOrderCommand(Guid WorkOrderId, Guid AppUserId) : ICommand<OperationResult<WorkOrderDto>>;
 
+[UsedImplicitly]
 public class GetWorkOrderHandler(
     IFreelanceRepository freelanceRepository,
     IWorkOrderRepository workOrderRepository,
