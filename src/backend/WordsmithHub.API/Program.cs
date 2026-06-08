@@ -14,6 +14,7 @@ using WordsmithHub.API.Services.TokenService;
 using WordsmithHub.Domain;
 using WordsmithHub.Infrastructure.IdentityDatabase;
 using WordsmithHub.Infrastructure.MainDatabase;
+using System.Threading;
 using WordsmithHub.Infrastructure.MainDatabase.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -148,8 +149,25 @@ if (!app.Environment.IsEnvironment("IntegrationTest"))
     var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
     var mainDb = scope.ServiceProvider.GetRequiredService<MainDbContext>();
 
-    identityDb.Database.Migrate();
-    mainDb.Database.Migrate();
+    // Retry migrations a few times to tolerate database startup ordering/race conditions
+    var maxRetries = 10;
+    var delayMs = 5000;
+    for (int attempt = 1; attempt <= maxRetries; attempt++)
+    {
+        try
+        {
+            identityDb.Database.Migrate();
+            mainDb.Database.Migrate();
+            break;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Database migration attempt {attempt} failed: {ex.Message}");
+            if (attempt == maxRetries)
+                throw;
+            Thread.Sleep(delayMs);
+        }
+    }
 }
 
 app.UseCors();
