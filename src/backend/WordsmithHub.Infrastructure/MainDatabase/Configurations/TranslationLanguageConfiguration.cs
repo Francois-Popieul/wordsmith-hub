@@ -29,7 +29,30 @@ public class TranslationLanguageConfiguration : IEntityTypeConfiguration<Transla
             new TranslationLanguage { Id = 12, Name = "Hindi", Code = "HI" },
             new TranslationLanguage { Id = 13, Name = "Coréen", Code = "KO" },
             new TranslationLanguage { Id = 14, Name = "Turc", Code = "TR" },
-            new TranslationLanguage { Id = 15, Name = "Polonais", Code = "PL" }
+            new TranslationLanguage { Id = 15, Name = "Polonais", Code = "PL" },
+            new TranslationLanguage { Id = 16, Name = "Hébreu", Code = "HE" },
+            new TranslationLanguage { Id = 17, Name = "Urdu", Code = "UR" },
+            new TranslationLanguage { Id = 18, Name = "Vietnamien", Code = "VI" },
+            new TranslationLanguage { Id = 19, Name = "Suédois", Code = "SV" },
+            new TranslationLanguage { Id = 20, Name = "Danois", Code = "DA" },
+            new TranslationLanguage { Id = 21, Name = "Finnois", Code = "FI" },
+            new TranslationLanguage { Id = 22, Name = "Norvégien", Code = "NO" },
+            new TranslationLanguage { Id = 23, Name = "Grec", Code = "EL" },
+            new TranslationLanguage { Id = 24, Name = "Tchèque", Code = "CS" },
+            new TranslationLanguage { Id = 25, Name = "Slovaque", Code = "SK" },
+            new TranslationLanguage { Id = 26, Name = "Hongrois", Code = "HU" },
+            new TranslationLanguage { Id = 27, Name = "Roumain", Code = "RO" },
+            new TranslationLanguage { Id = 28, Name = "Bulgare", Code = "BG" },
+            new TranslationLanguage { Id = 29, Name = "Ukrainien", Code = "UK" },
+            new TranslationLanguage { Id = 30, Name = "Serbe", Code = "SR" },
+            new TranslationLanguage { Id = 31, Name = "Croate", Code = "HR" },
+            new TranslationLanguage { Id = 32, Name = "Slovène", Code = "SL" },
+            new TranslationLanguage { Id = 33, Name = "Indonésien", Code = "ID" },
+            new TranslationLanguage { Id = 34, Name = "Malais", Code = "MS" },
+            new TranslationLanguage { Id = 35, Name = "Thaï", Code = "TH" },
+            new TranslationLanguage { Id = 36, Name = "Bengali", Code = "BN" },
+            new TranslationLanguage { Id = 37, Name = "Tamoul", Code = "TA" },
+            new TranslationLanguage { Id = 38, Name = "Persan (Farsi)", Code = "FA" }
         );
     }
 }

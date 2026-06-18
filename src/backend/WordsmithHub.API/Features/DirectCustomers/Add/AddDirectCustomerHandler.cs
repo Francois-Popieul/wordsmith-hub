@@ -31,9 +31,7 @@ public class AddDirectCustomerHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         var directCustomer = factory.CreateDirectCustomer(
             freelance.Id,

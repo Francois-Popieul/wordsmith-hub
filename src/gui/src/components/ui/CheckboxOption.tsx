@@ -1,7 +1,7 @@
 import "./CheckboxOption.css";
 
 interface CheckboxOptionProps {
-    label: string;
+    label: React.ReactNode;
     name?: string;
     checked: boolean;
     required?: boolean;

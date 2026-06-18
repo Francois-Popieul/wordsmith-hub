@@ -17,10 +17,18 @@ public class UpdateFreelancePersonalDataRequestValidator : Validator<UpdateFreel
 {
     public UpdateFreelancePersonalDataRequestValidator()
     {
-        RuleFor(x => x.FirstName).NotEmpty().MaximumLength(50);
-        RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Phone).MaximumLength(20);
-        RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(255);
+        RuleFor(x => x.FirstName)
+            .NotEmpty().WithMessage("Le prénom est requis.")
+            .MaximumLength(50).WithMessage("Le prénom est limité à 50 caractères.");
+        RuleFor(x => x.LastName)
+            .NotEmpty().WithMessage("Le nom est requis.")
+            .MaximumLength(100).WithMessage("Le nom est limité à 100 caractères.");
+        RuleFor(x => x.Phone)
+            .MaximumLength(20).WithMessage("Le numéro de téléphone est limité à 20 caractères.");
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage("L’adresse e-mail est requise.")
+            .EmailAddress().WithMessage("Veuillez saisir une adresse e-mail valide.")
+            .MaximumLength(255).WithMessage("L’adresse e-mail est limitée à 255 caractères.");
     }
 }
 

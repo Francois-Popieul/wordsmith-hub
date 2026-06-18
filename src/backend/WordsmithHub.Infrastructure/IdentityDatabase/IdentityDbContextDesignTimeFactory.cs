@@ -1,10 +1,12 @@
 ﻿using Ardalis.GuardClauses;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 namespace WordsmithHub.Infrastructure.IdentityDatabase;
 
+[UsedImplicitly]
 public class IdentityDbContextDesignTimeFactory : IDesignTimeDbContextFactory<IdentityDbContext>
 {
     public IdentityDbContext CreateDbContext(string[] args)

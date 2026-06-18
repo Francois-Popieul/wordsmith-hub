@@ -1,4 +1,5 @@
 using FastEndpoints;
+using JetBrains.Annotations;
 using WordsmithHub.API.Features.Common.Results;
 using WordsmithHub.Domain;
 using WordsmithHub.Domain.FreelanceAggregate;
@@ -8,6 +9,7 @@ namespace WordsmithHub.API.Features.Statuses.GetAll;
 public record GetAllInvoiceStatusesCommand(Guid AppUserId)
     : ICommand<OperationResult<IReadOnlyList<Status>>>;
 
+[UsedImplicitly]
 public class GetAllInvoiceStatusesHandler(
     IFreelanceRepository freelanceRepository,
     IStatusRepository statusRepository)
@@ -20,9 +22,7 @@ public class GetAllInvoiceStatusesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<Status>>(OperationStatus.Forbidden);
-        }
 
         var invoiceStatuses = await statusRepository.GetAllInvoiceStatusesAsync(cancellationToken);
 

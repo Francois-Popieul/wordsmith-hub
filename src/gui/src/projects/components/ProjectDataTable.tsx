@@ -20,10 +20,10 @@ function ProjectDataTable({ projects, projectStatuses, onAdd, onEdit, onStatusCh
 
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.ProjectDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
-            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le projet">
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)} ariaLabel="Supprimer le projet">
                 <DeleteIcon size={16} color="var(--color-red-deep)" />
             </Button>
         </div>

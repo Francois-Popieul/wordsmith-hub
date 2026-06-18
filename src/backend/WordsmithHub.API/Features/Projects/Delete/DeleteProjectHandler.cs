@@ -24,16 +24,12 @@ public class DeleteProjectHandler(
         if (freelance == null ||
             !await resourceAuthorizationService.CanAccessAsync<Project>(command.AppUserId,
                 command.ProjectId, cancellationToken))
-        {
             return OperationResult.Forbidden<NoContent>();
-        }
 
         var project = await repository.GetByIdAsync(command.ProjectId, cancellationToken);
 
         if (project == null)
-        {
             return OperationResult.NotFound<NoContent>();
-        }
 
         project.MarkAsDeleted();
 

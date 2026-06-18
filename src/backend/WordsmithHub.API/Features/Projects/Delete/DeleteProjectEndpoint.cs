@@ -12,6 +12,8 @@ public class DeleteProjectEndpoint : ApiEndpointWithoutRequest<NoContent>
         Delete("/project/{projectId:guid}");
         Roles("user");
         Description(x => x.WithTags("project")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

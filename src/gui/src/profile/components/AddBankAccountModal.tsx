@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import FormModal from "../../components/ui/FormModal";
-import { createApiClient } from "../../infrastructure/openApi/client";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 import axios from "axios";
-import { bankAccountSchema, type BankAccount } from "../../types/BankAccount";
+import { bankAccountSchema } from "../../types/BankAccount";
 import * as zod from "zod";
+import { useApiClient } from "../../hooks/useApiClient";
+import type { schemas } from "../../infrastructure/openApi/client";
 
 interface AddBankAccountModalProps {
     isVisible: boolean;
@@ -14,10 +15,7 @@ interface AddBankAccountModalProps {
 }
 
 function AddBankAccountModal({ isVisible, onClose, onSuccess }: AddBankAccountModalProps) {
-    const token = localStorage.getItem("wshToken");
-    const apiClient = useMemo(() => createApiClient(import.meta.env.VITE_API_BASE_URL, {
-        axiosConfig: token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-    }), [token]);
+    const { token, apiClient } = useApiClient();
     const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
     const { addToast } = useToast();
 
@@ -31,9 +29,10 @@ function AddBankAccountModal({ isVisible, onClose, onSuccess }: AddBankAccountMo
     }
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+        if (!token) return;
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const bankAccountData: BankAccount = {
+        const bankAccountData: zod.infer<typeof schemas.AddBankAccountRequest> = {
             label: formData.get("label") as string,
             bankName: formData.get("bankName") as string,
             accountHolderName: formData.get("accountHolderName") as string,
@@ -60,7 +59,9 @@ function AddBankAccountModal({ isVisible, onClose, onSuccess }: AddBankAccountMo
             addToast("success", "Compte bancaire ajouté !", "top_right", 3000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                addToast("error", `Erreur de l’API : ${error.response.data}`, "top_right", 3000);
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
             } else {
                 addToast("error", "Une erreur inattendue s’est produite lors de l’ajout du compte bancaire.", "top_right", 3000);
             }

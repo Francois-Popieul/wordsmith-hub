@@ -12,6 +12,8 @@ public class DeleteBankAccountEndpoint : ApiEndpointWithoutRequest<NoContent>
         Delete("/bankaccount/{bankAccountId:guid}");
         Roles("user");
         Description(x => x.WithTags("bankaccount")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

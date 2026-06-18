@@ -16,7 +16,9 @@ public class UpdateProjectStatusRequestValidator : Validator<UpdateProjectStatus
 {
     public UpdateProjectStatusRequestValidator()
     {
-        RuleFor(x => x.StatusId).NotEmpty().InclusiveBetween(StatusIds.Project.InProgress, StatusIds.Project.Completed);
+        RuleFor(x => x.StatusId)
+            .NotEmpty()
+            .InclusiveBetween(StatusIds.Project.InProgress, StatusIds.Project.Completed);
     }
 }
 

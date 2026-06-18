@@ -31,9 +31,7 @@ public class AddProjectHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return OperationResult.Forbidden<Guid>();
-        }
 
         List<DirectCustomer> directCustomers = [];
 
@@ -44,9 +42,7 @@ public class AddProjectHandler(
         }
 
         if (directCustomers.Count == 0)
-        {
             return OperationResult.NotFound<Guid>();
-        }
 
         EndCustomer? endCustomer = null;
 

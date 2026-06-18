@@ -14,17 +14,17 @@ interface LegalStatusProps {
 function LegalStatusDataTable({ legalStatuses, onEdit, onDelete }: LegalStatusProps) {
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.LegalStatusDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
-            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le statut legal">
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)} ariaLabel="Supprimer le statut legal">
                 <DeleteIcon size={16} color="var(--color-red-deep)" />
             </Button>
         </div>
     );
 
     return <DataTable value={legalStatuses} dataKey="id" scrollable style={{ backgroundColor: "var(--color-white)", width: "100%" }} rowClassName={() => "row-separator"} className="data_table">
-        <Column field="name" header="Type de statut" style={{ minWidth: "150px" }} />
+        <Column field="legalStatusType" header="Type de statut" style={{ minWidth: "150px" }} body={(rowData) => rowData.legalStatusType?.name ?? ""} />
         <Column field="siret" header="SIRET" style={{ minWidth: "150px" }} />
         <Column field="vatNumber" header="Numéro de TVA" style={{ minWidth: "150px" }} />
         <Column field="validFrom" header="Début de validité" style={{ minWidth: "150px" }} body={(rowData) => new Date(rowData.validFrom).toLocaleDateString()} />

@@ -35,9 +35,7 @@ public class RegisterUserHandler(
         var result = await userManager.CreateAsync(user, command.Password);
 
         if (!result.Succeeded)
-        {
             return new RegisterUserResult(result, result.Errors.First().Description);
-        }
 
         await userManager.AddToRoleAsync(user, "user");
 

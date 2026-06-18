@@ -4,12 +4,11 @@ import CheckboxOption from "../../components/ui/CheckboxOption";
 import AuthFormContainer from "../../components/ui/AuthFormContainer";
 import FormInputGroup from "../../components/ui/FormInputGroup";
 import "../../components/ui/AuthFormContainer.css";
-import SignupUser from "../models/SignupUser";
 import { signupSchema } from "../zod/authenticationSchemas";
 import axios from "axios";
-import { createApiClient } from "../../infrastructure/openApi/client";
+import { createApiClient, schemas } from "../../infrastructure/openApi/client";
 import { useNavigate } from "react-router";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 
 function SignupView() {
     const [conditionsIsChecked, setConditionsIsChecked] = useState(false);
@@ -22,13 +21,13 @@ function SignupView() {
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const userData = new SignupUser(
-            formData.get("email") as string,
-            formData.get("password") as string,
-            formData.get("password_confirmation") as string,
-            formData.get("firstname") as string,
-            formData.get("lastname") as string
-        );
+        const userData: zod.infer<typeof schemas.RegisterUserRequest> = {
+            firstName: formData.get("firstname") as string,
+            lastName: formData.get("lastname") as string,
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+            passwordConfirmation: formData.get("password_confirmation") as string
+        };
 
         const validationResult = signupSchema.safeParse({
             ...userData,
@@ -66,8 +65,20 @@ function SignupView() {
                 <FormInputGroup label="E-mail" type="email" name="email" placeholder="jean.dupont@exemple.com" error={fieldErrors.email?.[0]} />
                 <FormInputGroup label="Mot de passe" type="password" name="password" placeholder="************" error={fieldErrors.password?.[0]} />
                 <FormInputGroup label="Confirmation du mot de passe" type="password" name="password_confirmation" placeholder="************" error={fieldErrors.passwordConfirmation?.[0]} />
-                <CheckboxOption label="J’accepte les conditions d’utilisation" name="conditions" checked={conditionsIsChecked} required={true} onChange={setConditionsIsChecked} error={fieldErrors.conditions?.[0]} />
-                <CheckboxOption label="J’accepte la politique de confidentialité" name="privacy" checked={privacyIsChecked} required={true} onChange={setPrivacyIsChecked} error={fieldErrors.privacy?.[0]} />
+                <CheckboxOption
+                    label={<>J’accepte les <a href="/terms_of_service">conditions d’utilisation</a></>}
+                    name="conditions"
+                    checked={conditionsIsChecked}
+                    required={true}
+                    onChange={setConditionsIsChecked}
+                    error={fieldErrors.conditions?.[0]} />
+                <CheckboxOption
+                    label={<>J’accepte la <a href="/privacy_policy">politique de confidentialité</a></>}
+                    name="privacy"
+                    checked={privacyIsChecked}
+                    required={true}
+                    onChange={setPrivacyIsChecked}
+                    error={fieldErrors.privacy?.[0]} />
             </AuthFormContainer>
         </main>
     );

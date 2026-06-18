@@ -1,5 +1,14 @@
 ﻿# Deployment Guide
 
+## Staging Setup (compose.staging.yaml)
+
+To reset the staging environment, run the following commands:
+
+```bash
+docker compose --env-file .env.staging -f compose.staging.yaml down -v
+docker compose --env-file .env.staging -f compose.staging.yaml up -d
+```
+
 ## Production Setup (compose.prod.yaml)
 
 ### First-Time Setup
@@ -33,7 +42,7 @@ Upload the complete nginx.conf file including SSL blocks and restart nginx using
 docker compose -f compose.prod.yaml --env-file .env.prod restart nginx
 ```
 
-Your site should be accessible from th client url.
+Your site should be accessible from the client url.
 
 ### Database Access
 

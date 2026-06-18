@@ -16,13 +16,13 @@ function BankAccountDataTable({ bankAccounts, onDefaultBankChange, onEdit, onDel
     const actionsBodyTemplate = (rowData: zod.infer<typeof schemas.BankAccountDto>) => (
         <div style={{ display: "flex", gap: "0.25rem" }}>
             {!rowData.isDefault &&
-                <Button name="" variant="action" type="button" onClick={() => onDefaultBankChange(rowData.id)}>
+                <Button name="" variant="action" type="button" onClick={() => onDefaultBankChange(rowData.id)} ariaLabel="Definir comme compte par defaut">
                     <StarIcon size={16} color="var(--color-slate-500)" />
                 </Button>}
-            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onEdit(rowData.id)} ariaLabel="Modifier le compte bancaire">
                 <PencilIcon size={16} color="var(--color-slate-500)" />
             </Button>
-            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)}>
+            <Button name="" variant="action" type="button" onClick={() => onDelete(rowData.id)} ariaLabel="Supprimer le compte bancaire">
                 <DeleteIcon size={16} color="var(--color-red-deep)" />
             </Button>
         </div>

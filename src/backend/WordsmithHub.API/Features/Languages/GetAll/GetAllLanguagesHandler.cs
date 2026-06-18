@@ -22,9 +22,7 @@ public class GetAllLanguagesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<TranslationLanguage>>(OperationStatus.Forbidden);
-        }
 
         var translationLanguages = await repository.GetAllAsync(cancellationToken);
 

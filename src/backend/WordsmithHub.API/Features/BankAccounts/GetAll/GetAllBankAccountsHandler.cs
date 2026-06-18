@@ -28,17 +28,13 @@ public class GetAllBankAccountsHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<BankAccountDto>>(OperationStatus.Forbidden);
-        }
 
         var bankAccounts
             = await repository.GetByFreelanceIdAsync(freelance.Id, cancellationToken);
 
         if (bankAccounts.Count == 0)
-        {
-            return new OperationResult<IReadOnlyList<BankAccountDto>>(OperationStatus.Success, new List<BankAccountDto>());
-        }
+            return new OperationResult<IReadOnlyList<BankAccountDto>>(OperationStatus.Success, []);
 
         var bankAccountDtoList = bankAccounts.Select(bankAccount => bankAccount.ToDto(CreateProtector())).ToList();
 

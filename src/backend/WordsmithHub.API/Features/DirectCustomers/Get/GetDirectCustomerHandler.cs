@@ -26,9 +26,7 @@ public class GetDirectCustomerHandler(
 
         if (freelance == null || !await resourceAuthorizationService
                 .CanAccessAsync<DirectCustomer>(command.AppUserId, command.DirectCustomerId, cancellationToken))
-        {
             return new OperationResult<DirectCustomerDto>(OperationStatus.Forbidden);
-        }
 
         var directCustomer = await repository.GetByIdAsync(command.DirectCustomerId, cancellationToken);
 

@@ -22,9 +22,7 @@ public class GetAllServicesHandler(
         var freelance = await freelanceRepository.GetByAppUserIdAsync(command.AppUserId, cancellationToken);
 
         if (freelance == null)
-        {
             return new OperationResult<IReadOnlyList<Service>>(OperationStatus.Forbidden);
-        }
 
         var services = await repository.GetAllAsync(cancellationToken);
 

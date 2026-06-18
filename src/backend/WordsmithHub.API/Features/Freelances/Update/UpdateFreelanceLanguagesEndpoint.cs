@@ -15,8 +15,12 @@ public class UpdateFreelanceLanguagesRequestValidator : Validator<UpdateFreelanc
 {
     public UpdateFreelanceLanguagesRequestValidator()
     {
-        RuleFor(x => x.SourceLanguageIds).NotEmpty().Must(ids => ids.Count is > 0 and <= 25);
-        RuleFor(x => x.TargetLanguageIds).NotEmpty().Must(ids => ids.Count is > 0 and <= 25);
+        RuleFor(x => x.SourceLanguageIds)
+            .NotEmpty().WithMessage("Veuillez renseigner au moins une langue source.")
+            .Must(ids => ids.Count is > 0 and <= 38);
+        RuleFor(x => x.TargetLanguageIds)
+            .NotEmpty().WithMessage("Veuillez renseigner au moins une langue cible.")
+            .Must(ids => ids.Count is > 0 and <= 38);
     }
 }
 

@@ -1,13 +1,5 @@
 import * as zod from "zod";
 
-export type BankAccount = {
-    label: string;
-    bankName: string;
-    accountHolderName: string;
-    iban: string;
-    bic: string;
-};
-
 export const bankAccountSchema = zod
     .object({
         label: zod
@@ -33,7 +25,7 @@ export const bankAccountSchema = zod
             .refine((value) => {
                 const ibanRegex = /^[A-Z]{2}[0-9A-Z]{13,32}$/;
                 return ibanRegex.test(value.replace(/\s+/g, ""));
-            }, { "message": "Code IBAN invalide." }),
+            }, { "message": "Le code IBAN est invalide." }),
         bic: zod
             .string()
             .trim()
@@ -42,5 +34,5 @@ export const bankAccountSchema = zod
             .refine((value) => {
                 const bicRegex = /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/;
                 return bicRegex.test(value.replace(/\s+/g, ""));
-            }, { "message": "Code BIC invalide." }),
+            }, { "message": "Le code BIC est invalide." }),
     });

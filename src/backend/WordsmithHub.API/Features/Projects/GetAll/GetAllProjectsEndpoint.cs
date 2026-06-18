@@ -12,7 +12,6 @@ public class GetAllProjectsEndpoint : ApiEndpointWithoutRequest<IReadOnlyList<Pr
         Get("/projects");
         Roles("user");
         Description(x => x.WithTags("projects")
-            .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status403Forbidden));
     }
 

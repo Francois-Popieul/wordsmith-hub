@@ -8,7 +8,7 @@ public class UpdateDefaultBankAccountEndpoint : ApiEndpointWithoutRequest<Guid>
 {
     public override void Configure()
     {
-        Put("/bankaccount/{bankAccountId:guid}");
+        Put("/bankaccount/default/{bankAccountId:guid}");
         Roles("user");
         Description(x => x.WithTags("bankaccount")
             .Produces(StatusCodes.Status403Forbidden));
