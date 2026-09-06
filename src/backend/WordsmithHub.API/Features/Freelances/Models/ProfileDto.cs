@@ -12,7 +12,7 @@ public record ProfileDto
     public required string Email { get; set; }
     public required AddressDto? Address { get; set; }
     public required int StatusId { get; set; }
-    public IReadOnlyList<TranslationLanguage> SourceLanguages { get; set; } = [];
-    public IReadOnlyList<TranslationLanguage> TargetLanguages { get; set; } = [];
-    public IReadOnlyList<Service> Services { get; set; } = [];
+    public required IReadOnlyList<TranslationLanguage> SourceLanguages { get; set; } = [];
+    public required IReadOnlyList<TranslationLanguage> TargetLanguages { get; set; } = [];
+    public required IReadOnlyList<Service> Services { get; set; } = [];
 }

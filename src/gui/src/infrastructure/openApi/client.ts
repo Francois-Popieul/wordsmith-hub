@@ -27,7 +27,7 @@ const EndCustomerDto = z.object({
   statusId: z.number().int(),
 });
 const ProjectDto = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   name: z.string(),
   domain: z.string(),
   description: z.string().nullish(),
@@ -36,7 +36,7 @@ const ProjectDto = z.object({
   statusId: z.number().int().optional(),
 });
 const WorkOrderDto = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   reference: z.string(),
   directCustomer: DirectCustomerDto,
   project: ProjectDto,
@@ -129,9 +129,9 @@ const LegalStatusDto = z.object({
   legalStatusType: LegalStatusType.nullish(),
   siret: z.string().nullish(),
   vatNumber: z.string().nullish(),
-  vatExemption: z.boolean().optional(),
+  vatExemption: z.boolean(),
   vatRate: z.number().nullish(),
-  taxDeductionExemption: z.boolean().optional(),
+  taxDeductionExemption: z.boolean(),
   validFrom: z.string().datetime({ offset: true }),
   validTo: z.string().datetime({ offset: true }).nullish(),
 });
@@ -185,9 +185,9 @@ const ProfileDto = z.object({
   email: z.string(),
   address: AddressDto.nullable(),
   statusId: z.number().int(),
-  sourceLanguages: z.array(TranslationLanguage).optional(),
-  targetLanguages: z.array(TranslationLanguage).optional(),
-  services: z.array(Service).optional(),
+  sourceLanguages: z.array(TranslationLanguage),
+  targetLanguages: z.array(TranslationLanguage),
+  services: z.array(Service),
 });
 const FreelanceDto = z.object({
   id: z.string(),

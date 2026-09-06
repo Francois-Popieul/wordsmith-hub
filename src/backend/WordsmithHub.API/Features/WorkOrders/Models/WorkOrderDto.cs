@@ -5,7 +5,7 @@ namespace WordsmithHub.API.Features.WorkOrders.Models;
 
 public record WorkOrderDto
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
     public required string Reference { get; set; }
     public required DirectCustomerDto DirectCustomer { get; set; }
     public required ProjectDto Project { get; set; }
