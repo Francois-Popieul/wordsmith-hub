@@ -21,6 +21,7 @@ services:
 
   certbot:
     image: certbot/dns-ovh:latest
+    restart: always
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/ovh.ini:/etc/letsencrypt/ovh.ini:ro

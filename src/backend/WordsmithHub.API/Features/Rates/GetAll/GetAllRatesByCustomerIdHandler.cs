@@ -44,25 +44,25 @@ public class GetAllRatesByCustomerIdHandler(
             = await rateRepository.GetByDirectCustomerNameAsync(directCustomerName, freelanceId, cancellationToken);
 
         var averagesByRateKey = competitorRates
-            .GroupBy(r => (r.ServiceId, r.SourceLanguageId, r.TargetLanguageId))
+            .GroupBy(r => (r.ServiceId, r.SourceLanguageId, r.TargetLanguageId, r.Unit))
             .ToDictionary(g => g.Key, g => g.Average(r => r.UnitPrice));
-    
+
         var highestByRateKey = competitorRates
-            .GroupBy(r => (r.ServiceId, r.SourceLanguageId, r.TargetLanguageId))
+            .GroupBy(r => (r.ServiceId, r.SourceLanguageId, r.TargetLanguageId, r.Unit))
             .ToDictionary(g => g.Key, g => g.Max(r => r.UnitPrice));
 
         var lowestByRateKey = competitorRates
-            .GroupBy(r => (r.ServiceId, r.SourceLanguageId, r.TargetLanguageId))
+            .GroupBy(r => (r.ServiceId, r.SourceLanguageId, r.TargetLanguageId, r.Unit))
             .ToDictionary(g => g.Key, g => g.Min(r => r.UnitPrice));
 
         var rateDtoList = rates
             .Select(rate =>
             {
-                averagesByRateKey.TryGetValue((rate.ServiceId, rate.SourceLanguageId, rate.TargetLanguageId),
+                averagesByRateKey.TryGetValue((rate.ServiceId, rate.SourceLanguageId, rate.TargetLanguageId, rate.Unit),
                     out var averageRate);
-                highestByRateKey.TryGetValue((rate.ServiceId, rate.SourceLanguageId, rate.TargetLanguageId),
+                highestByRateKey.TryGetValue((rate.ServiceId, rate.SourceLanguageId, rate.TargetLanguageId, rate.Unit),
                     out var highestRate);
-                lowestByRateKey.TryGetValue((rate.ServiceId, rate.SourceLanguageId, rate.TargetLanguageId),
+                lowestByRateKey.TryGetValue((rate.ServiceId, rate.SourceLanguageId, rate.TargetLanguageId, rate.Unit),
                     out var lowestRate);
                 return rate.ToDto(averageRate, highestRate, lowestRate);
             })
