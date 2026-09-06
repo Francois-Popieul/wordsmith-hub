@@ -77,17 +77,17 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          dotnet test WordsmithHub.sln \
+          dotnet test --solution WordsmithHub.sln \
             --configuration Release \
-            /p:CollectCoverage=true \
-            /p:CoverletOutputFormat=lcov \
-            /p:CoverletOutput=./coverage/
+            --coverage \
+            --coverage-output-format cobertura \
+            --results-directory ./coverage
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-coverage
-          path: src/backend/tests/**/coverage/coverage.info
+          path: coverage/*.cobertura.xml
 
       - name: Import Codecov GPG key
         run: gpg --keyserver keyserver.ubuntu.com --recv-keys 27034E7FDB850E0BBC2C62FF806BB28AED779869
@@ -95,5 +95,5 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          files: backend-coverage/coverage.info
+          files: backend-coverage/*.cobertura.xml
           fail_ci_if_error: true
