@@ -1,15 +1,15 @@
-import { PlusSignIcon } from "../assets/icons/icons";
-import AppLayout from "../components/ui/AppLayout";
-import PageHeader from "../components/ui/PageHeader";
-import Button from "../components/ui/Button";
-import OrderDataTable from "./components/OrderDataTable";
+import { PlusSignIcon } from "../../assets/icons/icons";
+import AppLayout from "../../components/ui/AppLayout";
+import PageHeader from "../../components/ui/PageHeader";
+import Button from "../../components/ui/Button";
+import OrderDataTable from "../components/OrderDataTable";
 import { useEffect, useState } from "react";
-import { useApiClient } from "../hooks/useApiClient";
-import type { schemas } from "../infrastructure/openApi/client";
+import { useApiClient } from "../../hooks/useApiClient";
+import type { schemas } from "../../infrastructure/openApi/client";
 import * as zod from "zod";
-import { useStaticTables } from "../hooks/useStaticTables/useStaticTables";
+import { useStaticTables } from "../../hooks/useStaticTables/useStaticTables";
 import axios from "axios";
-import { useToast } from "../hooks/useToast/useToast";
+import { useToast } from "../../hooks/useToast/useToast";
 
 function OrdersView() {
     const { apiClient } = useApiClient();

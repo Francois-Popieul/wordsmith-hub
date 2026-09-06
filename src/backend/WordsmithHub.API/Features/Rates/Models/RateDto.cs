@@ -10,4 +10,7 @@ public record RateDto
 
     public required int ServiceId { get; set; }
     public required Guid DirectCustomerId { get; set; }
+    public required decimal AverageRate { get; set; }
+    public required decimal HighestRate { get; set; }
+    public required decimal LowestRate { get; set; }
 }

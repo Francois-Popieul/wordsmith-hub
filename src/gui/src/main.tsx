@@ -4,7 +4,7 @@ import HomepageView from "./homepage/views/HomepageView.tsx"
 import SignupView from "./authentication/views/SignupView.tsx"
 import LoginView from "./authentication/views/LoginView.tsx"
 import DashboardView from "./dashboard/views/DashboardView.tsx"
-import OrdersView from "./orders/OrdersView.tsx"
+import OrdersView from "./orders/views/OrdersView.tsx"
 import ProfileView from "./profile/views/ProfileView.tsx"
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import TermsOfService from "./terms_of_service/views/TermsOfService.tsx"

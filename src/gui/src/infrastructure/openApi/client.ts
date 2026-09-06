@@ -3,7 +3,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
 const AddressDto = z.object({
   streetInfo: z.string(),
-  addressComplement: z.string().nullable(),
+  addressComplement: z.string().nullish(),
   postCode: z.string(),
   city: z.string(),
   state: z.string().nullable(),
@@ -13,10 +13,10 @@ const DirectCustomerDto = z.object({
   id: z.string(),
   name: z.string(),
   code: z.string(),
-  phone: z.string().nullable(),
+  phone: z.string().nullish(),
   email: z.string(),
   address: AddressDto,
-  siretOrSiren: z.string().nullable(),
+  siretOrSiren: z.string().nullish(),
   paymentDelay: z.number().int(),
   currencyId: z.number().int(),
   statusId: z.number().int(),
@@ -27,16 +27,16 @@ const EndCustomerDto = z.object({
   statusId: z.number().int(),
 });
 const ProjectDto = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   name: z.string(),
   domain: z.string(),
-  description: z.string().nullable(),
-  endCustomer: EndCustomerDto.nullable(),
+  description: z.string().nullish(),
+  endCustomer: EndCustomerDto.nullish(),
   directCustomers: z.array(DirectCustomerDto),
-  statusId: z.number().int(),
+  statusId: z.number().int().optional(),
 });
 const WorkOrderDto = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   reference: z.string(),
   directCustomer: DirectCustomerDto,
   project: ProjectDto,
@@ -54,11 +54,11 @@ const AddWorkOrderRequest = z.object({
 });
 const AppUserDto = z.object({
   id: z.string(),
-  firstName: z.string().nullable(),
-  lastName: z.string().nullable(),
+  firstName: z.string().nullish(),
+  lastName: z.string().nullish(),
   email: z.string(),
   userName: z.string(),
-  phoneNumber: z.string().nullable(),
+  phoneNumber: z.string().nullish(),
 });
 const Status = z.object({
   id: z.number().int(),
@@ -82,6 +82,9 @@ const RateDto = z.object({
   targetLanguageId: z.number().int(),
   serviceId: z.number().int(),
   directCustomerId: z.string(),
+  averageRate: z.number(),
+  highestRate: z.number(),
+  lowestRate: z.number(),
 });
 const AddRateRequest = z.object({
   unitPrice: z.number().gt(0),
@@ -123,14 +126,14 @@ const UpdateLegalStatusRequest = z.object({
 });
 const LegalStatusDto = z.object({
   id: z.string(),
-  legalStatusType: LegalStatusType.nullable(),
-  siret: z.string().nullable(),
-  vatNumber: z.string().nullable(),
-  vatExemption: z.boolean(),
-  vatRate: z.number().nullable(),
-  taxDeductionExemption: z.boolean(),
+  legalStatusType: LegalStatusType.nullish(),
+  siret: z.string().nullish(),
+  vatNumber: z.string().nullish(),
+  vatExemption: z.boolean().optional(),
+  vatRate: z.number().nullish(),
+  taxDeductionExemption: z.boolean().optional(),
   validFrom: z.string().datetime({ offset: true }),
-  validTo: z.string().datetime({ offset: true }).nullable(),
+  validTo: z.string().datetime({ offset: true }).nullish(),
 });
 const AddLegalStatusRequest = z.object({
   legalStatusTypeId: z.number().int(),
@@ -149,10 +152,10 @@ const TranslationLanguage = z.object({
 });
 const Address = z.object({
   streetInfo: z.string().min(0).max(255),
-  addressComplement: z.string().min(0).max(255).nullable(),
+  addressComplement: z.string().min(0).max(255).nullish(),
   postCode: z.string().min(0).max(10),
   city: z.string().min(0).max(100),
-  state: z.string().min(0).max(50).nullable(),
+  state: z.string().min(0).max(50).nullish(),
   countryId: z.number().int(),
 });
 const UpdateFreelanceAddressRequest = z.object({ address: Address });
@@ -178,19 +181,19 @@ const ProfileDto = z.object({
   id: z.string(),
   firstName: z.string(),
   lastName: z.string(),
-  phone: z.string().nullable(),
+  phone: z.string().nullish(),
   email: z.string(),
   address: AddressDto.nullable(),
   statusId: z.number().int(),
-  sourceLanguages: z.array(TranslationLanguage),
-  targetLanguages: z.array(TranslationLanguage),
-  services: z.array(Service),
+  sourceLanguages: z.array(TranslationLanguage).optional(),
+  targetLanguages: z.array(TranslationLanguage).optional(),
+  services: z.array(Service).optional(),
 });
 const FreelanceDto = z.object({
   id: z.string(),
   firstName: z.string(),
   lastName: z.string(),
-  phone: z.string().nullable(),
+  phone: z.string().nullish(),
   email: z.string(),
   address: AddressDto.nullable(),
   statusId: z.number().int(),
@@ -256,7 +259,7 @@ const BankAccountDto = z.object({
   accountHolderName: z.string(),
   iban: z.string(),
   bic: z.string(),
-  isDefault: z.boolean(),
+  isDefault: z.boolean().optional(),
 });
 const AddBankAccountRequest = z.object({
   label: z.string().min(0).max(100),
@@ -275,7 +278,7 @@ const LoginUserRequest = z.object({
   password: z.string().min(0).max(255),
 });
 const AccessTokenResponse = z.object({
-  tokenType: z.string(),
+  tokenType: z.string().optional(),
   accessToken: z.string(),
   expiresIn: z.number().int(),
   refreshToken: z.string(),
@@ -528,6 +531,21 @@ export function createApiClient(baseUrl: string, options?: ApiClientOptions) {
         "/directcustomer/:directCustomerId",
         params,
         z.void(),
+        config
+      ),
+    GetAllDirectCustomersForAutocompleteEndpoint: (
+      params: {
+        body?: unknown;
+        pathParams?: Record<string, string | number>;
+        query?: Record<string, unknown>;
+      } = {},
+      config?: AxiosRequestConfig
+    ) =>
+      request(
+        "get",
+        "/directcustomerlist",
+        params,
+        z.array(z.string()),
         config
       ),
     GetAllDirectCustomersEndpoint: (
@@ -903,6 +921,7 @@ export function getTagByAlias(alias: string): string | undefined {
     UpdateDirectCustomerEndpoint: "directcustomer",
     GetDirectCustomerEndpoint: "directcustomer",
     DeleteDirectCustomerEndpoint: "directcustomer",
+    GetAllDirectCustomersForAutocompleteEndpoint: "directcustomer",
     GetAllDirectCustomersEndpoint: "directcustomer",
     GetAllDomainTypesEndpoint: "domain-types",
     GetFreelanceEndpoint: "freelance",

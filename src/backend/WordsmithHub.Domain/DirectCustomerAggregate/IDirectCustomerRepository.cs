@@ -7,5 +7,7 @@ public interface IDirectCustomerRepository : IRepository<DirectCustomer>
     Task<IReadOnlyList<DirectCustomer>> GetByFreelanceIdAsync(Guid freelanceId,
         CancellationToken cancellationToken = default);
 
+    Task<List<DirectCustomer>> GetAllByUserInputAsync(string userInput, CancellationToken cancellationToken = default);
+
     Task ArchiveAsync(DirectCustomer customer, CancellationToken cancellationToken = default);
 }

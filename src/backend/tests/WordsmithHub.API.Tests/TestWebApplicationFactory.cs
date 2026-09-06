@@ -58,7 +58,6 @@ public abstract class TestWebApplicationFactory(string roles) : WebApplicationFa
             services.AddFastEndpoints(config =>
             {
                 config.Assemblies = [typeof(Program).Assembly];
-                config.SourceGeneratorDiscoveredTypes = [];
                 config.Filter = type => type.Assembly == typeof(Program).Assembly;
             });
 

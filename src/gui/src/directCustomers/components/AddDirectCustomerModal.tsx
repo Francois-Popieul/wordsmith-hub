@@ -36,7 +36,25 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
         onClose();
     }
 
-
+    const fetchDirectCustomerNames = async (query: string) => {
+        if (!token) return [];
+        try {
+            const response = await apiClient.GetAllDirectCustomersForAutocompleteEndpoint(
+                {
+                    query: { UserInput: query }
+                });
+            return response;
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const data = error.response.data;
+                const message = typeof data === "string" ? data : (data?.message ?? JSON.stringify(data));
+                addToast("error", `Erreur de l’API : ${message}`, "top_right", 3000);
+            } else {
+                addToast("error", "Une erreur inattendue s’est produite lors de la récupération des noms de clients directs.", "top_right", 3000);
+            }
+            return [];
+        }
+    }
 
     async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         if (!token) return;
@@ -99,7 +117,7 @@ function AddDirectCustomerModal({ isVisible, onClose, onSuccess }: AddDirectCust
         <>
             {isVisible && (
                 <FormModal title="Ajouter un client" presentation="Ajouter un nouveau client direct" validateButtonText="Ajouter le client" onCancel={handleClose} onSubmit={handleSubmit}>
-                    <FormInputGroup name="name" label="Nom du client" placeholder="ex. Sony Entertainment Europe" type="text" required error={fieldErrors.name} />
+                    <FormInputGroup name="name" label="Nom du client" placeholder="ex. Sony Entertainment Europe" type="text" required error={fieldErrors.name} fetchChoices={fetchDirectCustomerNames} />
                     <FormInputGroup name="code" label="Code du client" placeholder="ex. SEE" type="text" required error={fieldErrors.code} />
                     <div className="multiple_field_container">
                         <FormInputGroup name="email" label="E-mail du client" placeholder="ex. contact@sonyeurope.com" type="email" required error={fieldErrors.email} />

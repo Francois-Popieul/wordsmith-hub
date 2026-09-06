@@ -75,7 +75,7 @@ function RateListContainer({ directCustomerId, directCustomerCurrencySign }: Rat
 
 
     function handleAddRate() {
-        if (!profileData || profileData.services.length === 0 || profileData.sourceLanguages.length === 0 || profileData.targetLanguages.length === 0) {
+        if (!profileData || profileData.services?.length === 0 || profileData.sourceLanguages?.length === 0 || profileData.targetLanguages?.length === 0) {
             addToast("error", "Renseignez vos langues et services dans votre profil pour pouvoir ajouter des tarifs.", "top_right", 3000);
             return;
         }

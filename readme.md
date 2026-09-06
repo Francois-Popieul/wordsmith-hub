@@ -162,7 +162,7 @@ POSTGRES_HOST=db
 JWT_KEY=your_jwt_secret_key_here_min_32_chars
 JWT_ISSUER=MyAppBackend
 JWT_AUDIENCE=MyAppClient
-JWT_ACCESSTOKENSECONDS=600
+JWT_ACCESSTOKENSECONDS=3600
 ```
 
 ### 📚 Project Goals (CDA Certification)

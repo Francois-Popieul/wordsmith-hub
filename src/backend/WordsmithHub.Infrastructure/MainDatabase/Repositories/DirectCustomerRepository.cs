@@ -21,6 +21,14 @@ public class DirectCustomerRepository(MainDbContext context)
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<DirectCustomer>> GetAllByUserInputAsync(string userInput,
+        CancellationToken cancellationToken = default)
+    {
+        return await Context.DirectCustomers.AsNoTracking()
+            .Where(c => c.Name.ToLower().Contains(userInput.ToLower()))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task ArchiveAsync(DirectCustomer customer, CancellationToken cancellationToken = default)
     {
         Context.Entry(customer).Property(x => x.StatusId).IsModified = true;

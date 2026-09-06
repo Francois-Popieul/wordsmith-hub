@@ -47,3 +47,11 @@
     color: var(--color-blue-deep);
     margin-right: 0.5rem;
 }
+
+.custom_tooltip {
+    background-color: var(--color-slate-700);
+    color: var(--color-white);
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}

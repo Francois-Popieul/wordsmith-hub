@@ -41,7 +41,7 @@ public class AddDirectCustomerEndpointTests(
     private readonly CancellationToken _cancellationToken = testContextAccessor.Current.CancellationToken;
 
     [Fact]
-    public async Task AddDirectCustomerEndpoint_ShouldReturn200AndDirectCustomerId_WhenValidRequest()
+    public async Task AddDirectCustomerEndpoint_ShouldReturn200AndDirectCustomerId_WhenRequestIsValid()
     {
         // Arrange
         var request = AddDirectCustomerRequestTestHelper.CreateValid(_fixture);

@@ -25,3 +25,6 @@ export { ChevronUp as ArrowUpIcon } from "lucide-react";
 export { ChevronDown as ArrowDownIcon } from "lucide-react";
 export { X as CrossIcon } from "lucide-react";
 export { Calendar as CalendarIcon } from "lucide-react";
+export { ArrowBigUp as ArrowBigUpIcon } from "lucide-react";
+export { ArrowBigDown as ArrowBigDownIcon } from "lucide-react";
+export { Activity as ActivityIcon } from "lucide-react";

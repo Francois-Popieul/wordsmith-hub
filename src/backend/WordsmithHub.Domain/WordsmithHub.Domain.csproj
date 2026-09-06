@@ -4,12 +4,13 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <UserSecretsId>4cfff8bd-8f7d-4819-86f3-2141ccd5d8a5</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2025.2.4"/>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="10.0.7"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11"/>
     </ItemGroup>
 
 </Project>

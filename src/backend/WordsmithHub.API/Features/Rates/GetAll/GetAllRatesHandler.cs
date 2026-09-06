@@ -31,7 +31,7 @@ public class GetAllRatesHandler(
         if (rates.Count == 0)
             return new OperationResult<IReadOnlyList<RateDto>>(OperationStatus.Success, []);
 
-        var rateDtoList = rates.Select(rate => rate.ToDto()).ToList();
+        var rateDtoList = rates.Select(rate => rate.ToDto(0, 0, 0)).ToList();
 
         return new OperationResult<IReadOnlyList<RateDto>>(OperationStatus.Success, rateDtoList);
     }

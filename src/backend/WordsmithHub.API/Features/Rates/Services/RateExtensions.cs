@@ -5,7 +5,7 @@ namespace WordsmithHub.API.Features.Rates.Services;
 
 public static class RateExtensions
 {
-    public static RateDto ToDto(this Rate rate)
+    public static RateDto ToDto(this Rate rate, decimal averageRate, decimal highestRate, decimal lowestRate)
     {
         ArgumentNullException.ThrowIfNull(rate);
 
@@ -17,7 +17,10 @@ public static class RateExtensions
             SourceLanguageId = rate.SourceLanguageId,
             TargetLanguageId = rate.TargetLanguageId,
             ServiceId = rate.ServiceId,
-            DirectCustomerId = rate.DirectCustomerId
+            DirectCustomerId = rate.DirectCustomerId,
+            AverageRate = averageRate,
+            HighestRate = highestRate,
+            LowestRate = lowestRate
         };
     }
 }
