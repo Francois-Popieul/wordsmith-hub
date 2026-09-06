@@ -13,9 +13,9 @@ export const directCustomerSchema = zod.object({
         .min(1, { message: "Le code du client est requis" })
         .max(5, { message: "Le code du client ne doit pas dépasser 5 caractères" }),
     email: zod
-        .email({ message: "L’email du client doit être valide" })
+        .email({ message: "L’e-mail du client doit être valide" })
         .trim()
-        .max(255, { message: "L’email du client ne doit pas dépasser 255 caractères" }),
+        .max(255, { message: "L’e-mail du client ne doit pas dépasser 255 caractères" }),
     phone: zod
         .string()
         .trim()

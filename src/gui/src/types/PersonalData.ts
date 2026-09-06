@@ -12,9 +12,9 @@ export const personalDataSchema = zod.object({
         .min(1, { "message": "Le nom est requis" })
         .max(100, { "message": "Le nom ne peut pas dépasser 100 caractères" }),
     email: zod
-        .email({ "message": "Email invalide" })
+        .email({ "message": "E-mail invalide" })
         .trim()
-        .max(255, { "message": "L’email ne peut pas dépasser 255 caractères" }),
+        .max(255, { "message": "L’e-mail ne peut pas dépasser 255 caractères" }),
     phone: zod
         .string()
         .trim()

@@ -14,7 +14,7 @@ function DirectCustomerDetails({ directCustomer }: DirectCustomerDetailsProps) {
     return <div className="direct_customer_details_container">
         <div className="details_inner_flex_container">
             <div className="details_section">
-                <p className="details_section_header"><MailIcon className="details_icon" />Email</p>
+                <p className="details_section_header"><MailIcon className="details_icon" />E-mail</p>
                 <p className="details_section_content"><a href={`mailto:${directCustomer.email}`}>{directCustomer.email}</a></p>
             </div>
             <div className="details_section">
